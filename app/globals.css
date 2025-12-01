@@ -860,10 +860,33 @@ html, body {
 
 .dashboard-charts-premium {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--space-6);
   margin-bottom: var(--space-8);
   align-items: stretch;
+}
+
+.chart-card-merged {
+  width: 100%;
+}
+
+.chart-header-merged {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.chart-container-merged {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  padding: var(--space-8);
+}
+
+.chart-section-merged {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .chart-card-premium {
