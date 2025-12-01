@@ -428,35 +428,32 @@ export default function Dashboard() {
                   <button className="btn-ghost">View all</button>
                 </div>
                 <div className="activity-list">
-                  <div className="activity-item">
-                    <div className="activity-icon activity-success">
+                  <div className="activity-item activity-success">
+                    <div className="activity-icon">
                       <CheckIcon />
                     </div>
                     <div className="activity-content">
                       <div className="activity-title">Payment received</div>
                       <div className="activity-desc">Loan #1 - 15,000 USDC</div>
-                      <div className="activity-time">2 hours ago</div>
                     </div>
                     <div className="activity-amount">+15,000 USDC</div>
                   </div>
-                  <div className="activity-item">
-                    <div className="activity-icon activity-info">
+                  <div className="activity-item activity-info">
+                    <div className="activity-icon">
                       <ChartIcon />
                     </div>
                     <div className="activity-content">
                       <div className="activity-title">Score updated</div>
                       <div className="activity-desc">Credit Score: 750 (+12)</div>
-                      <div className="activity-time">1 day ago</div>
                     </div>
                   </div>
-                  <div className="activity-item">
-                    <div className="activity-icon activity-warning">
+                  <div className="activity-item activity-warning">
+                    <div className="activity-icon">
                       <LockIcon />
                     </div>
                     <div className="activity-content">
                       <div className="activity-title">NFT locked</div>
                       <div className="activity-desc">Villa Paris - Loan #1</div>
-                      <div className="activity-time">3 days ago</div>
                     </div>
                   </div>
                 </div>
