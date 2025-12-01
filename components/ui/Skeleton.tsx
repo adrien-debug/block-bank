@@ -8,6 +8,7 @@ interface SkeletonProps {
   borderRadius?: string
   className?: string
   variant?: 'text' | 'circular' | 'rectangular'
+  style?: React.CSSProperties
 }
 
 export default function Skeleton({
@@ -16,6 +17,7 @@ export default function Skeleton({
   borderRadius,
   className = '',
   variant = 'rectangular',
+  style,
 }: SkeletonProps) {
   const variantStyles: Record<string, React.CSSProperties> = {
     text: {
@@ -38,7 +40,7 @@ export default function Skeleton({
   return (
     <div
       className={`skeleton ${className}`}
-      style={variantStyles[variant]}
+      style={{ ...variantStyles[variant], ...style }}
       aria-busy="true"
       aria-live="polite"
     >
