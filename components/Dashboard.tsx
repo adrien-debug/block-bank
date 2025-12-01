@@ -176,207 +176,243 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Graphiques et visualisations - Premium - Fusionné */}
+            {/* Graphiques et visualisations - Premium Dynamic High Level */}
             <div className="dashboard-charts-premium">
-              <div className="chart-card-premium chart-card-merged">
-                <div className="chart-header-premium chart-header-merged">
-                  <div>
-                    <h3>Credit Score Evolution</h3>
-                  </div>
-                  <div>
-                    <h3>Asset Distribution</h3>
-                  </div>
-                </div>
-                <div className="chart-container-merged">
-                  {/* Credit Score Evolution Chart */}
-                  <div className="chart-section-merged">
-                    <div className="chart-container-premium">
-                      <div className="chart-grid-lines">
-                        {[800, 750, 700, 650, 600].map((value, index) => (
-                          <div key={index} className="grid-line">
-                            <span className="grid-label">{value}</span>
-                          </div>
-                        ))}
-                      </div>
-                      {(() => {
-                        // Data - All historical data
-                        const data = [600, 620, 640, 660, 680, 700, 720, 735, 745, 748, 750]
-                        const maxValue = 800
-                        const minValue = 550
-                        const range = maxValue - minValue
-                        
-                        // Generate path for SVG
-                        const pathPoints = data.map((value, index) => {
-                          const x = (index / (data.length - 1)) * 1000
-                          const y = 300 - ((value - minValue) / range) * 300
-                          return `${index === 0 ? 'M' : 'L'} ${x},${y}`
-                        }).join(' ')
-                        
-                        const areaPath = `${pathPoints} L 1000,300 L 0,300 Z`
-                        
-                        return (
-                          <>
-                            <div className="chart-points-container">
-                              {data.map((value, index, array) => {
-                                const percentage = ((value - minValue) / range) * 100
-                                const leftPercent = (index / (array.length - 1)) * 100
-                                
-                                return (
-                                  <div key={index} className="chart-point-premium" style={{ 
-                                    left: `${leftPercent}%`,
-                                    bottom: `${percentage}%`
-                                  }}>
-                                    <div className="point-tooltip-premium">{value}</div>
-                                    <div className="point-dot-premium"></div>
-                                  </div>
-                                )
-                              })}
-                            </div>
-                            <div className="line-chart-premium">
-                              <svg className="chart-line-premium" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
-                                <defs>
-                                  <linearGradient id="chartGradient-all" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.4" />
-                                    <stop offset="50%" stopColor="#409CFF" stopOpacity="0.2" />
-                                    <stop offset="100%" stopColor="#0A84FF" stopOpacity="0" />
-                                  </linearGradient>
-                                  <linearGradient id="chartLineGradient-all" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor="#0A84FF" />
-                                    <stop offset="50%" stopColor="#60A5FA" />
-                                    <stop offset="100%" stopColor="#0A84FF" />
-                                  </linearGradient>
-                                </defs>
-                                <path 
-                                  d={pathPoints} 
-                                  stroke="url(#chartLineGradient-all)"
-                                  fill="none" 
-                                  strokeWidth="3"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path 
-                                  d={areaPath} 
-                                  fill="url(#chartGradient-all)"
-                                  stroke="none"
-                                />
-                              </svg>
-                            </div>
-                          </>
-                        )
-                      })()}
+              <div className="chart-card-premium-dynamic">
+                {/* Header Premium avec séparation élégante */}
+                <div className="chart-header-dynamic">
+                  <div className="chart-title-section">
+                    <div className="chart-title-wrapper">
+                      <h3 className="chart-title-main">Credit Score Evolution</h3>
+                      <div className="chart-title-accent"></div>
                     </div>
                   </div>
+                  <div className="chart-divider-vertical"></div>
+                  <div className="chart-title-section">
+                    <div className="chart-title-wrapper">
+                      <h3 className="chart-title-main">Asset Distribution</h3>
+                      <div className="chart-title-accent"></div>
+                    </div>
+                  </div>
+                </div>
 
-                  {/* Asset Distribution Chart */}
-                  <div className="chart-section-merged">
-                    <div className="chart-container-premium">
-                      <div className="asset-distribution-chart">
+                {/* Container Premium avec layout dynamique */}
+                <div className="chart-container-dynamic">
+                  {/* Credit Score Evolution - Section Premium */}
+                  <div className="chart-section-dynamic chart-section-left">
+                    <div className="chart-wrapper-premium">
+                      <div className="chart-container-premium-enhanced">
+                        <div className="chart-grid-lines-enhanced">
+                          {[800, 750, 700, 650, 600].map((value, index) => (
+                            <div key={index} className="grid-line-enhanced">
+                              <span className="grid-label-enhanced">{value}</span>
+                            </div>
+                          ))}
+                        </div>
                         {(() => {
-                          // Data - All historical data - Premium Blue/White Chart Colors
-                          const assets = [
-                            { name: 'Real Estate', value: 300000, color: '#1F6AE1' }, // Bleu profond → bleu moyen
-                            { name: 'Mining', value: 150000, color: '#60A5FA' }, // Bleu moyen → bleu clair
-                            { name: 'Infrastructure', value: 500000, color: '#123E6B' }, // Bleu nuit
-                            { name: 'Vehicles', value: 50000, color: '#0A2540' }, // Bleu très profond
-                            { name: 'Collectibles', value: 25000, color: '#409CFF' } // Dégradé primaire
-                          ]
-                          const total = assets.reduce((sum, asset) => sum + asset.value, 0)
+                          // Data - All historical data
+                          const data = [600, 620, 640, 660, 680, 700, 720, 735, 745, 748, 750]
+                          const maxValue = 800
+                          const minValue = 550
+                          const range = maxValue - minValue
                           
-                          let currentAngle = 0
-                          const segments = assets.map((asset, index) => {
-                            const percentage = (asset.value / total) * 100
-                            const angle = (asset.value / total) * 360
-                            const startAngle = currentAngle
-                            const endAngle = currentAngle + angle
-                            currentAngle = endAngle
-                            
-                            const startAngleRad = (startAngle - 90) * (Math.PI / 180)
-                            const endAngleRad = (endAngle - 90) * (Math.PI / 180)
-                            const largeArcFlag = angle > 180 ? 1 : 0
-                            
-                            const x1 = 150 + 120 * Math.cos(startAngleRad)
-                            const y1 = 150 + 120 * Math.sin(startAngleRad)
-                            const x2 = 150 + 120 * Math.cos(endAngleRad)
-                            const y2 = 150 + 120 * Math.sin(endAngleRad)
-                            
-                            return {
-                              ...asset,
-                              percentage,
-                              path: `M 150,150 L ${x1},${y1} A 120,120 0 ${largeArcFlag},1 ${x2},${y2} Z`,
-                              startAngle,
-                              endAngle
-                            }
-                          })
+                          // Generate path for SVG
+                          const pathPoints = data.map((value, index) => {
+                            const x = (index / (data.length - 1)) * 1000
+                            const y = 300 - ((value - minValue) / range) * 300
+                            return `${index === 0 ? 'M' : 'L'} ${x},${y}`
+                          }).join(' ')
+                          
+                          const areaPath = `${pathPoints} L 1000,300 L 0,300 Z`
                           
                           return (
                             <>
-                              <svg className="donut-chart-premium" viewBox="0 0 300 300">
-                                <defs>
-                                  {segments.map((segment, index) => {
-                                    // Créer des dégradés bleu premium selon le segment
-                                    let gradientColors: { start: string; end: string } = { start: segment.color, end: segment.color }
-                                    if (segment.color === '#1F6AE1') {
-                                      gradientColors = { start: '#1F6AE1', end: '#60A5FA' } // Bleu profond → bleu moyen
-                                    } else if (segment.color === '#60A5FA') {
-                                      gradientColors = { start: '#60A5FA', end: '#93C5FD' } // Bleu moyen → bleu clair
-                                    } else if (segment.color === '#123E6B') {
-                                      gradientColors = { start: '#123E6B', end: '#1F6AE1' } // Bleu nuit → bleu profond
-                                    } else if (segment.color === '#0A2540') {
-                                      gradientColors = { start: '#0A2540', end: '#123E6B' } // Bleu très profond → bleu nuit
-                                    } else if (segment.color === '#409CFF') {
-                                      gradientColors = { start: '#409CFF', end: '#60A5FA' } // Dégradé primaire
-                                    }
-                                    return (
-                                      <linearGradient key={index} id={`gradient-all-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor={gradientColors.start} stopOpacity="1" />
-                                        <stop offset="50%" stopColor={gradientColors.start} stopOpacity="0.9" />
-                                        <stop offset="100%" stopColor={gradientColors.end} stopOpacity="0.8" />
-                                      </linearGradient>
-                                    )
-                                  })}
-                                  {/* Dégradé pour le cercle central - même style que les boxes KPI */}
-                                  <radialGradient id="donutCenterGradient" cx="50%" cy="30%" r="70%">
-                                    <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.12" />
-                                    <stop offset="60%" stopColor="#0A84FF" stopOpacity="0.06" />
-                                    <stop offset="100%" stopColor="#020617" stopOpacity="1" />
-                                  </radialGradient>
-                                </defs>
-                                {segments.map((segment, index) => (
-                                  <path
-                                    key={index}
-                                    d={segment.path}
-                                    fill={`url(#gradient-all-${index})`}
-                                    stroke="rgba(255, 255, 255, 0.15)"
-                                    strokeWidth="3"
-                                    className="donut-segment"
-                                    style={{ 
-                                      filter: 'drop-shadow(0 2px 4px rgba(10, 132, 255, 0.25))'
-                                    }}
-                                  />
-                                ))}
-                                <circle cx="150" cy="150" r="80" fill="url(#donutCenterGradient)" />
-                                <text x="150" y="145" textAnchor="middle" className="donut-center-value" fill="#E5F0FF">
-                                  {total.toLocaleString()}
-                                </text>
-                                <text x="150" y="165" textAnchor="middle" className="donut-center-label" fill="#94A3B8">
-                                  USDC
-                                </text>
-                              </svg>
-                              <div className="asset-legend-premium">
-                                {segments.map((segment, index) => (
-                                  <div key={index} className="legend-item-premium">
-                                    <div className="legend-color-premium" style={{ background: segment.color }}></div>
-                                    <span className="legend-name-premium">{segment.name}</span>
-                                    <div className="legend-values">
-                                      <span className="legend-value-premium">{segment.value.toLocaleString()} USDC</span>
-                                      <span className="legend-percentage-premium">{segment.percentage.toFixed(1)}%</span>
+                              <div className="chart-points-container-enhanced">
+                                {data.map((value, index, array) => {
+                                  const percentage = ((value - minValue) / range) * 100
+                                  const leftPercent = (index / (array.length - 1)) * 100
+                                  
+                                  return (
+                                    <div key={index} className="chart-point-premium-enhanced" style={{ 
+                                      left: `${leftPercent}%`,
+                                      bottom: `${percentage}%`
+                                    }}>
+                                      <div className="point-tooltip-premium-enhanced">{value}</div>
+                                      <div className="point-dot-premium-enhanced"></div>
                                     </div>
-                                  </div>
-                                ))}
+                                  )
+                                })}
+                              </div>
+                              <div className="line-chart-premium-enhanced">
+                                <svg className="chart-line-premium-enhanced" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+                                  <defs>
+                                    <linearGradient id="chartGradient-dynamic" x1="0%" y1="0%" x2="0%" y2="100%">
+                                      <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.5" />
+                                      <stop offset="30%" stopColor="#409CFF" stopOpacity="0.3" />
+                                      <stop offset="70%" stopColor="#60A5FA" stopOpacity="0.15" />
+                                      <stop offset="100%" stopColor="#0A84FF" stopOpacity="0" />
+                                    </linearGradient>
+                                    <linearGradient id="chartLineGradient-dynamic" x1="0%" y1="0%" x2="100%" y2="0%">
+                                      <stop offset="0%" stopColor="#0A84FF" />
+                                      <stop offset="25%" stopColor="#409CFF" />
+                                      <stop offset="50%" stopColor="#60A5FA" />
+                                      <stop offset="75%" stopColor="#409CFF" />
+                                      <stop offset="100%" stopColor="#0A84FF" />
+                                    </linearGradient>
+                                    <filter id="glow">
+                                      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                      <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                      </feMerge>
+                                    </filter>
+                                  </defs>
+                                  <path 
+                                    d={pathPoints} 
+                                    stroke="url(#chartLineGradient-dynamic)"
+                                    fill="none" 
+                                    strokeWidth="3.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    filter="url(#glow)"
+                                  />
+                                  <path 
+                                    d={areaPath} 
+                                    fill="url(#chartGradient-dynamic)"
+                                    stroke="none"
+                                  />
+                                </svg>
                               </div>
                             </>
                           )
                         })()}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Divider Premium */}
+                  <div className="chart-divider-premium">
+                    <div className="divider-line"></div>
+                    <div className="divider-glow"></div>
+                  </div>
+
+                  {/* Asset Distribution - Section Premium */}
+                  <div className="chart-section-dynamic chart-section-right">
+                    <div className="chart-wrapper-premium">
+                      <div className="chart-container-premium-enhanced">
+                        <div className="asset-distribution-chart-enhanced">
+                          {(() => {
+                            // Data - All historical data - Premium Blue/White Chart Colors
+                            const assets = [
+                              { name: 'Real Estate', value: 300000, color: '#1F6AE1' },
+                              { name: 'Mining', value: 150000, color: '#60A5FA' },
+                              { name: 'Infrastructure', value: 500000, color: '#123E6B' },
+                              { name: 'Vehicles', value: 50000, color: '#0A2540' },
+                              { name: 'Collectibles', value: 25000, color: '#409CFF' }
+                            ]
+                            const total = assets.reduce((sum, asset) => sum + asset.value, 0)
+                            
+                            let currentAngle = 0
+                            const segments = assets.map((asset, index) => {
+                              const percentage = (asset.value / total) * 100
+                              const angle = (asset.value / total) * 360
+                              const startAngle = currentAngle
+                              const endAngle = currentAngle + angle
+                              currentAngle = endAngle
+                              
+                              const startAngleRad = (startAngle - 90) * (Math.PI / 180)
+                              const endAngleRad = (endAngle - 90) * (Math.PI / 180)
+                              const largeArcFlag = angle > 180 ? 1 : 0
+                              
+                              const x1 = 150 + 120 * Math.cos(startAngleRad)
+                              const y1 = 150 + 120 * Math.sin(startAngleRad)
+                              const x2 = 150 + 120 * Math.cos(endAngleRad)
+                              const y2 = 150 + 120 * Math.sin(endAngleRad)
+                              
+                              return {
+                                ...asset,
+                                percentage,
+                                path: `M 150,150 L ${x1},${y1} A 120,120 0 ${largeArcFlag},1 ${x2},${y2} Z`,
+                                startAngle,
+                                endAngle
+                              }
+                            })
+                            
+                            return (
+                              <>
+                                <div className="donut-wrapper-premium">
+                                  <svg className="donut-chart-premium-enhanced" viewBox="0 0 300 300">
+                                    <defs>
+                                      {segments.map((segment, index) => {
+                                        let gradientColors: { start: string; end: string } = { start: segment.color, end: segment.color }
+                                        if (segment.color === '#1F6AE1') {
+                                          gradientColors = { start: '#1F6AE1', end: '#60A5FA' }
+                                        } else if (segment.color === '#60A5FA') {
+                                          gradientColors = { start: '#60A5FA', end: '#93C5FD' }
+                                        } else if (segment.color === '#123E6B') {
+                                          gradientColors = { start: '#123E6B', end: '#1F6AE1' }
+                                        } else if (segment.color === '#0A2540') {
+                                          gradientColors = { start: '#0A2540', end: '#123E6B' }
+                                        } else if (segment.color === '#409CFF') {
+                                          gradientColors = { start: '#409CFF', end: '#60A5FA' }
+                                        }
+                                        return (
+                                          <linearGradient key={index} id={`gradient-dynamic-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stopColor={gradientColors.start} stopOpacity="1" />
+                                            <stop offset="50%" stopColor={gradientColors.start} stopOpacity="0.95" />
+                                            <stop offset="100%" stopColor={gradientColors.end} stopOpacity="0.85" />
+                                          </linearGradient>
+                                        )
+                                      })}
+                                      <radialGradient id="donutCenterGradient-dynamic" cx="50%" cy="30%" r="70%">
+                                        <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.15" />
+                                        <stop offset="60%" stopColor="#0A84FF" stopOpacity="0.08" />
+                                        <stop offset="100%" stopColor="#020617" stopOpacity="1" />
+                                      </radialGradient>
+                                      <filter id="donutGlow">
+                                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                        <feMerge>
+                                          <feMergeNode in="coloredBlur"/>
+                                          <feMergeNode in="SourceGraphic"/>
+                                        </feMerge>
+                                      </filter>
+                                    </defs>
+                                    {segments.map((segment, index) => (
+                                      <path
+                                        key={index}
+                                        d={segment.path}
+                                        fill={`url(#gradient-dynamic-${index})`}
+                                        stroke="rgba(255, 255, 255, 0.2)"
+                                        strokeWidth="3.5"
+                                        className="donut-segment-enhanced"
+                                        filter="url(#donutGlow)"
+                                      />
+                                    ))}
+                                    <circle cx="150" cy="150" r="80" fill="url(#donutCenterGradient-dynamic)" />
+                                    <text x="150" y="145" textAnchor="middle" className="donut-center-value-enhanced" fill="#E5F0FF">
+                                      {total.toLocaleString()}
+                                    </text>
+                                    <text x="150" y="165" textAnchor="middle" className="donut-center-label-enhanced" fill="#94A3B8">
+                                      USDC
+                                    </text>
+                                  </svg>
+                                </div>
+                                <div className="asset-legend-premium-enhanced">
+                                  {segments.map((segment, index) => (
+                                    <div key={index} className="legend-item-premium-enhanced">
+                                      <div className="legend-color-premium-enhanced" style={{ background: segment.color }}></div>
+                                      <span className="legend-name-premium-enhanced">{segment.name}</span>
+                                      <div className="legend-values-enhanced">
+                                        <span className="legend-value-premium-enhanced">{segment.value.toLocaleString()} USDC</span>
+                                        <span className="legend-percentage-premium-enhanced">{segment.percentage.toFixed(1)}%</span>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </>
+                            )
+                          })()}
+                        </div>
                       </div>
                     </div>
                   </div>
