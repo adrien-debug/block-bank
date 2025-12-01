@@ -3,7 +3,6 @@
 import { useState } from 'react'
 
 export default function CreditScore() {
-  const [selectedPeriod, setSelectedPeriod] = useState('all')
   const score = 750
   const tier = 'A'
   const previousScore = 738
@@ -179,36 +178,10 @@ export default function CreditScore() {
         <div className="chart-card">
           <div className="chart-header">
             <h3>Credit Score Evolution</h3>
-            <div className="chart-controls">
-              <button 
-                className={`chart-period-btn ${selectedPeriod === '1m' ? 'active' : ''}`}
-                onClick={() => setSelectedPeriod('1m')}
-              >
-                This month
-              </button>
-              <button 
-                className={`chart-period-btn ${selectedPeriod === '6m' ? 'active' : ''}`}
-                onClick={() => setSelectedPeriod('6m')}
-              >
-                6 months
-              </button>
-              <button 
-                className={`chart-period-btn ${selectedPeriod === '12m' ? 'active' : ''}`}
-                onClick={() => setSelectedPeriod('12m')}
-              >
-                12 months
-              </button>
-              <button 
-                className={`chart-period-btn ${selectedPeriod === 'all' ? 'active' : ''}`}
-                onClick={() => setSelectedPeriod('all')}
-              >
-                All
-              </button>
-            </div>
           </div>
           <div className="chart-container-enhanced">
             <div className="line-chart-enhanced">
-              {scoreHistory[selectedPeriod as keyof typeof scoreHistory].map((value, index, array) => {
+              {scoreHistory.all.map((value, index, array) => {
                 const maxValue = Math.max(...array)
                 const minValue = Math.min(...array)
                 const range = maxValue - minValue
@@ -227,19 +200,19 @@ export default function CreditScore() {
               })}
               <svg className="chart-line-enhanced" viewBox="0 0 1000 300">
                 <defs>
-                  <linearGradient id={`scoreLineGradient-${selectedPeriod}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                  <linearGradient id="scoreLineGradient-all" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="#0A84FF" />
                     <stop offset="50%" stopColor="#60A5FA" />
                     <stop offset="100%" stopColor="#0A84FF" />
                   </linearGradient>
-                  <linearGradient id={`scoreGradient-${selectedPeriod}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                  <linearGradient id="scoreGradient-all" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.4" />
                     <stop offset="50%" stopColor="#409CFF" stopOpacity="0.2" />
                     <stop offset="100%" stopColor="#0A84FF" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 <path 
-                  d={`M ${scoreHistory[selectedPeriod as keyof typeof scoreHistory].map((value, index, array) => {
+                  d={`M ${scoreHistory.all.map((value, index, array) => {
                     const maxValue = Math.max(...array)
                     const minValue = Math.min(...array)
                     const range = maxValue - minValue
@@ -248,14 +221,14 @@ export default function CreditScore() {
                     const y = 300 - (percentage / 100) * 300
                     return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
                   }).join(' ')}`}
-                  stroke={`url(#scoreLineGradient-${selectedPeriod})`}
+                  stroke="url(#scoreLineGradient-all)"
                   fill="none"
                   strokeWidth="3"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
                 <path 
-                  d={`M ${scoreHistory[selectedPeriod as keyof typeof scoreHistory].map((value, index, array) => {
+                  d={`M ${scoreHistory.all.map((value, index, array) => {
                     const maxValue = Math.max(...array)
                     const minValue = Math.min(...array)
                     const range = maxValue - minValue
@@ -264,7 +237,7 @@ export default function CreditScore() {
                     const y = 300 - (percentage / 100) * 300
                     return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
                   }).join(' ')} L 1000 300 L 0 300 Z`}
-                  fill={`url(#scoreGradient-${selectedPeriod})`}
+                  fill="url(#scoreGradient-all)"
                 />
               </svg>
             </div>

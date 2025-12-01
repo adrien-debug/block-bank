@@ -36,8 +36,6 @@ export default function Dashboard() {
   const [address, setAddress] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>('dashboard')
   const [isMenuOpen, setIsMenuOpen] = useState(true)
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('All')
-  const [selectedAssetPeriod, setSelectedAssetPeriod] = useState<string>('All')
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -187,17 +185,6 @@ export default function Dashboard() {
                     <h3>Credit Score Evolution</h3>
                     <p className="chart-subtitle">Track your credit score over time</p>
                   </div>
-                  <div className="chart-period-menu-premium">
-                    {['This month', '6 months', '12 months', 'All'].map((period) => (
-                      <button
-                        key={period}
-                        className={`chart-period-btn ${period === selectedPeriod ? 'active' : ''}`}
-                        onClick={() => setSelectedPeriod(period)}
-                      >
-                        {period}
-                      </button>
-                    ))}
-                  </div>
                 </div>
                 <div className="chart-container-premium">
                   <div className="chart-grid-lines">
@@ -208,17 +195,10 @@ export default function Dashboard() {
                     ))}
                   </div>
                   {(() => {
-                    // Data based on selected period
-                    const dataByPeriod: Record<string, number[]> = {
-                      'This month': [745, 748, 750],
-                      '6 months': [680, 700, 720, 735, 745, 750],
-                      '12 months': [650, 670, 690, 710, 730, 740, 745, 748, 750],
-                      'All': [600, 620, 640, 660, 680, 700, 720, 735, 745, 748, 750]
-                    }
-                    
-                    const data = dataByPeriod[selectedPeriod] || dataByPeriod['6 months']
+                    // Data - All historical data
+                    const data = [600, 620, 640, 660, 680, 700, 720, 735, 745, 748, 750]
                     const maxValue = 800
-                    const minValue = selectedPeriod === 'All' ? 550 : 600
+                    const minValue = 550
                     const range = maxValue - minValue
                     
                     // Generate path for SVG
@@ -251,12 +231,12 @@ export default function Dashboard() {
                         <div className="line-chart-premium">
                           <svg className="chart-line-premium" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
                             <defs>
-                              <linearGradient id={`chartGradient-${selectedPeriod}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                              <linearGradient id="chartGradient-all" x1="0%" y1="0%" x2="0%" y2="100%">
                                 <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.4" />
                                 <stop offset="50%" stopColor="#409CFF" stopOpacity="0.2" />
                                 <stop offset="100%" stopColor="#0A84FF" stopOpacity="0" />
                               </linearGradient>
-                              <linearGradient id={`chartLineGradient-${selectedPeriod}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                              <linearGradient id="chartLineGradient-all" x1="0%" y1="0%" x2="100%" y2="0%">
                                 <stop offset="0%" stopColor="#0A84FF" />
                                 <stop offset="50%" stopColor="#60A5FA" />
                                 <stop offset="100%" stopColor="#0A84FF" />
@@ -264,7 +244,7 @@ export default function Dashboard() {
                             </defs>
                             <path 
                               d={pathPoints} 
-                              stroke={`url(#chartLineGradient-${selectedPeriod})`}
+                              stroke="url(#chartLineGradient-all)"
                               fill="none" 
                               strokeWidth="3"
                               strokeLinecap="round"
@@ -272,7 +252,7 @@ export default function Dashboard() {
                             />
                             <path 
                               d={areaPath} 
-                              fill={`url(#chartGradient-${selectedPeriod})`}
+                              fill="url(#chartGradient-all)"
                               stroke="none"
                             />
                           </svg>
@@ -289,49 +269,18 @@ export default function Dashboard() {
                     <h3>Asset Distribution</h3>
                     <p className="chart-subtitle">Breakdown of your NFT RWA portfolio</p>
                   </div>
-                  <div className="chart-period-menu-premium">
-                    {['This month', '6 months', '12 months', 'All'].map((period) => (
-                      <button
-                        key={period}
-                        className={`chart-period-btn ${period === selectedAssetPeriod ? 'active' : ''}`}
-                        onClick={() => setSelectedAssetPeriod(period)}
-                      >
-                        {period}
-                      </button>
-                    ))}
-                  </div>
                 </div>
                 <div className="chart-container-premium">
                   <div className="asset-distribution-chart">
                     {(() => {
-                      // Data based on selected period - Premium Blue/White Chart Colors
-                      const assetDataByPeriod: Record<string, { name: string; value: number; color: string }[]> = {
-                        'This month': [
-                          { name: 'Real Estate', value: 300000, color: '#1F6AE1' }, // Bleu profond → bleu moyen
-                          { name: 'Mining', value: 150000, color: '#60A5FA' }, // Bleu moyen → bleu clair
-                          { name: 'Infrastructure', value: 500000, color: '#123E6B' } // Bleu nuit
-                        ],
-                        '6 months': [
-                          { name: 'Real Estate', value: 300000, color: '#1F6AE1' },
-                          { name: 'Mining', value: 150000, color: '#60A5FA' },
-                          { name: 'Infrastructure', value: 500000, color: '#123E6B' }
-                        ],
-                        '12 months': [
-                          { name: 'Real Estate', value: 280000, color: '#1F6AE1' },
-                          { name: 'Mining', value: 180000, color: '#60A5FA' },
-                          { name: 'Infrastructure', value: 490000, color: '#123E6B' },
-                          { name: 'Vehicles', value: 50000, color: '#0A2540' } // Bleu très profond
-                        ],
-                        'All': [
-                          { name: 'Real Estate', value: 300000, color: '#1F6AE1' },
-                          { name: 'Mining', value: 150000, color: '#60A5FA' },
-                          { name: 'Infrastructure', value: 500000, color: '#123E6B' },
-                          { name: 'Vehicles', value: 50000, color: '#0A2540' },
-                          { name: 'Collectibles', value: 25000, color: '#409CFF' } // Dégradé primaire (remplace violet)
-                        ]
-                      }
-                      
-                      const assets = assetDataByPeriod[selectedAssetPeriod] || assetDataByPeriod['6 months']
+                      // Data - All historical data - Premium Blue/White Chart Colors
+                      const assets = [
+                        { name: 'Real Estate', value: 300000, color: '#1F6AE1' }, // Bleu profond → bleu moyen
+                        { name: 'Mining', value: 150000, color: '#60A5FA' }, // Bleu moyen → bleu clair
+                        { name: 'Infrastructure', value: 500000, color: '#123E6B' }, // Bleu nuit
+                        { name: 'Vehicles', value: 50000, color: '#0A2540' }, // Bleu très profond
+                        { name: 'Collectibles', value: 25000, color: '#409CFF' } // Dégradé primaire
+                      ]
                       const total = assets.reduce((sum, asset) => sum + asset.value, 0)
                       
                       let currentAngle = 0
@@ -379,7 +328,7 @@ export default function Dashboard() {
                                   gradientColors = { start: '#409CFF', end: '#60A5FA' } // Dégradé primaire
                                 }
                                 return (
-                                  <linearGradient key={index} id={`gradient-${selectedAssetPeriod}-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                                  <linearGradient key={index} id={`gradient-all-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stopColor={gradientColors.start} stopOpacity="1" />
                                     <stop offset="50%" stopColor={gradientColors.start} stopOpacity="0.9" />
                                     <stop offset="100%" stopColor={gradientColors.end} stopOpacity="0.8" />
@@ -391,7 +340,7 @@ export default function Dashboard() {
                               <path
                                 key={index}
                                 d={segment.path}
-                                fill={`url(#gradient-${selectedAssetPeriod}-${index})`}
+                                fill={`url(#gradient-all-${index})`}
                                 stroke="rgba(255, 255, 255, 0.15)"
                                 strokeWidth="3"
                                 className="donut-segment"
