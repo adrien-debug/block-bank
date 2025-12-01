@@ -1,0 +1,364 @@
+:root {
+  /* ====================================
+     COULEURS - PALETTE PREMIUM BLOCKBANK
+     ==================================== */
+  
+  /* Primary Colors - Neutres (bleu retiré) */
+  --color-primary-900: #030712;
+  --color-primary-700: #111827;
+  --color-primary-500: #1F2937;
+  --color-primary-400: #4B5563;
+  --color-primary-300: #6B7280;
+  --color-primary-200: #9CA3AF;
+  --color-primary-100: #D1D5DB;
+  --color-primary-50: #F3F4F6;
+  
+  /* BlockBank specific - neutres */
+  --bb-primary: #1F2937;
+  --bb-primary-hover: #111827;
+  --bb-primary-active: #030712;
+  --bb-primary-gradient: linear-gradient(135deg, #1F2937 0%, #4B5563 100%);
+  
+  /* Accent - gris */
+  --color-accent-600: #374151;
+  
+  /* Backgrounds - Light Mode (default) */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F8FAFD;
+  --color-bg-tertiary: #F1F5F9;
+  --color-bg-card: #FFFFFF;
+  --color-bg-card-hover: #F8FAFD;
+  
+  /* BlockBank backgrounds */
+  --bb-bg-light: #F8FAFD;
+  --bb-bg-dark: #0A0F14;
+  
+  /* Text Colors - Light Mode */
+  --color-text-primary: #0A0A0A;
+  --color-text-secondary: #64748B;
+  --color-text-muted: #94A3B8;
+  --color-text-disabled: #CBD5E1;
+  
+  /* BlockBank text */
+  --bb-text-dark: #0A0A0A;
+  --bb-text-light: #FFFFFF;
+  
+  /* Borders */
+  --color-border-default: #DCE7F2;
+  --color-border-hover: #CBD5E1;
+  --color-border-focus: var(--color-primary-500);
+  
+  /* BlockBank border */
+  --bb-border: #DCE7F2;
+  --bb-shadow: rgba(0, 0, 0, 0.15);
+  
+  /* Status Colors - Toutes en gris neutre */
+  --color-success: #6B7280;
+  --color-success-bg: #F3F4F6;
+  --color-warning: #9CA3AF;
+  --color-warning-bg: #F9FAFB;
+  --color-error: #4B5563;
+  --color-error-bg: #F3F4F6;
+  --color-info: #6B7280;
+  --color-info-bg: #F3F4F6;
+  
+  /* Chart Colors */
+  --color-chart-grid: rgba(148, 163, 184, 0.15);
+  --color-chart-grid-strong: rgba(148, 163, 184, 0.25);
+  --color-chart-axis: #64748B;
+  
+  /* ====================================
+     TYPOGRAPHIE - FONTS EXACTES
+     ==================================== */
+  
+  --font-brand: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-ui: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  
+  /* Typography Scale - Fluid avec clamp() */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);      /* 12-14px */
+  --text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);        /* 14-16px */
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);      /* 16-18px */
+  --text-lg: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);    /* 18-20px */
+  --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);        /* 20-24px */
+  --text-2xl: clamp(1.5rem, 1.35rem + 0.75vw, 2rem);         /* 24-32px */
+  --text-3xl: clamp(2rem, 1.75rem + 1.25vw, 2.5rem);         /* 32-40px */
+  --text-4xl: clamp(2.5rem, 2.15rem + 1.75vw, 3.5rem);       /* 40-56px */
+  
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line Heights */
+  --leading-tight: 1.1;
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+  
+  /* ====================================
+     ESPACEMENTS - GAP SYSTEM
+     ==================================== */
+  
+  --space-0: 0;
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  
+  /* Grid Gaps */
+  --gap-xs: var(--space-2);   /* 8px */
+  --gap-sm: var(--space-4);   /* 16px */
+  --gap-md: var(--space-6);   /* 24px */
+  --gap-lg: var(--space-8);   /* 32px */
+  --gap-xl: var(--space-12);  /* 48px */
+  
+  /* ====================================
+     BORDURES & RAYONS
+     ==================================== */
+  
+  --radius-xs: 0.375rem;   /* 6px */
+  --radius-sm: 0.5rem;     /* 8px */
+  --radius-md: 0.75rem;    /* 12px */
+  --radius-lg: 1rem;       /* 16px */
+  --radius-xl: 1.5rem;     /* 24px */
+  --radius-2xl: 2rem;      /* 32px */
+  --radius-full: 9999px;
+  
+  --border-width: 1px;
+  --border-width-medium: 1.5px;
+  --border-width-thick: 2px;
+  
+  /* ====================================
+     OMBRES - MULTICOUCHES
+     ==================================== */
+  
+  /* Elevation Levels */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 20px 40px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.12);
+  
+  /* Premium Glow Effects - BlockBank */
+  --shadow-glow-primary: 0 0 20px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.1);
+  --shadow-glow-hover: 0 0 30px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.15);
+  
+  /* Card Shadows */
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
+  
+  /* ====================================
+     ANIMATIONS & TRANSITIONS
+     ==================================== */
+  
+  /* Durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  
+  /* Easings */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* Transitions */
+  --transition-fast: var(--duration-fast) var(--ease-in-out);
+  --transition-normal: var(--duration-normal) var(--ease-in-out);
+  --transition-slow: var(--duration-slow) var(--ease-in-out);
+  
+  /* ====================================
+     LAYOUT
+     ==================================== */
+  
+  --header-height: 70px;
+  --sidebar-width: 280px;
+  --sidebar-width-collapsed: 80px;
+  --content-max-width: 1600px;
+  
+  /* Breakpoints (utilisés dans les media queries) */
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1440px;
+  
+  /* ====================================
+     GLASSMORPHISM
+     ==================================== */
+  
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-bg-hover: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-backdrop: blur(20px) saturate(180%);
+  
+  /* ====================================
+     Z-INDEX SCALE
+     ==================================== */
+  
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* ====================================
+   DARK MODE (prêt pour toggle)
+   ==================================== */
+
+[data-theme="dark"],
+.dark {
+  /* Backgrounds */
+  --color-bg-primary: #020617;
+  --color-bg-secondary: #0B1120;
+  --color-bg-tertiary: #1F2933;
+  --color-bg-card: rgba(15, 23, 42, 0.8);
+  --color-bg-card-hover: rgba(15, 23, 42, 0.9);
+  
+  /* Text */
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-text-muted: #9CA3AF;
+  --color-text-disabled: #64748B;
+  
+  /* Borders */
+  --color-border-default: #2A3441;
+  --color-border-hover: #374151;
+  
+  /* Glassmorphism Dark */
+  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-bg-hover: rgba(15, 23, 42, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.7), 0 6px 12px rgba(0, 0, 0, 0.5);
+  --shadow-2xl: 0 20px 40px rgba(0, 0, 0, 0.8), 0 8px 16px rgba(0, 0, 0, 0.6);
+  
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5);
+  
+  /* Chart Colors */
+  --color-chart-grid: rgba(148, 163, 184, 0.1);
+  --color-chart-grid-strong: rgba(148, 163, 184, 0.2);
+  --color-chart-axis: #94A3B8;
+}
+
+/* ====================================
+   UTILITY CLASSES
+   ==================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
+
+/* Grid System */
+.grid {
+  display: grid;
+  gap: var(--gap-md);
+}
+
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1024px) {
+  .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .grid-cols-2,
+  .grid-cols-4 { grid-template-columns: repeat(1, 1fr); }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn var(--transition-normal) var(--ease-out);
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp var(--transition-normal) var(--ease-out);
+}
+
+.animate-scaleIn {
+  animation: scaleIn var(--transition-normal) var(--ease-out);
+}
+

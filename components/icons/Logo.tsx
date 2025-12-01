@@ -20,8 +20,8 @@ export default function Logo({ className = '' }: { className?: string }) {
       />
       <defs>
         <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
-          <stop offset="0%" stopColor="#0A84FF" />
-          <stop offset="100%" stopColor="#409CFF" />
+          <stop offset="0%" stopColor="#1F2937" />
+          <stop offset="100%" stopColor="#4B5563" />
         </linearGradient>
       </defs>
     </svg>

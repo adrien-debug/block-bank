@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import '../styles/design-tokens.css'
+import '../styles/dashboard.css'
+import '../styles/skeleton.css'
 import { Providers } from './providers'
 
 export const metadata: Metadata = {

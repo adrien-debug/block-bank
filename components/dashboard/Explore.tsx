@@ -62,41 +62,36 @@ export default function Explore() {
 
   return (
     <div className="explore-page">
-      {/* Header avec breadcrumb */}
-      <div className="explore-header">
-        <div className="explore-breadcrumb">
-          {step === 'marketplace' && <span className="breadcrumb-active">1. Sélection NFT</span>}
-          {step !== 'marketplace' && (
-            <button className="breadcrumb-link" onClick={handleBackToMarketplace}>
-              1. Sélection NFT
-            </button>
-          )}
-          
-          {step === 'conditions' && <span className="breadcrumb-separator">→</span>}
-          {step === 'conditions' && <span className="breadcrumb-active">2. Conditions</span>}
-          {step === 'profiles' && <span className="breadcrumb-separator">→</span>}
-          {step === 'profiles' && <span className="breadcrumb-active">2. Conditions</span>}
-          {step === 'validation' && <span className="breadcrumb-separator">→</span>}
-          {step === 'validation' && <span className="breadcrumb-completed">2. Conditions</span>}
-          {step === 'process' && <span className="breadcrumb-separator">→</span>}
-          {step === 'process' && <span className="breadcrumb-completed">2. Conditions</span>}
-          
-          {step === 'profiles' && <span className="breadcrumb-separator">→</span>}
-          {step === 'profiles' && <span className="breadcrumb-active">3. Profils</span>}
-          {step === 'validation' && <span className="breadcrumb-separator">→</span>}
-          {step === 'validation' && <span className="breadcrumb-completed">3. Profils</span>}
-          {step === 'process' && <span className="breadcrumb-separator">→</span>}
-          {step === 'process' && <span className="breadcrumb-completed">3. Profils</span>}
-          
-          {step === 'validation' && <span className="breadcrumb-separator">→</span>}
-          {step === 'validation' && <span className="breadcrumb-active">4. Validation</span>}
-          {step === 'process' && <span className="breadcrumb-separator">→</span>}
-          {step === 'process' && <span className="breadcrumb-completed">4. Validation</span>}
-          
-          {step === 'process' && <span className="breadcrumb-separator">→</span>}
-          {step === 'process' && <span className="breadcrumb-active">5. Processus</span>}
+      {/* Header avec breadcrumb - seulement affiché si pas sur marketplace */}
+      {step !== 'marketplace' && (
+        <div className="explore-header">
+          <div className="explore-breadcrumb">
+            {step === 'conditions' && <span className="breadcrumb-separator">→</span>}
+            {step === 'conditions' && <span className="breadcrumb-active">2. Conditions</span>}
+            {step === 'profiles' && <span className="breadcrumb-separator">→</span>}
+            {step === 'profiles' && <span className="breadcrumb-active">2. Conditions</span>}
+            {step === 'validation' && <span className="breadcrumb-separator">→</span>}
+            {step === 'validation' && <span className="breadcrumb-completed">2. Conditions</span>}
+            {step === 'process' && <span className="breadcrumb-separator">→</span>}
+            {step === 'process' && <span className="breadcrumb-completed">2. Conditions</span>}
+            
+            {step === 'profiles' && <span className="breadcrumb-separator">→</span>}
+            {step === 'profiles' && <span className="breadcrumb-active">3. Profils</span>}
+            {step === 'validation' && <span className="breadcrumb-separator">→</span>}
+            {step === 'validation' && <span className="breadcrumb-completed">3. Profils</span>}
+            {step === 'process' && <span className="breadcrumb-separator">→</span>}
+            {step === 'process' && <span className="breadcrumb-completed">3. Profils</span>}
+            
+            {step === 'validation' && <span className="breadcrumb-separator">→</span>}
+            {step === 'validation' && <span className="breadcrumb-active">4. Validation</span>}
+            {step === 'process' && <span className="breadcrumb-separator">→</span>}
+            {step === 'process' && <span className="breadcrumb-completed">4. Validation</span>}
+            
+            {step === 'process' && <span className="breadcrumb-separator">→</span>}
+            {step === 'process' && <span className="breadcrumb-active">5. Processus</span>}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Contenu selon l'étape */}
       {step === 'marketplace' && (

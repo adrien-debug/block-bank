@@ -84,48 +84,62 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
   }, [])
 
   const connectWallet = async () => {
+    console.log('Connect wallet button clicked')
+    
     if (typeof window === 'undefined' || !window.ethereum) {
       alert('Please install MetaMask or another Web3 wallet')
       return
     }
 
+    console.log('MetaMask detected, requesting connection...')
     setIsConnecting(true)
+    
     try {
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       })
+      console.log('Accounts received:', accounts)
+      
       if (accounts.length > 0) {
-        setAddress(accounts[0])
-        if (onConnect) {
-          onConnect(accounts[0])
+        const connectedAddress = accounts[0]
+        console.log('Setting address:', connectedAddress)
+        setAddress(connectedAddress)
+        if (onConnectRef.current) {
+          onConnectRef.current(connectedAddress)
         }
+        console.log('Wallet connected successfully:', connectedAddress)
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Connection error:', error)
-      alert('Error connecting to wallet')
+      if (error.code === 4001) {
+        alert('Connection request rejected. Please try again and approve the connection.')
+      } else {
+        alert('Error connecting to wallet. Please try again.')
+      }
     } finally {
       setIsConnecting(false)
     }
   }
 
   const disconnect = useCallback(async () => {
-    // Reset local state immediately
-    setAddress(null)
-    
-    // Notify parent immediately to update UI
-    if (onDisconnectRef.current) {
-      onDisconnectRef.current()
-    }
-    
-    // Check MetaMask state (for debug)
-    if (typeof window !== 'undefined' && window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' })
-        // Note: MetaMask does not allow programmatic disconnection
-        // but our local state is already updated
-        console.log('MetaMask state after disconnect:', accounts.length > 0 ? 'Still connected' : 'Disconnected')
-      } catch (error) {
-        console.error('Error during verification:', error)
+    try {
+      console.log('Disconnecting wallet...')
+      
+      // Reset local state immediately
+      setAddress(null)
+      
+      // Notify parent immediately to update UI
+      if (onDisconnectRef.current) {
+        onDisconnectRef.current()
+      }
+      
+      console.log('Wallet disconnected successfully')
+    } catch (error) {
+      console.error('Disconnect error:', error)
+      // Even if there's an error, reset local state
+      setAddress(null)
+      if (onDisconnectRef.current) {
+        onDisconnectRef.current()
       }
     }
   }, [])
@@ -147,12 +161,30 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
   return (
     <div className="wallet-connect">
       <button
-        onClick={connectWallet}
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          connectWallet()
+        }}
         disabled={isConnecting}
         className="btn-connect-wallet"
+        type="button"
+        aria-label="Connect Wallet"
       >
-        {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+        {isConnecting ? (
+          <span>
+            <span className="connecting-spinner"></span>
+            Connecting...
+          </span>
+        ) : (
+          'Connect Wallet'
+        )}
       </button>
+      {isConnecting && (
+        <div className="metamask-overlay-hint">
+          <p>Please approve the connection in the MetaMask popup</p>
+        </div>
+      )}
     </div>
   )
 }
