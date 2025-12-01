@@ -219,24 +219,16 @@ export default function CreditScore() {
                 )
               })}
               <svg className="chart-line-enhanced" viewBox="0 0 1000 300">
-                <path 
-                  d={`M ${scoreHistory[selectedPeriod as keyof typeof scoreHistory].map((value, index, array) => {
-                    const maxValue = Math.max(...array)
-                    const minValue = Math.min(...array)
-                    const range = maxValue - minValue
-                    const percentage = ((value - minValue) / range) * 100
-                    const x = (index / (array.length - 1)) * 1000
-                    const y = 300 - (percentage / 100) * 300
-                    return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
-                  }).join(' ')}`}
-                  stroke="var(--color-primary)"
-                  fill="none"
-                  strokeWidth="3"
-                />
                 <defs>
-                  <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="var(--color-primary)" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="var(--color-primary)" stopOpacity="0" />
+                  <linearGradient id={`scoreLineGradient-${selectedPeriod}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#0A84FF" />
+                    <stop offset="50%" stopColor="#60A5FA" />
+                    <stop offset="100%" stopColor="#0A84FF" />
+                  </linearGradient>
+                  <linearGradient id={`scoreGradient-${selectedPeriod}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.4" />
+                    <stop offset="50%" stopColor="#409CFF" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#0A84FF" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 <path 
@@ -248,8 +240,24 @@ export default function CreditScore() {
                     const x = (index / (array.length - 1)) * 1000
                     const y = 300 - (percentage / 100) * 300
                     return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
+                  }).join(' ')}`}
+                  stroke={`url(#scoreLineGradient-${selectedPeriod})`}
+                  fill="none"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path 
+                  d={`M ${scoreHistory[selectedPeriod as keyof typeof scoreHistory].map((value, index, array) => {
+                    const maxValue = Math.max(...array)
+                    const minValue = Math.min(...array)
+                    const range = maxValue - minValue
+                    const percentage = ((value - minValue) / range) * 100
+                    const x = (index / (array.length - 1)) * 1000
+                    const y = 300 - (percentage / 100) * 300
+                    return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
                   }).join(' ')} L 1000 300 L 0 300 Z`}
-                  fill="url(#scoreGradient)"
+                  fill={`url(#scoreGradient-${selectedPeriod})`}
                 />
               </svg>
             </div>

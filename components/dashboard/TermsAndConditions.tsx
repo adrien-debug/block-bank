@@ -24,19 +24,19 @@ export default function TermsAndConditions() {
         </div>
       </div>
 
-      {/* Navigation Menu */}
-      <div className="terms-nav-menu">
-        <nav className="sidebar-nav">
+      {/* Navigation Menu - Premium Horizontal */}
+      <div className="terms-nav-menu-premium">
+        <nav className="terms-nav-horizontal">
           {assetTypes.map((type) => (
             <button
               key={type.id}
               onClick={() => setActiveType(type.id)}
-              className={`nav-item ${activeType === type.id ? 'active' : ''}`}
+              className={`terms-nav-item-premium ${activeType === type.id ? 'active' : ''}`}
             >
-              <span className="nav-icon" style={{ fontSize: '20px' }}>
+              <span className="terms-nav-icon-premium" style={{ fontSize: '20px' }}>
                 {type.icon}
               </span>
-              <span className="nav-label">{type.label}</span>
+              <span className="terms-nav-label-premium">{type.label}</span>
             </button>
           ))}
         </nav>
@@ -368,7 +368,7 @@ function RealEstateSection() {
                 <div className="process-number">1</div>
                 <div className="process-content">
                   <h4>Default Trigger</h4>
-                  <p>Payment delay &gt; 30 days</p>
+                  <p>Payment delay {'>'} 30 days</p>
                 </div>
               </div>
               <div className="process-arrow">↓</div>
@@ -532,7 +532,7 @@ function VehiclesSection() {
                 <div className="process-number">1</div>
                 <div className="process-content">
                   <h4>Default</h4>
-                  <p>Payment delay &gt; 30 days</p>
+                  <p>Payment delay {'>'} 30 days</p>
                 </div>
               </div>
               <div className="process-arrow">↓</div>
@@ -692,7 +692,7 @@ function ObjectsSection() {
                 <div className="process-number">1</div>
                 <div className="process-content">
                   <h4>Default</h4>
-                  <p>Payment delay &gt; 30 days</p>
+                  <p>Payment delay {'>'} 30 days</p>
                 </div>
               </div>
               <div className="process-arrow">↓</div>

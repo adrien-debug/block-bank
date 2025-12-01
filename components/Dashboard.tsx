@@ -36,6 +36,8 @@ export default function Dashboard() {
   const [address, setAddress] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>('dashboard')
   const [isMenuOpen, setIsMenuOpen] = useState(true)
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('6 months')
+  const [selectedAssetPeriod, setSelectedAssetPeriod] = useState<string>('6 months')
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -177,65 +179,250 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Graphiques et visualisations */}
-            <div className="dashboard-charts">
-              <div className="chart-card">
-                <div className="chart-header">
-                  <h3>Credit Score Evolution</h3>
-                  <select className="chart-period">
-                    <option>6 months</option>
-                    <option>12 months</option>
-                    <option>All</option>
-                  </select>
+            {/* Graphiques et visualisations - Premium */}
+            <div className="dashboard-charts-premium">
+              <div className="chart-card-premium">
+                <div className="chart-header-premium">
+                  <div>
+                    <h3>Credit Score Evolution</h3>
+                    <p className="chart-subtitle">Track your credit score over time</p>
+                  </div>
+                  <div className="chart-period-menu-premium">
+                    {['This month', '6 months', '12 months', 'All'].map((period) => (
+                      <button
+                        key={period}
+                        className={`chart-period-btn ${period === selectedPeriod ? 'active' : ''}`}
+                        onClick={() => setSelectedPeriod(period)}
+                      >
+                        {period}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="chart-container">
-                  <div className="line-chart">
-                    {[680, 700, 720, 735, 745, 750].map((value, index) => (
-                      <div key={index} className="chart-point" style={{ 
-                        left: `${(index / 5) * 100}%`,
-                        bottom: `${((value - 650) / 100) * 100}%`
-                      }}>
-                        <div className="point-value">{value}</div>
-                        <div className="point-dot"></div>
+                <div className="chart-container-premium">
+                  <div className="chart-grid-lines">
+                    {[800, 750, 700, 650, 600].map((value, index) => (
+                      <div key={index} className="grid-line">
+                        <span className="grid-label">{value}</span>
                       </div>
                     ))}
-                    <svg className="chart-line" viewBox="0 0 500 200">
-                      <path d="M 0,120 Q 125,100 250,80 T 500,50" stroke="currentColor" fill="none" strokeWidth="2"/>
-                    </svg>
                   </div>
+                  {(() => {
+                    // Data based on selected period
+                    const dataByPeriod: Record<string, number[]> = {
+                      'This month': [745, 748, 750],
+                      '6 months': [680, 700, 720, 735, 745, 750],
+                      '12 months': [650, 670, 690, 710, 730, 740, 745, 748, 750],
+                      'All': [600, 620, 640, 660, 680, 700, 720, 735, 745, 748, 750]
+                    }
+                    
+                    const data = dataByPeriod[selectedPeriod] || dataByPeriod['6 months']
+                    const maxValue = 800
+                    const minValue = selectedPeriod === 'All' ? 550 : 600
+                    const range = maxValue - minValue
+                    
+                    // Generate path for SVG
+                    const pathPoints = data.map((value, index) => {
+                      const x = (index / (data.length - 1)) * 1000
+                      const y = 300 - ((value - minValue) / range) * 300
+                      return `${index === 0 ? 'M' : 'L'} ${x},${y}`
+                    }).join(' ')
+                    
+                    const areaPath = `${pathPoints} L 1000,300 L 0,300 Z`
+                    
+                    return (
+                      <>
+                        <div className="chart-points-container">
+                          {data.map((value, index, array) => {
+                            const percentage = ((value - minValue) / range) * 100
+                            const leftPercent = (index / (array.length - 1)) * 100
+                            
+                            return (
+                              <div key={index} className="chart-point-premium" style={{ 
+                                left: `${leftPercent}%`,
+                                bottom: `${percentage}%`
+                              }}>
+                                <div className="point-tooltip-premium">{value}</div>
+                                <div className="point-dot-premium"></div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                        <div className="line-chart-premium">
+                          <svg className="chart-line-premium" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+                            <defs>
+                              <linearGradient id={`chartGradient-${selectedPeriod}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.4" />
+                                <stop offset="50%" stopColor="#409CFF" stopOpacity="0.2" />
+                                <stop offset="100%" stopColor="#0A84FF" stopOpacity="0" />
+                              </linearGradient>
+                              <linearGradient id={`chartLineGradient-${selectedPeriod}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#0A84FF" />
+                                <stop offset="50%" stopColor="#60A5FA" />
+                                <stop offset="100%" stopColor="#0A84FF" />
+                              </linearGradient>
+                            </defs>
+                            <path 
+                              d={pathPoints} 
+                              stroke={`url(#chartLineGradient-${selectedPeriod})`}
+                              fill="none" 
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path 
+                              d={areaPath} 
+                              fill={`url(#chartGradient-${selectedPeriod})`}
+                              stroke="none"
+                            />
+                          </svg>
+                        </div>
+                      </>
+                    )
+                  })()}
                 </div>
               </div>
 
-              <div className="chart-card">
-                <div className="chart-header">
-                  <h3>Asset Distribution</h3>
+              <div className="chart-card-premium">
+                <div className="chart-header-premium">
+                  <div>
+                    <h3>Asset Distribution</h3>
+                    <p className="chart-subtitle">Breakdown of your NFT RWA portfolio</p>
+                  </div>
+                  <div className="chart-period-menu-premium">
+                    {['This month', '6 months', '12 months', 'All'].map((period) => (
+                      <button
+                        key={period}
+                        className={`chart-period-btn ${period === selectedAssetPeriod ? 'active' : ''}`}
+                        onClick={() => setSelectedAssetPeriod(period)}
+                      >
+                        {period}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="pie-chart">
-                  <div className="pie-segment segment-1" style={{ '--percentage': '32%' } as React.CSSProperties}>
-                    <span className="segment-label">Real Estate</span>
-                    <span className="segment-value">300K</span>
-                  </div>
-                  <div className="pie-segment segment-2" style={{ '--percentage': '16%' } as React.CSSProperties}>
-                    <span className="segment-label">Mining</span>
-                    <span className="segment-value">150K</span>
-                  </div>
-                  <div className="pie-segment segment-3" style={{ '--percentage': '52%' } as React.CSSProperties}>
-                    <span className="segment-label">Infrastructure</span>
-                    <span className="segment-value">500K</span>
-                  </div>
-                </div>
-                <div className="chart-legend">
-                  <div className="legend-item">
-                    <span className="legend-color" style={{ background: 'var(--color-primary)' }}></span>
-                    <span>Real Estate: 300,000 USDC</span>
-                  </div>
-                  <div className="legend-item">
-                    <span className="legend-color" style={{ background: '#30D158' }}></span>
-                    <span>Mining: 150,000 USDC</span>
-                  </div>
-                  <div className="legend-item">
-                    <span className="legend-color" style={{ background: '#FFD60A' }}></span>
-                    <span>Infrastructure: 500,000 USDC</span>
+                <div className="chart-container-premium">
+                  <div className="asset-distribution-chart">
+                    {(() => {
+                      // Data based on selected period - Premium Blue/White Chart Colors
+                      const assetDataByPeriod: Record<string, { name: string; value: number; color: string }[]> = {
+                        'This month': [
+                          { name: 'Real Estate', value: 300000, color: '#1F6AE1' }, // Bleu profond → bleu moyen
+                          { name: 'Mining', value: 150000, color: '#60A5FA' }, // Bleu moyen → bleu clair
+                          { name: 'Infrastructure', value: 500000, color: '#123E6B' } // Bleu nuit
+                        ],
+                        '6 months': [
+                          { name: 'Real Estate', value: 300000, color: '#1F6AE1' },
+                          { name: 'Mining', value: 150000, color: '#60A5FA' },
+                          { name: 'Infrastructure', value: 500000, color: '#123E6B' }
+                        ],
+                        '12 months': [
+                          { name: 'Real Estate', value: 280000, color: '#1F6AE1' },
+                          { name: 'Mining', value: 180000, color: '#60A5FA' },
+                          { name: 'Infrastructure', value: 490000, color: '#123E6B' },
+                          { name: 'Vehicles', value: 50000, color: '#0A2540' } // Bleu très profond
+                        ],
+                        'All': [
+                          { name: 'Real Estate', value: 300000, color: '#1F6AE1' },
+                          { name: 'Mining', value: 150000, color: '#60A5FA' },
+                          { name: 'Infrastructure', value: 500000, color: '#123E6B' },
+                          { name: 'Vehicles', value: 50000, color: '#0A2540' },
+                          { name: 'Collectibles', value: 25000, color: '#409CFF' } // Dégradé primaire (remplace violet)
+                        ]
+                      }
+                      
+                      const assets = assetDataByPeriod[selectedAssetPeriod] || assetDataByPeriod['6 months']
+                      const total = assets.reduce((sum, asset) => sum + asset.value, 0)
+                      
+                      let currentAngle = 0
+                      const segments = assets.map((asset, index) => {
+                        const percentage = (asset.value / total) * 100
+                        const angle = (asset.value / total) * 360
+                        const startAngle = currentAngle
+                        const endAngle = currentAngle + angle
+                        currentAngle = endAngle
+                        
+                        const startAngleRad = (startAngle - 90) * (Math.PI / 180)
+                        const endAngleRad = (endAngle - 90) * (Math.PI / 180)
+                        const largeArcFlag = angle > 180 ? 1 : 0
+                        
+                        const x1 = 150 + 120 * Math.cos(startAngleRad)
+                        const y1 = 150 + 120 * Math.sin(startAngleRad)
+                        const x2 = 150 + 120 * Math.cos(endAngleRad)
+                        const y2 = 150 + 120 * Math.sin(endAngleRad)
+                        
+                        return {
+                          ...asset,
+                          percentage,
+                          path: `M 150,150 L ${x1},${y1} A 120,120 0 ${largeArcFlag},1 ${x2},${y2} Z`,
+                          startAngle,
+                          endAngle
+                        }
+                      })
+                      
+                      return (
+                        <>
+                          <svg className="donut-chart-premium" viewBox="0 0 300 300">
+                            <defs>
+                              {segments.map((segment, index) => {
+                                // Créer des dégradés bleu premium selon le segment
+                                let gradientColors: { start: string; end: string } = { start: segment.color, end: segment.color }
+                                if (segment.color === '#1F6AE1') {
+                                  gradientColors = { start: '#1F6AE1', end: '#60A5FA' } // Bleu profond → bleu moyen
+                                } else if (segment.color === '#60A5FA') {
+                                  gradientColors = { start: '#60A5FA', end: '#93C5FD' } // Bleu moyen → bleu clair
+                                } else if (segment.color === '#123E6B') {
+                                  gradientColors = { start: '#123E6B', end: '#1F6AE1' } // Bleu nuit → bleu profond
+                                } else if (segment.color === '#0A2540') {
+                                  gradientColors = { start: '#0A2540', end: '#123E6B' } // Bleu très profond → bleu nuit
+                                } else if (segment.color === '#409CFF') {
+                                  gradientColors = { start: '#409CFF', end: '#60A5FA' } // Dégradé primaire
+                                }
+                                return (
+                                  <linearGradient key={index} id={`gradient-${selectedAssetPeriod}-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor={gradientColors.start} stopOpacity="1" />
+                                    <stop offset="50%" stopColor={gradientColors.start} stopOpacity="0.9" />
+                                    <stop offset="100%" stopColor={gradientColors.end} stopOpacity="0.8" />
+                                  </linearGradient>
+                                )
+                              })}
+                            </defs>
+                            {segments.map((segment, index) => (
+                              <path
+                                key={index}
+                                d={segment.path}
+                                fill={`url(#gradient-${selectedAssetPeriod}-${index})`}
+                                stroke="rgba(255, 255, 255, 0.15)"
+                                strokeWidth="3"
+                                className="donut-segment"
+                                style={{ 
+                                  filter: 'drop-shadow(0 2px 4px rgba(10, 132, 255, 0.25))'
+                                }}
+                              />
+                            ))}
+                            <circle cx="150" cy="150" r="80" fill="#FFFFFF" />
+                            <text x="150" y="145" textAnchor="middle" className="donut-center-value" fill="#0F172A">
+                              {total.toLocaleString()}
+                            </text>
+                            <text x="150" y="165" textAnchor="middle" className="donut-center-label" fill="#64748B">
+                              USDC
+                            </text>
+                          </svg>
+                          <div className="asset-legend-premium">
+                            {segments.map((segment, index) => (
+                              <div key={index} className="legend-item-premium">
+                                <div className="legend-color-premium" style={{ background: segment.color }}></div>
+                                <span className="legend-name-premium">{segment.name}</span>
+                                <div className="legend-values">
+                                  <span className="legend-value-premium">{segment.value.toLocaleString()} USDC</span>
+                                  <span className="legend-percentage-premium">{segment.percentage.toFixed(1)}%</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )
+                    })()}
                   </div>
                 </div>
               </div>
