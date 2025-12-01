@@ -368,7 +368,7 @@ function RealEstateSection() {
                 <div className="process-number">1</div>
                 <div className="process-content">
                   <h4>Default Trigger</h4>
-                  <p>Payment delay > 30 days</p>
+                  <p>Payment delay &gt; 30 days</p>
                 </div>
               </div>
               <div className="process-arrow">↓</div>
@@ -532,7 +532,7 @@ function VehiclesSection() {
                 <div className="process-number">1</div>
                 <div className="process-content">
                   <h4>Default</h4>
-                  <p>Payment delay > 30 days</p>
+                  <p>Payment delay &gt; 30 days</p>
                 </div>
               </div>
               <div className="process-arrow">↓</div>
@@ -692,7 +692,7 @@ function ObjectsSection() {
                 <div className="process-number">1</div>
                 <div className="process-content">
                   <h4>Default</h4>
-                  <p>Payment delay > 30 days</p>
+                  <p>Payment delay &gt; 30 days</p>
                 </div>
               </div>
               <div className="process-arrow">↓</div>
