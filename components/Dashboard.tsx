@@ -448,40 +448,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="performance-metrics">
-              <div className="quick-actions-card">
-                <div className="quick-actions-header">
-                  <h3>Quick Actions</h3>
-                </div>
-                <div className="quick-actions-grid">
-                  <button className="quick-action-btn">
-                    <div className="quick-action-icon">
-                      <MoneyIcon />
-                    </div>
-                    <div className="quick-action-label">New loan</div>
-                  </button>
-                  <button className="quick-action-btn">
-                    <div className="quick-action-icon">
-                      <NFTIcon />
-                    </div>
-                    <div className="quick-action-label">Tokenize asset</div>
-                  </button>
-                  <button className="quick-action-btn">
-                    <div className="quick-action-icon">
-                      <ChartIcon />
-                    </div>
-                    <div className="quick-action-label">Update score</div>
-                  </button>
-                  <button className="quick-action-btn">
-                    <div className="quick-action-icon">
-                      <ShieldIcon />
-                    </div>
-                    <div className="quick-action-label">Manage insurance</div>
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         )}
         {activeTab === 'explore' && <Explore />}
