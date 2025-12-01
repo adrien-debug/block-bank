@@ -162,3 +162,4 @@ export function getAvailableAssetTypes(): AssetType[] {
   return ['REAL_ESTATE', 'MINING', 'INFRASTRUCTURE', 'COMMODITIES', 'OTHER']
 }
 
+

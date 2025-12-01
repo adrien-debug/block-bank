@@ -21,3 +21,4 @@ export default function StarIcon({ className = '' }: { className?: string }) {
   )
 }
 
+

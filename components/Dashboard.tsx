@@ -21,6 +21,8 @@ import CheckIcon from './icons/CheckIcon'
 import LockIcon from './icons/LockIcon'
 import WarningIcon from './icons/WarningIcon'
 import InfoIcon from './icons/InfoIcon'
+import DocumentIcon from './icons/DocumentIcon'
+import TermsAndConditions from './dashboard/TermsAndConditions'
 
 declare global {
   interface Window {
@@ -28,7 +30,7 @@ declare global {
   }
 }
 
-type Tab = 'dashboard' | 'explore' | 'credit-score' | 'loans' | 'nft' | 'insurance' | 'profile' | 'investor'
+type Tab = 'dashboard' | 'explore' | 'credit-score' | 'loans' | 'nft' | 'insurance' | 'profile' | 'investor' | 'terms'
 
 export default function Dashboard() {
   const [address, setAddress] = useState<string | null>(null)
@@ -56,6 +58,7 @@ export default function Dashboard() {
     { id: 'insurance' as Tab, label: 'Insurance', icon: ShieldIcon },
     { id: 'investor' as Tab, label: 'Investor', icon: InvestorIcon },
     { id: 'profile' as Tab, label: 'Profile', icon: UserIcon },
+    { id: 'terms' as Tab, label: 'Terms & Conditions', icon: DocumentIcon },
   ]
 
   return (
@@ -309,33 +312,8 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Métriques de performance */}
+            {/* Quick Actions */}
             <div className="performance-metrics">
-              <div className="metric-card">
-                <div className="metric-header">
-                  <h3>Overall Performance</h3>
-                </div>
-                <div className="metric-grid">
-                  <div className="metric-item">
-                    <div className="metric-label">Utilization rate</div>
-                    <div className="metric-value-large">65%</div>
-                    <div className="metric-bar">
-                      <div className="metric-bar-fill" style={{ width: '65%' }}></div>
-                    </div>
-                  </div>
-                  <div className="metric-item">
-                    <div className="metric-label">On-time payments</div>
-                    <div className="metric-value-large">100%</div>
-                    <div className="metric-badge-success">Perfect</div>
-                  </div>
-                  <div className="metric-item">
-                    <div className="metric-label">Total value</div>
-                    <div className="metric-value-large">950K USDC</div>
-                    <div className="metric-trend-up">+5% this month</div>
-                  </div>
-                </div>
-              </div>
-
               <div className="quick-actions-card">
                 <div className="quick-actions-header">
                   <h3>Quick Actions</h3>
@@ -377,6 +355,7 @@ export default function Dashboard() {
         {activeTab === 'insurance' && <Insurance />}
         {activeTab === 'investor' && <Investor />}
         {activeTab === 'profile' && <Profile />}
+        {activeTab === 'terms' && <TermsAndConditions />}
       </div>
     </div>
   )

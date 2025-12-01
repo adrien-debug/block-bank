@@ -1,6 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import InvestorIcon from '../icons/InvestorIcon'
+import ChartIcon from '../icons/ChartIcon'
+import MoneyIcon from '../icons/MoneyIcon'
+import InfoIcon from '../icons/InfoIcon'
+
+type InvestorTab = 'pools' | 'my-investments' | 'analytics' | 'info'
 
 interface Pool {
   id: number
@@ -16,6 +22,7 @@ interface Pool {
 }
 
 export default function Investor() {
+  const [activeTab, setActiveTab] = useState<InvestorTab>('pools')
   const [selectedPool, setSelectedPool] = useState<number | null>(null)
   const [depositAmount, setDepositAmount] = useState('')
   const [showDepositModal, setShowDepositModal] = useState(false)
@@ -29,9 +36,9 @@ export default function Investor() {
       totalLiquidity: '2,500,000',
       availableLiquidity: '850,000',
       minDeposit: '1,000',
-      lockPeriod: '30 jours',
+      lockPeriod: '30 days',
       riskLevel: 'low',
-      description: 'Pool sécurisé pour financement de prêts immobiliers avec garanties NFT RWA',
+      description: 'Secure pool for real estate loan financing with NFT RWA guarantees',
     },
     {
       id: 2,
@@ -41,9 +48,9 @@ export default function Investor() {
       totalLiquidity: '1,800,000',
       availableLiquidity: '420,000',
       minDeposit: '1,000',
-      lockPeriod: '30 jours',
+      lockPeriod: '30 days',
       riskLevel: 'low',
-      description: 'Pool dédié au financement de projets mining Bitcoin avec collatéralisation',
+      description: 'Pool dedicated to Bitcoin mining project financing with collateralization',
     },
     {
       id: 3,
@@ -53,9 +60,9 @@ export default function Investor() {
       totalLiquidity: '3,200,000',
       availableLiquidity: '1,100,000',
       minDeposit: '5,000',
-      lockPeriod: '90 jours',
+      lockPeriod: '90 days',
       riskLevel: 'medium',
-      description: 'Pool à rendement élevé pour financement de prêts à moyen terme',
+      description: 'High-yield pool for medium-term loan financing',
     },
     {
       id: 4,
@@ -65,9 +72,9 @@ export default function Investor() {
       totalLiquidity: '950,000',
       availableLiquidity: '180,000',
       minDeposit: '10,000',
-      lockPeriod: '180 jours',
+      lockPeriod: '180 days',
       riskLevel: 'high',
-      description: 'Pool à haut rendement pour investisseurs expérimentés, période de blocage longue',
+      description: 'High-yield pool for experienced investors, long lock period',
     },
   ]
 
@@ -92,23 +99,51 @@ export default function Investor() {
   const getRiskLabel = (risk: string) => {
     switch (risk) {
       case 'low':
-        return 'Faible'
+        return 'Low'
       case 'medium':
-        return 'Moyen'
+        return 'Medium'
       case 'high':
-        return 'Élevé'
+        return 'High'
       default:
         return risk
     }
   }
+
+  const tabs = [
+    { id: 'pools' as InvestorTab, label: 'Available Pools', icon: InvestorIcon },
+    { id: 'my-investments' as InvestorTab, label: 'My Investments', icon: MoneyIcon },
+    { id: 'analytics' as InvestorTab, label: 'Analytics', icon: ChartIcon },
+    { id: 'info' as InvestorTab, label: 'Info', icon: InfoIcon },
+  ]
 
   return (
     <div className="investor-page">
       <div className="page-header">
         <div>
           <h1>Investor</h1>
-          <p className="page-subtitle">Financez les pools de liquidité et générez des rendements avec APY</p>
+          <p className="page-subtitle">Finance liquidity pools and generate yields with APY</p>
         </div>
+      </div>
+
+      {/* Sub-menu Navigation with Dashboard Style */}
+      <div className="investor-nav-menu">
+        <nav className="sidebar-nav">
+          {tabs.map((tab) => {
+            const IconComponent = tab.icon
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`nav-item ${activeTab === tab.id ? 'active' : ''}`}
+              >
+                <span className="nav-icon">
+                  <IconComponent />
+                </span>
+                <span className="nav-label">{tab.label}</span>
+              </button>
+            )
+          })}
+        </nav>
       </div>
 
       {/* Statistiques globales */}
@@ -116,37 +151,37 @@ export default function Investor() {
         <div className="investor-stat-card">
           <div className="stat-icon">💰</div>
           <div className="stat-info">
-            <div className="stat-label">TVL Total</div>
+            <div className="stat-label">Total TVL</div>
             <div className="stat-value">8,450,000 USDC</div>
           </div>
         </div>
         <div className="investor-stat-card">
           <div className="stat-icon">📈</div>
           <div className="stat-info">
-            <div className="stat-label">APY Moyen</div>
+            <div className="stat-label">Average APY</div>
             <div className="stat-value">14.5%</div>
           </div>
         </div>
         <div className="investor-stat-card">
           <div className="stat-icon">👥</div>
           <div className="stat-info">
-            <div className="stat-label">Investisseurs actifs</div>
+            <div className="stat-label">Active investors</div>
             <div className="stat-value">1,247</div>
           </div>
         </div>
         <div className="investor-stat-card">
           <div className="stat-icon">🎯</div>
           <div className="stat-info">
-            <div className="stat-label">Pools disponibles</div>
+            <div className="stat-label">Available pools</div>
             <div className="stat-value">{pools.length}</div>
           </div>
         </div>
       </div>
 
-      {/* Liste des pools */}
-      <div className="pools-section">
-        <h2 className="section-title">Pools de financement disponibles</h2>
-        <div className="pools-grid">
+      {activeTab === 'pools' && (
+        <div className="pools-section">
+          <h2 className="section-title">Available Funding Pools</h2>
+          <div className="pools-grid">
           {pools.map((pool) => (
             <div key={pool.id} className="pool-card">
               <div className="pool-header">
@@ -168,23 +203,23 @@ export default function Investor() {
 
               <div className="pool-details">
                 <div className="pool-detail-item">
-                  <span className="detail-label">Liquidité totale</span>
+                  <span className="detail-label">Total liquidity</span>
                   <span className="detail-value">{pool.totalLiquidity} {pool.token}</span>
                 </div>
                 <div className="pool-detail-item">
-                  <span className="detail-label">Disponible</span>
+                  <span className="detail-label">Available</span>
                   <span className="detail-value highlight">{pool.availableLiquidity} {pool.token}</span>
                 </div>
                 <div className="pool-detail-item">
-                  <span className="detail-label">Dépôt minimum</span>
+                  <span className="detail-label">Minimum deposit</span>
                   <span className="detail-value">{pool.minDeposit} {pool.token}</span>
                 </div>
                 <div className="pool-detail-item">
-                  <span className="detail-label">Période de blocage</span>
+                  <span className="detail-label">Lock period</span>
                   <span className="detail-value">{pool.lockPeriod}</span>
                 </div>
                 <div className="pool-detail-item">
-                  <span className="detail-label">Niveau de risque</span>
+                  <span className="detail-label">Risk level</span>
                   <span 
                     className="detail-value risk-badge" 
                     style={{ color: getRiskColor(pool.riskLevel) }}
@@ -199,13 +234,64 @@ export default function Investor() {
                   className="btn-primary pool-deposit-btn"
                   onClick={() => handleDeposit(pool.id)}
                 >
-                  Investir dans ce pool
+                  Invest in this pool
                 </button>
               </div>
             </div>
           ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {activeTab === 'my-investments' && (
+        <div className="my-investments-section">
+          <h2 className="section-title">My Investments</h2>
+          <div className="investments-empty">
+            <p>No active investments</p>
+            <p className="empty-subtitle">Start investing in pools to see your investments here</p>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'analytics' && (
+        <div className="analytics-section">
+          <h2 className="section-title">Analytics</h2>
+          <div className="analytics-grid">
+            <div className="analytics-card">
+              <h3>Total Invested</h3>
+              <div className="analytics-value">0 USDC</div>
+            </div>
+            <div className="analytics-card">
+              <h3>Total Returns</h3>
+              <div className="analytics-value">0 USDC</div>
+            </div>
+            <div className="analytics-card">
+              <h3>Average APY</h3>
+              <div className="analytics-value">0%</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'info' && (
+        <div className="info-section">
+          <h2 className="section-title">Investor Information</h2>
+          <div className="info-content">
+            <div className="info-card">
+              <h3>How it works</h3>
+              <p>Invest in liquidity pools that fund loans backed by NFT RWAs. Earn competitive APY while supporting the BlockBank ecosystem.</p>
+            </div>
+            <div className="info-card">
+              <h3>Risk Levels</h3>
+              <ul>
+                <li><strong>Low:</strong> Conservative pools with stable returns</li>
+                <li><strong>Medium:</strong> Balanced risk-reward pools</li>
+                <li><strong>High:</strong> Aggressive pools with higher potential returns</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal de dépôt */}
       {showDepositModal && selectedPool && (
@@ -228,18 +314,18 @@ export default function Investor() {
                   <span className="summary-value">{pools.find(p => p.id === selectedPool)?.apy}%</span>
                 </div>
                 <div className="summary-item">
-                  <span>Période de blocage:</span>
+                  <span>Lock period:</span>
                   <span className="summary-value">{pools.find(p => p.id === selectedPool)?.lockPeriod}</span>
                 </div>
                 <div className="summary-item">
-                  <span>Dépôt minimum:</span>
+                  <span>Minimum deposit:</span>
                   <span className="summary-value">{pools.find(p => p.id === selectedPool)?.minDeposit} {pools.find(p => p.id === selectedPool)?.token}</span>
                 </div>
               </div>
 
               <div className="deposit-form">
                 <label className="form-label">
-                  Montant à investir ({pools.find(p => p.id === selectedPool)?.token})
+                  Amount to invest ({pools.find(p => p.id === selectedPool)?.token})
                 </label>
                 <input
                   type="number"
@@ -252,9 +338,9 @@ export default function Investor() {
                 {depositAmount && (
                   <div className="deposit-preview">
                     <div className="preview-item">
-                      <span>Rendement estimé (annuel):</span>
+                      <span>Estimated annual return:</span>
                       <span className="preview-value">
-                        {(parseFloat(depositAmount) * (pools.find(p => p.id === selectedPool)?.apy || 0) / 100).toLocaleString('fr-FR', {
+                        {(parseFloat(depositAmount) * (pools.find(p => p.id === selectedPool)?.apy || 0) / 100).toLocaleString('en-US', {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2
                         })} {pools.find(p => p.id === selectedPool)?.token}
@@ -269,19 +355,19 @@ export default function Investor() {
                   className="btn-secondary"
                   onClick={() => setShowDepositModal(false)}
                 >
-                  Annuler
+                  Cancel
                 </button>
                 <button 
                   className="btn-primary"
                   onClick={() => {
-                    // Ici on pourrait ajouter la logique de dépôt
-                    alert(`Dépôt de ${depositAmount} ${pools.find(p => p.id === selectedPool)?.token} en cours...`)
+                    // Here we could add deposit logic
+                    alert(`Depositing ${depositAmount} ${pools.find(p => p.id === selectedPool)?.token}...`)
                     setShowDepositModal(false)
                     setDepositAmount('')
                   }}
                   disabled={!depositAmount || parseFloat(depositAmount) < parseFloat(pools.find(p => p.id === selectedPool)?.minDeposit.replace(',', '') || '0')}
                 >
-                  Confirmer l'investissement
+                  Confirm investment
                 </button>
               </div>
             </div>
@@ -291,4 +377,5 @@ export default function Investor() {
     </div>
   )
 }
+
 

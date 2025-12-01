@@ -10,3 +10,4 @@ export function formatBalance(balance: bigint, decimals: number = 18): string {
   return `${whole.toString()}.${fraction.toString().padStart(decimals, '0').slice(0, 2)}`
 }
 
+

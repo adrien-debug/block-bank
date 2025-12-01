@@ -119,3 +119,4 @@ export function applyInsuranceImpact(
   return { adjustedLTV, adjustedRate }
 }
 
+

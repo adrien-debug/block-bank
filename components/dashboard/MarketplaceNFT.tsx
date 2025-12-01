@@ -41,7 +41,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
       const fetchedNFTs = await fetchNFTsFromMarketplaces(filters)
       setNfts(fetchedNFTs)
     } catch (error) {
-      console.error('Erreur lors du chargement des NFT:', error)
+      console.error('Error loading NFTs:', error)
     } finally {
       setLoading(false)
     }
@@ -70,11 +70,11 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
 
   const getAssetTypeLabel = (type: AssetType): string => {
     const labels: Record<AssetType, string> = {
-      REAL_ESTATE: 'Immobilier',
+      REAL_ESTATE: 'Real Estate',
       MINING: 'Mining',
       INFRASTRUCTURE: 'Infrastructure',
       COMMODITIES: 'Commodities',
-      OTHER: 'Autre',
+      OTHER: 'Other',
     }
     return labels[type]
   }
@@ -92,12 +92,12 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
         <div className="explore-header-content">
           <div>
             <h1 className="explore-title">Explore NFT RWA</h1>
-            <p className="explore-subtitle">Sélectionnez un actif réel tokenisé pour créer votre prêt</p>
+            <p className="explore-subtitle">Select a tokenized real-world asset to create your loan</p>
           </div>
           <div className="explore-stats">
             <div className="stat-item">
               <span className="stat-value">{nfts.length}</span>
-              <span className="stat-label">NFT disponibles</span>
+              <span className="stat-label">Available NFTs</span>
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
       {/* Filtres Premium */}
       <div className="explore-filters-card">
         <div className="filters-header">
-          <h3>Filtres</h3>
+          <h3>Filters</h3>
           <button 
             className="btn-ghost-small"
             onClick={() => {
@@ -117,7 +117,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
               setSelectedRiskClass('ALL')
             }}
           >
-            Réinitialiser
+            Reset
           </button>
         </div>
         <div className="filters-grid">
@@ -128,7 +128,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
               onChange={(e) => setSelectedMarketplace(e.target.value as Marketplace | 'ALL')}
               className="filter-select-premium"
             >
-              <option value="ALL">Toutes les marketplaces</option>
+              <option value="ALL">All marketplaces</option>
               {marketplaces.map(mp => (
                 <option key={mp} value={mp}>{getMarketplaceLabel(mp)}</option>
               ))}
@@ -136,13 +136,13 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
           </div>
 
           <div className="filter-item">
-            <label className="filter-label">Type d'actif</label>
+            <label className="filter-label">Asset Type</label>
             <select 
               value={selectedAssetType} 
               onChange={(e) => setSelectedAssetType(e.target.value as AssetType | 'ALL')}
               className="filter-select-premium"
             >
-              <option value="ALL">Tous les types</option>
+              <option value="ALL">All types</option>
               {assetTypes.map(type => (
                 <option key={type} value={type}>{getAssetTypeLabel(type)}</option>
               ))}
@@ -150,7 +150,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
           </div>
 
           <div className="filter-item">
-            <label className="filter-label">Valeur minimale</label>
+            <label className="filter-label">Minimum value</label>
             <input 
               type="number" 
               value={minValue}
@@ -161,27 +161,27 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
           </div>
 
           <div className="filter-item">
-            <label className="filter-label">Valeur maximale</label>
+            <label className="filter-label">Maximum value</label>
             <input 
               type="number" 
               value={maxValue}
               onChange={(e) => setMaxValue(e.target.value)}
-              placeholder="Aucune limite"
+              placeholder="No limit"
               className="filter-input-premium"
             />
           </div>
 
           <div className="filter-item">
-            <label className="filter-label">Niveau de risque</label>
+            <label className="filter-label">Risk level</label>
             <select 
               value={selectedRiskClass} 
               onChange={(e) => setSelectedRiskClass(e.target.value as any)}
               className="filter-select-premium"
             >
-              <option value="ALL">Tous les niveaux</option>
-              <option value="SAFE">Sûr (0-30)</option>
-              <option value="MODERATE">Modéré (31-60)</option>
-              <option value="RISKY">Risqué (61-100)</option>
+              <option value="ALL">All levels</option>
+              <option value="SAFE">Safe (0-30)</option>
+              <option value="MODERATE">Moderate (31-60)</option>
+              <option value="RISKY">Risky (61-100)</option>
             </select>
           </div>
         </div>
@@ -191,7 +191,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
       {loading ? (
         <div className="explore-loading">
           <div className="loading-spinner-large"></div>
-          <p>Chargement des NFT RWA...</p>
+          <p>Loading NFT RWA...</p>
         </div>
       ) : (
         <div className="explore-nft-grid">
@@ -256,7 +256,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
                     <span className="meta-value-premium">#{nft.tokenId}</span>
                   </div>
                   <div className="meta-row">
-                    <span className="meta-label-premium">Score risque</span>
+                    <span className="meta-label-premium">Risk Score</span>
                     <span className="meta-value-premium">{nft.riskScore}/100</span>
                   </div>
                 </div>
@@ -271,7 +271,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
                     handleSelectNFT(nft)
                   }}
                 >
-                  {selectedNFT?.id === nft.id ? '✓ Sélectionné' : 'Sélectionner'}
+                  {selectedNFT?.id === nft.id ? '✓ Selected' : 'Select'}
                 </button>
               </div>
             </div>
@@ -279,12 +279,12 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
         </div>
       )}
 
-      {/* Message si aucun résultat */}
+      {/* Message if no results */}
       {!loading && nfts.length === 0 && (
         <div className="explore-empty-state">
           <div className="empty-state-icon">🔍</div>
-          <h3>Aucun NFT trouvé</h3>
-          <p>Essayez de modifier vos filtres pour voir plus de résultats</p>
+          <h3>No NFT found</h3>
+          <p>Try modifying your filters to see more results</p>
         </div>
       )}
     </div>

@@ -210,3 +210,4 @@ export interface InsuranceOption {
   impactOnRate: number // -0.5% si assurance complète
 }
 
+

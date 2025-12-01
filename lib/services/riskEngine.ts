@@ -212,3 +212,4 @@ function calculateMonthlyPayment(principal: number, annualRate: number, months: 
   return (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1)
 }
 
+
