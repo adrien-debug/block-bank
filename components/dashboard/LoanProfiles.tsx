@@ -48,168 +48,233 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
   }
 
   return (
-    <div className="loan-profiles-page">
-      <div className="page-header">
-        <div>
-          <h1>Choisissez votre profil de prêt</h1>
-          <p className="page-subtitle">3 options adaptées à votre situation</p>
+    <div className="loan-profiles-page-premium">
+      {/* Header Premium */}
+      <div className="profiles-page-header">
+        <div className="profiles-header-content">
+          <div>
+            <h1 className="profiles-title">Choisissez votre profil de prêt</h1>
+            <p className="profiles-subtitle">3 options adaptées à votre situation et votre profil de risque</p>
+          </div>
         </div>
       </div>
 
-      {/* NFT Rappel */}
-      <div className="nft-reminder">
-        <div className="nft-reminder-info">
-          <span className="nft-reminder-label">NFT sélectionné</span>
-          <span className="nft-reminder-name">{nft.name}</span>
-        </div>
-        <div className="nft-reminder-value">
-          {formatCurrency(nft.value)} {nft.valueCurrency}
+      {/* NFT Rappel Premium */}
+      <div className="profiles-nft-reminder-card">
+        <div className="nft-reminder-content">
+          <div className="nft-reminder-icon">
+            {nft.assetType === 'REAL_ESTATE' && '🏢'}
+            {nft.assetType === 'MINING' && '⛏️'}
+            {nft.assetType === 'INFRASTRUCTURE' && '🏗️'}
+            {nft.assetType === 'COMMODITIES' && '💎'}
+            {nft.assetType === 'OTHER' && '📦'}
+          </div>
+          <div className="nft-reminder-info">
+            <span className="nft-reminder-label">NFT sélectionné</span>
+            <span className="nft-reminder-name">{nft.name}</span>
+          </div>
+          <div className="nft-reminder-value">
+            <span className="value-amount">{formatCurrency(nft.value)}</span>
+            <span className="value-currency">{nft.valueCurrency}</span>
+          </div>
         </div>
       </div>
 
-      {/* 3 Profils */}
-      <div className="profiles-grid">
+      {/* 3 Profils Premium */}
+      <div className="profiles-grid-premium">
         {profilesWithRecommendation.map((profile) => (
           <div 
             key={profile.profile}
-            className={`profile-card ${selectedProfile?.profile === profile.profile ? 'selected' : ''} ${profile.recommended ? 'recommended' : ''}`}
+            className={`profile-card-premium ${selectedProfile?.profile === profile.profile ? 'selected' : ''} ${profile.recommended ? 'recommended' : ''}`}
             onClick={() => handleSelectProfile(profile)}
           >
             {profile.recommended && (
-              <div className="profile-recommended-badge">Recommandé</div>
+              <div className="profile-recommended-badge-premium">
+                <span className="badge-icon">⭐</span>
+                <span>Recommandé</span>
+              </div>
             )}
             
-            <div className="profile-header">
-              <div className="profile-badge profile-badge-safe">
+            {selectedProfile?.profile === profile.profile && (
+              <div className="profile-selected-indicator">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" fill="var(--color-primary-500)" />
+                  <path d="M9 12L11 14L15 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            )}
+            
+            <div className="profile-card-header-premium">
+              <div className={`profile-badge-premium profile-${profile.profile.toLowerCase()}`}>
                 {profile.profile === 'SAFE' && 'Sécurisé'}
                 {profile.profile === 'BALANCED' && 'Équilibré'}
                 {profile.profile === 'MAX_LEVERAGE' && 'Leverage Max'}
               </div>
             </div>
 
-            <div className="profile-content">
-              <div className="profile-main-metric">
-                <div className="metric-label">Apport requis</div>
-                <div className="metric-value-large">
-                  {formatCurrency(profile.downPayment)} {nft.valueCurrency}
+            <div className="profile-card-body-premium">
+              {/* Apport Principal */}
+              <div className="profile-main-metric-premium">
+                <div className="metric-label-premium">Apport requis</div>
+                <div className="metric-value-premium-large">
+                  {formatCurrency(profile.downPayment)}
                 </div>
-                <div className="metric-percent">{profile.downPaymentPercent}%</div>
+                <div className="metric-currency">{nft.valueCurrency}</div>
+                <div className="metric-percent-badge">{profile.downPaymentPercent}%</div>
               </div>
 
-              <div className="profile-details">
-                <div className="profile-detail-row">
-                  <span className="detail-label">Montant prêt</span>
-                  <span className="detail-value">{formatCurrency(profile.loanAmount)} {nft.valueCurrency}</span>
+              {/* Détails */}
+              <div className="profile-details-premium">
+                <div className="profile-detail-item">
+                  <span className="detail-label-premium">Montant prêt</span>
+                  <span className="detail-value-premium">{formatCurrency(profile.loanAmount)} {nft.valueCurrency}</span>
                 </div>
-                <div className="profile-detail-row">
-                  <span className="detail-label">LTV</span>
-                  <span className="detail-value">{profile.ltv.toFixed(1)}%</span>
+                <div className="profile-detail-item">
+                  <span className="detail-label-premium">LTV</span>
+                  <span className="detail-value-premium">{profile.ltv.toFixed(1)}%</span>
                 </div>
-                <div className="profile-detail-row">
-                  <span className="detail-label">Taux APY</span>
-                  <span className="detail-value">{profile.interestRate.toFixed(2)}%</span>
+                <div className="profile-detail-item">
+                  <span className="detail-label-premium">Taux APY</span>
+                  <span className="detail-value-premium">{profile.interestRate.toFixed(2)}%</span>
                 </div>
-                <div className="profile-detail-row">
-                  <span className="detail-label">Durée</span>
-                  <span className="detail-value">{profile.duration} mois</span>
+                <div className="profile-detail-item">
+                  <span className="detail-label-premium">Durée</span>
+                  <span className="detail-value-premium">{profile.duration} mois</span>
                 </div>
-                <div className="profile-detail-row highlight">
-                  <span className="detail-label">Mensualité</span>
-                  <span className="detail-value-large">{formatCurrency(profile.monthlyPayment)} {nft.valueCurrency}</span>
+                
+                <div className="profile-detail-divider"></div>
+                
+                <div className="profile-detail-item highlight-premium">
+                  <span className="detail-label-premium">Mensualité</span>
+                  <span className="detail-value-premium-large">{formatCurrency(profile.monthlyPayment)} {nft.valueCurrency}</span>
                 </div>
+                
                 {profile.insurancePremium && (
-                  <div className="profile-detail-row">
-                    <span className="detail-label">Assurance</span>
-                    <span className="detail-value">
-                      {profile.insuranceRequired ? 'Obligatoire' : 'Optionnelle'}
-                      {' • '}
-                      {formatCurrency(profile.insurancePremium)} {nft.valueCurrency}/an
+                  <div className="profile-detail-item">
+                    <span className="detail-label-premium">Assurance</span>
+                    <span className="detail-value-premium">
+                      <span className={`insurance-badge ${profile.insuranceRequired ? 'required' : 'optional'}`}>
+                        {profile.insuranceRequired ? 'Obligatoire' : 'Optionnelle'}
+                      </span>
+                      <span className="insurance-premium"> {formatCurrency(profile.insurancePremium)} {nft.valueCurrency}/an</span>
                     </span>
                   </div>
                 )}
               </div>
 
-              <div className="profile-total-cost">
-                <div className="total-cost-label">Coût total</div>
-                <div className="total-cost-value">{formatCurrency(profile.totalCost)} {nft.valueCurrency}</div>
+              {/* Coût Total */}
+              <div className="profile-total-cost-premium">
+                <div className="total-cost-label-premium">Coût total</div>
+                <div className="total-cost-value-premium">{formatCurrency(profile.totalCost)} {nft.valueCurrency}</div>
               </div>
             </div>
 
-            <div className="profile-footer">
+            <div className="profile-card-footer-premium">
               <button 
-                className={`btn-profile-select ${selectedProfile?.profile === profile.profile ? 'selected' : ''}`}
+                className={`btn-profile-select-premium ${selectedProfile?.profile === profile.profile ? 'selected' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   handleSelectProfile(profile)
                 }}
               >
-                {selectedProfile?.profile === profile.profile ? '✓ Sélectionné' : 'Choisir'}
+                {selectedProfile?.profile === profile.profile ? (
+                  <>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <circle cx="10" cy="10" r="9" fill="currentColor" />
+                      <path d="M7 10L9 12L13 8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span>Sélectionné</span>
+                  </>
+                ) : (
+                  <span>Sélectionner</span>
+                )}
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Comparaison Tableau */}
+      {/* Comparaison Tableau Premium */}
       {selectedProfile && (
-        <div className="profile-comparison">
-          <h2>Comparaison des profils</h2>
-          <div className="comparison-table">
-            <div className="comparison-header">
-              <div className="comparison-cell">Critère</div>
-              <div className="comparison-cell">SAFE</div>
-              <div className="comparison-cell">BALANCED</div>
-              <div className="comparison-cell">MAX LEVERAGE</div>
-            </div>
-            {profiles.map((profile) => (
-              <div key={profile.profile} className="comparison-row">
-                <div className="comparison-cell label">Apport</div>
-                <div className="comparison-cell">{formatCurrency(profile.downPayment)} {nft.valueCurrency}</div>
-                <div className="comparison-cell">{formatCurrency(profiles[1].downPayment)} {nft.valueCurrency}</div>
-                <div className="comparison-cell">{formatCurrency(profiles[2].downPayment)} {nft.valueCurrency}</div>
+        <div className="profile-comparison-premium">
+          <div className="comparison-card-premium">
+            <h2 className="comparison-title">Comparaison des profils</h2>
+            <div className="comparison-table-premium">
+              <div className="comparison-header-premium">
+                <div className="comparison-cell-premium header">Critère</div>
+                <div className="comparison-cell-premium header">SAFE</div>
+                <div className="comparison-cell-premium header">BALANCED</div>
+                <div className="comparison-cell-premium header">MAX LEVERAGE</div>
               </div>
-            ))}
-            <div className="comparison-row">
-              <div className="comparison-cell label">Mensualité</div>
-              <div className="comparison-cell">{formatCurrency(profiles[0].monthlyPayment)} {nft.valueCurrency}</div>
-              <div className="comparison-cell">{formatCurrency(profiles[1].monthlyPayment)} {nft.valueCurrency}</div>
-              <div className="comparison-cell">{formatCurrency(profiles[2].monthlyPayment)} {nft.valueCurrency}</div>
-            </div>
-            <div className="comparison-row">
-              <div className="comparison-cell label">Coût total</div>
-              <div className="comparison-cell">{formatCurrency(profiles[0].totalCost)} {nft.valueCurrency}</div>
-              <div className="comparison-cell">{formatCurrency(profiles[1].totalCost)} {nft.valueCurrency}</div>
-              <div className="comparison-cell">{formatCurrency(profiles[2].totalCost)} {nft.valueCurrency}</div>
+              <div className="comparison-row-premium">
+                <div className="comparison-cell-premium label">Apport</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[0].downPayment)} {nft.valueCurrency}</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[1].downPayment)} {nft.valueCurrency}</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[2].downPayment)} {nft.valueCurrency}</div>
+              </div>
+              <div className="comparison-row-premium">
+                <div className="comparison-cell-premium label">Montant prêt</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[0].loanAmount)} {nft.valueCurrency}</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[1].loanAmount)} {nft.valueCurrency}</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[2].loanAmount)} {nft.valueCurrency}</div>
+              </div>
+              <div className="comparison-row-premium">
+                <div className="comparison-cell-premium label">LTV</div>
+                <div className="comparison-cell-premium">{profiles[0].ltv.toFixed(1)}%</div>
+                <div className="comparison-cell-premium">{profiles[1].ltv.toFixed(1)}%</div>
+                <div className="comparison-cell-premium">{profiles[2].ltv.toFixed(1)}%</div>
+              </div>
+              <div className="comparison-row-premium">
+                <div className="comparison-cell-premium label">Taux APY</div>
+                <div className="comparison-cell-premium">{profiles[0].interestRate.toFixed(2)}%</div>
+                <div className="comparison-cell-premium">{profiles[1].interestRate.toFixed(2)}%</div>
+                <div className="comparison-cell-premium">{profiles[2].interestRate.toFixed(2)}%</div>
+              </div>
+              <div className="comparison-row-premium">
+                <div className="comparison-cell-premium label">Mensualité</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[0].monthlyPayment)} {nft.valueCurrency}</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[1].monthlyPayment)} {nft.valueCurrency}</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[2].monthlyPayment)} {nft.valueCurrency}</div>
+              </div>
+              <div className="comparison-row-premium">
+                <div className="comparison-cell-premium label">Coût total</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[0].totalCost)} {nft.valueCurrency}</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[1].totalCost)} {nft.valueCurrency}</div>
+                <div className="comparison-cell-premium">{formatCurrency(profiles[2].totalCost)} {nft.valueCurrency}</div>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Recommandation */}
-      <div className="profile-recommendation">
-        <div className="recommendation-content">
-          <h3>Recommandation</h3>
-          <p>
-            {selectedProfile?.profile === 'SAFE' && 
-              'Le profil SAFE offre la meilleure sécurité avec un apport élevé et des conditions favorables. Idéal si vous privilégiez la stabilité.'}
-            {selectedProfile?.profile === 'BALANCED' && 
-              'Le profil BALANCED offre le meilleur équilibre entre apport et leverage. Recommandé pour la plupart des utilisateurs.'}
-            {selectedProfile?.profile === 'MAX_LEVERAGE' && 
-              'Le profil MAX LEVERAGE maximise votre capacité d\'emprunt mais nécessite une assurance obligatoire. Idéal si vous avez confiance en votre capacité de remboursement.'}
-            {!selectedProfile && 
-              'Sélectionnez un profil pour voir la recommandation personnalisée.'}
-          </p>
+      {/* Recommandation Premium */}
+      <div className="profile-recommendation-premium">
+        <div className="recommendation-card-premium">
+          <div className="recommendation-icon">💡</div>
+          <div className="recommendation-content-premium">
+            <h3 className="recommendation-title">Recommandation</h3>
+            <p className="recommendation-text">
+              {selectedProfile?.profile === 'SAFE' && 
+                'Le profil SAFE offre la meilleure sécurité avec un apport élevé et des conditions favorables. Idéal si vous privilégiez la stabilité et la réduction des risques.'}
+              {selectedProfile?.profile === 'BALANCED' && 
+                'Le profil BALANCED offre le meilleur équilibre entre apport et leverage. Recommandé pour la plupart des utilisateurs cherchant un compromis optimal.'}
+              {selectedProfile?.profile === 'MAX_LEVERAGE' && 
+                'Le profil MAX LEVERAGE maximise votre capacité d\'emprunt mais nécessite une assurance obligatoire. Idéal si vous avez confiance en votre capacité de remboursement et souhaitez optimiser votre capital.'}
+              {!selectedProfile && 
+                'Sélectionnez un profil pour voir la recommandation personnalisée basée sur votre sélection.'}
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="profile-actions">
+      {/* Actions Premium */}
+      <div className="profile-actions-premium">
         <button 
-          className="btn-primary btn-large"
+          className="btn-primary btn-large-premium"
           onClick={handleConfirm}
           disabled={!selectedProfile}
         >
-          Confirmer et continuer
+          {selectedProfile ? 'Confirmer et continuer' : 'Sélectionnez un profil'}
         </button>
       </div>
     </div>

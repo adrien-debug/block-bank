@@ -6,19 +6,14 @@ import Loans from './dashboard/Loans'
 import NFTAssets from './dashboard/NFTAssets'
 import Insurance from './dashboard/Insurance'
 import Profile from './dashboard/Profile'
-import MarketplaceNFT from './dashboard/MarketplaceNFT'
-import LoanConditions from './dashboard/LoanConditions'
-import LoanProfiles from './dashboard/LoanProfiles'
-import LoanValidation from './dashboard/LoanValidation'
-import LoanProcess from './dashboard/LoanProcess'
+import Explore from './dashboard/Explore'
 import DashboardIcon from './icons/DashboardIcon'
 import StarIcon from './icons/StarIcon'
 import MoneyIcon from './icons/MoneyIcon'
 import NFTIcon from './icons/NFTIcon'
 import ShieldIcon from './icons/ShieldIcon'
 import UserIcon from './icons/UserIcon'
-import { NFTRWA, LoanConditions as LoanConditionsType, LoanProfileOption } from '@/types'
-import { calculateCreditTier } from '@/lib/services/riskEngine'
+import ExploreIcon from './icons/ExploreIcon'
 
 declare global {
   interface Window {
@@ -26,24 +21,12 @@ declare global {
   }
 }
 
-type Tab = 'dashboard' | 'credit-score' | 'loans' | 'nft' | 'insurance' | 'profile'
-type LoanFlowStep = 'marketplace' | 'conditions' | 'profiles' | 'validation' | 'process' | null
+type Tab = 'dashboard' | 'explore' | 'credit-score' | 'loans' | 'nft' | 'insurance' | 'profile'
 
 export default function Dashboard() {
   const [address, setAddress] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>('dashboard')
   const [isMenuOpen, setIsMenuOpen] = useState(true)
-  
-  // Loan flow state
-  const [loanFlowStep, setLoanFlowStep] = useState<LoanFlowStep>(null)
-  const [selectedNFT, setSelectedNFT] = useState<NFTRWA | null>(null)
-  const [loanConditions, setLoanConditions] = useState<LoanConditionsType | null>(null)
-  const [selectedProfile, setSelectedProfile] = useState<LoanProfileOption | null>(null)
-  
-  // User data (mock - en production depuis API/context)
-  const creditScore = 750
-  const creditTier = calculateCreditTier(creditScore)
-  const walletBalance = 200000 // Mock balance
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -59,6 +42,7 @@ export default function Dashboard() {
 
   const tabs = [
     { id: 'dashboard' as Tab, label: 'Dashboard', icon: DashboardIcon },
+    { id: 'explore' as Tab, label: 'Explore', icon: ExploreIcon },
     { id: 'credit-score' as Tab, label: 'Credit Score', icon: StarIcon },
     { id: 'loans' as Tab, label: 'Mes Prêts', icon: MoneyIcon },
     { id: 'nft' as Tab, label: 'NFT RWA', icon: NFTIcon },
@@ -352,78 +336,10 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+        {activeTab === 'explore' && <Explore />}
         {activeTab === 'credit-score' && <CreditScore />}
-        {activeTab === 'loans' && (
-          <Loans 
-            onNewLoan={() => {
-              setLoanFlowStep('marketplace')
-              setActiveTab('nft')
-            }}
-          />
-        )}
-        {activeTab === 'nft' && (
-          loanFlowStep === 'marketplace' ? (
-            <MarketplaceNFT 
-              onSelectNFT={(nft) => {
-                setSelectedNFT(nft)
-                setLoanFlowStep('conditions')
-              }}
-            />
-          ) : loanFlowStep === 'conditions' && selectedNFT ? (
-            <LoanConditions
-              nft={selectedNFT}
-              creditScore={creditScore}
-              creditTier={creditTier}
-              onConditionsReady={(conditions) => {
-                setLoanConditions(conditions)
-                setLoanFlowStep('profiles')
-              }}
-            />
-          ) : loanFlowStep === 'profiles' && selectedNFT && loanConditions ? (
-            <LoanProfiles
-              nft={selectedNFT}
-              conditions={loanConditions}
-              creditTier={creditTier}
-              onSelectProfile={(profile) => {
-                setSelectedProfile(profile)
-                setLoanFlowStep('validation')
-              }}
-            />
-          ) : loanFlowStep === 'validation' && selectedNFT && selectedProfile ? (
-            <LoanValidation
-              nft={selectedNFT}
-              profile={selectedProfile}
-              creditScore={creditScore}
-              creditTier={creditTier}
-              walletBalance={walletBalance}
-              onConfirm={() => {
-                setLoanFlowStep('process')
-              }}
-              onBack={() => {
-                setLoanFlowStep('profiles')
-              }}
-            />
-          ) : loanFlowStep === 'process' && selectedNFT && selectedProfile ? (
-            <LoanProcess
-              nft={selectedNFT}
-              profile={selectedProfile}
-              onComplete={() => {
-                // Reset flow
-                setLoanFlowStep(null)
-                setSelectedNFT(null)
-                setLoanConditions(null)
-                setSelectedProfile(null)
-                setActiveTab('loans')
-              }}
-            />
-          ) : (
-            <NFTAssets 
-              onUseForLoan={() => {
-                setLoanFlowStep('marketplace')
-              }}
-            />
-          )
-        )}
+        {activeTab === 'loans' && <Loans />}
+        {activeTab === 'nft' && <NFTAssets />}
         {activeTab === 'insurance' && <Insurance />}
         {activeTab === 'profile' && <Profile />}
       </div>

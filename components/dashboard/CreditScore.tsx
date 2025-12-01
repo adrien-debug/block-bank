@@ -94,8 +94,8 @@ export default function CreditScore() {
       maxAmount: '1,000,000 USDC',
       benefits: ['Taux préférentiels', 'LTV élevé', 'Processus accéléré', 'Support prioritaire']
     },
-    B: { ltv: '50-60%', rate: '8.5-10.5%', maxAmount: '500,000 USDC' },
-    C: { ltv: '40-50%', rate: '10.5-12.5%', maxAmount: '250,000 USDC' },
+    B: { ltv: '50-60%', rate: '8.5-10.5%', maxAmount: '500,000 USDC', benefits: [] },
+    C: { ltv: '40-50%', rate: '10.5-12.5%', maxAmount: '250,000 USDC', benefits: [] },
   }
 
   const currentTier = tierInfo[tier as keyof typeof tierInfo]
@@ -147,7 +147,7 @@ export default function CreditScore() {
           <div className="score-benefits">
             <h3>Avantages de votre score</h3>
             <div className="benefits-grid">
-              {currentTier.benefits.map((benefit, index) => (
+              {currentTier.benefits && currentTier.benefits.map((benefit: string, index: number) => (
                 <div key={index} className="benefit-item">
                   <span className="benefit-icon">✓</span>
                   <span>{benefit}</span>

@@ -1,10 +1,6 @@
 'use client'
 
-interface NFTAssetsProps {
-  onUseForLoan?: () => void
-}
-
-export default function NFTAssets({ onUseForLoan }: NFTAssetsProps) {
+export default function NFTAssets() {
   const nftAssets = [
     {
       id: 1,
@@ -68,14 +64,7 @@ export default function NFTAssets({ onUseForLoan }: NFTAssetsProps) {
               {nft.status === 'available' && (
                 <>
                   <button className="btn-secondary">Voir détails</button>
-                  <button 
-                    className="btn-primary"
-                    onClick={() => {
-                      if (onUseForLoan) {
-                        onUseForLoan()
-                      }
-                    }}
-                  >
+                  <button className="btn-primary">
                     Utiliser pour prêt
                   </button>
                 </>

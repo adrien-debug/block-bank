@@ -17,14 +17,22 @@ export default function Home() {
 
   useEffect(() => {
     // Vérifier la connexion au chargement
-    if (typeof window !== 'undefined' && window.ethereum) {
-      window.ethereum.request({ method: 'eth_accounts' }).then((accounts: string[]) => {
-        setIsConnected(accounts.length > 0)
-      }).catch(() => {
-        // Ignorer les erreurs silencieusement
-      })
+    const checkInitialConnection = async () => {
+      if (typeof window !== 'undefined' && window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' })
+          setIsConnected(accounts.length > 0)
+        } catch (error) {
+          console.error('Erreur vérification connexion initiale:', error)
+          setIsConnected(false)
+        }
+      }
+    }
+    
+    checkInitialConnection()
 
-      // Écouter les changements de compte
+    // Écouter aussi les changements depuis MetaMask directement
+    if (typeof window !== 'undefined' && window.ethereum) {
       const handleAccountsChanged = (accounts: string[]) => {
         setIsConnected(accounts.length > 0)
       }
@@ -39,6 +47,14 @@ export default function Home() {
     }
   }, [])
 
+  const handleWalletConnect = (address: string) => {
+    setIsConnected(true)
+  }
+
+  const handleWalletDisconnect = () => {
+    setIsConnected(false)
+  }
+
   return (
     <div className="app">
       <header className="app-header">
@@ -47,7 +63,10 @@ export default function Home() {
             <Logo />
             <span className="logo-text">BLOCKBANK</span>
           </div>
-          <WalletConnect />
+          <WalletConnect 
+            onConnect={handleWalletConnect}
+            onDisconnect={handleWalletDisconnect}
+          />
         </div>
       </header>
 

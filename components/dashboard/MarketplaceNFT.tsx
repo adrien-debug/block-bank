@@ -12,7 +12,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
   const [nfts, setNfts] = useState<NFTRWA[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedNFT, setSelectedNFT] = useState<NFTRWA | null>(null)
-  const [showDetails, setShowDetails] = useState(false)
+  const [hoveredNFT, setHoveredNFT] = useState<string | null>(null)
   
   // Filtres
   const [selectedMarketplace, setSelectedMarketplace] = useState<Marketplace | 'ALL'>('ALL')
@@ -49,13 +49,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
 
   const handleSelectNFT = (nft: NFTRWA) => {
     setSelectedNFT(nft)
-    setShowDetails(true)
-  }
-
-  const handleUseForLoan = () => {
-    if (selectedNFT) {
-      onSelectNFT(selectedNFT)
-    }
+    onSelectNFT(nft)
   }
 
   const getMarketplaceLabel = (marketplace: Marketplace): string => {
@@ -92,138 +86,192 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
   }
 
   return (
-    <div className="marketplace-nft-page">
-      <div className="page-header">
-        <div>
-          <h1>Sélectionner un NFT RWA</h1>
-          <p className="page-subtitle">Choisissez un actif réel tokenisé depuis nos marketplaces partenaires</p>
+    <div className="explore-marketplace-page">
+      {/* Header Premium */}
+      <div className="explore-page-header">
+        <div className="explore-header-content">
+          <div>
+            <h1 className="explore-title">Explore NFT RWA</h1>
+            <p className="explore-subtitle">Sélectionnez un actif réel tokenisé pour créer votre prêt</p>
+          </div>
+          <div className="explore-stats">
+            <div className="stat-item">
+              <span className="stat-value">{nfts.length}</span>
+              <span className="stat-label">NFT disponibles</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Filtres */}
-      <div className="marketplace-filters">
-        <div className="filter-group">
-          <label>Marketplace</label>
-          <select 
-            value={selectedMarketplace} 
-            onChange={(e) => setSelectedMarketplace(e.target.value as Marketplace | 'ALL')}
-            className="filter-select"
+      {/* Filtres Premium */}
+      <div className="explore-filters-card">
+        <div className="filters-header">
+          <h3>Filtres</h3>
+          <button 
+            className="btn-ghost-small"
+            onClick={() => {
+              setSelectedMarketplace('ALL')
+              setSelectedAssetType('ALL')
+              setMinValue('')
+              setMaxValue('')
+              setSelectedRiskClass('ALL')
+            }}
           >
-            <option value="ALL">Toutes</option>
-            {marketplaces.map(mp => (
-              <option key={mp} value={mp}>{getMarketplaceLabel(mp)}</option>
-            ))}
-          </select>
+            Réinitialiser
+          </button>
         </div>
+        <div className="filters-grid">
+          <div className="filter-item">
+            <label className="filter-label">Marketplace</label>
+            <select 
+              value={selectedMarketplace} 
+              onChange={(e) => setSelectedMarketplace(e.target.value as Marketplace | 'ALL')}
+              className="filter-select-premium"
+            >
+              <option value="ALL">Toutes les marketplaces</option>
+              {marketplaces.map(mp => (
+                <option key={mp} value={mp}>{getMarketplaceLabel(mp)}</option>
+              ))}
+            </select>
+          </div>
 
-        <div className="filter-group">
-          <label>Type d'actif</label>
-          <select 
-            value={selectedAssetType} 
-            onChange={(e) => setSelectedAssetType(e.target.value as AssetType | 'ALL')}
-            className="filter-select"
-          >
-            <option value="ALL">Tous</option>
-            {assetTypes.map(type => (
-              <option key={type} value={type}>{getAssetTypeLabel(type)}</option>
-            ))}
-          </select>
-        </div>
+          <div className="filter-item">
+            <label className="filter-label">Type d'actif</label>
+            <select 
+              value={selectedAssetType} 
+              onChange={(e) => setSelectedAssetType(e.target.value as AssetType | 'ALL')}
+              className="filter-select-premium"
+            >
+              <option value="ALL">Tous les types</option>
+              {assetTypes.map(type => (
+                <option key={type} value={type}>{getAssetTypeLabel(type)}</option>
+              ))}
+            </select>
+          </div>
 
-        <div className="filter-group">
-          <label>Valeur min (USDC)</label>
-          <input 
-            type="number" 
-            value={minValue}
-            onChange={(e) => setMinValue(e.target.value)}
-            placeholder="0"
-            className="filter-input"
-          />
-        </div>
+          <div className="filter-item">
+            <label className="filter-label">Valeur minimale</label>
+            <input 
+              type="number" 
+              value={minValue}
+              onChange={(e) => setMinValue(e.target.value)}
+              placeholder="0 USDC"
+              className="filter-input-premium"
+            />
+          </div>
 
-        <div className="filter-group">
-          <label>Valeur max (USDC)</label>
-          <input 
-            type="number" 
-            value={maxValue}
-            onChange={(e) => setMaxValue(e.target.value)}
-            placeholder="∞"
-            className="filter-input"
-          />
-        </div>
+          <div className="filter-item">
+            <label className="filter-label">Valeur maximale</label>
+            <input 
+              type="number" 
+              value={maxValue}
+              onChange={(e) => setMaxValue(e.target.value)}
+              placeholder="Aucune limite"
+              className="filter-input-premium"
+            />
+          </div>
 
-        <div className="filter-group">
-          <label>Risque</label>
-          <select 
-            value={selectedRiskClass} 
-            onChange={(e) => setSelectedRiskClass(e.target.value as any)}
-            className="filter-select"
-          >
-            <option value="ALL">Tous</option>
-            <option value="SAFE">Sûr</option>
-            <option value="MODERATE">Modéré</option>
-            <option value="RISKY">Risqué</option>
-          </select>
+          <div className="filter-item">
+            <label className="filter-label">Niveau de risque</label>
+            <select 
+              value={selectedRiskClass} 
+              onChange={(e) => setSelectedRiskClass(e.target.value as any)}
+              className="filter-select-premium"
+            >
+              <option value="ALL">Tous les niveaux</option>
+              <option value="SAFE">Sûr (0-30)</option>
+              <option value="MODERATE">Modéré (31-60)</option>
+              <option value="RISKY">Risqué (61-100)</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      {/* Liste NFT */}
+      {/* Grille NFT Premium */}
       {loading ? (
-        <div className="loading-state">
-          <div className="loading-spinner"></div>
+        <div className="explore-loading">
+          <div className="loading-spinner-large"></div>
           <p>Chargement des NFT RWA...</p>
         </div>
       ) : (
-        <div className="nft-grid-marketplace">
+        <div className="explore-nft-grid">
           {nfts.map((nft) => (
-            <div key={nft.id} className="nft-card-marketplace">
-              <div className="nft-card-header">
-                <span className="nft-marketplace-badge">{getMarketplaceLabel(nft.marketplace)}</span>
-                <span className={`nft-risk-badge ${getRiskBadgeClass(nft.riskClass)}`}>
+            <div 
+              key={nft.id} 
+              className={`explore-nft-card ${selectedNFT?.id === nft.id ? 'selected' : ''} ${hoveredNFT === nft.id ? 'hovered' : ''}`}
+              onClick={() => handleSelectNFT(nft)}
+              onMouseEnter={() => setHoveredNFT(nft.id)}
+              onMouseLeave={() => setHoveredNFT(null)}
+            >
+              {/* Badges Header */}
+              <div className="nft-card-badges">
+                <span className="nft-marketplace-badge-premium">
+                  {getMarketplaceLabel(nft.marketplace)}
+                </span>
+                <span className={`nft-risk-badge-premium ${getRiskBadgeClass(nft.riskClass)}`}>
                   {nft.riskClass}
                 </span>
               </div>
-              
-              <div className="nft-card-image">
-                <div className="nft-image-placeholder">
-                  {nft.name.charAt(0)}
-                </div>
-              </div>
-              
-              <div className="nft-card-body">
-                <h3>{nft.name}</h3>
-                <p className="nft-type">{getAssetTypeLabel(nft.assetType)}</p>
-                <p className="nft-description">{nft.description}</p>
-                
-                <div className="nft-value-large">
-                  <span className="value-amount">{nft.value.toLocaleString()}</span>
-                  <span className="value-currency">{nft.valueCurrency}</span>
-                </div>
-                
-                <div className="nft-meta">
-                  <div className="meta-item">
-                    <span className="meta-label">Token ID</span>
-                    <span className="meta-value">#{nft.tokenId}</span>
-                  </div>
-                  <div className="meta-item">
-                    <span className="meta-label">Risque</span>
-                    <span className="meta-value">{nft.riskScore}/100</span>
+
+              {/* Image/Preview */}
+              <div className="nft-card-preview">
+                <div className="nft-preview-gradient">
+                  <div className="nft-preview-icon">
+                    {nft.assetType === 'REAL_ESTATE' && '🏢'}
+                    {nft.assetType === 'MINING' && '⛏️'}
+                    {nft.assetType === 'INFRASTRUCTURE' && '🏗️'}
+                    {nft.assetType === 'COMMODITIES' && '💎'}
+                    {nft.assetType === 'OTHER' && '📦'}
                   </div>
                 </div>
+                {selectedNFT?.id === nft.id && (
+                  <div className="nft-selected-indicator">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="10" fill="var(--color-primary-500)" />
+                      <path d="M9 12L11 14L15 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                )}
               </div>
-              
-              <div className="nft-card-actions">
+
+              {/* Card Body */}
+              <div className="nft-card-content">
+                <div className="nft-card-title-section">
+                  <h3 className="nft-card-title">{nft.name}</h3>
+                  <span className="nft-card-type">{getAssetTypeLabel(nft.assetType)}</span>
+                </div>
+
+                <p className="nft-card-description">{nft.description}</p>
+
+                <div className="nft-card-value">
+                  <div className="value-main">
+                    <span className="value-amount-premium">{nft.value.toLocaleString()}</span>
+                    <span className="value-currency-premium">{nft.valueCurrency}</span>
+                  </div>
+                </div>
+
+                <div className="nft-card-meta">
+                  <div className="meta-row">
+                    <span className="meta-label-premium">Token ID</span>
+                    <span className="meta-value-premium">#{nft.tokenId}</span>
+                  </div>
+                  <div className="meta-row">
+                    <span className="meta-label-premium">Score risque</span>
+                    <span className="meta-value-premium">{nft.riskScore}/100</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card Footer */}
+              <div className="nft-card-footer">
                 <button 
-                  className="btn-secondary"
-                  onClick={() => handleSelectNFT(nft)}
+                  className="btn-select-nft"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleSelectNFT(nft)
+                  }}
                 >
-                  Voir détails
-                </button>
-                <button 
-                  className="btn-primary"
-                  onClick={() => handleSelectNFT(nft)}
-                >
-                  Utiliser pour prêt
+                  {selectedNFT?.id === nft.id ? '✓ Sélectionné' : 'Sélectionner'}
                 </button>
               </div>
             </div>
@@ -231,79 +279,12 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
         </div>
       )}
 
-      {/* Modal Détails NFT */}
-      {showDetails && selectedNFT && (
-        <div className="modal-overlay" onClick={() => setShowDetails(false)}>
-          <div className="modal-content-large" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>{selectedNFT.name}</h2>
-              <button className="modal-close" onClick={() => setShowDetails(false)}>×</button>
-            </div>
-            
-            <div className="modal-body">
-              <div className="nft-details-grid">
-                <div className="nft-details-image">
-                  <div className="nft-image-large">
-                    {selectedNFT.name.charAt(0)}
-                  </div>
-                </div>
-                
-                <div className="nft-details-info">
-                  <div className="detail-section">
-                    <h3>Informations</h3>
-                    <div className="detail-row">
-                      <span className="detail-label">Type</span>
-                      <span className="detail-value">{getAssetTypeLabel(selectedNFT.assetType)}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Marketplace</span>
-                      <span className="detail-value">{getMarketplaceLabel(selectedNFT.marketplace)}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Valeur</span>
-                      <span className="detail-value">{selectedNFT.value.toLocaleString()} {selectedNFT.valueCurrency}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Token ID</span>
-                      <span className="detail-value">#{selectedNFT.tokenId}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Contract</span>
-                      <span className="detail-value address">{selectedNFT.contractAddress.slice(0, 10)}...{selectedNFT.contractAddress.slice(-8)}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="detail-section">
-                    <h3>Risque</h3>
-                    <div className="detail-row">
-                      <span className="detail-label">Score risque</span>
-                      <span className="detail-value">{selectedNFT.riskScore}/100</span>
-                    </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Classe</span>
-                      <span className={`detail-value ${getRiskBadgeClass(selectedNFT.riskClass)}`}>
-                        {selectedNFT.riskClass}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="detail-section">
-                    <h3>Description</h3>
-                    <p>{selectedNFT.description}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="modal-footer">
-              <button className="btn-secondary" onClick={() => setShowDetails(false)}>
-                Annuler
-              </button>
-              <button className="btn-primary" onClick={handleUseForLoan}>
-                Utiliser pour prêt
-              </button>
-            </div>
-          </div>
+      {/* Message si aucun résultat */}
+      {!loading && nfts.length === 0 && (
+        <div className="explore-empty-state">
+          <div className="empty-state-icon">🔍</div>
+          <h3>Aucun NFT trouvé</h3>
+          <p>Essayez de modifier vos filtres pour voir plus de résultats</p>
         </div>
       )}
     </div>

@@ -2,11 +2,7 @@
 
 import { useState } from 'react'
 
-interface LoansProps {
-  onNewLoan?: () => void
-}
-
-export default function Loans({ onNewLoan }: LoansProps) {
+export default function Loans() {
   const [showNewLoan, setShowNewLoan] = useState(false)
 
   const activeLoans = [
@@ -41,13 +37,7 @@ export default function Loans({ onNewLoan }: LoansProps) {
       <div className="page-header">
         <h1>Mes Prêts</h1>
         <button 
-          onClick={() => {
-            if (onNewLoan) {
-              onNewLoan()
-            } else {
-              setShowNewLoan(true)
-            }
-          }} 
+          onClick={() => setShowNewLoan(true)} 
           className="btn-primary"
         >
           + Nouveau prêt
