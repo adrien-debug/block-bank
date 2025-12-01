@@ -375,89 +375,45 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Activité récente - Graphique */}
+            {/* Activité récente et alertes */}
             <div className="dashboard-activity">
-              <div className="chart-card-premium">
-                <div className="chart-header-premium">
-                  <div>
-                    <h3>Recent Activity</h3>
-                    <p className="chart-subtitle">Transaction volume and activity over time</p>
-                  </div>
+              <div className="activity-card">
+                <div className="activity-header">
+                  <h3>Recent Activity</h3>
+                  <button className="btn-ghost">View all</button>
                 </div>
-                <div className="chart-container-premium">
-                  <div className="chart-grid-lines">
-                    {[50000, 40000, 30000, 20000, 10000, 0].map((value, index) => (
-                      <div key={index} className="grid-line">
-                        <span className="grid-label">{value.toLocaleString()}</span>
-                      </div>
-                    ))}
+                <div className="activity-list">
+                  <div className="activity-item">
+                    <div className="activity-icon activity-success">
+                      <CheckIcon />
+                    </div>
+                    <div className="activity-content">
+                      <div className="activity-title">Payment received</div>
+                      <div className="activity-desc">Loan #1 - 15,000 USDC</div>
+                      <div className="activity-time">2 hours ago</div>
+                    </div>
+                    <div className="activity-amount">+15,000 USDC</div>
                   </div>
-                  {(() => {
-                    // Activity data - Transaction amounts over time
-                    const activityData = [5000, 12000, 8000, 15000, 22000, 18000, 25000, 30000, 35000, 28000, 32000]
-                    const maxValue = 50000
-                    const minValue = 0
-                    const range = maxValue - minValue
-                    
-                    // Generate path for SVG
-                    const pathPoints = activityData.map((value, index) => {
-                      const x = (index / (activityData.length - 1)) * 1000
-                      const y = 300 - ((value - minValue) / range) * 300
-                      return `${index === 0 ? 'M' : 'L'} ${x},${y}`
-                    }).join(' ')
-                    
-                    const areaPath = `${pathPoints} L 1000,300 L 0,300 Z`
-                    
-                    return (
-                      <>
-                        <div className="chart-points-container">
-                          {activityData.map((value, index, array) => {
-                            const percentage = ((value - minValue) / range) * 100
-                            const leftPercent = (index / (array.length - 1)) * 100
-                            
-                            return (
-                              <div key={index} className="chart-point-premium" style={{ 
-                                left: `${leftPercent}%`,
-                                bottom: `${percentage}%`
-                              }}>
-                                <div className="point-tooltip-premium">{value.toLocaleString()} USDC</div>
-                                <div className="point-dot-premium"></div>
-                              </div>
-                            )
-                          })}
-                        </div>
-                        <div className="line-chart-premium">
-                          <svg className="chart-line-premium" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
-                            <defs>
-                              <linearGradient id="activityGradient-all" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.4" />
-                                <stop offset="50%" stopColor="#409CFF" stopOpacity="0.2" />
-                                <stop offset="100%" stopColor="#0A84FF" stopOpacity="0" />
-                              </linearGradient>
-                              <linearGradient id="activityLineGradient-all" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#0A84FF" />
-                                <stop offset="50%" stopColor="#60A5FA" />
-                                <stop offset="100%" stopColor="#0A84FF" />
-                              </linearGradient>
-                            </defs>
-                            <path 
-                              d={pathPoints} 
-                              stroke="url(#activityLineGradient-all)"
-                              fill="none" 
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path 
-                              d={areaPath} 
-                              fill="url(#activityGradient-all)"
-                              stroke="none"
-                            />
-                          </svg>
-                        </div>
-                      </>
-                    )
-                  })()}
+                  <div className="activity-item">
+                    <div className="activity-icon activity-info">
+                      <ChartIcon />
+                    </div>
+                    <div className="activity-content">
+                      <div className="activity-title">Score updated</div>
+                      <div className="activity-desc">Credit Score: 750 (+12)</div>
+                      <div className="activity-time">1 day ago</div>
+                    </div>
+                  </div>
+                  <div className="activity-item">
+                    <div className="activity-icon activity-warning">
+                      <LockIcon />
+                    </div>
+                    <div className="activity-content">
+                      <div className="activity-title">NFT locked</div>
+                      <div className="activity-desc">Villa Paris - Loan #1</div>
+                      <div className="activity-time">3 days ago</div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
