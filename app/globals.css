@@ -1519,16 +1519,32 @@ html, body {
 .activity-card,
 .alerts-card {
   padding: var(--space-8);
-  background: var(--color-bg-tertiary);
-  border: var(--border-width) solid var(--border-color);
-  border-radius: var(--radius-large);
+  background: radial-gradient(circle at top left, rgba(10, 132, 255, 0.12), transparent 60%), var(--color-bg-deep);
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-subtle);
-  transition: var(--transition-normal);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.activity-card::before,
+.alerts-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary-500), transparent);
+  opacity: 0.6;
 }
 
 .activity-card:hover,
 .alerts-card:hover {
   box-shadow: var(--shadow-elevated);
+  border-color: rgba(10, 132, 255, 0.4);
+  background: radial-gradient(circle at top left, rgba(10, 132, 255, 0.18), transparent 60%), var(--color-bg-deep);
 }
 
 .activity-header,
@@ -1579,8 +1595,9 @@ html, body {
 }
 
 .activity-item:hover {
-  background: var(--color-bg-secondary);
+  background: rgba(10, 132, 255, 0.08);
   transform: translateX(4px);
+  border-left: 2px solid var(--color-primary-500);
 }
 
 .activity-icon {
@@ -1601,7 +1618,7 @@ html, body {
 }
 
 .activity-icon.activity-success {
-  background: rgba(31, 106, 225, 0.15);
+  background: rgba(10, 132, 255, 0.15);
   color: var(--color-primary-500);
 }
 
@@ -1611,7 +1628,7 @@ html, body {
 }
 
 .activity-icon.activity-warning {
-  background: rgba(31, 106, 225, 0.15);
+  background: rgba(10, 132, 255, 0.15);
   color: var(--color-primary-500);
 }
 
