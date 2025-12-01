@@ -333,6 +333,12 @@ export default function Dashboard() {
                                   </linearGradient>
                                 )
                               })}
+                              {/* Dégradé pour le cercle central - même style que les boxes KPI */}
+                              <radialGradient id="donutCenterGradient" cx="50%" cy="30%" r="70%">
+                                <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.12" />
+                                <stop offset="60%" stopColor="#0A84FF" stopOpacity="0.06" />
+                                <stop offset="100%" stopColor="#020617" stopOpacity="1" />
+                              </radialGradient>
                             </defs>
                             {segments.map((segment, index) => (
                               <path
@@ -347,11 +353,11 @@ export default function Dashboard() {
                                 }}
                               />
                             ))}
-                            <circle cx="150" cy="150" r="80" fill="#FFFFFF" />
-                            <text x="150" y="145" textAnchor="middle" className="donut-center-value" fill="#0F172A">
+                            <circle cx="150" cy="150" r="80" fill="url(#donutCenterGradient)" />
+                            <text x="150" y="145" textAnchor="middle" className="donut-center-value" fill="#E5F0FF">
                               {total.toLocaleString()}
                             </text>
-                            <text x="150" y="165" textAnchor="middle" className="donut-center-label" fill="#64748B">
+                            <text x="150" y="165" textAnchor="middle" className="donut-center-label" fill="#94A3B8">
                               USDC
                             </text>
                           </svg>
