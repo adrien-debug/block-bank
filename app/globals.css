@@ -1909,15 +1909,26 @@ html, body {
 
 .stat-card {
   padding: var(--space-8);
-  background: var(--color-bg-secondary);
-  border: var(--border-width) solid var(--border-color);
-  border-radius: var(--radius-large);
+  background: radial-gradient(circle at top left, rgba(10, 132, 255, 0.12), transparent 60%), var(--color-bg-deep);
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  border-radius: var(--radius-lg);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-subtle);
   display: flex;
   gap: var(--space-6);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary-500), transparent);
+  opacity: 0.6;
 }
 
 .stat-card-primary {
@@ -1929,7 +1940,7 @@ html, body {
 }
 
 .stat-card-info {
-  border-left: 3px solid var(--color-primary-500);
+  border-left: 3px solid var(--color-primary-300);
 }
 
 .stat-card-warning {
@@ -2043,8 +2054,8 @@ html, body {
 .stat-card:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: var(--shadow-elevated);
-  border-color: var(--color-primary-500);
-  background: radial-gradient(circle at top left, rgba(10, 132, 255, 0.12), transparent 60%);
+  border-color: rgba(10, 132, 255, 0.4);
+  background: radial-gradient(circle at top left, rgba(10, 132, 255, 0.18), transparent 60%), var(--color-bg-deep);
 }
 
 .stat-label {
