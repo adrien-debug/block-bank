@@ -3,7 +3,7 @@
 import { useState } from 'react'
 
 export default function CreditScore() {
-  const [selectedPeriod, setSelectedPeriod] = useState('6m')
+  const [selectedPeriod, setSelectedPeriod] = useState('all')
   const score = 750
   const tier = 'A'
   const previousScore = 738

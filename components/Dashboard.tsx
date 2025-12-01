@@ -36,8 +36,8 @@ export default function Dashboard() {
   const [address, setAddress] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>('dashboard')
   const [isMenuOpen, setIsMenuOpen] = useState(true)
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('6 months')
-  const [selectedAssetPeriod, setSelectedAssetPeriod] = useState<string>('6 months')
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('All')
+  const [selectedAssetPeriod, setSelectedAssetPeriod] = useState<string>('All')
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
