@@ -1025,7 +1025,6 @@ html, body {
 .profile-page,
 .explore-page,
 .investor-page,
-.loan-conditions-page,
 .loan-validation-page,
 .loan-process-page,
 .explore-marketplace-page,
@@ -1035,41 +1034,424 @@ html, body {
   width: 100%;
 }
 
-/* Loan Validation Page - Premium Styles */
-.loan-validation-page {
-  padding: var(--space-8) 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.validation-summary {
+/* Loading State - Centered */
+.loading-state-large {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
   gap: var(--space-6);
+  padding: var(--space-8);
+  width: 100%;
+}
+
+.loading-state-large h2 {
+  font-size: var(--text-h2);
+  font-weight: var(--font-semibold);
+  font-family: var(--font-brand);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.loading-state-large p {
+  font-size: var(--text-body-large);
+  color: var(--color-text-secondary);
+  font-family: var(--font-ui);
+  margin: 0;
+}
+
+/* Loan Conditions Page - Centered Content */
+.loan-conditions-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--margin-content-horizontal);
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loan-conditions-page > * {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Loan Conditions Sections - Centered */
+.conditions-section {
+  width: 100%;
   margin-bottom: var(--space-8);
 }
 
-.summary-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+.conditions-section h2 {
+  text-align: center;
+  font-size: var(--text-h2);
+  font-weight: var(--font-bold);
+  font-family: var(--font-brand);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-6);
 }
 
-.summary-section h2 {
-  font-size: var(--text-h3);
+.selected-nft-card,
+.risk-analysis-grid,
+.conditions-grid,
+.insurance-options-grid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.risk-analysis-grid,
+.conditions-grid,
+.insurance-options-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  max-width: 100%;
+}
+
+/* Conditions Actions */
+.conditions-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: var(--space-8);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border-default);
+}
+
+.conditions-actions .btn-large {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-body-large);
+  font-weight: var(--font-semibold);
+  min-width: 250px;
+}
+
+/* ====================================
+   LOAN VALIDATION PAGE - STYLES COMPACTS PREMIUM
+   ==================================== */
+.loan-validation-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--margin-content-horizontal);
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+}
+
+.loan-validation-page > * {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Header */
+.loan-validation-page .page-header {
+  margin-bottom: var(--space-4);
+}
+
+.loan-validation-page .page-header h1 {
+  font-size: 20px !important;
   font-weight: var(--font-bold);
   font-family: var(--font-brand);
   color: var(--color-text-primary);
   margin: 0;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.loan-validation-page .page-subtitle {
+  font-size: 11px !important;
+  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+  font-family: var(--font-ui);
+  font-weight: var(--font-normal);
+  line-height: 1.4;
+}
+
+/* Summary Sections */
+.loan-validation-page .validation-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.loan-validation-page .summary-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.loan-validation-page .summary-section h2 {
+  font-size: 11px !important;
+  font-weight: var(--font-semibold);
+  font-family: var(--font-brand);
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.loan-validation-page .summary-section .summary-card {
+  padding: var(--space-2) !important;
+  background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.12), transparent 60%);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loan-validation-page .summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-1) 0 !important;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.loan-validation-page .summary-item:last-child {
+  border-bottom: none;
+}
+
+.loan-validation-page .summary-item.highlight {
+  padding: var(--space-1) var(--space-2) !important;
+  background: rgba(31, 41, 55, 0.1);
+  margin: var(--space-1) calc(-1 * var(--space-2));
+  border-radius: var(--radius-sm);
+  border-bottom: none;
+}
+
+.loan-validation-page .summary-item.total {
+  padding: var(--space-1) var(--space-2) !important;
+  background: rgba(31, 41, 55, 0.15);
+  margin: var(--space-1) calc(-1 * var(--space-2));
+  border-radius: var(--radius-sm);
+  border-top: 2px solid var(--color-primary-500);
+  border-bottom: none;
+}
+
+.loan-validation-page .summary-label {
+  font-size: 10px !important;
+  font-weight: var(--font-medium);
+  font-family: var(--font-ui);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.loan-validation-page .summary-value {
+  font-size: 10px !important;
+  font-weight: var(--font-semibold);
+  font-family: var(--font-ui);
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.loan-validation-page .summary-value-large {
+  font-size: 12px !important;
+  font-weight: var(--font-bold);
+  font-family: var(--font-brand);
+  color: var(--color-primary-500);
+  letter-spacing: 0.02em;
+}
+
+.loan-validation-page .summary-value.address {
+  font-family: 'Courier New', monospace;
+  font-size: 10px !important;
+  color: var(--color-text-secondary);
+}
+
+.loan-validation-page .summary-value.profile-badge {
+  padding: var(--space-1) var(--space-2) !important;
+  background: rgba(31, 41, 55, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: var(--radius-sm);
+  font-size: 10px !important;
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Solvency Check */
+.loan-validation-page .solvency-check {
+  padding: var(--space-2) !important;
+  background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.12), transparent 60%);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-subtle);
+  margin-bottom: var(--space-3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loan-validation-page .solvency-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-1);
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.loan-validation-page .solvency-header h3 {
+  font-size: 11px !important;
+  font-weight: var(--font-semibold);
+  font-family: var(--font-brand);
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.loan-validation-page .solvency-status {
+  padding: var(--space-1) var(--space-2) !important;
+  border-radius: var(--radius-sm);
+  font-size: 10px !important;
+  font-weight: var(--font-semibold);
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.loan-validation-page .solvency-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.loan-validation-page .solvency-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-1) 0 !important;
+  font-size: 10px !important;
+  font-family: var(--font-ui);
+}
+
+.loan-validation-page .solvency-item span:first-child {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-medium);
+}
+
+.loan-validation-page .solvency-item span:last-child {
+  color: var(--color-text-primary);
+  font-weight: var(--font-semibold);
+}
+
+.loan-validation-page .solvency-warning {
+  padding: var(--space-2) !important;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #EF4444;
+  border-radius: var(--radius-sm);
+  margin-top: var(--space-1);
+}
+
+.loan-validation-page .solvency-warning p {
+  font-size: 10px !important;
+  font-family: var(--font-ui);
+  color: #EF4444;
+  margin: 0;
+  font-weight: var(--font-medium);
+}
+
+/* Legal Conditions */
+.loan-validation-page .legal-conditions {
+  padding: var(--space-2) !important;
+  background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.12), transparent 60%);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-subtle);
+  margin-bottom: var(--space-3);
+}
+
+.loan-validation-page .legal-conditions h3 {
+  font-size: 11px !important;
+  font-weight: var(--font-semibold);
+  font-family: var(--font-brand);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-1) 0;
+  letter-spacing: 0.02em;
+}
+
+.loan-validation-page .conditions-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.loan-validation-page .checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  font-size: 10px !important;
+  font-family: var(--font-ui);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: var(--space-1) !important;
+  border-radius: var(--radius-sm);
+  transition: background 0.3s ease;
+  line-height: 1.4;
+}
+
+.loan-validation-page .checkbox-label input[type="checkbox"] {
+  width: 14px !important;
+  height: 14px !important;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: var(--color-primary-500);
+  flex-shrink: 0;
+}
+
+/* Validation Actions */
+.loan-validation-page .validation-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.loan-validation-page .validation-actions .btn-large,
+.loan-validation-page .validation-actions .btn-primary,
+.loan-validation-page .validation-actions .btn-secondary {
+  padding: var(--space-2) var(--space-4) !important;
+  font-size: 11px !important;
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-md);
+  min-height: 32px;
+}
+
+.validation-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.summary-section h2 {
+  font-size: 13px;
+  font-weight: var(--font-semibold);
+  font-family: var(--font-brand);
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: 0.02em;
 }
 
 .summary-section .summary-card {
-  padding: var(--space-6);
+  padding: var(--space-3);
   background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.12), transparent 60%);
   border: 1px solid rgba(148, 163, 184, 0.35);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-subtle);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1084,7 +1466,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-4) 0;
+  padding: var(--space-2) 0;
   border-bottom: 1px solid rgba(148, 163, 184, 0.15);
 }
 
@@ -1093,42 +1475,38 @@ html, body {
 }
 
 .summary-item.highlight {
-  padding: var(--space-5) 0;
+  padding: var(--space-2) var(--space-3);
   background: rgba(31, 41, 55, 0.1);
-  margin: var(--space-2) calc(-1 * var(--space-6));
-  padding-left: var(--space-6);
-  padding-right: var(--space-6);
+  margin: var(--space-2) calc(-1 * var(--space-3));
   border-radius: var(--radius-md);
   border-bottom: none;
 }
 
 .summary-item.total {
-  padding: var(--space-5) 0;
+  padding: var(--space-2) var(--space-3);
   background: rgba(31, 41, 55, 0.15);
-  margin: var(--space-2) calc(-1 * var(--space-6));
-  padding-left: var(--space-6);
-  padding-right: var(--space-6);
+  margin: var(--space-2) calc(-1 * var(--space-3));
   border-radius: var(--radius-md);
   border-top: 2px solid var(--color-primary-500);
   border-bottom: none;
 }
 
 .summary-label {
-  font-size: var(--text-body);
+  font-size: 11px;
   font-weight: var(--font-medium);
   font-family: var(--font-ui);
   color: var(--color-text-secondary);
 }
 
 .summary-value {
-  font-size: var(--text-body);
+  font-size: 11px;
   font-weight: var(--font-semibold);
   font-family: var(--font-ui);
   color: var(--color-text-primary);
 }
 
 .summary-value-large {
-  font-size: var(--text-h4);
+  font-size: 13px;
   font-weight: var(--font-bold);
   font-family: var(--font-brand);
   color: var(--color-primary-500);
@@ -1137,7 +1515,7 @@ html, body {
 
 .summary-value.address {
   font-family: 'Courier New', monospace;
-  font-size: var(--text-label);
+  font-size: 11px;
   color: var(--color-text-secondary);
 }
 
@@ -1146,7 +1524,7 @@ html, body {
   background: rgba(31, 41, 55, 0.15);
   border: 1px solid rgba(148, 163, 184, 0.25);
   border-radius: var(--radius-md);
-  font-size: var(--text-label);
+  font-size: 11px;
   font-weight: var(--font-semibold);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1154,12 +1532,12 @@ html, body {
 
 /* Solvency Check */
 .solvency-check {
-  padding: var(--space-6);
+  padding: var(--space-3);
   background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.12), transparent 60%);
   border: 1px solid rgba(148, 163, 184, 0.35);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-subtle);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1177,25 +1555,24 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-4);
-  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-2);
   border-bottom: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .solvency-header h3 {
-  font-size: var(--text-h3);
-  font-weight: var(--font-bold);
+  font-size: 13px;
+  font-weight: var(--font-semibold);
   font-family: var(--font-brand);
   color: var(--color-text-primary);
   margin: 0;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .solvency-status {
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
-  font-size: var(--text-label);
+  font-size: 11px;
   font-weight: var(--font-semibold);
   font-family: var(--font-ui);
   text-transform: uppercase;
@@ -1217,15 +1594,15 @@ html, body {
 .solvency-details {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 
 .solvency-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-3) 0;
-  font-size: var(--text-body);
+  padding: var(--space-2) 0;
+  font-size: 11px;
   font-family: var(--font-ui);
 }
 
@@ -1240,15 +1617,15 @@ html, body {
 }
 
 .solvency-warning {
-  padding: var(--space-4);
+  padding: var(--space-3);
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid #EF4444;
   border-radius: var(--radius-md);
-  margin-top: var(--space-3);
+  margin-top: var(--space-2);
 }
 
 .solvency-warning p {
-  font-size: var(--text-body);
+  font-size: var(--text-label);
   font-family: var(--font-ui);
   color: #EF4444;
   margin: 0;
@@ -1257,39 +1634,38 @@ html, body {
 
 /* Legal Conditions */
 .legal-conditions {
-  padding: var(--space-6);
+  padding: var(--space-3);
   background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.12), transparent 60%);
   border: 1px solid rgba(148, 163, 184, 0.35);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-subtle);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
 }
 
 .legal-conditions h3 {
-  font-size: var(--text-h3);
-  font-weight: var(--font-bold);
+  font-size: 13px;
+  font-weight: var(--font-semibold);
   font-family: var(--font-brand);
   color: var(--color-text-primary);
-  margin: 0 0 var(--space-4) 0;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  margin: 0 0 var(--space-2) 0;
+  letter-spacing: 0.02em;
 }
 
 .conditions-checkboxes {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-2);
 }
 
 .checkbox-label {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-3);
-  font-size: var(--text-body);
+  gap: var(--space-2);
+  font-size: var(--text-label);
   font-family: var(--font-ui);
   color: var(--color-text-primary);
   cursor: pointer;
-  padding: var(--space-3);
+  padding: var(--space-2);
   border-radius: var(--radius-md);
   transition: background 0.3s ease;
 }
@@ -1333,15 +1709,20 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--space-4);
-  padding-top: var(--space-6);
+  gap: var(--space-3);
+  padding-top: var(--space-3);
   border-top: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .validation-actions .btn-large {
-  padding: var(--space-4) var(--space-8);
-  font-size: var(--text-body-large);
+  padding: var(--space-2) var(--space-5);
+  font-size: 13px;
   font-weight: var(--font-semibold);
+}
+
+.validation-actions .btn-secondary {
+  padding: var(--space-2) var(--space-5);
+  font-size: 13px;
 }
 
 /* Loan Process Steps */
@@ -6185,6 +6566,144 @@ html, body {
   margin-right: var(--space-2);
 }
 
+/* Filtres NFT simplifiés sur une seule ligne */
+.nft-filters-single-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.12), transparent 60%);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 0 1 auto;
+}
+
+.filter-section-label {
+  font-size: var(--text-label-large);
+  font-weight: var(--font-semibold);
+  font-family: var(--font-ui);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.filter-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.filter-btn-small {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-medium);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+  font-family: var(--font-ui);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.filter-btn-small:hover {
+  border-color: var(--color-primary-500);
+  color: var(--color-text-primary);
+  background: rgba(31, 41, 55, 0.1);
+}
+
+.filter-btn-small.active {
+  background: rgba(31, 41, 55, 0.15);
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-500);
+}
+
+.filter-separator {
+  width: 1px;
+  height: 24px;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(148, 163, 184, 0.3) 20%, 
+    rgba(148, 163, 184, 0.5) 50%, 
+    rgba(148, 163, 184, 0.3) 80%, 
+    transparent 100%);
+  flex-shrink: 0;
+}
+
+.btn-reset-filters-inline {
+  margin-left: auto;
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: 1px solid var(--color-border-default);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-medium);
+  font-size: var(--text-body);
+  font-weight: var(--font-medium);
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-reset-filters-inline:hover {
+  background: var(--color-bg-secondary);
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+/* Responsive pour filtres NFT sur une ligne */
+@media (max-width: 1024px) {
+  .nft-filters-single-line {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+  
+  .filter-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  
+  .filter-separator {
+    width: 100%;
+    height: 1px;
+    margin: var(--space-2) 0;
+  }
+  
+  .filter-buttons {
+    width: 100%;
+  }
+  
+  .btn-reset-filters-inline {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-section-label {
+    font-size: var(--text-label);
+  }
+  
+  .filter-btn-small {
+    font-size: var(--text-label);
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
 .nft-empty-state {
   text-align: center;
   padding: var(--space-12);
@@ -9473,6 +9992,78 @@ section {
   color: var(--color-text-muted);
 }
 
+/* Filtres simplifiés sur une seule ligne */
+.explore-filters-single-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.12), transparent 60%);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.filter-select-inline,
+.filter-input-inline {
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-medium);
+  font-size: var(--text-body);
+  font-family: var(--font-ui);
+  color: var(--color-text-primary);
+  transition: var(--transition-normal);
+  min-width: 150px;
+  flex: 0 1 auto;
+}
+
+.filter-select-inline {
+  cursor: pointer;
+}
+
+.filter-input-inline {
+  flex: 0 1 120px;
+}
+
+.filter-select-inline:focus,
+.filter-input-inline:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
+}
+
+.filter-input-inline::placeholder {
+  color: var(--color-text-muted);
+  font-size: var(--text-body);
+}
+
+.btn-reset-filters {
+  margin-left: auto;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: 1px solid var(--color-border-default);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-medium);
+  font-size: var(--text-body-large);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.btn-reset-filters:hover {
+  background: var(--color-bg-secondary);
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
 /* Grille NFT Premium */
 .explore-nft-grid {
   display: grid;
@@ -9814,6 +10405,22 @@ section {
   
   .filters-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .explore-filters-single-line {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-select-inline,
+  .filter-input-inline {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .btn-reset-filters {
+    margin-left: 0;
+    align-self: flex-end;
   }
   
   .explore-header-content {

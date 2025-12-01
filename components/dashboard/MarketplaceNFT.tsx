@@ -103,12 +103,60 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
         </div>
       </div>
 
-      {/* Filtres Premium */}
-      <div className="explore-filters-card">
-        <div className="filters-header">
-          <h3>Filters</h3>
+      {/* Filtres simplifiés sur une ligne */}
+      <div className="explore-filters-single-line">
+        <select 
+          value={selectedMarketplace} 
+          onChange={(e) => setSelectedMarketplace(e.target.value as Marketplace | 'ALL')}
+          className="filter-select-inline"
+        >
+          <option value="ALL">Tous les marketplaces</option>
+          {marketplaces.map(mp => (
+            <option key={mp} value={mp}>{getMarketplaceLabel(mp)}</option>
+          ))}
+        </select>
+
+        <select 
+          value={selectedAssetType} 
+          onChange={(e) => setSelectedAssetType(e.target.value as AssetType | 'ALL')}
+          className="filter-select-inline"
+        >
+          <option value="ALL">Tous les types</option>
+          {assetTypes.map(type => (
+            <option key={type} value={type}>{getAssetTypeLabel(type)}</option>
+          ))}
+        </select>
+
+        <input 
+          type="number" 
+          value={minValue}
+          onChange={(e) => setMinValue(e.target.value)}
+          placeholder="Min (USDC)"
+          className="filter-input-inline"
+        />
+
+        <input 
+          type="number" 
+          value={maxValue}
+          onChange={(e) => setMaxValue(e.target.value)}
+          placeholder="Max (USDC)"
+          className="filter-input-inline"
+        />
+
+        <select 
+          value={selectedRiskClass} 
+          onChange={(e) => setSelectedRiskClass(e.target.value as any)}
+          className="filter-select-inline"
+        >
+          <option value="ALL">Tous les risques</option>
+          <option value="SAFE">Sûr</option>
+          <option value="MODERATE">Modéré</option>
+          <option value="RISKY">Risqué</option>
+        </select>
+
+        {(selectedMarketplace !== 'ALL' || selectedAssetType !== 'ALL' || minValue || maxValue || selectedRiskClass !== 'ALL') && (
           <button 
-            className="btn-ghost-small"
+            className="btn-reset-filters"
             onClick={() => {
               setSelectedMarketplace('ALL')
               setSelectedAssetType('ALL')
@@ -116,75 +164,11 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
               setMaxValue('')
               setSelectedRiskClass('ALL')
             }}
+            title="Réinitialiser les filtres"
           >
-            Reset
+            ✕
           </button>
-        </div>
-        <div className="filters-grid">
-          <div className="filter-item">
-            <label className="filter-label">Marketplace</label>
-            <select 
-              value={selectedMarketplace} 
-              onChange={(e) => setSelectedMarketplace(e.target.value as Marketplace | 'ALL')}
-              className="filter-select-premium"
-            >
-              <option value="ALL">All marketplaces</option>
-              {marketplaces.map(mp => (
-                <option key={mp} value={mp}>{getMarketplaceLabel(mp)}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filter-item">
-            <label className="filter-label">Asset Type</label>
-            <select 
-              value={selectedAssetType} 
-              onChange={(e) => setSelectedAssetType(e.target.value as AssetType | 'ALL')}
-              className="filter-select-premium"
-            >
-              <option value="ALL">All types</option>
-              {assetTypes.map(type => (
-                <option key={type} value={type}>{getAssetTypeLabel(type)}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filter-item">
-            <label className="filter-label">Minimum value</label>
-            <input 
-              type="number" 
-              value={minValue}
-              onChange={(e) => setMinValue(e.target.value)}
-              placeholder="0 USDC"
-              className="filter-input-premium"
-            />
-          </div>
-
-          <div className="filter-item">
-            <label className="filter-label">Maximum value</label>
-            <input 
-              type="number" 
-              value={maxValue}
-              onChange={(e) => setMaxValue(e.target.value)}
-              placeholder="No limit"
-              className="filter-input-premium"
-            />
-          </div>
-
-          <div className="filter-item">
-            <label className="filter-label">Risk level</label>
-            <select 
-              value={selectedRiskClass} 
-              onChange={(e) => setSelectedRiskClass(e.target.value as any)}
-              className="filter-select-premium"
-            >
-              <option value="ALL">All levels</option>
-              <option value="SAFE">Safe (0-30)</option>
-              <option value="MODERATE">Moderate (31-60)</option>
-              <option value="RISKY">Risky (61-100)</option>
-            </select>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Grille NFT Premium */}

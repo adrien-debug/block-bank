@@ -313,89 +313,115 @@ export default function NFTAssets() {
             </div>
           </div>
 
-      {/* Filtres */}
-      <div className="nft-filters">
-        <div className="filter-group">
-          <span className="filter-label">Type:</span>
-          <button 
-            className={`filter-btn ${filterType === 'all' ? 'active' : ''}`}
-            onClick={() => setFilterType('all')}
-          >
-            Tous
-          </button>
-          <button 
-            className={`filter-btn ${filterType === 'REAL_ESTATE' ? 'active' : ''}`}
-            onClick={() => setFilterType('REAL_ESTATE')}
-          >
-            Immobilier
-          </button>
-          <button 
-            className={`filter-btn ${filterType === 'MINING' ? 'active' : ''}`}
-            onClick={() => setFilterType('MINING')}
-          >
-            Mining
-          </button>
-          <button 
-            className={`filter-btn ${filterType === 'INFRASTRUCTURE' ? 'active' : ''}`}
-            onClick={() => setFilterType('INFRASTRUCTURE')}
-          >
-            Infrastructure
-          </button>
-          <button 
-            className={`filter-btn ${filterType === 'COMMODITIES' ? 'active' : ''}`}
-            onClick={() => setFilterType('COMMODITIES')}
-          >
-            Commodities
-          </button>
+      {/* Filtres simplifiés sur une ligne */}
+      <div className="nft-filters-single-line">
+        <div className="filter-section">
+          <span className="filter-section-label">Type</span>
+          <div className="filter-buttons">
+            <button 
+              className={`filter-btn-small ${filterType === 'all' ? 'active' : ''}`}
+              onClick={() => setFilterType('all')}
+            >
+              Tous
+            </button>
+            <button 
+              className={`filter-btn-small ${filterType === 'REAL_ESTATE' ? 'active' : ''}`}
+              onClick={() => setFilterType('REAL_ESTATE')}
+            >
+              Immobilier
+            </button>
+            <button 
+              className={`filter-btn-small ${filterType === 'MINING' ? 'active' : ''}`}
+              onClick={() => setFilterType('MINING')}
+            >
+              Mining
+            </button>
+            <button 
+              className={`filter-btn-small ${filterType === 'INFRASTRUCTURE' ? 'active' : ''}`}
+              onClick={() => setFilterType('INFRASTRUCTURE')}
+            >
+              Infrastructure
+            </button>
+            <button 
+              className={`filter-btn-small ${filterType === 'COMMODITIES' ? 'active' : ''}`}
+              onClick={() => setFilterType('COMMODITIES')}
+            >
+              Commodities
+            </button>
+          </div>
         </div>
-        <div className="filter-group">
-          <span className="filter-label">Statut:</span>
-          <button 
-            className={`filter-btn ${filterStatus === 'all' ? 'active' : ''}`}
-            onClick={() => setFilterStatus('all')}
-          >
-            Tous
-          </button>
-          <button 
-            className={`filter-btn ${filterStatus === 'available' ? 'active' : ''}`}
-            onClick={() => setFilterStatus('available')}
-          >
-            Disponibles
-          </button>
-          <button 
-            className={`filter-btn ${filterStatus === 'locked' ? 'active' : ''}`}
-            onClick={() => setFilterStatus('locked')}
-          >
-            Verrouillés
-          </button>
+        
+        <div className="filter-separator"></div>
+        
+        <div className="filter-section">
+          <span className="filter-section-label">Statut</span>
+          <div className="filter-buttons">
+            <button 
+              className={`filter-btn-small ${filterStatus === 'all' ? 'active' : ''}`}
+              onClick={() => setFilterStatus('all')}
+            >
+              Tous
+            </button>
+            <button 
+              className={`filter-btn-small ${filterStatus === 'available' ? 'active' : ''}`}
+              onClick={() => setFilterStatus('available')}
+            >
+              Disponibles
+            </button>
+            <button 
+              className={`filter-btn-small ${filterStatus === 'locked' ? 'active' : ''}`}
+              onClick={() => setFilterStatus('locked')}
+            >
+              Verrouillés
+            </button>
+          </div>
         </div>
-        <div className="filter-group">
-          <span className="filter-label">Risque:</span>
-          <button 
-            className={`filter-btn ${filterRisk === 'all' ? 'active' : ''}`}
-            onClick={() => setFilterRisk('all')}
-          >
-            Tous
-          </button>
-          <button 
-            className={`filter-btn ${filterRisk === 'SAFE' ? 'active' : ''}`}
-            onClick={() => setFilterRisk('SAFE')}
-          >
-            SAFE
-          </button>
-          <button 
-            className={`filter-btn ${filterRisk === 'MODERATE' ? 'active' : ''}`}
-            onClick={() => setFilterRisk('MODERATE')}
-          >
-            MODERATE
-          </button>
-          <button 
-            className={`filter-btn ${filterRisk === 'RISKY' ? 'active' : ''}`}
-            onClick={() => setFilterRisk('RISKY')}
-          >
-            RISKY
-          </button>
+        
+        <div className="filter-separator"></div>
+        
+        <div className="filter-section">
+          <span className="filter-section-label">Risque</span>
+          <div className="filter-buttons">
+            <button 
+              className={`filter-btn-small ${filterRisk === 'all' ? 'active' : ''}`}
+              onClick={() => setFilterRisk('all')}
+            >
+              Tous
+            </button>
+            <button 
+              className={`filter-btn-small ${filterRisk === 'SAFE' ? 'active' : ''}`}
+              onClick={() => setFilterRisk('SAFE')}
+            >
+              SAFE
+            </button>
+            <button 
+              className={`filter-btn-small ${filterRisk === 'MODERATE' ? 'active' : ''}`}
+              onClick={() => setFilterRisk('MODERATE')}
+            >
+              MODERATE
+            </button>
+            <button 
+              className={`filter-btn-small ${filterRisk === 'RISKY' ? 'active' : ''}`}
+              onClick={() => setFilterRisk('RISKY')}
+            >
+              RISKY
+            </button>
+          </div>
         </div>
+        
+        {(filterType !== 'all' || filterStatus !== 'all' || filterRisk !== 'all') && (
+          <button 
+            className="btn-reset-filters-inline"
+            onClick={() => {
+              setFilterType('all')
+              setFilterStatus('all')
+              setFilterRisk('all')
+            }}
+            title="Réinitialiser les filtres"
+          >
+            ✕ Réinitialiser
+          </button>
+        )}
       </div>
 
       {/* Grille NFT */}
