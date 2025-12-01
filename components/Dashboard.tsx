@@ -7,6 +7,7 @@ import NFTAssets from './dashboard/NFTAssets'
 import Insurance from './dashboard/Insurance'
 import Profile from './dashboard/Profile'
 import Explore from './dashboard/Explore'
+import Investor from './dashboard/Investor'
 import DashboardIcon from './icons/DashboardIcon'
 import StarIcon from './icons/StarIcon'
 import MoneyIcon from './icons/MoneyIcon'
@@ -14,6 +15,12 @@ import NFTIcon from './icons/NFTIcon'
 import ShieldIcon from './icons/ShieldIcon'
 import UserIcon from './icons/UserIcon'
 import ExploreIcon from './icons/ExploreIcon'
+import InvestorIcon from './icons/InvestorIcon'
+import ChartIcon from './icons/ChartIcon'
+import CheckIcon from './icons/CheckIcon'
+import LockIcon from './icons/LockIcon'
+import WarningIcon from './icons/WarningIcon'
+import InfoIcon from './icons/InfoIcon'
 
 declare global {
   interface Window {
@@ -21,7 +28,7 @@ declare global {
   }
 }
 
-type Tab = 'dashboard' | 'explore' | 'credit-score' | 'loans' | 'nft' | 'insurance' | 'profile'
+type Tab = 'dashboard' | 'explore' | 'credit-score' | 'loans' | 'nft' | 'insurance' | 'profile' | 'investor'
 
 export default function Dashboard() {
   const [address, setAddress] = useState<string | null>(null)
@@ -47,6 +54,7 @@ export default function Dashboard() {
     { id: 'loans' as Tab, label: 'Mes Prêts', icon: MoneyIcon },
     { id: 'nft' as Tab, label: 'NFT RWA', icon: NFTIcon },
     { id: 'insurance' as Tab, label: 'Assurance', icon: ShieldIcon },
+    { id: 'investor' as Tab, label: 'Investor', icon: InvestorIcon },
     { id: 'profile' as Tab, label: 'Profil', icon: UserIcon },
   ]
 
@@ -99,7 +107,9 @@ export default function Dashboard() {
             <div className="stats-grid">
               <div className="stat-card stat-card-primary">
                 <div className="stat-icon-wrapper">
-                  <div className="stat-icon">📊</div>
+                  <div className="stat-icon">
+                    <ChartIcon />
+                  </div>
                 </div>
                 <div className="stat-content">
                   <div className="stat-label">Credit Score</div>
@@ -114,7 +124,9 @@ export default function Dashboard() {
               
               <div className="stat-card stat-card-success">
                 <div className="stat-icon-wrapper">
-                  <div className="stat-icon">💰</div>
+                  <div className="stat-icon">
+                    <MoneyIcon />
+                  </div>
                 </div>
                 <div className="stat-content">
                   <div className="stat-label">Prêts actifs</div>
@@ -131,7 +143,9 @@ export default function Dashboard() {
               
               <div className="stat-card stat-card-info">
                 <div className="stat-icon-wrapper">
-                  <div className="stat-icon">🎨</div>
+                  <div className="stat-icon">
+                    <NFTIcon />
+                  </div>
                 </div>
                 <div className="stat-content">
                   <div className="stat-label">NFT RWA</div>
@@ -147,7 +161,9 @@ export default function Dashboard() {
               
               <div className="stat-card stat-card-warning">
                 <div className="stat-icon-wrapper">
-                  <div className="stat-icon">🛡️</div>
+                  <div className="stat-icon">
+                    <ShieldIcon />
+                  </div>
                 </div>
                 <div className="stat-content">
                   <div className="stat-label">Assurance</div>
@@ -231,7 +247,9 @@ export default function Dashboard() {
                 </div>
                 <div className="activity-list">
                   <div className="activity-item">
-                    <div className="activity-icon activity-success">✓</div>
+                    <div className="activity-icon activity-success">
+                      <CheckIcon />
+                    </div>
                     <div className="activity-content">
                       <div className="activity-title">Paiement reçu</div>
                       <div className="activity-desc">Prêt #1 - 15,000 USDC</div>
@@ -240,7 +258,9 @@ export default function Dashboard() {
                     <div className="activity-amount">+15,000 USDC</div>
                   </div>
                   <div className="activity-item">
-                    <div className="activity-icon activity-info">📊</div>
+                    <div className="activity-icon activity-info">
+                      <ChartIcon />
+                    </div>
                     <div className="activity-content">
                       <div className="activity-title">Score mis à jour</div>
                       <div className="activity-desc">Credit Score: 750 (+12)</div>
@@ -248,7 +268,9 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="activity-item">
-                    <div className="activity-icon activity-warning">🔒</div>
+                    <div className="activity-icon activity-warning">
+                      <LockIcon />
+                    </div>
                     <div className="activity-content">
                       <div className="activity-title">NFT verrouillé</div>
                       <div className="activity-desc">Villa Paris - Prêt #1</div>
@@ -265,7 +287,9 @@ export default function Dashboard() {
                 </div>
                 <div className="alerts-list">
                   <div className="alert-item alert-important">
-                    <div className="alert-icon">⚠️</div>
+                    <div className="alert-icon">
+                      <WarningIcon />
+                    </div>
                     <div className="alert-content">
                       <div className="alert-title">Paiement à venir</div>
                       <div className="alert-desc">Prêt #2 - Échéance dans 5 jours</div>
@@ -273,7 +297,9 @@ export default function Dashboard() {
                     <button className="alert-action">Payer</button>
                   </div>
                   <div className="alert-item alert-info">
-                    <div className="alert-icon">ℹ️</div>
+                    <div className="alert-icon">
+                      <InfoIcon />
+                    </div>
                     <div className="alert-content">
                       <div className="alert-title">Assurance renouvelée</div>
                       <div className="alert-desc">Couverture active jusqu&apos;au 15/03/2024</div>
@@ -316,19 +342,27 @@ export default function Dashboard() {
                 </div>
                 <div className="quick-actions-grid">
                   <button className="quick-action-btn">
-                    <div className="quick-action-icon">💰</div>
+                    <div className="quick-action-icon">
+                      <MoneyIcon />
+                    </div>
                     <div className="quick-action-label">Nouveau prêt</div>
                   </button>
                   <button className="quick-action-btn">
-                    <div className="quick-action-icon">🎨</div>
+                    <div className="quick-action-icon">
+                      <NFTIcon />
+                    </div>
                     <div className="quick-action-label">Tokeniser actif</div>
                   </button>
                   <button className="quick-action-btn">
-                    <div className="quick-action-icon">📊</div>
+                    <div className="quick-action-icon">
+                      <ChartIcon />
+                    </div>
                     <div className="quick-action-label">Mettre à jour score</div>
                   </button>
                   <button className="quick-action-btn">
-                    <div className="quick-action-icon">🛡️</div>
+                    <div className="quick-action-icon">
+                      <ShieldIcon />
+                    </div>
                     <div className="quick-action-label">Gérer assurance</div>
                   </button>
                 </div>
@@ -341,6 +375,7 @@ export default function Dashboard() {
         {activeTab === 'loans' && <Loans />}
         {activeTab === 'nft' && <NFTAssets />}
         {activeTab === 'insurance' && <Insurance />}
+        {activeTab === 'investor' && <Investor />}
         {activeTab === 'profile' && <Profile />}
       </div>
     </div>

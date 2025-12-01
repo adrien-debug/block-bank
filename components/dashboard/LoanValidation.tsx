@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { NFTRWA, LoanProfileOption } from '@/types'
+import TermsAndConditions from '../TermsAndConditions'
 
 interface LoanValidationProps {
   nft: NFTRWA
@@ -24,6 +25,7 @@ export default function LoanValidation({
 }: LoanValidationProps) {
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [risksAccepted, setRisksAccepted] = useState(false)
+  const [showTermsModal, setShowTermsModal] = useState(false)
   const [canProceed, setCanProceed] = useState(false)
 
   const totalRequired = profile.downPayment + (profile.insurancePremium || 0)
@@ -189,7 +191,17 @@ export default function LoanValidation({
               checked={termsAccepted}
               onChange={(e) => setTermsAccepted(e.target.checked)}
             />
-            <span>J'accepte les <a href="#" target="_blank">termes et conditions</a> de BlockBank</span>
+            <span>
+              J'accepte les{' '}
+              <button
+                type="button"
+                className="link-button"
+                onClick={() => setShowTermsModal(true)}
+              >
+                termes et conditions
+              </button>{' '}
+              de BlockBank
+            </span>
           </label>
           <label className="checkbox-label">
             <input 
@@ -197,10 +209,24 @@ export default function LoanValidation({
               checked={risksAccepted}
               onChange={(e) => setRisksAccepted(e.target.checked)}
             />
-            <span>J'ai lu et compris les <a href="#" target="_blank">risques</a> associés à ce prêt</span>
+            <span>J'ai lu et compris les risques associés à ce prêt</span>
           </label>
         </div>
       </div>
+
+      {/* Modal Terms and Conditions */}
+      {showTermsModal && (
+        <TermsAndConditions
+          assetType={nft.assetType}
+          onAccept={() => {
+            setTermsAccepted(true)
+            setShowTermsModal(false)
+          }}
+          onReject={() => {
+            setShowTermsModal(false)
+          }}
+        />
+      )}
 
       {/* Actions */}
       <div className="validation-actions">
