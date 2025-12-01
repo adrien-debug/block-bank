@@ -19,53 +19,53 @@ export default function Profile() {
           setAddress(accounts[0])
         }
       }).catch(() => {
-        // Ignorer les erreurs silencieusement
+        // Ignore errors silently
       })
     }
   }, [])
 
   return (
     <div className="profile-page">
-      <h1>Mon Profil</h1>
+      <h1>My Profile</h1>
       
       <div className="profile-section">
-        <h2>Informations Wallet</h2>
+        <h2>Wallet Information</h2>
         <div className="profile-card">
           <div className="profile-item">
-            <span className="profile-label">Adresse</span>
-            <span className="profile-value">{address ? formatAddress(address) : 'Non connecté'}</span>
+            <span className="profile-label">Address</span>
+            <span className="profile-value">{address ? formatAddress(address) : 'Not connected'}</span>
           </div>
           <div className="profile-item">
-            <span className="profile-label">Réseau</span>
+            <span className="profile-label">Network</span>
             <span className="profile-value">Ethereum Mainnet</span>
           </div>
         </div>
       </div>
 
       <div className="profile-section">
-        <h2>Informations KYC</h2>
+        <h2>KYC Information</h2>
         <div className="profile-card">
           <div className="kyc-status">
-            <span className="kyc-badge verified">✓ Vérifié</span>
-            <p>Votre identité a été vérifiée et validée</p>
+            <span className="kyc-badge verified">✓ Verified</span>
+            <p>Your identity has been verified and validated</p>
           </div>
-          <button className="btn-secondary">Mettre à jour</button>
+          <button className="btn-secondary">Update</button>
         </div>
       </div>
 
       <div className="profile-section">
-        <h2>Paramètres</h2>
+        <h2>Settings</h2>
         <div className="profile-card">
           <div className="setting-item">
-            <span>Notifications par email</span>
+            <span>Email notifications</span>
             <input type="checkbox" defaultChecked />
           </div>
           <div className="setting-item">
-            <span>Notifications push</span>
+            <span>Push notifications</span>
             <input type="checkbox" />
           </div>
           <div className="setting-item">
-            <span>Mode sombre</span>
+            <span>Dark mode</span>
             <input type="checkbox" defaultChecked />
           </div>
         </div>
@@ -73,4 +73,3 @@ export default function Profile() {
     </div>
   )
 }
-

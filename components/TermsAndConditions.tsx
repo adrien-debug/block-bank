@@ -34,17 +34,17 @@ export default function TermsAndConditions({
   const getAssetTypeName = () => {
     switch (assetType) {
       case 'REAL_ESTATE':
-        return 'Immobilier'
+        return 'Real Estate'
       case 'MINING':
-        return 'Équipement de Mining'
+        return 'Mining Equipment'
       case 'INFRASTRUCTURE':
         return 'Infrastructure'
       case 'COMMODITIES':
-        return 'Métaux Précieux / Commodités'
+        return 'Precious Metals / Commodities'
       case 'OTHER':
-        return 'Autres Biens Meubles'
+        return 'Other Movable Assets'
       default:
-        return 'Actif'
+        return 'Asset'
     }
   }
 
@@ -61,130 +61,130 @@ export default function TermsAndConditions({
     <div className="terms-modal">
       <div className="terms-content">
         <div className="terms-header">
-          <h2>Termes et Conditions - Prêt Collatéralisé par NFT RWA</h2>
-          <p className="terms-subtitle">Type d&apos;actif : {getAssetTypeName()}</p>
+          <h2>Terms and Conditions - NFT RWA Collateralized Loan</h2>
+          <p className="terms-subtitle">Asset type: {getAssetTypeName()}</p>
         </div>
 
         <div className="terms-body" onScroll={handleScroll}>
           <div className="terms-section">
-            <h3>1. Acceptation des Conditions</h3>
+            <h3>1. Acceptance of Terms</h3>
             <p>
-              En acceptant ces termes et conditions, vous reconnaissez avoir lu,
-              compris et accepté toutes les conditions de prêt, y compris :
+              By accepting these terms and conditions, you acknowledge that you have read,
+              understood and accepted all loan conditions, including:
             </p>
             <ul>
-              <li>Les conditions de paiement et d&apos;intérêts</li>
-              <li>Les obligations de maintenance et d&apos;entretien</li>
-              <li>Les processus de défaut et de récupération</li>
-              <li>Les frais et coûts associés</li>
-              <li>Les risques liés au prêt</li>
+              <li>Payment and interest conditions</li>
+              <li>Maintenance and upkeep obligations</li>
+              <li>Default and recovery processes</li>
+              <li>Associated fees and costs</li>
+              <li>Risks related to the loan</li>
             </ul>
           </div>
 
           <div className="terms-section">
-            <h3>2. Conditions de Prêt</h3>
+            <h3>2. Loan Conditions</h3>
             <p>
-              Le prêt est accordé sous réserve de :
+              The loan is granted subject to:
             </p>
             <ul>
-              <li>Paiement minimum selon remise NFT RWA (10%, 15% ou 20%)</li>
-              <li>Respect du LTV (Loan-to-Value) maximum selon votre Credit Score</li>
-              <li>Taux d&apos;intérêt variable selon profil de risque</li>
-              <li>Durée de 12 à 48 mois selon profil sélectionné</li>
+              <li>Minimum payment according to NFT RWA discount (10%, 15% or 20%)</li>
+              <li>Respect of maximum LTV (Loan-to-Value) according to your Credit Score</li>
+              <li>Variable interest rate according to risk profile</li>
+              <li>Duration of 12 to 48 months according to selected profile</li>
             </ul>
           </div>
 
           <div className="terms-section">
-            <h3>3. Obligations de l&apos;Emprunteur</h3>
-            <p>Vous vous engagez à :</p>
+            <h3>3. Borrower Obligations</h3>
+            <p>You commit to:</p>
             <ul>
-              <li>Effectuer les paiements mensuels dans les délais</li>
-              <li>Maintenir l&apos;actif en bon état</li>
-              <li>Souscrire les assurances requises</li>
-              <li>Notifier tout changement significatif</li>
+              <li>Make monthly payments on time</li>
+              <li>Maintain the asset in good condition</li>
+              <li>Subscribe to required insurance</li>
+              <li>Notify any significant changes</li>
             </ul>
           </div>
 
           <div className="terms-section">
-            <h3>4. Processus de Défaut et Récupération</h3>
+            <h3>4. Default and Recovery Process</h3>
             <p>
-              En cas de défaut de paiement supérieur à 30 jours :
+              In case of payment default exceeding 30 days:
             </p>
             <ul>
-              <li>Notification formelle avec délai de régularisation</li>
-              <li>Déclenchement de la procédure de récupération</li>
-              <li>Saisie et vente de l&apos;actif selon juridiction</li>
-              <li>Application des frais de récupération</li>
+              <li>Formal notification with regularization period</li>
+              <li>Recovery procedure initiation</li>
+              <li>Asset seizure and sale according to jurisdiction</li>
+              <li>Application of recovery fees</li>
             </ul>
             <p className="terms-warning">
-              ⚠️ Les délais et processus varient selon la juridiction de l&apos;actif.
-              Consultez le document complet pour les détails spécifiques.
+              ⚠️ Delays and processes vary according to the asset&apos;s jurisdiction.
+              Consult the complete document for specific details.
             </p>
           </div>
 
           <div className="terms-section">
-            <h3>5. Système de Remises NFT RWA</h3>
+            <h3>5. NFT RWA Discount System</h3>
             <p>
-              Des remises de 10%, 15% ou 20% sont applicables selon :
+              Discounts of 10%, 15% or 20% are applicable according to:
             </p>
             <ul>
-              <li>Le niveau de risque du NFT (SAFE, MODERATE, RISKY)</li>
-              <li>Votre Credit Score BlockBank</li>
-              <li>Le type d&apos;actif</li>
+              <li>The NFT risk level (SAFE, MODERATE, RISKY)</li>
+              <li>Your BlockBank Credit Score</li>
+              <li>The asset type</li>
             </ul>
             <p>
-              Les remises réduisent le LTV effectif et peuvent réduire les taux
-              d&apos;intérêt et les primes d&apos;assurance.
+              Discounts reduce the effective LTV and may reduce interest rates
+              and insurance premiums.
             </p>
           </div>
 
           <div className="terms-section">
-            <h3>6. Frais et Coûts</h3>
+            <h3>6. Fees and Costs</h3>
             <ul>
-              <li>Frais de dossier : 0.5% - 1% du montant prêt</li>
-              <li>Frais d&apos;évaluation : Variable selon type d&apos;actif</li>
-              <li>Frais de gestion : 0.1% par an</li>
-              <li>Frais de récupération : Variable selon juridiction</li>
-            </ul>
-          </div>
-
-          <div className="terms-section">
-            <h3>7. Limitation de Responsabilité</h3>
-            <p>
-              Le prêteur n&apos;est pas responsable des pertes liées à :
-            </p>
-            <ul>
-              <li>La dépréciation de l&apos;actif</li>
-              <li>Les risques de marché</li>
-              <li>Les dommages non couverts par l&apos;assurance</li>
+              <li>Application fees: 0.5% - 1% of loan amount</li>
+              <li>Valuation fees: Variable according to asset type</li>
+              <li>Management fees: 0.1% per year</li>
+              <li>Recovery fees: Variable according to jurisdiction</li>
             </ul>
           </div>
 
           <div className="terms-section">
-            <h3>8. Loi Applicable et Juridiction</h3>
+            <h3>7. Limitation of Liability</h3>
             <p>
-              Ces termes sont régis par la législation de la juridiction où se
-              trouve l&apos;actif. Tout litige sera résolu selon les procédures
-              prévues dans le document complet des termes et conditions.
+              The lender is not responsible for losses related to:
+            </p>
+            <ul>
+              <li>Asset depreciation</li>
+              <li>Market risks</li>
+              <li>Damages not covered by insurance</li>
+            </ul>
+          </div>
+
+          <div className="terms-section">
+            <h3>8. Applicable Law and Jurisdiction</h3>
+            <p>
+              These terms are governed by the legislation of the jurisdiction where the
+              asset is located. Any dispute will be resolved according to the procedures
+              provided in the complete terms and conditions document.
             </p>
           </div>
 
           <div className="terms-section">
-            <h3>9. Documents Complets</h3>
+            <h3>9. Complete Documents</h3>
             <p>
-              Pour consulter les termes et conditions complets spécifiques à votre
-              type d&apos;actif, veuillez consulter :
+              To consult the complete terms and conditions specific to your
+              asset type, please consult:
             </p>
             <ul>
               <li>
                 <a href="/docs/LEGAL_FRAMEWORK.md" target="_blank" rel="noopener noreferrer">
-                  Cadre Juridique Complet
+                  Complete Legal Framework
                 </a>
               </li>
               {assetType === 'REAL_ESTATE' && (
                 <li>
                   <a href="/docs/TERMS_IMMOBILIER.md" target="_blank" rel="noopener noreferrer">
-                    Termes et Conditions - Immobilier
+                    Terms and Conditions - Real Estate
                   </a>
                 </li>
               )}
@@ -194,7 +194,7 @@ export default function TermsAndConditions({
                 assetType === 'OTHER') && (
                 <li>
                   <a href="/docs/TERMS_OBJETS.md" target="_blank" rel="noopener noreferrer">
-                    Termes et Conditions - Objets et Biens Meubles
+                    Terms and Conditions - Objects and Movable Assets
                   </a>
                 </li>
               )}
@@ -203,11 +203,10 @@ export default function TermsAndConditions({
 
           <div className="terms-footer-note">
             <p>
-              <strong>Note importante :</strong> Ces termes et conditions sont un
-              résumé. Le document complet contient tous les détails légaux, les
-              processus de récupération par juridiction, et les spécificités par
-              type d&apos;actif. Il est fortement recommandé de consulter le
-              document complet avant d&apos;accepter.
+              <strong>Important note:</strong> These terms and conditions are a
+              summary. The complete document contains all legal details, recovery
+              processes by jurisdiction, and specifics by asset type. It is strongly
+              recommended to consult the complete document before accepting.
             </p>
           </div>
         </div>
@@ -223,8 +222,8 @@ export default function TermsAndConditions({
             />
             <label htmlFor="accept-terms">
               {scrolledToBottom
-                ? "J'ai lu et j'accepte les termes et conditions"
-                : 'Veuillez faire défiler jusqu\'en bas pour accepter'}
+                ? "I have read and accept the terms and conditions"
+                : 'Please scroll to the bottom to accept'}
             </label>
           </div>
           <div className="terms-buttons">
@@ -233,7 +232,7 @@ export default function TermsAndConditions({
               onClick={onReject}
               className="btn-secondary"
             >
-              Refuser
+              Reject
             </button>
             <button
               type="button"
@@ -241,7 +240,7 @@ export default function TermsAndConditions({
               disabled={!accepted || !scrolledToBottom}
               className="btn-primary"
             >
-              Accepter et Continuer
+              Accept and Continue
             </button>
           </div>
         </div>
@@ -249,4 +248,3 @@ export default function TermsAndConditions({
     </div>
   )
 }
-

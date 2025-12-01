@@ -16,10 +16,10 @@ export default function CreditScore() {
       label: 'On-Chain Behavioral',
       percentage: 93,
       details: [
-        { label: 'Volume de transactions', value: 95, status: 'excellent' },
-        { label: 'Historique wallet', value: 88, status: 'good' },
-        { label: 'Diversité d\'actifs', value: 92, status: 'excellent' },
-        { label: 'Activité DeFi', value: 85, status: 'good' },
+        { label: 'Transaction volume', value: 95, status: 'excellent' },
+        { label: 'Wallet history', value: 88, status: 'good' },
+        { label: 'Asset diversity', value: 92, status: 'excellent' },
+        { label: 'DeFi activity', value: 85, status: 'good' },
       ]
     },
     offChain: { 
@@ -28,10 +28,10 @@ export default function CreditScore() {
       label: 'Off-Chain Financial',
       percentage: 83,
       details: [
-        { label: 'Revenus stables', value: 90, status: 'excellent' },
-        { label: 'Ratio dette/revenus', value: 75, status: 'good' },
-        { label: 'Historique bancaire', value: 88, status: 'good' },
-        { label: 'Stabilité professionnelle', value: 85, status: 'good' },
+        { label: 'Stable income', value: 90, status: 'excellent' },
+        { label: 'Debt-to-income ratio', value: 75, status: 'good' },
+        { label: 'Banking history', value: 88, status: 'good' },
+        { label: 'Professional stability', value: 85, status: 'good' },
       ]
     },
     assets: { 
@@ -40,10 +40,10 @@ export default function CreditScore() {
       label: 'Asset-Based',
       percentage: 75,
       details: [
-        { label: 'Valeur totale NFT RWA', value: 80, status: 'good' },
-        { label: 'Liquidité disponible', value: 70, status: 'average' },
-        { label: 'Diversification actifs', value: 75, status: 'good' },
-        { label: 'Qualité collatéraux', value: 85, status: 'good' },
+        { label: 'Total NFT RWA value', value: 80, status: 'good' },
+        { label: 'Available liquidity', value: 70, status: 'average' },
+        { label: 'Asset diversification', value: 75, status: 'good' },
+        { label: 'Collateral quality', value: 85, status: 'good' },
       ]
     },
     reputation: { 
@@ -52,10 +52,10 @@ export default function CreditScore() {
       label: 'Reputation & Trust',
       percentage: 70,
       details: [
-        { label: 'Réputation on-chain', value: 75, status: 'good' },
-        { label: 'Historique de paiements', value: 100, status: 'excellent' },
-        { label: 'Références', value: 60, status: 'average' },
-        { label: 'Vérifications KYC', value: 90, status: 'excellent' },
+        { label: 'On-chain reputation', value: 75, status: 'good' },
+        { label: 'Payment history', value: 100, status: 'excellent' },
+        { label: 'References', value: 60, status: 'average' },
+        { label: 'KYC verifications', value: 90, status: 'excellent' },
       ]
     },
   }
@@ -68,20 +68,20 @@ export default function CreditScore() {
 
   const recommendations = [
     {
-      title: 'Augmenter la liquidité disponible',
-      description: 'Maintenir au moins 50,000 USDC en liquidité améliorerait votre score Asset-Based de 5 points',
+      title: 'Increase available liquidity',
+      description: 'Maintaining at least 50,000 USDC in liquidity would improve your Asset-Based score by 5 points',
       impact: '+5 points',
       priority: 'high'
     },
     {
-      title: 'Diversifier vos actifs NFT RWA',
-      description: 'Ajouter un actif de type infrastructure augmenterait votre diversification',
+      title: 'Diversify your NFT RWA assets',
+      description: 'Adding an infrastructure-type asset would increase your diversification',
       impact: '+3 points',
       priority: 'medium'
     },
     {
-      title: 'Améliorer l\'activité DeFi',
-      description: 'Participer à plus de protocoles DeFi renforcerait votre profil on-chain',
+      title: 'Improve DeFi activity',
+      description: 'Participating in more DeFi protocols would strengthen your on-chain profile',
       impact: '+2 points',
       priority: 'low'
     }
@@ -92,7 +92,7 @@ export default function CreditScore() {
       ltv: '60-70%', 
       rate: '6.5-8.5%', 
       maxAmount: '1,000,000 USDC',
-      benefits: ['Taux préférentiels', 'LTV élevé', 'Processus accéléré', 'Support prioritaire']
+      benefits: ['Preferential rates', 'High LTV', 'Accelerated process', 'Priority support']
     },
     B: { ltv: '50-60%', rate: '8.5-10.5%', maxAmount: '500,000 USDC', benefits: [] },
     C: { ltv: '40-50%', rate: '10.5-12.5%', maxAmount: '250,000 USDC', benefits: [] },
@@ -104,28 +104,28 @@ export default function CreditScore() {
     <div className="credit-score-page">
       <div className="score-page-header">
         <div>
-          <h1>Mon Credit Score</h1>
-          <p className="score-page-subtitle">Score hybride on-chain/off-chain transparent et auditable</p>
+          <h1>My Credit Score</h1>
+          <p className="score-page-subtitle">Transparent and auditable hybrid on-chain/off-chain score</p>
         </div>
         <div className="score-header-actions">
-          <button className="btn-secondary">Exporter rapport</button>
-          <button className="btn-primary">Mettre à jour</button>
+          <button className="btn-secondary">Export report</button>
+          <button className="btn-primary">Update</button>
         </div>
       </div>
 
-      {/* Score principal avec évolution */}
+      {/* Main score with evolution */}
       <div className="score-display-enhanced">
         <div className="score-circle-wrapper">
           <div className="score-circle">
             <div className="score-value">{score}</div>
-            <div className="score-tier">Tranche {tier}</div>
+            <div className="score-tier">Tier {tier}</div>
             <div className="score-change">
               {scoreChange > 0 ? '↑' : '↓'} {Math.abs(scoreChange)} points
             </div>
           </div>
           <div className="score-comparison">
             <div className="comparison-item">
-              <span className="comparison-label">Moyenne utilisateurs</span>
+              <span className="comparison-label">User average</span>
               <span className="comparison-value">685</span>
             </div>
             <div className="comparison-item">
@@ -137,15 +137,15 @@ export default function CreditScore() {
         
         <div className="score-info-enhanced">
           <div className="score-badges">
-            <div className="score-badge badge-a">Tranche {tier} • Excellent</div>
+            <div className="score-badge badge-a">Tier {tier} • Excellent</div>
             <div className="score-trend-badge trend-up">
               <span>↑ +{scoreChange}</span>
-              <span>vs mois dernier</span>
+              <span>vs last month</span>
             </div>
           </div>
           
           <div className="score-benefits">
-            <h3>Avantages de votre score</h3>
+            <h3>Benefits of your score</h3>
             <div className="benefits-grid">
               {currentTier.benefits && currentTier.benefits.map((benefit: string, index: number) => (
                 <div key={index} className="benefit-item">
@@ -158,44 +158,44 @@ export default function CreditScore() {
 
           <div className="score-conditions">
             <div className="condition-item">
-              <span className="condition-label">LTV maximum</span>
+              <span className="condition-label">Maximum LTV</span>
               <span className="condition-value">{currentTier.ltv}</span>
             </div>
             <div className="condition-item">
-              <span className="condition-label">Taux d'intérêt</span>
+              <span className="condition-label">Interest rate</span>
               <span className="condition-value">{currentTier.rate}</span>
             </div>
             <div className="condition-item">
-              <span className="condition-label">Montant maximum</span>
+              <span className="condition-label">Maximum amount</span>
               <span className="condition-value">{currentTier.maxAmount}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Graphique d'évolution */}
+      {/* Evolution chart */}
       <div className="score-chart-section">
         <div className="chart-card">
           <div className="chart-header">
-            <h3>Évolution du Credit Score</h3>
+            <h3>Credit Score Evolution</h3>
             <div className="chart-controls">
               <button 
                 className={`chart-period-btn ${selectedPeriod === '6m' ? 'active' : ''}`}
                 onClick={() => setSelectedPeriod('6m')}
               >
-                6 mois
+                6 months
               </button>
               <button 
                 className={`chart-period-btn ${selectedPeriod === '12m' ? 'active' : ''}`}
                 onClick={() => setSelectedPeriod('12m')}
               >
-                12 mois
+                12 months
               </button>
               <button 
                 className={`chart-period-btn ${selectedPeriod === 'all' ? 'active' : ''}`}
                 onClick={() => setSelectedPeriod('all')}
               >
-                Tout
+                All
               </button>
             </div>
           </div>
@@ -257,9 +257,9 @@ export default function CreditScore() {
         </div>
       </div>
 
-      {/* Détail du score avec sous-composants */}
+      {/* Score breakdown by component */}
       <div className="score-breakdown-enhanced">
-        <h2>Détail du score par composant</h2>
+        <h2>Score breakdown by component</h2>
         <div className="breakdown-grid-enhanced">
           {Object.entries(scoreBreakdown).map(([key, data]) => (
             <div key={key} className="breakdown-card">
@@ -288,7 +288,7 @@ export default function CreditScore() {
                       <span className="detail-name">{detail.label}</span>
                       <span className={`detail-status status-${detail.status}`}>
                         {detail.status === 'excellent' ? 'Excellent' : 
-                         detail.status === 'good' ? 'Bon' : 'Moyen'}
+                         detail.status === 'good' ? 'Good' : 'Average'}
                       </span>
                     </div>
                     <div className="detail-bar-mini">
@@ -306,9 +306,9 @@ export default function CreditScore() {
         </div>
       </div>
 
-      {/* Recommandations */}
+      {/* Recommendations */}
       <div className="score-recommendations">
-        <h2>Recommandations pour améliorer votre score</h2>
+        <h2>Recommendations to improve your score</h2>
         <div className="recommendations-grid">
           {recommendations.map((rec, index) => (
             <div key={index} className={`recommendation-card priority-${rec.priority}`}>
@@ -320,37 +320,37 @@ export default function CreditScore() {
               </div>
               <h4>{rec.title}</h4>
               <p>{rec.description}</p>
-              <button className="btn-secondary btn-small">En savoir plus</button>
+              <button className="btn-secondary btn-small">Learn more</button>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Historique des changements */}
+      {/* Change history */}
       <div className="score-history">
-        <h2>Historique des changements</h2>
+        <h2>Change history</h2>
         <div className="history-timeline">
           <div className="history-item">
-            <div className="history-date">15 Jan 2024</div>
+            <div className="history-date">Jan 15, 2024</div>
             <div className="history-content">
-              <div className="history-title">Score mis à jour</div>
-              <div className="history-details">+12 points • Amélioration On-Chain Behavioral</div>
+              <div className="history-title">Score updated</div>
+              <div className="history-details">+12 points • On-Chain Behavioral improvement</div>
             </div>
             <div className="history-score">750</div>
           </div>
           <div className="history-item">
-            <div className="history-date">1 Jan 2024</div>
+            <div className="history-date">Jan 1, 2024</div>
             <div className="history-content">
-              <div className="history-title">Nouveau NFT RWA ajouté</div>
-              <div className="history-details">+8 points • Asset-Based amélioré</div>
+              <div className="history-title">New NFT RWA added</div>
+              <div className="history-details">+8 points • Asset-Based improved</div>
             </div>
             <div className="history-score">738</div>
           </div>
           <div className="history-item">
-            <div className="history-date">15 Déc 2023</div>
+            <div className="history-date">Dec 15, 2023</div>
             <div className="history-content">
-              <div className="history-title">Paiement effectué à temps</div>
-              <div className="history-details">+5 points • Reputation améliorée</div>
+              <div className="history-title">Payment made on time</div>
+              <div className="history-details">+5 points • Reputation improved</div>
             </div>
             <div className="history-score">730</div>
           </div>
@@ -359,9 +359,9 @@ export default function CreditScore() {
 
       {/* Actions */}
       <div className="score-actions-enhanced">
-        <button className="btn-primary">Mettre à jour mon score</button>
-        <button className="btn-secondary">Voir l&apos;historique complet</button>
-        <button className="btn-ghost">Télécharger le rapport PDF</button>
+        <button className="btn-primary">Update my score</button>
+        <button className="btn-secondary">View full history</button>
+        <button className="btn-ghost">Download PDF report</button>
       </div>
     </div>
   )

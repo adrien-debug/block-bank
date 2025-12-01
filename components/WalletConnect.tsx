@@ -46,7 +46,7 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
             }
           }
         } catch (error) {
-          console.error('Erreur vérification connexion:', error)
+          console.error('Connection verification error:', error)
         }
       }
 
@@ -85,7 +85,7 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
 
   const connectWallet = async () => {
     if (typeof window === 'undefined' || !window.ethereum) {
-      alert('Veuillez installer MetaMask ou un autre wallet Web3')
+      alert('Please install MetaMask or another Web3 wallet')
       return
     }
 
@@ -101,31 +101,31 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
         }
       }
     } catch (error) {
-      console.error('Erreur de connexion:', error)
-      alert('Erreur lors de la connexion au wallet')
+      console.error('Connection error:', error)
+      alert('Error connecting to wallet')
     } finally {
       setIsConnecting(false)
     }
   }
 
   const disconnect = useCallback(async () => {
-    // Réinitialiser l'état local immédiatement
+    // Reset local state immediately
     setAddress(null)
     
-    // Notifier le parent immédiatement pour mettre à jour l'UI
+    // Notify parent immediately to update UI
     if (onDisconnectRef.current) {
       onDisconnectRef.current()
     }
     
-    // Vérifier l'état de MetaMask (pour debug)
+    // Check MetaMask state (for debug)
     if (typeof window !== 'undefined' && window.ethereum) {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' })
-        // Note: MetaMask ne permet pas de déconnecter programmatiquement
-        // mais notre état local est déjà mis à jour
-        console.log('État MetaMask après déconnexion:', accounts.length > 0 ? 'Toujours connecté' : 'Déconnecté')
+        // Note: MetaMask does not allow programmatic disconnection
+        // but our local state is already updated
+        console.log('MetaMask state after disconnect:', accounts.length > 0 ? 'Still connected' : 'Disconnected')
       } catch (error) {
-        console.error('Erreur lors de la vérification:', error)
+        console.error('Error during verification:', error)
       }
     }
   }, [])
@@ -138,7 +138,7 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
           <span>{formatAddress(address)}</span>
         </div>
         <button onClick={disconnect} className="btn-disconnect">
-          Déconnecter
+          Disconnect
         </button>
       </div>
     )
@@ -151,7 +151,7 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
         disabled={isConnecting}
         className="btn-connect-wallet"
       >
-        {isConnecting ? 'Connexion...' : 'Connecter Wallet'}
+        {isConnecting ? 'Connecting...' : 'Connect Wallet'}
       </button>
     </div>
   )

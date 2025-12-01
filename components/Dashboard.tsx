@@ -51,11 +51,11 @@ export default function Dashboard() {
     { id: 'dashboard' as Tab, label: 'Dashboard', icon: DashboardIcon },
     { id: 'explore' as Tab, label: 'Explore', icon: ExploreIcon },
     { id: 'credit-score' as Tab, label: 'Credit Score', icon: StarIcon },
-    { id: 'loans' as Tab, label: 'Mes Prêts', icon: MoneyIcon },
+    { id: 'loans' as Tab, label: 'My Loans', icon: MoneyIcon },
     { id: 'nft' as Tab, label: 'NFT RWA', icon: NFTIcon },
-    { id: 'insurance' as Tab, label: 'Assurance', icon: ShieldIcon },
+    { id: 'insurance' as Tab, label: 'Insurance', icon: ShieldIcon },
     { id: 'investor' as Tab, label: 'Investor', icon: InvestorIcon },
-    { id: 'profile' as Tab, label: 'Profil', icon: UserIcon },
+    { id: 'profile' as Tab, label: 'Profile', icon: UserIcon },
   ]
 
   return (
@@ -95,11 +95,11 @@ export default function Dashboard() {
           <div className="dashboard-overview">
             <div className="dashboard-header">
               <div>
-                <h1>Tableau de bord</h1>
-                <p className="dashboard-subtitle">Vue d&apos;ensemble de votre activité</p>
+                <h1>Dashboard</h1>
+                <p className="dashboard-subtitle">Overview of your activity</p>
               </div>
               <div className="dashboard-date">
-                {new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
               </div>
             </div>
 
@@ -116,9 +116,9 @@ export default function Dashboard() {
                   <div className="stat-value">750</div>
                   <div className="stat-trend">
                     <span className="trend-up">↑ +12</span>
-                    <span className="trend-period">vs mois dernier</span>
+                    <span className="trend-period">vs last month</span>
                   </div>
-                  <div className="stat-badge badge-a">Tranche A • Excellent</div>
+                  <div className="stat-badge badge-a">Tier A • Excellent</div>
                 </div>
               </div>
               
@@ -129,14 +129,14 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="stat-content">
-                  <div className="stat-label">Prêts actifs</div>
+                  <div className="stat-label">Active Loans</div>
                   <div className="stat-value">2</div>
                   <div className="stat-subtitle">150,000 USDC</div>
                   <div className="stat-progress">
                     <div className="progress-bar">
                       <div className="progress-fill" style={{ width: '65%' }}></div>
                     </div>
-                    <span className="progress-text">65% LTV moyen</span>
+                    <span className="progress-text">65% avg LTV</span>
                   </div>
                 </div>
               </div>
@@ -150,11 +150,11 @@ export default function Dashboard() {
                 <div className="stat-content">
                   <div className="stat-label">NFT RWA</div>
                   <div className="stat-value">3</div>
-                  <div className="stat-subtitle">Valeur totale: 950,000 USDC</div>
+                  <div className="stat-subtitle">Total value: 950,000 USDC</div>
                   <div className="stat-breakdown">
-                    <span>2 verrouillés</span>
+                    <span>2 locked</span>
                     <span>•</span>
-                    <span>1 disponible</span>
+                    <span>1 available</span>
                   </div>
                 </div>
               </div>
@@ -166,10 +166,10 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="stat-content">
-                  <div className="stat-label">Assurance</div>
-                  <div className="stat-value">Actif</div>
-                  <div className="stat-subtitle">Couverture: 80%</div>
-                  <div className="stat-info">Prime: 1,200 USDC/mois</div>
+                  <div className="stat-label">Insurance</div>
+                  <div className="stat-value">Active</div>
+                  <div className="stat-subtitle">Coverage: 80%</div>
+                  <div className="stat-info">Premium: 1,200 USDC/month</div>
                 </div>
               </div>
             </div>
@@ -178,11 +178,11 @@ export default function Dashboard() {
             <div className="dashboard-charts">
               <div className="chart-card">
                 <div className="chart-header">
-                  <h3>Évolution du Credit Score</h3>
+                  <h3>Credit Score Evolution</h3>
                   <select className="chart-period">
-                    <option>6 mois</option>
-                    <option>12 mois</option>
-                    <option>Tout</option>
+                    <option>6 months</option>
+                    <option>12 months</option>
+                    <option>All</option>
                   </select>
                 </div>
                 <div className="chart-container">
@@ -205,11 +205,11 @@ export default function Dashboard() {
 
               <div className="chart-card">
                 <div className="chart-header">
-                  <h3>Répartition des actifs</h3>
+                  <h3>Asset Distribution</h3>
                 </div>
                 <div className="pie-chart">
                   <div className="pie-segment segment-1" style={{ '--percentage': '32%' } as React.CSSProperties}>
-                    <span className="segment-label">Immobilier</span>
+                    <span className="segment-label">Real Estate</span>
                     <span className="segment-value">300K</span>
                   </div>
                   <div className="pie-segment segment-2" style={{ '--percentage': '16%' } as React.CSSProperties}>
@@ -224,7 +224,7 @@ export default function Dashboard() {
                 <div className="chart-legend">
                   <div className="legend-item">
                     <span className="legend-color" style={{ background: 'var(--color-primary)' }}></span>
-                    <span>Immobilier: 300,000 USDC</span>
+                    <span>Real Estate: 300,000 USDC</span>
                   </div>
                   <div className="legend-item">
                     <span className="legend-color" style={{ background: '#30D158' }}></span>
@@ -242,8 +242,8 @@ export default function Dashboard() {
             <div className="dashboard-activity">
               <div className="activity-card">
                 <div className="activity-header">
-                  <h3>Activité récente</h3>
-                  <button className="btn-ghost">Voir tout</button>
+                  <h3>Recent Activity</h3>
+                  <button className="btn-ghost">View all</button>
                 </div>
                 <div className="activity-list">
                   <div className="activity-item">
@@ -251,9 +251,9 @@ export default function Dashboard() {
                       <CheckIcon />
                     </div>
                     <div className="activity-content">
-                      <div className="activity-title">Paiement reçu</div>
-                      <div className="activity-desc">Prêt #1 - 15,000 USDC</div>
-                      <div className="activity-time">Il y a 2 heures</div>
+                      <div className="activity-title">Payment received</div>
+                      <div className="activity-desc">Loan #1 - 15,000 USDC</div>
+                      <div className="activity-time">2 hours ago</div>
                     </div>
                     <div className="activity-amount">+15,000 USDC</div>
                   </div>
@@ -262,9 +262,9 @@ export default function Dashboard() {
                       <ChartIcon />
                     </div>
                     <div className="activity-content">
-                      <div className="activity-title">Score mis à jour</div>
+                      <div className="activity-title">Score updated</div>
                       <div className="activity-desc">Credit Score: 750 (+12)</div>
-                      <div className="activity-time">Il y a 1 jour</div>
+                      <div className="activity-time">1 day ago</div>
                     </div>
                   </div>
                   <div className="activity-item">
@@ -272,9 +272,9 @@ export default function Dashboard() {
                       <LockIcon />
                     </div>
                     <div className="activity-content">
-                      <div className="activity-title">NFT verrouillé</div>
-                      <div className="activity-desc">Villa Paris - Prêt #1</div>
-                      <div className="activity-time">Il y a 3 jours</div>
+                      <div className="activity-title">NFT locked</div>
+                      <div className="activity-desc">Villa Paris - Loan #1</div>
+                      <div className="activity-time">3 days ago</div>
                     </div>
                   </div>
                 </div>
@@ -282,7 +282,7 @@ export default function Dashboard() {
 
               <div className="alerts-card">
                 <div className="alerts-header">
-                  <h3>Alertes & notifications</h3>
+                  <h3>Alerts & Notifications</h3>
                   <span className="alerts-badge">2</span>
                 </div>
                 <div className="alerts-list">
@@ -291,18 +291,18 @@ export default function Dashboard() {
                       <WarningIcon />
                     </div>
                     <div className="alert-content">
-                      <div className="alert-title">Paiement à venir</div>
-                      <div className="alert-desc">Prêt #2 - Échéance dans 5 jours</div>
+                      <div className="alert-title">Upcoming payment</div>
+                      <div className="alert-desc">Loan #2 - Due in 5 days</div>
                     </div>
-                    <button className="alert-action">Payer</button>
+                    <button className="alert-action">Pay</button>
                   </div>
                   <div className="alert-item alert-info">
                     <div className="alert-icon">
                       <InfoIcon />
                     </div>
                     <div className="alert-content">
-                      <div className="alert-title">Assurance renouvelée</div>
-                      <div className="alert-desc">Couverture active jusqu&apos;au 15/03/2024</div>
+                      <div className="alert-title">Insurance renewed</div>
+                      <div className="alert-desc">Coverage active until 03/15/2024</div>
                     </div>
                   </div>
                 </div>
@@ -313,57 +313,57 @@ export default function Dashboard() {
             <div className="performance-metrics">
               <div className="metric-card">
                 <div className="metric-header">
-                  <h3>Performance globale</h3>
+                  <h3>Overall Performance</h3>
                 </div>
                 <div className="metric-grid">
                   <div className="metric-item">
-                    <div className="metric-label">Taux d&apos;utilisation</div>
+                    <div className="metric-label">Utilization rate</div>
                     <div className="metric-value-large">65%</div>
                     <div className="metric-bar">
                       <div className="metric-bar-fill" style={{ width: '65%' }}></div>
                     </div>
                   </div>
                   <div className="metric-item">
-                    <div className="metric-label">Paiements à temps</div>
+                    <div className="metric-label">On-time payments</div>
                     <div className="metric-value-large">100%</div>
-                    <div className="metric-badge-success">Parfait</div>
+                    <div className="metric-badge-success">Perfect</div>
                   </div>
                   <div className="metric-item">
-                    <div className="metric-label">Valeur totale</div>
+                    <div className="metric-label">Total value</div>
                     <div className="metric-value-large">950K USDC</div>
-                    <div className="metric-trend-up">+5% ce mois</div>
+                    <div className="metric-trend-up">+5% this month</div>
                   </div>
                 </div>
               </div>
 
               <div className="quick-actions-card">
                 <div className="quick-actions-header">
-                  <h3>Actions rapides</h3>
+                  <h3>Quick Actions</h3>
                 </div>
                 <div className="quick-actions-grid">
                   <button className="quick-action-btn">
                     <div className="quick-action-icon">
                       <MoneyIcon />
                     </div>
-                    <div className="quick-action-label">Nouveau prêt</div>
+                    <div className="quick-action-label">New loan</div>
                   </button>
                   <button className="quick-action-btn">
                     <div className="quick-action-icon">
                       <NFTIcon />
                     </div>
-                    <div className="quick-action-label">Tokeniser actif</div>
+                    <div className="quick-action-label">Tokenize asset</div>
                   </button>
                   <button className="quick-action-btn">
                     <div className="quick-action-icon">
                       <ChartIcon />
                     </div>
-                    <div className="quick-action-label">Mettre à jour score</div>
+                    <div className="quick-action-label">Update score</div>
                   </button>
                   <button className="quick-action-btn">
                     <div className="quick-action-icon">
                       <ShieldIcon />
                     </div>
-                    <div className="quick-action-label">Gérer assurance</div>
+                    <div className="quick-action-label">Manage insurance</div>
                   </button>
                 </div>
               </div>

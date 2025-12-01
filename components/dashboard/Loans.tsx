@@ -13,7 +13,7 @@ export default function Loans() {
       asset: 'Villa Paris - NFT #1234',
       ltv: '65%',
       rate: '8.5%',
-      term: '36 mois',
+      term: '36 months',
       status: 'active',
       nextPayment: '15,000 USDC',
       dueDate: '2024-02-15',
@@ -25,7 +25,7 @@ export default function Loans() {
       asset: 'Mining Farm - NFT #5678',
       ltv: '55%',
       rate: '9.2%',
-      term: '24 mois',
+      term: '24 months',
       status: 'active',
       nextPayment: '7,500 USDC',
       dueDate: '2024-02-20',
@@ -35,22 +35,22 @@ export default function Loans() {
   return (
     <div className="loans-page">
       <div className="page-header">
-        <h1>Mes Prêts</h1>
+        <h1>My Loans</h1>
         <button 
           onClick={() => setShowNewLoan(true)} 
           className="btn-primary"
         >
-          + Nouveau prêt
+          + New loan
         </button>
       </div>
 
       {showNewLoan && (
         <div className="new-loan-modal">
           <div className="modal-content">
-            <h2>Demander un nouveau prêt</h2>
+            <h2>Request a new loan</h2>
             <form className="loan-form">
               <div className="form-group">
-                <label>Montant demandé</label>
+                <label>Requested amount</label>
                 <input type="number" placeholder="100,000" />
                 <select>
                   <option>USDC</option>
@@ -59,28 +59,28 @@ export default function Loans() {
                 </select>
               </div>
               <div className="form-group">
-                <label>Actif à nantir (NFT RWA)</label>
+                <label>Collateral asset (NFT RWA)</label>
                 <select>
-                  <option>Sélectionner un NFT RWA</option>
+                  <option>Select an NFT RWA</option>
                   <option>Villa Paris - NFT #1234</option>
                   <option>Mining Farm - NFT #5678</option>
                 </select>
               </div>
               <div className="form-group">
-                <label>Durée</label>
+                <label>Duration</label>
                 <select>
-                  <option>12 mois</option>
-                  <option>24 mois</option>
-                  <option>36 mois</option>
-                  <option>48 mois</option>
+                  <option>12 months</option>
+                  <option>24 months</option>
+                  <option>36 months</option>
+                  <option>48 months</option>
                 </select>
               </div>
               <div className="form-actions">
                 <button type="button" onClick={() => setShowNewLoan(false)} className="btn-secondary">
-                  Annuler
+                  Cancel
                 </button>
                 <button type="submit" className="btn-primary">
-                  Soumettre la demande
+                  Submit request
                 </button>
               </div>
             </form>
@@ -104,20 +104,20 @@ export default function Loans() {
                 <span className="detail-value">{loan.ltv}</span>
               </div>
               <div className="detail-item">
-                <span className="detail-label">Taux</span>
+                <span className="detail-label">Rate</span>
                 <span className="detail-value">{loan.rate}</span>
               </div>
               <div className="detail-item">
-                <span className="detail-label">Durée</span>
+                <span className="detail-label">Term</span>
                 <span className="detail-value">{loan.term}</span>
               </div>
             </div>
             <div className="loan-payment">
               <div className="payment-info">
-                <span>Prochain paiement: {loan.nextPayment}</span>
-                <span className="payment-date">Échéance: {loan.dueDate}</span>
+                <span>Next payment: {loan.nextPayment}</span>
+                <span className="payment-date">Due date: {loan.dueDate}</span>
               </div>
-              <button className="btn-pay">Payer maintenant</button>
+              <button className="btn-pay">Pay now</button>
             </div>
           </div>
         ))}

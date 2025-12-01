@@ -41,7 +41,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
   }
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('fr-FR', {
+    return new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value)
@@ -53,8 +53,8 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
       <div className="profiles-page-header">
         <div className="profiles-header-content">
           <div>
-            <h1 className="profiles-title">Choisissez votre profil de prêt</h1>
-            <p className="profiles-subtitle">3 options adaptées à votre situation et votre profil de risque</p>
+            <h1 className="profiles-title">Choose your loan profile</h1>
+            <p className="profiles-subtitle">3 options adapted to your situation and risk profile</p>
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
             {nft.assetType === 'OTHER' && '📦'}
           </div>
           <div className="nft-reminder-info">
-            <span className="nft-reminder-label">NFT sélectionné</span>
+            <span className="nft-reminder-label">Selected NFT</span>
             <span className="nft-reminder-name">{nft.name}</span>
           </div>
           <div className="nft-reminder-value">
@@ -91,7 +91,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
             {profile.recommended && (
               <div className="profile-recommended-badge-premium">
                 <span className="badge-icon">⭐</span>
-                <span>Recommandé</span>
+                <span>Recommended</span>
               </div>
             )}
             
@@ -106,16 +106,16 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
             
             <div className="profile-card-header-premium">
               <div className={`profile-badge-premium profile-${profile.profile.toLowerCase()}`}>
-                {profile.profile === 'SAFE' && 'Sécurisé'}
-                {profile.profile === 'BALANCED' && 'Équilibré'}
-                {profile.profile === 'MAX_LEVERAGE' && 'Leverage Max'}
+                {profile.profile === 'SAFE' && 'Safe'}
+                {profile.profile === 'BALANCED' && 'Balanced'}
+                {profile.profile === 'MAX_LEVERAGE' && 'Max Leverage'}
               </div>
             </div>
 
             <div className="profile-card-body-premium">
-              {/* Apport Principal */}
+              {/* Down Payment Main */}
               <div className="profile-main-metric-premium">
-                <div className="metric-label-premium">Apport requis</div>
+                <div className="metric-label-premium">Required down payment</div>
                 <div className="metric-value-premium-large">
                   {formatCurrency(profile.downPayment)}
                 </div>
@@ -123,10 +123,10 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
                 <div className="metric-percent-badge">{profile.downPaymentPercent}%</div>
               </div>
 
-              {/* Détails */}
+              {/* Details */}
               <div className="profile-details-premium">
                 <div className="profile-detail-item">
-                  <span className="detail-label-premium">Montant prêt</span>
+                  <span className="detail-label-premium">Loan amount</span>
                   <span className="detail-value-premium">{formatCurrency(profile.loanAmount)} {nft.valueCurrency}</span>
                 </div>
                 <div className="profile-detail-item">
@@ -134,37 +134,37 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
                   <span className="detail-value-premium">{profile.ltv.toFixed(1)}%</span>
                 </div>
                 <div className="profile-detail-item">
-                  <span className="detail-label-premium">Taux APY</span>
+                  <span className="detail-label-premium">APY Rate</span>
                   <span className="detail-value-premium">{profile.interestRate.toFixed(2)}%</span>
                 </div>
                 <div className="profile-detail-item">
-                  <span className="detail-label-premium">Durée</span>
-                  <span className="detail-value-premium">{profile.duration} mois</span>
+                  <span className="detail-label-premium">Duration</span>
+                  <span className="detail-value-premium">{profile.duration} months</span>
                 </div>
                 
                 <div className="profile-detail-divider"></div>
                 
                 <div className="profile-detail-item highlight-premium">
-                  <span className="detail-label-premium">Mensualité</span>
+                  <span className="detail-label-premium">Monthly payment</span>
                   <span className="detail-value-premium-large">{formatCurrency(profile.monthlyPayment)} {nft.valueCurrency}</span>
                 </div>
                 
                 {profile.insurancePremium && (
                   <div className="profile-detail-item">
-                    <span className="detail-label-premium">Assurance</span>
+                    <span className="detail-label-premium">Insurance</span>
                     <span className="detail-value-premium">
                       <span className={`insurance-badge ${profile.insuranceRequired ? 'required' : 'optional'}`}>
-                        {profile.insuranceRequired ? 'Obligatoire' : 'Optionnelle'}
+                        {profile.insuranceRequired ? 'Required' : 'Optional'}
                       </span>
-                      <span className="insurance-premium"> {formatCurrency(profile.insurancePremium)} {nft.valueCurrency}/an</span>
+                      <span className="insurance-premium"> {formatCurrency(profile.insurancePremium)} {nft.valueCurrency}/year</span>
                     </span>
                   </div>
                 )}
               </div>
 
-              {/* Coût Total */}
+              {/* Total Cost */}
               <div className="profile-total-cost-premium">
-                <div className="total-cost-label-premium">Coût total</div>
+                <div className="total-cost-label-premium">Total cost</div>
                 <div className="total-cost-value-premium">{formatCurrency(profile.totalCost)} {nft.valueCurrency}</div>
               </div>
             </div>
@@ -183,10 +183,10 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
                       <circle cx="10" cy="10" r="9" fill="currentColor" />
                       <path d="M7 10L9 12L13 8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <span>Sélectionné</span>
+                    <span>Selected</span>
                   </>
                 ) : (
-                  <span>Sélectionner</span>
+                  <span>Select</span>
                 )}
               </button>
             </div>
@@ -194,26 +194,26 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
         ))}
       </div>
 
-      {/* Comparaison Tableau Premium */}
+      {/* Comparison Table Premium */}
       {selectedProfile && (
         <div className="profile-comparison-premium">
           <div className="comparison-card-premium">
-            <h2 className="comparison-title">Comparaison des profils</h2>
+            <h2 className="comparison-title">Profile comparison</h2>
             <div className="comparison-table-premium">
               <div className="comparison-header-premium">
-                <div className="comparison-cell-premium header">Critère</div>
+                <div className="comparison-cell-premium header">Criterion</div>
                 <div className="comparison-cell-premium header">SAFE</div>
                 <div className="comparison-cell-premium header">BALANCED</div>
                 <div className="comparison-cell-premium header">MAX LEVERAGE</div>
               </div>
               <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">Apport</div>
+                <div className="comparison-cell-premium label">Down Payment</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[0].downPayment)} {nft.valueCurrency}</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[1].downPayment)} {nft.valueCurrency}</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[2].downPayment)} {nft.valueCurrency}</div>
               </div>
               <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">Montant prêt</div>
+                <div className="comparison-cell-premium label">Loan Amount</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[0].loanAmount)} {nft.valueCurrency}</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[1].loanAmount)} {nft.valueCurrency}</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[2].loanAmount)} {nft.valueCurrency}</div>
@@ -225,19 +225,19 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
                 <div className="comparison-cell-premium">{profiles[2].ltv.toFixed(1)}%</div>
               </div>
               <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">Taux APY</div>
+                <div className="comparison-cell-premium label">APY Rate</div>
                 <div className="comparison-cell-premium">{profiles[0].interestRate.toFixed(2)}%</div>
                 <div className="comparison-cell-premium">{profiles[1].interestRate.toFixed(2)}%</div>
                 <div className="comparison-cell-premium">{profiles[2].interestRate.toFixed(2)}%</div>
               </div>
               <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">Mensualité</div>
+                <div className="comparison-cell-premium label">Monthly Payment</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[0].monthlyPayment)} {nft.valueCurrency}</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[1].monthlyPayment)} {nft.valueCurrency}</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[2].monthlyPayment)} {nft.valueCurrency}</div>
               </div>
               <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">Coût total</div>
+                <div className="comparison-cell-premium label">Total Cost</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[0].totalCost)} {nft.valueCurrency}</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[1].totalCost)} {nft.valueCurrency}</div>
                 <div className="comparison-cell-premium">{formatCurrency(profiles[2].totalCost)} {nft.valueCurrency}</div>
@@ -247,21 +247,21 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
         </div>
       )}
 
-      {/* Recommandation Premium */}
+      {/* Recommendation Premium */}
       <div className="profile-recommendation-premium">
         <div className="recommendation-card-premium">
           <div className="recommendation-icon">💡</div>
           <div className="recommendation-content-premium">
-            <h3 className="recommendation-title">Recommandation</h3>
+            <h3 className="recommendation-title">Recommendation</h3>
             <p className="recommendation-text">
               {selectedProfile?.profile === 'SAFE' && 
-                'Le profil SAFE offre la meilleure sécurité avec un apport élevé et des conditions favorables. Idéal si vous privilégiez la stabilité et la réduction des risques.'}
+                'The SAFE profile offers the best security with a high down payment and favorable conditions. Ideal if you prioritize stability and risk reduction.'}
               {selectedProfile?.profile === 'BALANCED' && 
-                'Le profil BALANCED offre le meilleur équilibre entre apport et leverage. Recommandé pour la plupart des utilisateurs cherchant un compromis optimal.'}
+                'The BALANCED profile offers the best balance between down payment and leverage. Recommended for most users seeking an optimal compromise.'}
               {selectedProfile?.profile === 'MAX_LEVERAGE' && 
-                'Le profil MAX LEVERAGE maximise votre capacité d\'emprunt mais nécessite une assurance obligatoire. Idéal si vous avez confiance en votre capacité de remboursement et souhaitez optimiser votre capital.'}
+                'The MAX LEVERAGE profile maximizes your borrowing capacity but requires mandatory insurance. Ideal if you are confident in your repayment capacity and want to optimize your capital.'}
               {!selectedProfile && 
-                'Sélectionnez un profil pour voir la recommandation personnalisée basée sur votre sélection.'}
+                'Select a profile to see the personalized recommendation based on your selection.'}
             </p>
           </div>
         </div>
@@ -274,7 +274,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
           onClick={handleConfirm}
           disabled={!selectedProfile}
         >
-          {selectedProfile ? 'Confirmer et continuer' : 'Sélectionnez un profil'}
+          {selectedProfile ? 'Confirm and continue' : 'Select a profile'}
         </button>
       </div>
     </div>

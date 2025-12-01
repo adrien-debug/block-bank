@@ -5,12 +5,12 @@ export default function NFTAssets() {
     {
       id: 1,
       tokenId: '#1234',
-      type: 'Immobilier',
+      type: 'Real Estate',
       name: 'Villa Paris',
       value: '300,000',
       currency: 'USDC',
       status: 'locked',
-      lockedIn: 'Prêt #1',
+      lockedIn: 'Loan #1',
     },
     {
       id: 2,
@@ -20,7 +20,7 @@ export default function NFTAssets() {
       value: '150,000',
       currency: 'USDC',
       status: 'locked',
-      lockedIn: 'Prêt #2',
+      lockedIn: 'Loan #2',
     },
     {
       id: 3,
@@ -36,8 +36,8 @@ export default function NFTAssets() {
   return (
     <div className="nft-assets-page">
       <div className="page-header">
-        <h1>Mes NFT RWA</h1>
-        <button className="btn-primary">+ Tokeniser un actif</button>
+        <h1>My NFT RWA</h1>
+        <button className="btn-primary">+ Tokenize asset</button>
       </div>
 
       <div className="nft-grid">
@@ -46,7 +46,7 @@ export default function NFTAssets() {
             <div className="nft-header">
               <span className="nft-type">{nft.type}</span>
               <span className={`nft-status ${nft.status}`}>
-                {nft.status === 'locked' ? '🔒 Verrouillé' : '✅ Disponible'}
+                {nft.status === 'locked' ? '🔒 Locked' : '✅ Available'}
               </span>
             </div>
             <div className="nft-body">
@@ -57,20 +57,20 @@ export default function NFTAssets() {
                 <span className="value-currency">{nft.currency}</span>
               </div>
               {nft.status === 'locked' && (
-                <p className="nft-locked-info">Utilisé dans: {nft.lockedIn}</p>
+                <p className="nft-locked-info">Used in: {nft.lockedIn}</p>
               )}
             </div>
             <div className="nft-actions">
               {nft.status === 'available' && (
                 <>
-                  <button className="btn-secondary">Voir détails</button>
+                  <button className="btn-secondary">View details</button>
                   <button className="btn-primary">
-                    Utiliser pour prêt
+                    Use for loan
                   </button>
                 </>
               )}
               {nft.status === 'locked' && (
-                <button className="btn-secondary" disabled>Détails</button>
+                <button className="btn-secondary" disabled>Details</button>
               )}
             </div>
           </div>
@@ -79,4 +79,3 @@ export default function NFTAssets() {
     </div>
   )
 }
-

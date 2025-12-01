@@ -4,62 +4,62 @@ export default function Insurance() {
   const insurancePolicies = [
     {
       id: 1,
-      loanId: 'Prêt #1',
+      loanId: 'Loan #1',
       coverage: '80%',
       premium: '2,400',
       currency: 'USDC',
-      period: 'Annuel',
+      period: 'Annual',
       status: 'active',
-      risks: ['Défaut emprunteur', 'Risque marché'],
+      risks: ['Borrower default', 'Market risk'],
     },
     {
       id: 2,
-      loanId: 'Prêt #2',
+      loanId: 'Loan #2',
       coverage: '75%',
       premium: '1,200',
       currency: 'USDC',
-      period: 'Annuel',
+      period: 'Annual',
       status: 'active',
-      risks: ['Défaut emprunteur'],
+      risks: ['Borrower default'],
     },
   ]
 
   return (
     <div className="insurance-page">
-      <h1>Mes Assurances</h1>
+      <h1>My Insurance</h1>
       
       <div className="insurance-summary">
         <div className="summary-card">
-          <div className="summary-label">Couverture totale</div>
+          <div className="summary-label">Total coverage</div>
           <div className="summary-value">155%</div>
-          <div className="summary-subtitle">de la valeur des prêts</div>
+          <div className="summary-subtitle">of loan value</div>
         </div>
         <div className="summary-card">
-          <div className="summary-label">Prime annuelle</div>
+          <div className="summary-label">Annual premium</div>
           <div className="summary-value">3,600 USDC</div>
-          <div className="summary-subtitle">Répartie sur 2 polices</div>
+          <div className="summary-subtitle">Across 2 policies</div>
         </div>
       </div>
 
       <div className="insurance-policies">
-        <h2>Polices actives</h2>
+        <h2>Active policies</h2>
         {insurancePolicies.map((policy) => (
           <div key={policy.id} className="policy-card">
             <div className="policy-header">
               <h3>{policy.loanId}</h3>
-              <span className={`policy-status ${policy.status}`}>Actif</span>
+              <span className={`policy-status ${policy.status}`}>Active</span>
             </div>
             <div className="policy-details">
               <div className="detail-row">
-                <span className="detail-label">Couverture</span>
+                <span className="detail-label">Coverage</span>
                 <span className="detail-value">{policy.coverage}</span>
               </div>
               <div className="detail-row">
-                <span className="detail-label">Prime {policy.period.toLowerCase()}</span>
+                <span className="detail-label">{policy.period} premium</span>
                 <span className="detail-value">{policy.premium} {policy.currency}</span>
               </div>
               <div className="detail-row">
-                <span className="detail-label">Risques couverts</span>
+                <span className="detail-label">Covered risks</span>
                 <div className="risks-list">
                   {policy.risks.map((risk, idx) => (
                     <span key={idx} className="risk-badge">{risk}</span>
@@ -68,8 +68,8 @@ export default function Insurance() {
               </div>
             </div>
             <div className="policy-actions">
-              <button className="btn-secondary">Voir les détails</button>
-              <button className="btn-primary">Renouveler</button>
+              <button className="btn-secondary">View details</button>
+              <button className="btn-primary">Renew</button>
             </div>
           </div>
         ))}
@@ -77,4 +77,3 @@ export default function Insurance() {
     </div>
   )
 }
-

@@ -15,17 +15,17 @@ export default function Hero() {
       <div className="hero-main">
         <div className="hero-kicker">
           <div className="hero-kicker-pill">∞</div>
-          <span>Protocole de Credit Banking On-Chain • Adrien × Qatar</span>
+          <span>On-Chain Credit Banking Protocol • Adrien × Qatar</span>
         </div>
-        <h1>Infrastructure de crédit on-chain<br />pour actifs réels & mining Bitcoin</h1>
+        <h1>On-chain credit infrastructure<br />for real assets & Bitcoin mining</h1>
         <p>
-          Conception complète d&apos;une banque de crédit on-chain, sous-collatéralisée,
-          construite autour de trois piliers&nbsp;: un moteur de crédit score
-          hybride on-chain/off-chain, un système de nantissement NFT pour actifs
-          réels (RWA) et un protocole d&apos;assurance paramétrique couvrant les défauts.
-          Cette architecture est pensée pour un déploiement institutionnel
-          (fonds souverain, banques, Qatar) avec exigences de conformité, de
-          transparence et de scalabilité globale.
+          Complete design of an under-collateralized on-chain credit bank,
+          built around three pillars: a hybrid on-chain/off-chain credit score
+          engine, an NFT collateralization system for real-world assets (RWA)
+          and a parametric insurance protocol covering defaults.
+          This architecture is designed for institutional deployment
+          (sovereign funds, banks, Qatar) with compliance, transparency
+          and global scalability requirements.
         </p>
         <div className="hero-tags">
           <div className="tag">
@@ -34,86 +34,86 @@ export default function Hero() {
           </div>
           <div className="tag">
             <span className="tag-dot tag-dot-alt"></span>
-            <span>NFT de nantissement RWA</span>
+            <span>NFT RWA collateralization</span>
           </div>
           <div className="tag">
             <span className="tag-dot"></span>
-            <span>Mining Bitcoin • ~3 EH/s</span>
+            <span>Bitcoin Mining • ~3 EH/s</span>
           </div>
           <div className="tag">
             <span className="tag-dot tag-dot-alt"></span>
-            <span>Assurance paramétrique défaut</span>
+            <span>Parametric default insurance</span>
           </div>
         </div>
         <div className="hero-cta-row">
           <Button href="#module-credit-score" variant="primary">
-            1. Moteur de credit score
+            1. Credit score engine
           </Button>
           <Button href="#module-nft-rwa" variant="ghost">
-            2. NFT & nantissement RWA
+            2. NFT & RWA collateralization
           </Button>
           <Button href="#module-assurance" variant="ghost">
-            3. Protocole d&apos;assurance défaut
+            3. Default insurance protocol
           </Button>
         </div>
         <div className="hero-metric-grid">
           <div className="metric-card">
-            <div className="metric-label">Capacité minière (actuelle)</div>
+            <div className="metric-label">Mining capacity (current)</div>
             <div className="metric-value">≈ 3 EH/s</div>
             <div className="metric-caption">
-              Hashrate mondial réparti, flux BTC prévisibles → base idéale pour
-              modéliser des revenus et financer des infrastructures corrélées.
+              Distributed global hashrate, predictable BTC flows → ideal base for
+              modeling revenue and financing correlated infrastructure.
             </div>
           </div>
           <div className="metric-card">
-            <div className="metric-label">Structure de risque</div>
-            <div className="metric-value">Sous-collatéralisée, mais assurée</div>
+            <div className="metric-label">Risk structure</div>
+            <div className="metric-value">Under-collateralized, but insured</div>
             <div className="metric-caption">
-              Le protocole accepte le risque de crédit en assumant que
-              le défaut est probabilisable et mutualisable via assurance
-              et notation dynamique.
+              The protocol accepts credit risk by assuming that
+              default is probabilizable and mutualizable through insurance
+              and dynamic scoring.
             </div>
           </div>
         </div>
       </div>
       <aside className="hero-side">
         <div className="hero-side-box">
-          <div className="hero-side-title">Angle stratégique pour le Qatar</div>
+          <div className="hero-side-title">Strategic angle for Qatar</div>
           <div className="hero-pill-row">
-            <div className="hero-pill">Accès structuré à des RWA tokenisés</div>
-            <div className="hero-pill">Exposition minière BTC maîtrisée</div>
-            <div className="hero-pill">Infra de crédit islamique-compatible*</div>
+            <div className="hero-pill">Structured access to tokenized RWAs</div>
+            <div className="hero-pill">Controlled BTC mining exposure</div>
+            <div className="hero-pill">Islamic-compatible credit infra*</div>
           </div>
           <p style={{fontSize:'0.82rem',marginBottom:'6px'}}>
-            *La structuration exacte (Murabaha, Ijara, etc.) reste un travail
-            juridique séparé, mais la couche technique est prête à supporter
-            ces logiques (flux plutôt que intérêt explicite, partage de profit,
+            *The exact structuring (Murabaha, Ijara, etc.) remains separate legal
+            work, but the technical layer is ready to support
+            these logics (flows rather than explicit interest, profit sharing,
             etc.).
           </p>
           <ul className="hero-step-list">
             <li>
               <div className="hero-step-badge">1</div>
               <div>
-                <strong>Moteur de score certifiable</strong><br />
-                Score 100&nbsp;% transparent et auditable, combinant identité,
-                comportement on-chain, métriques financières classiques
-                et qualité des actifs.
+                <strong>Certifiable score engine</strong><br />
+                100% transparent and auditable score, combining identity,
+                on-chain behavior, traditional financial metrics
+                and asset quality.
               </div>
             </li>
             <li>
               <div className="hero-step-badge">2</div>
               <div>
-                <strong>Nantissement NFT des actifs financés</strong><br />
-                Les propriétés et équipements sont tokenisés, lockés
-                dans des smart contracts, avec transfert automatique en cas de défaut.
+                <strong>NFT collateralization of financed assets</strong><br />
+                Properties and equipment are tokenized, locked
+                in smart contracts, with automatic transfer in case of default.
               </div>
             </li>
             <li>
               <div className="hero-step-badge">3</div>
               <div>
-                <strong>Couche assurance défaut</strong><br />
-                Pools de capital (Qatar + investisseurs) qui absorbent le risque
-                mutualisé, avec déclencheurs paramétriques.
+                <strong>Default insurance layer</strong><br />
+                Capital pools (Qatar + investors) that absorb mutualized risk,
+                with parametric triggers.
               </div>
             </li>
           </ul>

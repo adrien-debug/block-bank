@@ -10,15 +10,15 @@ export default function Landing() {
     <div className="landing">
       <div className="landing-hero">
         <h1 className="landing-title">
-          Infrastructure de crédit on-chain
+          On-chain credit infrastructure
           <br />
-          pour actifs réels & mining Bitcoin
+          for real assets & Bitcoin mining
         </h1>
         <p className="landing-description">
-          Conception complète d&apos;une banque de crédit on-chain, sous-collatéralisée,
-          construite autour de trois piliers : un moteur de crédit score hybride,
-          un système de nantissement NFT pour actifs réels (RWA) et un protocole
-          d&apos;assurance paramétrique.
+          Complete design of an under-collateralized on-chain credit bank,
+          built around three pillars: a hybrid credit score engine,
+          an NFT collateralization system for real-world assets (RWA) and a
+          parametric insurance protocol.
         </p>
         <div className="landing-features">
           <div className="feature-card">
@@ -26,25 +26,25 @@ export default function Landing() {
               <ChartIcon />
             </div>
             <h3>Credit Score</h3>
-            <p>Score hybride on-chain/off-chain transparent et auditable</p>
+            <p>Transparent and auditable hybrid on-chain/off-chain score</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">
               <NFTAssetIcon />
             </div>
             <h3>NFT RWA</h3>
-            <p>Nantissement via NFT pour actifs réels tokenisés</p>
+            <p>Collateralization via NFT for tokenized real assets</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">
               <ShieldIcon />
             </div>
-            <h3>Assurance</h3>
-            <p>Protocole d&apos;assurance défaut paramétrique</p>
+            <h3>Insurance</h3>
+            <p>Parametric default insurance protocol</p>
           </div>
         </div>
         <div className="landing-cta">
-          <p className="cta-text">Connectez votre wallet pour commencer</p>
+          <p className="cta-text">Connect your wallet to get started</p>
         </div>
       </div>
     </div>
