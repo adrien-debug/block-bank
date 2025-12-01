@@ -183,7 +183,6 @@ export default function Dashboard() {
                 <div className="chart-header-premium">
                   <div>
                     <h3>Credit Score Evolution</h3>
-                    <p className="chart-subtitle">Track your credit score over time</p>
                   </div>
                 </div>
                 <div className="chart-container-premium">
@@ -267,7 +266,6 @@ export default function Dashboard() {
                 <div className="chart-header-premium">
                   <div>
                     <h3>Asset Distribution</h3>
-                    <p className="chart-subtitle">Breakdown of your NFT RWA portfolio</p>
                   </div>
                 </div>
                 <div className="chart-container-premium">
