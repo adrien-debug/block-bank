@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { formatAddress } from '@/lib/utils'
+import WalletIcon from '../icons/WalletIcon'
+import ShieldIcon from '../icons/ShieldIcon'
+import LightBulbIcon from '../icons/LightBulbIcon'
+import UserIcon from '../icons/UserIcon'
 
 declare global {
   interface Window {
@@ -11,6 +15,9 @@ declare global {
 
 export default function Profile() {
   const [address, setAddress] = useState<string | null>(null)
+  const [emailNotifications, setEmailNotifications] = useState(true)
+  const [pushNotifications, setPushNotifications] = useState(false)
+  const [darkMode, setDarkMode] = useState(true)
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -26,47 +33,144 @@ export default function Profile() {
 
   return (
     <div className="profile-page">
-      <h1>My Profile</h1>
-      
-      <div className="profile-section">
-        <h2>Wallet Information</h2>
-        <div className="profile-card">
-          <div className="profile-item">
-            <span className="profile-label">Address</span>
-            <span className="profile-value">{address ? formatAddress(address) : 'Not connected'}</span>
-          </div>
-          <div className="profile-item">
-            <span className="profile-label">Network</span>
-            <span className="profile-value">Ethereum Mainnet</span>
-          </div>
+      <div className="page-header">
+        <div>
+          <h1>Mon Profil</h1>
+          <p className="page-subtitle">Gérez vos informations personnelles et vos paramètres</p>
         </div>
       </div>
 
-      <div className="profile-section">
-        <h2>KYC Information</h2>
-        <div className="profile-card">
-          <div className="kyc-status">
-            <span className="kyc-badge verified">✓ Verified</span>
-            <p>Your identity has been verified and validated</p>
+      <div className="profile-sections-grid">
+        {/* Section Wallet Information */}
+        <div className="profile-section-card">
+          <div className="profile-section-header">
+            <div className="profile-section-icon">
+              <WalletIcon />
+            </div>
+            <h2 className="section-title">Informations Wallet</h2>
           </div>
-          <button className="btn-secondary">Update</button>
+          <div className="profile-card-content">
+            <div className="profile-info-item">
+              <span className="profile-info-label">Adresse</span>
+              <span className="profile-info-value">
+                {address ? formatAddress(address) : 'Non connecté'}
+              </span>
+            </div>
+            <div className="profile-info-item">
+              <span className="profile-info-label">Réseau</span>
+              <span className="profile-info-value">Ethereum Mainnet</span>
+            </div>
+            {address && (
+              <div className="profile-info-item">
+                <span className="profile-info-label">Statut</span>
+                <span className="profile-info-value status-connected">● Connecté</span>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="profile-section">
-        <h2>Settings</h2>
-        <div className="profile-card">
-          <div className="setting-item">
-            <span>Email notifications</span>
-            <input type="checkbox" defaultChecked />
+        {/* Section KYC Information */}
+        <div className="profile-section-card">
+          <div className="profile-section-header">
+            <div className="profile-section-icon">
+              <ShieldIcon />
+            </div>
+            <h2 className="section-title">Vérification KYC</h2>
           </div>
-          <div className="setting-item">
-            <span>Push notifications</span>
-            <input type="checkbox" />
+          <div className="profile-card-content">
+            <div className="kyc-status-card">
+              <div className="kyc-status-header">
+                <span className="kyc-badge verified">
+                  <ShieldIcon className="kyc-badge-icon" />
+                  Vérifié
+                </span>
+                <span className="kyc-date">Vérifié le 15 Jan 2024</span>
+              </div>
+              <p className="kyc-description">
+                Votre identité a été vérifiée et validée. Vous pouvez accéder à tous les services de la plateforme.
+              </p>
+              <button className="btn-secondary">Mettre à jour</button>
+            </div>
           </div>
-          <div className="setting-item">
-            <span>Dark mode</span>
-            <input type="checkbox" defaultChecked />
+        </div>
+
+        {/* Section Settings */}
+        <div className="profile-section-card">
+          <div className="profile-section-header">
+            <div className="profile-section-icon">
+              <LightBulbIcon />
+            </div>
+            <h2 className="section-title">Paramètres</h2>
+          </div>
+          <div className="profile-card-content">
+            <div className="settings-list">
+              <div className="setting-item">
+                <div className="setting-item-content">
+                  <span className="setting-label">Notifications email</span>
+                  <span className="setting-description">Recevoir des notifications par email</span>
+                </div>
+                <label className="toggle-switch">
+                  <input
+                    type="checkbox"
+                    checked={emailNotifications}
+                    onChange={(e) => setEmailNotifications(e.target.checked)}
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
+              </div>
+              <div className="setting-item">
+                <div className="setting-item-content">
+                  <span className="setting-label">Notifications push</span>
+                  <span className="setting-description">Recevoir des notifications push</span>
+                </div>
+                <label className="toggle-switch">
+                  <input
+                    type="checkbox"
+                    checked={pushNotifications}
+                    onChange={(e) => setPushNotifications(e.target.checked)}
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
+              </div>
+              <div className="setting-item">
+                <div className="setting-item-content">
+                  <span className="setting-label">Mode sombre</span>
+                  <span className="setting-description">Activer le thème sombre</span>
+                </div>
+                <label className="toggle-switch">
+                  <input
+                    type="checkbox"
+                    checked={darkMode}
+                    onChange={(e) => setDarkMode(e.target.checked)}
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Section Account Info */}
+        <div className="profile-section-card">
+          <div className="profile-section-header">
+            <div className="profile-section-icon">
+              <UserIcon />
+            </div>
+            <h2 className="section-title">Informations du compte</h2>
+          </div>
+          <div className="profile-card-content">
+            <div className="profile-info-item">
+              <span className="profile-info-label">Membre depuis</span>
+              <span className="profile-info-value">Janvier 2024</span>
+            </div>
+            <div className="profile-info-item">
+              <span className="profile-info-label">Niveau de vérification</span>
+              <span className="profile-info-value">Niveau 2 (KYC complet)</span>
+            </div>
+            <div className="profile-info-item">
+              <span className="profile-info-label">Limite de crédit</span>
+              <span className="profile-info-value highlight">500,000 USDC</span>
+            </div>
           </div>
         </div>
       </div>

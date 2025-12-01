@@ -1,8 +1,18 @@
 'use client'
 
 import { useState } from 'react'
+import ChartIcon from '../icons/ChartIcon'
+import DocumentIcon from '../icons/DocumentIcon'
+import LightBulbIcon from '../icons/LightBulbIcon'
+import PackageIcon from '../icons/PackageIcon'
+import ShieldIcon from '../icons/ShieldIcon'
+import InfoIcon from '../icons/InfoIcon'
+import CheckIcon from '../icons/CheckIcon'
+
+type CreditScoreTab = 'overview' | 'breakdown' | 'recommendations' | 'history' | 'tokenisation' | 'governance' | 'tiers'
 
 export default function CreditScore() {
+  const [activeTab, setActiveTab] = useState<CreditScoreTab>('overview')
   const score = 750
   const tier = 'A'
   const previousScore = 738
@@ -244,6 +254,16 @@ export default function CreditScore() {
 
   const currentTier = tierInfo[tier as keyof typeof tierInfo]
 
+  const tabs = [
+    { id: 'overview' as CreditScoreTab, label: 'Overview', icon: ChartIcon },
+    { id: 'breakdown' as CreditScoreTab, label: 'Score Breakdown', icon: DocumentIcon },
+    { id: 'recommendations' as CreditScoreTab, label: 'Recommendations', icon: LightBulbIcon },
+    { id: 'history' as CreditScoreTab, label: 'History', icon: PackageIcon },
+    { id: 'tokenisation' as CreditScoreTab, label: 'Tokenisation', icon: ShieldIcon },
+    { id: 'governance' as CreditScoreTab, label: 'Governance', icon: InfoIcon },
+    { id: 'tiers' as CreditScoreTab, label: 'All Tiers', icon: CheckIcon },
+  ]
+
   return (
     <div className="credit-score-page">
       <div className="score-page-header">
@@ -257,8 +277,32 @@ export default function CreditScore() {
         </div>
       </div>
 
-      {/* Main score with evolution */}
-      <div className="score-display-enhanced">
+      {/* Navigation Menu - Horizontal Premium */}
+      <div className="credit-score-nav-menu-premium">
+        <nav className="credit-score-nav-horizontal">
+          {tabs.map((tab) => {
+            const IconComponent = tab.icon
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`credit-score-nav-item-premium ${activeTab === tab.id ? 'active' : ''}`}
+              >
+                <span className="credit-score-nav-icon-premium">
+                  <IconComponent />
+                </span>
+                <span className="credit-score-nav-label-premium">{tab.label}</span>
+              </button>
+            )
+          })}
+        </nav>
+      </div>
+
+      {/* Content based on active tab */}
+      {activeTab === 'overview' && (
+        <>
+          {/* Main score with evolution */}
+          <div className="score-display-enhanced">
         <div className="score-circle-wrapper">
           <div className="score-circle">
             <div className="score-value">{score}</div>
@@ -333,8 +377,8 @@ export default function CreditScore() {
         </div>
       </div>
 
-      {/* Evolution chart */}
-      <div className="score-chart-section">
+          {/* Evolution chart */}
+          <div className="score-chart-section">
         <div className="chart-card">
           <div className="chart-header">
             <h3>Credit Score Evolution</h3>
@@ -404,9 +448,11 @@ export default function CreditScore() {
           </div>
         </div>
       </div>
+        </>
+      )}
 
-      {/* Score breakdown by component */}
-      <div className="score-breakdown-enhanced">
+      {activeTab === 'breakdown' && (
+        <div className="score-breakdown-enhanced">
         <h2>Score breakdown by component</h2>
         <div className="breakdown-grid-enhanced">
           {Object.entries(scoreBreakdown).map(([key, data]) => (
@@ -504,9 +550,10 @@ export default function CreditScore() {
           ))}
         </div>
       </div>
+      )}
 
-      {/* Recommendations */}
-      <div className="score-recommendations">
+      {activeTab === 'recommendations' && (
+        <div className="score-recommendations">
         <h2>Recommendations to improve your score</h2>
             <div className="recommendations-grid">
               {recommendations.map((rec, index) => (
@@ -528,10 +575,11 @@ export default function CreditScore() {
                 </div>
               ))}
             </div>
-      </div>
+        </div>
+      )}
 
-      {/* Change history */}
-      <div className="score-history">
+      {activeTab === 'history' && (
+        <div className="score-history">
         <h2>Change history</h2>
         <div className="history-timeline">
           <div className="history-item">
@@ -560,9 +608,10 @@ export default function CreditScore() {
           </div>
         </div>
       </div>
+      )}
 
-      {/* Tokenisation NFT */}
-      <div className="score-tokenisation">
+      {activeTab === 'tokenisation' && (
+        <div className="score-tokenisation">
         <h2>Tokenisation & NFT de Score</h2>
         <div className="tokenisation-card">
           <div className="tokenisation-info">
@@ -603,9 +652,10 @@ export default function CreditScore() {
           </div>
         </div>
       </div>
+      )}
 
-      {/* KPIs et Gouvernance */}
-      <div className="score-governance">
+      {activeTab === 'governance' && (
+        <div className="score-governance">
         <h2>KPIs, Gouvernance & Auditabilité</h2>
         <div className="governance-grid">
           <div className="governance-card">
@@ -673,9 +723,10 @@ export default function CreditScore() {
           </div>
         </div>
       </div>
+      )}
 
-      {/* Toutes les tranches de score */}
-      <div className="score-all-tiers">
+      {activeTab === 'tiers' && (
+        <div className="score-all-tiers">
         <h2>Toutes les tranches de score</h2>
         <div className="tiers-table">
           <table>
@@ -710,8 +761,9 @@ export default function CreditScore() {
           </table>
         </div>
       </div>
+      )}
 
-      {/* Actions */}
+      {/* Actions - Always visible */}
       <div className="score-actions-enhanced">
         <button className="btn-primary">Mettre à jour mon score</button>
         <button className="btn-secondary">Voir l'historique complet</button>

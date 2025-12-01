@@ -62,33 +62,48 @@ export default function Explore() {
 
   return (
     <div className="explore-page">
-      {/* Header avec breadcrumb - seulement affiché si pas sur marketplace */}
+      {/* Progress Bar - seulement affiché si pas sur marketplace */}
       {step !== 'marketplace' && (
-        <div className="explore-header">
-          <div className="explore-breadcrumb">
-            {step === 'conditions' && <span className="breadcrumb-separator">→</span>}
-            {step === 'conditions' && <span className="breadcrumb-active">2. Conditions</span>}
-            {step === 'profiles' && <span className="breadcrumb-separator">→</span>}
-            {step === 'profiles' && <span className="breadcrumb-active">2. Conditions</span>}
-            {step === 'validation' && <span className="breadcrumb-separator">→</span>}
-            {step === 'validation' && <span className="breadcrumb-completed">2. Conditions</span>}
-            {step === 'process' && <span className="breadcrumb-separator">→</span>}
-            {step === 'process' && <span className="breadcrumb-completed">2. Conditions</span>}
+        <div className="explore-progress-container">
+          <div className="explore-progress-bar">
+            <div className="progress-steps">
+              <div className="progress-step completed">
+                <div className="step-number">1</div>
+                <div className="step-label">NFT Selection</div>
+              </div>
+              <div className={`progress-connector ${['profiles', 'validation', 'process'].includes(step || '') ? 'completed' : ''}`}></div>
+              
+              <div className={`progress-step ${step === 'conditions' ? 'active' : ['profiles', 'validation', 'process'].includes(step || '') ? 'completed' : ''}`}>
+                <div className="step-number">2</div>
+                <div className="step-label">Conditions</div>
+              </div>
+              <div className={`progress-connector ${['validation', 'process'].includes(step || '') ? 'completed' : ''}`}></div>
+              
+              <div className={`progress-step ${step === 'profiles' ? 'active' : ['validation', 'process'].includes(step || '') ? 'completed' : ''}`}>
+                <div className="step-number">3</div>
+                <div className="step-label">Profiles</div>
+              </div>
+              <div className={`progress-connector ${step === 'process' ? 'completed' : ''}`}></div>
+              
+              <div className={`progress-step ${step === 'validation' ? 'active' : step === 'process' ? 'completed' : ''}`}>
+                <div className="step-number">4</div>
+                <div className="step-label">Validation</div>
+              </div>
+              <div className={`progress-connector ${step === 'process' ? 'completed' : ''}`}></div>
+              
+              <div className={`progress-step ${step === 'process' ? 'active' : ''}`}>
+                <div className="step-number">5</div>
+                <div className="step-label">Process</div>
+              </div>
+            </div>
             
-            {step === 'profiles' && <span className="breadcrumb-separator">→</span>}
-            {step === 'profiles' && <span className="breadcrumb-active">3. Profils</span>}
-            {step === 'validation' && <span className="breadcrumb-separator">→</span>}
-            {step === 'validation' && <span className="breadcrumb-completed">3. Profils</span>}
-            {step === 'process' && <span className="breadcrumb-separator">→</span>}
-            {step === 'process' && <span className="breadcrumb-completed">3. Profils</span>}
-            
-            {step === 'validation' && <span className="breadcrumb-separator">→</span>}
-            {step === 'validation' && <span className="breadcrumb-active">4. Validation</span>}
-            {step === 'process' && <span className="breadcrumb-separator">→</span>}
-            {step === 'process' && <span className="breadcrumb-completed">4. Validation</span>}
-            
-            {step === 'process' && <span className="breadcrumb-separator">→</span>}
-            {step === 'process' && <span className="breadcrumb-active">5. Processus</span>}
+            {/* Progress Percentage */}
+            <div className="progress-percentage">
+              {step === 'conditions' && <span>20%</span>}
+              {step === 'profiles' && <span>40%</span>}
+              {step === 'validation' && <span>60%</span>}
+              {step === 'process' && <span>80%</span>}
+            </div>
           </div>
         </div>
       )}

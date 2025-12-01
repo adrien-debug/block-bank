@@ -46,8 +46,8 @@ export default function LoanValidation({
     <div className="loan-validation-page">
       <div className="page-header">
         <div>
-          <h1>Confirm your loan</h1>
-          <p className="page-subtitle">Step 4/4 - Final verification</p>
+          <h1>Confirm Your Loan</h1>
+          <p className="page-subtitle">Step 4/5 - Final verification and payment</p>
         </div>
       </div>
 

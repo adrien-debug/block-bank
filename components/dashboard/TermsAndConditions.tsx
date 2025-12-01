@@ -2,17 +2,25 @@
 
 import { useState } from 'react'
 import DocumentIcon from '../icons/DocumentIcon'
+import PackageIcon from '../icons/PackageIcon'
+import MoneyIcon from '../icons/MoneyIcon'
+import ShieldIcon from '../icons/ShieldIcon'
+import CheckIcon from '../icons/CheckIcon'
+import InfoIcon from '../icons/InfoIcon'
+import SeeMore from '../ui/SeeMore'
+import TermsDetailPage from './TermsDetailPage'
 
 type AssetType = 'real-estate' | 'vehicles' | 'objects' | 'overview'
 
 export default function TermsAndConditions() {
   const [activeType, setActiveType] = useState<AssetType>('overview')
+  const [showDetailPage, setShowDetailPage] = useState<'real-estate' | 'vehicles' | 'objects' | null>(null)
 
   const assetTypes = [
-    { id: 'overview' as AssetType, label: 'Overview', icon: '📋' },
-    { id: 'real-estate' as AssetType, label: 'Real Estate', icon: '🏢' },
-    { id: 'vehicles' as AssetType, label: 'Vehicles', icon: '🚗' },
-    { id: 'objects' as AssetType, label: 'Objects', icon: '📦' },
+    { id: 'overview' as AssetType, label: 'Overview', icon: DocumentIcon },
+    { id: 'real-estate' as AssetType, label: 'Real Estate', icon: ShieldIcon },
+    { id: 'vehicles' as AssetType, label: 'Vehicles', icon: PackageIcon },
+    { id: 'objects' as AssetType, label: 'Objects', icon: PackageIcon },
   ]
 
   return (
@@ -27,28 +35,45 @@ export default function TermsAndConditions() {
       {/* Navigation Menu - Premium Horizontal */}
       <div className="terms-nav-menu-premium">
         <nav className="terms-nav-horizontal">
-          {assetTypes.map((type) => (
-            <button
-              key={type.id}
-              onClick={() => setActiveType(type.id)}
-              className={`terms-nav-item-premium ${activeType === type.id ? 'active' : ''}`}
-            >
-              <span className="terms-nav-icon-premium" style={{ fontSize: '20px' }}>
-                {type.icon}
-              </span>
-              <span className="terms-nav-label-premium">{type.label}</span>
-            </button>
-          ))}
+          {assetTypes.map((type) => {
+            const IconComponent = type.icon
+            return (
+              <button
+                key={type.id}
+                onClick={() => setActiveType(type.id)}
+                className={`terms-nav-item-premium ${activeType === type.id ? 'active' : ''}`}
+              >
+                <span className="terms-nav-icon-premium">
+                  <IconComponent />
+                </span>
+                <span className="terms-nav-label-premium">{type.label}</span>
+              </button>
+            )
+          })}
         </nav>
       </div>
 
       {/* Content */}
       <div className="terms-content">
         {activeType === 'overview' && <OverviewSection />}
-        {activeType === 'real-estate' && <RealEstateSection />}
-        {activeType === 'vehicles' && <VehiclesSection />}
-        {activeType === 'objects' && <ObjectsSection />}
+        {activeType === 'real-estate' && (
+          <RealEstateSection onSeeMore={() => setShowDetailPage('real-estate')} />
+        )}
+        {activeType === 'vehicles' && (
+          <VehiclesSection onSeeMore={() => setShowDetailPage('vehicles')} />
+        )}
+        {activeType === 'objects' && (
+          <ObjectsSection onSeeMore={() => setShowDetailPage('objects')} />
+        )}
       </div>
+
+      {/* Detail Page Modal */}
+      {showDetailPage && (
+        <TermsDetailPage
+          assetType={showDetailPage}
+          onClose={() => setShowDetailPage(null)}
+        />
+      )}
     </div>
   )
 }
@@ -56,11 +81,15 @@ export default function TermsAndConditions() {
 function OverviewSection() {
   return (
     <div className="legal-overview-section">
-      {/* Stats Grid - Jurisdictions */}
-      <div className="stats-grid legal-stats-grid">
+      {/* Jurisdictions Overview - Box 1 */}
+      <div className="section-card">
+        <div className="section-card-header">
+          <h2>Jurisdictions & Recovery Times</h2>
+        </div>
+        <div className="stats-grid legal-stats-grid">
         <div className="stat-card stat-card-primary">
           <div className="stat-icon-wrapper">
-            <div className="stat-icon" style={{ fontSize: '32px' }}>🇶🇦</div>
+            <ShieldIcon />
           </div>
           <div className="stat-content">
             <div className="stat-label">Qatar</div>
@@ -72,7 +101,7 @@ function OverviewSection() {
 
         <div className="stat-card stat-card-success">
           <div className="stat-icon-wrapper">
-            <div className="stat-icon" style={{ fontSize: '32px' }}>🇫🇷</div>
+            <ShieldIcon />
           </div>
           <div className="stat-content">
             <div className="stat-label">France</div>
@@ -84,7 +113,7 @@ function OverviewSection() {
 
         <div className="stat-card stat-card-info">
           <div className="stat-icon-wrapper">
-            <div className="stat-icon" style={{ fontSize: '32px' }}>🇺🇸</div>
+            <ShieldIcon />
           </div>
           <div className="stat-content">
             <div className="stat-label">United States</div>
@@ -96,7 +125,7 @@ function OverviewSection() {
 
         <div className="stat-card stat-card-warning">
           <div className="stat-icon-wrapper">
-            <div className="stat-icon" style={{ fontSize: '32px' }}>🇦🇪</div>
+            <ShieldIcon />
           </div>
           <div className="stat-content">
             <div className="stat-label">UAE</div>
@@ -106,10 +135,13 @@ function OverviewSection() {
           </div>
         </div>
       </div>
+      </div>
 
-      {/* Wide Process Flow */}
-      <div className="legal-process-wide">
-        <h2 className="section-title-wide">Loan Lifecycle Process</h2>
+      {/* Loan Lifecycle Process - Box 2 */}
+      <div className="section-card">
+        <div className="section-card-header">
+          <h2>Loan Lifecycle Process</h2>
+        </div>
         <div className="process-flow-wide">
           <div className="flow-step-wide">
             <div className="step-number-wide">1</div>
@@ -158,9 +190,11 @@ function OverviewSection() {
         </div>
       </div>
 
-      {/* Discount System Cards */}
-      <div className="legal-discounts-wide">
-        <h2 className="section-title-wide">NFT RWA Discount System</h2>
+      {/* NFT RWA Discount System - Box 3 */}
+      <div className="section-card">
+        <div className="section-card-header">
+          <h2>NFT RWA Discount System</h2>
+        </div>
         <div className="discounts-grid-wide">
           <div className="discount-card-wide">
             <div className="discount-badge-wide">10%</div>
@@ -212,12 +246,16 @@ function OverviewSection() {
         </div>
       </div>
 
-      {/* Asset Types Overview */}
-      <div className="legal-assets-wide">
-        <h2 className="section-title-wide">Asset Types Coverage</h2>
+      {/* Asset Types Coverage - Box 4 */}
+      <div className="section-card">
+        <div className="section-card-header">
+          <h2>Asset Types Coverage</h2>
+        </div>
         <div className="assets-grid-wide">
           <div className="asset-card-wide">
-            <div className="asset-icon-wide">🏢</div>
+            <div className="asset-icon-wide">
+              <ShieldIcon />
+            </div>
             <h3>Real Estate</h3>
             <div className="asset-metrics">
               <div className="asset-metric">
@@ -236,7 +274,9 @@ function OverviewSection() {
           </div>
 
           <div className="asset-card-wide">
-            <div className="asset-icon-wide">🚗</div>
+            <div className="asset-icon-wide">
+              <PackageIcon />
+            </div>
             <h3>Vehicles</h3>
             <div className="asset-metrics">
               <div className="asset-metric">
@@ -255,7 +295,9 @@ function OverviewSection() {
           </div>
 
           <div className="asset-card-wide">
-            <div className="asset-icon-wide">📦</div>
+            <div className="asset-icon-wide">
+              <PackageIcon />
+            </div>
             <h3>Objects</h3>
             <div className="asset-metrics">
               <div className="asset-metric">
@@ -278,33 +320,54 @@ function OverviewSection() {
   )
 }
 
-function RealEstateSection() {
+function RealEstateSection({ onSeeMore }: { onSeeMore: () => void }) {
   return (
     <div className="terms-section">
       <div className="section-card">
-        <h2>Real Estate Terms & Conditions</h2>
+        <div className="section-card-header">
+          <h2>Real Estate Terms & Conditions</h2>
+          <button className="btn-primary see-all-button" onClick={onSeeMore}>
+            <DocumentIcon />
+            <span>Voir tous les détails</span>
+          </button>
+        </div>
         
         <div className="terms-grid">
           <div className="term-card">
-            <h3>📄 Title Acquisition</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <DocumentIcon />
+              </span>
+              Title Acquisition
+            </h3>
             <div className="term-details">
               <div className="term-item">
                 <span className="term-label">Required Documents</span>
-                <ul>
-                  <li>Notarized sale deed</li>
-                  <li>Property certificate</li>
-                  <li>Cadastral plan</li>
-                  <li>Debt-free certificate</li>
-                </ul>
+                <SeeMore onSeeMore={onSeeMore} maxHeight={150}>
+                  <ul>
+                    <li>Notarized sale deed</li>
+                    <li>Property certificate</li>
+                    <li>Cadastral plan</li>
+                    <li>Debt-free certificate</li>
+                    <li>Urban planning certificate (if applicable)</li>
+                    <li>Energy performance certificate (if required)</li>
+                    <li>Building permit (if applicable)</li>
+                  </ul>
+                </SeeMore>
               </div>
               <div className="term-item">
                 <span className="term-label">Verification Process</span>
-                <ul>
-                  <li>Title authenticity check</li>
-                  <li>Debt and mortgage verification</li>
-                  <li>Cadastral verification</li>
-                  <li>Legal compliance check</li>
-                </ul>
+                <SeeMore onSeeMore={onSeeMore} maxHeight={150}>
+                  <ul>
+                    <li>Title authenticity check</li>
+                    <li>Debt and mortgage verification</li>
+                    <li>Cadastral verification</li>
+                    <li>Legal compliance check</li>
+                    <li>Property valuation by certified appraiser</li>
+                    <li>Environmental and structural assessment</li>
+                    <li>Insurance verification</li>
+                  </ul>
+                </SeeMore>
               </div>
               <div className="term-item">
                 <span className="term-label">Timeline</span>
@@ -314,7 +377,12 @@ function RealEstateSection() {
           </div>
 
           <div className="term-card">
-            <h3>💰 Loan Conditions</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <MoneyIcon />
+              </span>
+              Loan Conditions
+            </h3>
             <div className="term-details">
               <div className="term-item">
                 <span className="term-label">LTV by Credit Tier</span>
@@ -362,7 +430,12 @@ function RealEstateSection() {
           </div>
 
           <div className="term-card">
-            <h3>⚖️ Recovery Process</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <ShieldIcon />
+              </span>
+              Recovery Process
+            </h3>
             <div className="recovery-process">
               <div className="process-step">
                 <div className="process-number">1</div>
@@ -421,29 +494,44 @@ function RealEstateSection() {
           </div>
 
           <div className="term-card">
-            <h3>💵 Fees & Costs</h3>
-            <div className="fees-list">
-              <div className="fee-item">
-                <span className="fee-label">Initial Fees</span>
-                <span className="fee-value">0.5-1% of loan amount</span>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <MoneyIcon />
+              </span>
+              Fees & Costs
+            </h3>
+            <SeeMore onSeeMore={onSeeMore} maxHeight={200}>
+              <div className="fees-list">
+                <div className="fee-item">
+                  <span className="fee-label">Initial Fees</span>
+                  <span className="fee-value">0.5-1% of loan amount</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Notary Fees</span>
+                  <span className="fee-value">2-5% of property value</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Registration</span>
+                  <span className="fee-value">0.5-2% of property value</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Recovery Costs</span>
+                  <span className="fee-value">$1,000-$5,000</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Eviction Costs</span>
+                  <span className="fee-value">$500-$2,000</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Legal Fees</span>
+                  <span className="fee-value">$2,000-$10,000</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Property Management</span>
+                  <span className="fee-value">0.1% per year</span>
+                </div>
               </div>
-              <div className="fee-item">
-                <span className="fee-label">Notary Fees</span>
-                <span className="fee-value">2-5% of property value</span>
-              </div>
-              <div className="fee-item">
-                <span className="fee-label">Registration</span>
-                <span className="fee-value">0.5-2% of property value</span>
-              </div>
-              <div className="fee-item">
-                <span className="fee-label">Recovery Costs</span>
-                <span className="fee-value">$1,000-$5,000</span>
-              </div>
-              <div className="fee-item">
-                <span className="fee-label">Eviction Costs</span>
-                <span className="fee-value">$500-$2,000</span>
-              </div>
-            </div>
+            </SeeMore>
           </div>
         </div>
       </div>
@@ -451,24 +539,40 @@ function RealEstateSection() {
   )
 }
 
-function VehiclesSection() {
+function VehiclesSection({ onSeeMore }: { onSeeMore: () => void }) {
   return (
     <div className="terms-section">
       <div className="section-card">
-        <h2>Vehicles Terms & Conditions</h2>
+        <div className="section-card-header">
+          <h2>Vehicles Terms & Conditions</h2>
+          <button className="btn-primary see-all-button" onClick={onSeeMore}>
+            <DocumentIcon />
+            <span>Voir tous les détails</span>
+          </button>
+        </div>
         
         <div className="terms-grid">
           <div className="term-card">
-            <h3>📄 Title Acquisition</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <DocumentIcon />
+              </span>
+              Title Acquisition
+            </h3>
             <div className="term-details">
               <div className="term-item">
                 <span className="term-label">Required Documents</span>
-                <ul>
-                  <li>Vehicle title certificate</li>
-                  <li>Registration certificate</li>
-                  <li>Debt-free certificate</li>
-                  <li>Technical inspection (if required)</li>
-                </ul>
+                <SeeMore onSeeMore={onSeeMore} maxHeight={150}>
+                  <ul>
+                    <li>Vehicle title certificate</li>
+                    <li>Registration certificate</li>
+                    <li>Debt-free certificate</li>
+                    <li>Technical inspection (if required)</li>
+                    <li>Insurance certificate</li>
+                    <li>Vehicle history report</li>
+                    <li>Proof of ownership</li>
+                  </ul>
+                </SeeMore>
               </div>
               <div className="term-item">
                 <span className="term-label">Timeline</span>
@@ -478,7 +582,12 @@ function VehiclesSection() {
           </div>
 
           <div className="term-card">
-            <h3>💰 Loan Conditions</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <MoneyIcon />
+              </span>
+              Loan Conditions
+            </h3>
             <div className="term-details">
               <div className="term-item">
                 <span className="term-label">LTV by Credit Tier</span>
@@ -526,7 +635,12 @@ function VehiclesSection() {
           </div>
 
           <div className="term-card">
-            <h3>⚖️ Repossession Process</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <ShieldIcon />
+              </span>
+              Repossession Process
+            </h3>
             <div className="recovery-process">
               <div className="process-step">
                 <div className="process-number">1</div>
@@ -585,25 +699,40 @@ function VehiclesSection() {
           </div>
 
           <div className="term-card">
-            <h3>💵 Fees & Costs</h3>
-            <div className="fees-list">
-              <div className="fee-item">
-                <span className="fee-label">Initial Fees</span>
-                <span className="fee-value">0.5-1% (max $500)</span>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <MoneyIcon />
+              </span>
+              Fees & Costs
+            </h3>
+            <SeeMore onSeeMore={onSeeMore} maxHeight={200}>
+              <div className="fees-list">
+                <div className="fee-item">
+                  <span className="fee-label">Initial Fees</span>
+                  <span className="fee-value">0.5-1% (max $500)</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Registration</span>
+                  <span className="fee-value">$50-$200</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Repossession</span>
+                  <span className="fee-value">$200-$800</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Storage</span>
+                  <span className="fee-value">$50-$200/day</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Transportation</span>
+                  <span className="fee-value">$100-$500</span>
+                </div>
+                <div className="fee-item">
+                  <span className="fee-label">Auction Fees</span>
+                  <span className="fee-value">5-10% of sale price</span>
+                </div>
               </div>
-              <div className="fee-item">
-                <span className="fee-label">Registration</span>
-                <span className="fee-value">$50-$200</span>
-              </div>
-              <div className="fee-item">
-                <span className="fee-label">Repossession</span>
-                <span className="fee-value">$200-$800</span>
-              </div>
-              <div className="fee-item">
-                <span className="fee-label">Storage</span>
-                <span className="fee-value">$50-$200/day</span>
-              </div>
-            </div>
+            </SeeMore>
           </div>
         </div>
       </div>
@@ -611,24 +740,40 @@ function VehiclesSection() {
   )
 }
 
-function ObjectsSection() {
+function ObjectsSection({ onSeeMore }: { onSeeMore: () => void }) {
   return (
     <div className="terms-section">
       <div className="section-card">
-        <h2>Objects & Movable Assets Terms & Conditions</h2>
+        <div className="section-card-header">
+          <h2>Objects & Movable Assets Terms & Conditions</h2>
+          <button className="btn-primary see-all-button" onClick={onSeeMore}>
+            <DocumentIcon />
+            <span>Voir tous les détails</span>
+          </button>
+        </div>
         
         <div className="terms-grid">
           <div className="term-card">
-            <h3>📄 Title Acquisition</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <DocumentIcon />
+              </span>
+              Title Acquisition
+            </h3>
             <div className="term-details">
               <div className="term-item">
                 <span className="term-label">Required Documents</span>
-                <ul>
-                  <li>Purchase invoice</li>
-                  <li>Authenticity certificate</li>
-                  <li>Detailed inventory with photos</li>
-                  <li>Debt-free verification</li>
-                </ul>
+                <SeeMore onSeeMore={onSeeMore} maxHeight={150}>
+                  <ul>
+                    <li>Purchase invoice</li>
+                    <li>Authenticity certificate</li>
+                    <li>Detailed inventory with photos</li>
+                    <li>Debt-free verification</li>
+                    <li>Appraisal report</li>
+                    <li>Insurance documentation</li>
+                    <li>Storage location verification</li>
+                  </ul>
+                </SeeMore>
               </div>
               <div className="term-item">
                 <span className="term-label">Timeline</span>
@@ -638,7 +783,12 @@ function ObjectsSection() {
           </div>
 
           <div className="term-card">
-            <h3>💰 Loan Conditions</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <MoneyIcon />
+              </span>
+              Loan Conditions
+            </h3>
             <div className="term-details">
               <div className="term-item">
                 <span className="term-label">LTV by Credit Tier</span>
@@ -686,7 +836,12 @@ function ObjectsSection() {
           </div>
 
           <div className="term-card">
-            <h3>⚖️ Seizure Process</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <ShieldIcon />
+              </span>
+              Seizure Process
+            </h3>
             <div className="recovery-process">
               <div className="process-step">
                 <div className="process-number">1</div>
@@ -737,7 +892,12 @@ function ObjectsSection() {
           </div>
 
           <div className="term-card">
-            <h3>📦 Asset-Specific Terms</h3>
+            <h3 className="term-card-title">
+              <span className="term-icon-wrapper">
+                <PackageIcon />
+              </span>
+              Asset-Specific Terms
+            </h3>
             <div className="asset-types">
               <div className="asset-type-item">
                 <h4>Mining Equipment</h4>

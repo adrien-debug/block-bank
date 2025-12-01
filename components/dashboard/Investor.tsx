@@ -5,6 +5,13 @@ import InvestorIcon from '../icons/InvestorIcon'
 import ChartIcon from '../icons/ChartIcon'
 import MoneyIcon from '../icons/MoneyIcon'
 import InfoIcon from '../icons/InfoIcon'
+import MoneyBagIcon from '../icons/MoneyBagIcon'
+import ChartUpIcon from '../icons/ChartUpIcon'
+import UsersIcon from '../icons/UsersIcon'
+import DollarIcon from '../icons/DollarIcon'
+import CreditCardIcon from '../icons/CreditCardIcon'
+import PackageIcon from '../icons/PackageIcon'
+import WarningIcon from '../icons/WarningIcon'
 
 type InvestorTab = 'pools' | 'my-investments' | 'analytics' | 'info'
 type PoolType = 'PRIMARY' | 'RISK'
@@ -344,14 +351,17 @@ export default function Investor() {
     <div className="investor-page">
       <div className="page-header">
         <div>
-          <h1>Investisseur</h1>
+          <div className="investor-header-top">
+            <h1>Investisseur</h1>
+            <span className="qatar-badge">Q-MAY Look</span>
+          </div>
           <p className="page-subtitle">Financez les pools de liquidité et générez des rendements avec APY</p>
         </div>
       </div>
 
-      {/* Sub-menu Navigation with Dashboard Style */}
+      {/* Sub-menu Navigation - Horizontal Layout */}
       <div className="investor-nav-menu">
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav horizontal-nav">
           {tabs.map((tab) => {
             const IconComponent = tab.icon
             return (
@@ -373,7 +383,9 @@ export default function Investor() {
       {/* Statistiques globales */}
       <div className="investor-stats">
         <div className="investor-stat-card">
-          <div className="stat-icon">💰</div>
+          <div className="stat-icon">
+            <MoneyBagIcon />
+          </div>
           <div className="stat-info">
             <div className="stat-label">Total TVL</div>
             <div className="stat-value">{stats.totalTVL.toLocaleString()} USDC</div>
@@ -381,7 +393,9 @@ export default function Investor() {
           </div>
         </div>
         <div className="investor-stat-card">
-          <div className="stat-icon">📈</div>
+          <div className="stat-icon">
+            <ChartUpIcon />
+          </div>
           <div className="stat-info">
             <div className="stat-label">APY Moyen</div>
             <div className="stat-value">{stats.averageAPY.toFixed(2)}%</div>
@@ -389,7 +403,9 @@ export default function Investor() {
           </div>
         </div>
         <div className="investor-stat-card">
-          <div className="stat-icon">👥</div>
+          <div className="stat-icon">
+            <UsersIcon />
+          </div>
           <div className="stat-info">
             <div className="stat-label">Investisseurs actifs</div>
             <div className="stat-value">{stats.totalInvestors}</div>
@@ -397,7 +413,9 @@ export default function Investor() {
           </div>
         </div>
         <div className="investor-stat-card">
-          <div className="stat-icon">💵</div>
+          <div className="stat-icon">
+            <MoneyIcon />
+          </div>
           <div className="stat-info">
             <div className="stat-label">Mes investissements</div>
             <div className="stat-value">{stats.totalInvested.toLocaleString()} USDC</div>
@@ -408,101 +426,78 @@ export default function Investor() {
 
       {activeTab === 'pools' && (
         <div className="pools-section">
-          <h2 className="section-title">Pools de financement disponibles</h2>
-          <div className="pools-grid">
+          <div className="pools-section-header">
+            <h2 className="section-title">Available Funding Pool</h2>
+            <span className="section-subtitle-inline"> - Explorez et investissez dans les pools de liquidité disponibles</span>
+          </div>
+          <div className="pools-vertical-grid">
             {pools.map((pool) => (
-              <div key={pool.id} className="pool-card">
-                <div className="pool-header">
-                  <div className="pool-title-section">
-                    <div>
-                      <h3>{pool.name}</h3>
-                      <span className="pool-type-badge">{getPoolTypeLabel(pool.type)}</span>
-                    </div>
-                    <div className="pool-token-badge">
-                      {pool.token === 'USDC' ? '💵' : pool.token === 'USDT' ? '💸' : '💳'} {pool.token}
-                    </div>
+              <div key={pool.id} className="pool-card-full-width">
+                <div className="pool-card-header">
+                  <div className="pool-header-top">
+                    <h3>{pool.name}</h3>
+                    <span className="pool-type-badge">{getPoolTypeLabel(pool.type)}</span>
+                  </div>
+                  <div className="pool-token-badge">
+                    {pool.token === 'USDC' ? (
+                      <>
+                        <MoneyIcon className="token-icon" />
+                        <span>{pool.token}</span>
+                      </>
+                    ) : pool.token === 'USDT' ? (
+                      <>
+                        <DollarIcon className="token-icon" />
+                        <span>{pool.token}</span>
+                      </>
+                    ) : (
+                      <>
+                        <CreditCardIcon className="token-icon" />
+                        <span>{pool.token}</span>
+                      </>
+                    )}
                   </div>
                 </div>
 
-                <div className="pool-description">
-                  <p>{pool.description}</p>
-                </div>
-
-                <div className="pool-stats">
-                  <div className="pool-stat-item">
-                    <span className="pool-stat-label">Liquidité totale</span>
-                    <span className="pool-stat-value">{pool.totalLiquidity.toLocaleString()} {pool.token}</span>
+                <div className="pool-main-stats">
+                  <div className="pool-main-stat">
+                    <span className="pool-main-label">Liquidité totale</span>
+                    <span className="pool-main-value">{pool.totalLiquidity.toLocaleString()} {pool.token}</span>
                   </div>
-                  <div className="pool-stat-item">
-                    <span className="pool-stat-label">Disponible</span>
-                    <span className="pool-stat-value highlight">{pool.availableLiquidity.toLocaleString()} {pool.token}</span>
-                  </div>
-                  <div className="pool-stat-item">
-                    <span className="pool-stat-label">Taux d'utilisation</span>
-                    <span className="pool-stat-value">{pool.utilizationRate}%</span>
-                  </div>
-                  <div className="pool-stat-item">
-                    <span className="pool-stat-label">Prêts financés</span>
-                    <span className="pool-stat-value">{pool.totalLoansFunded}</span>
-                  </div>
-                  <div className="pool-stat-item">
-                    <span className="pool-stat-label">Taux de défaut</span>
-                    <span className="pool-stat-value">{pool.defaultRate}%</span>
-                  </div>
-                  <div className="pool-stat-item">
-                    <span className="pool-stat-label">Investisseurs</span>
-                    <span className="pool-stat-value">{pool.totalInvestors}</span>
+                  <div className="pool-main-stat highlight">
+                    <span className="pool-main-label">Disponible</span>
+                    <span className="pool-main-value">{pool.availableLiquidity.toLocaleString()} {pool.token}</span>
                   </div>
                 </div>
 
-                <div className="pool-tranches">
-                  <h4>Tranches disponibles</h4>
-                  <div className="tranches-list">
+                {/* Menu horizontal des tranches */}
+                <div className="pool-tranches-menu">
+                  <div className="tranches-menu-horizontal">
                     {pool.tranches.map((tranche, idx) => (
-                      <div key={idx} className="tranche-card">
-                        <div className="tranche-header">
-                          <div>
-                            <span className="tranche-type">{getTrancheLabel(tranche.type)}</span>
-                            <span className="tranche-apy">{tranche.apy}% APY</span>
-                          </div>
+                      <button
+                        key={idx}
+                        className="tranche-menu-item"
+                        onClick={() => handleDeposit(pool, tranche.type)}
+                        disabled={tranche.availableLiquidity === 0}
+                      >
+                        <div className="tranche-menu-header">
+                          <span className="tranche-menu-type">{getTrancheLabel(tranche.type)}</span>
+                          <span className="tranche-menu-apy">{tranche.apy}% APY</span>
+                        </div>
+                        <div className="tranche-menu-info">
+                          <span className="tranche-menu-available">
+                            Disponible: {tranche.availableLiquidity.toLocaleString()} {pool.token}
+                          </span>
                           <span 
-                            className="tranche-risk-badge" 
+                            className="tranche-menu-risk" 
                             style={{ color: getRiskColor(tranche.riskLevel) }}
                           >
                             {getRiskLabel(tranche.riskLevel)}
                           </span>
                         </div>
-                        <div className="tranche-details">
-                          <div className="tranche-detail-item">
-                            <span>Liquidité: {tranche.totalLiquidity.toLocaleString()} {pool.token}</span>
-                            <span>Disponible: {tranche.availableLiquidity.toLocaleString()} {pool.token}</span>
-                          </div>
-                          <div className="tranche-detail-item">
-                            <span>Dépôt min: {tranche.minDeposit.toLocaleString()} {pool.token}</span>
-                            <span>Absorption pertes: {tranche.lossAbsorption}%</span>
-                          </div>
-                          <p className="tranche-description">{tranche.description}</p>
-                        </div>
-                        <button 
-                          className="btn-primary tranche-invest-btn"
-                          onClick={() => handleDeposit(pool, tranche.type)}
-                          disabled={tranche.availableLiquidity === 0}
-                        >
-                          Investir dans {getTrancheLabel(tranche.type)}
-                        </button>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>
-
-                {pool.contractAddress && (
-                  <div className="pool-contract">
-                    <span className="contract-label">Contract:</span>
-                    <a href={`https://etherscan.io/address/${pool.contractAddress}`} target="_blank" rel="noopener noreferrer" className="contract-link">
-                      {pool.contractAddress}
-                    </a>
-                  </div>
-                )}
               </div>
             ))}
           </div>
@@ -514,7 +509,9 @@ export default function Investor() {
           <h2 className="section-title">Mes investissements</h2>
           {investments.length === 0 ? (
             <div className="investments-empty-state">
-              <div className="empty-state-icon">💼</div>
+              <div className="empty-state-icon">
+                <PackageIcon />
+              </div>
               <h3>Aucun investissement actif</h3>
               <p>Commencez à investir dans les pools pour voir vos investissements ici</p>
             </div>
@@ -1069,10 +1066,16 @@ export default function Investor() {
 
               <div className="withdraw-warning">
                 {selectedInvestment.status === 'LOCKED' && (
-                  <p>⚠️ Cet investissement est encore verrouillé. Vous ne pourrez retirer qu'après la date de déverrouillage.</p>
+                  <p className="warning-message">
+                    <WarningIcon className="warning-icon" />
+                    <span>Cet investissement est encore verrouillé. Vous ne pourrez retirer qu'après la date de déverrouillage.</span>
+                  </p>
                 )}
                 {selectedInvestment.status === 'ACTIVE' && (
-                  <p>ℹ️ Vous pouvez retirer cet investissement maintenant. Les rendements seront calculés jusqu'à la date de retrait.</p>
+                  <p className="info-message">
+                    <InfoIcon className="info-icon" />
+                    <span>Vous pouvez retirer cet investissement maintenant. Les rendements seront calculés jusqu'à la date de retrait.</span>
+                  </p>
                 )}
               </div>
 

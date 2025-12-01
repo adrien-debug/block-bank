@@ -194,59 +194,6 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
         ))}
       </div>
 
-      {/* Comparison Table Premium */}
-      {selectedProfile && (
-        <div className="profile-comparison-premium">
-          <div className="comparison-card-premium">
-            <h2 className="comparison-title">Profile comparison</h2>
-            <div className="comparison-table-premium">
-              <div className="comparison-header-premium">
-                <div className="comparison-cell-premium header">Criterion</div>
-                <div className="comparison-cell-premium header">SAFE</div>
-                <div className="comparison-cell-premium header">BALANCED</div>
-                <div className="comparison-cell-premium header">MAX LEVERAGE</div>
-              </div>
-              <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">Down Payment</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[0].downPayment)} {nft.valueCurrency}</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[1].downPayment)} {nft.valueCurrency}</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[2].downPayment)} {nft.valueCurrency}</div>
-              </div>
-              <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">Loan Amount</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[0].loanAmount)} {nft.valueCurrency}</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[1].loanAmount)} {nft.valueCurrency}</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[2].loanAmount)} {nft.valueCurrency}</div>
-              </div>
-              <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">LTV</div>
-                <div className="comparison-cell-premium">{profiles[0].ltv.toFixed(1)}%</div>
-                <div className="comparison-cell-premium">{profiles[1].ltv.toFixed(1)}%</div>
-                <div className="comparison-cell-premium">{profiles[2].ltv.toFixed(1)}%</div>
-              </div>
-              <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">APY Rate</div>
-                <div className="comparison-cell-premium">{profiles[0].interestRate.toFixed(2)}%</div>
-                <div className="comparison-cell-premium">{profiles[1].interestRate.toFixed(2)}%</div>
-                <div className="comparison-cell-premium">{profiles[2].interestRate.toFixed(2)}%</div>
-              </div>
-              <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">Monthly Payment</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[0].monthlyPayment)} {nft.valueCurrency}</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[1].monthlyPayment)} {nft.valueCurrency}</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[2].monthlyPayment)} {nft.valueCurrency}</div>
-              </div>
-              <div className="comparison-row-premium">
-                <div className="comparison-cell-premium label">Total Cost</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[0].totalCost)} {nft.valueCurrency}</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[1].totalCost)} {nft.valueCurrency}</div>
-                <div className="comparison-cell-premium">{formatCurrency(profiles[2].totalCost)} {nft.valueCurrency}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Recommendation Premium */}
       <div className="profile-recommendation-premium">
         <div className="recommendation-card-premium">
