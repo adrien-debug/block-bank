@@ -1352,15 +1352,30 @@ html, body {
 
 .chart-card {
   padding: var(--space-8);
-  background: var(--color-bg-tertiary);
-  border: var(--border-width) solid var(--border-color);
-  border-radius: var(--radius-large);
+  background: radial-gradient(circle at top left, rgba(10, 132, 255, 0.12), transparent 60%), var(--color-bg-deep);
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-subtle);
-  transition: var(--transition-normal);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary-500), transparent);
+  opacity: 0.6;
 }
 
 .chart-card:hover {
   box-shadow: var(--shadow-elevated);
+  border-color: rgba(10, 132, 255, 0.4);
+  background: radial-gradient(circle at top left, rgba(10, 132, 255, 0.18), transparent 60%), var(--color-bg-deep);
 }
 
 .chart-header {
@@ -2591,29 +2606,39 @@ html, body {
 .chart-controls {
   display: flex;
   gap: var(--space-2);
+  background: rgba(10, 132, 255, 0.05);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(10, 132, 255, 0.2);
 }
 
 .chart-period-btn {
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-bg-secondary);
-  border: var(--border-width) solid var(--border-color);
-  border-radius: var(--radius-medium);
+  padding: var(--space-3) var(--space-5);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
   font-size: var(--text-label-large);
+  font-weight: var(--font-medium);
   font-family: var(--font-ui);
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   cursor: pointer;
-  transition: var(--transition-normal);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  position: relative;
 }
 
 .chart-period-btn:hover {
-  background: var(--color-bg-tertiary);
-  border-color: var(--color-primary);
+  background: rgba(10, 132, 255, 0.1);
+  color: var(--color-text-primary);
+  border-color: rgba(10, 132, 255, 0.3);
 }
 
 .chart-period-btn.active {
-  background: var(--color-primary);
+  background: var(--color-primary-500);
   color: var(--color-white);
-  border-color: var(--color-primary);
+  font-weight: var(--font-semibold);
+  border-color: var(--color-primary-500);
+  box-shadow: 0 2px 8px rgba(10, 132, 255, 0.3);
 }
 
 .chart-container-enhanced {

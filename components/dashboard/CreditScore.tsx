@@ -61,6 +61,7 @@ export default function CreditScore() {
   }
 
   const scoreHistory = {
+    '1m': [745, 748, 750],
     '6m': [680, 690, 700, 710, 720, 730, 738, 745, 750],
     '12m': [650, 665, 680, 690, 700, 710, 720, 730, 738, 745, 750],
     'all': [600, 620, 640, 660, 680, 690, 700, 710, 720, 730, 738, 745, 750],
@@ -179,6 +180,12 @@ export default function CreditScore() {
           <div className="chart-header">
             <h3>Credit Score Evolution</h3>
             <div className="chart-controls">
+              <button 
+                className={`chart-period-btn ${selectedPeriod === '1m' ? 'active' : ''}`}
+                onClick={() => setSelectedPeriod('1m')}
+              >
+                This month
+              </button>
               <button 
                 className={`chart-period-btn ${selectedPeriod === '6m' ? 'active' : ''}`}
                 onClick={() => setSelectedPeriod('6m')}
