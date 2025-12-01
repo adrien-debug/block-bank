@@ -1,0 +1,1830 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Protocole de Credit Banking On-Chain – Adrien x Qatar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-alt: #0b0f16;
+      --bg-alt-2: #101623;
+      --card: #101623;
+      --card-alt: #141b2a;
+      --accent: #37c6ff;
+      --accent-soft: rgba(55, 198, 255, 0.14);
+      --accent-2: #ffb454;
+      --accent-3: #38e08f;
+      --danger: #ff4d6a;
+      --warning: #ffb454;
+      --success: #38e08f;
+      --text: #f7f7ff;
+      --muted: #a2aac7;
+      --border: #262e41;
+      --border-subtle: #1b2233;
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --shadow-main: 0 26px 80px rgba(0,0,0,0.7);
+      --shadow-soft: 0 18px 48px rgba(0,0,0,0.5);
+      --shadow-subtle: 0 14px 34px rgba(0,0,0,0.35);
+      --font-sans: system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+      --font-mono: ui-monospace,Menlo,Monaco,Consolas,"JetBrains Mono","Liberation Mono",monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at top, #1d2840 0, #050608 52%, #020308 100%);
+      color: var(--text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      padding: 32px 16px 64px;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    h1, h2, h3, h4, h5 {
+      margin: 0 0 8px;
+      font-weight: 650;
+      letter-spacing: 0.02em;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      line-height: 1.1;
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      margin-top: 28px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-top: 22px;
+    }
+
+    h4 {
+      font-size: 1.05rem;
+      margin-top: 18px;
+    }
+
+    h5 {
+      font-size: 0.95rem;
+      margin-top: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    p {
+      margin: 0 0 10px;
+      line-height: 1.6;
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
+
+    ul, ol {
+      margin: 6px 0 12px 20px;
+      padding: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+      line-height: 1.55;
+    }
+
+    li + li {
+      margin-top: 4px;
+    }
+
+    code, .code {
+      font-family: var(--font-mono);
+      font-size: 0.87rem;
+      background: rgba(10, 14, 25, 0.9);
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    pre {
+      margin: 10px 0 14px;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: #05070b;
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      overflow-x: auto;
+      color: #d5defb;
+    }
+
+    /* Layout & hero */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.9fr);
+      gap: 24px;
+      padding: 24px 24px 20px;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(55,198,255,0.24) 0, transparent 52%),
+        radial-gradient(circle at 100% 100%, rgba(56,224,143,0.16) 0, transparent 55%),
+        linear-gradient(135deg, #101623, #050608 52%, #05070b 100%);
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: var(--shadow-main);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(10,255,204,0.1) 0, transparent 52%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-main, .hero-side {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 4px;
+      border-radius: var(--radius-pill);
+      background: rgba(2,5,10,0.9);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.55);
+      margin-bottom: 14px;
+    }
+
+    .hero-kicker-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 0%, #37c6ff, #1d7bf1);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .hero-kicker span {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+    }
+
+    .hero-main p {
+      max-width: 560px;
+      font-size: 0.99rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      margin-bottom: 6px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(6,10,20,0.88);
+      color: var(--muted);
+    }
+
+    .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .tag-dot-alt {
+      background: var(--accent-3);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.86rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, background 0.12s ease-out, border-color 0.12s ease-out;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #37c6ff, #1a85ff);
+      color: #050608;
+      font-weight: 650;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.65);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.75);
+    }
+
+    .btn-ghost {
+      background: rgba(6,10,18,0.9);
+      border-color: rgba(255,255,255,0.18);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(14,20,32,0.95);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(0,0,0,0.6);
+    }
+
+    .hero-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .metric-card {
+      padding: 10px 11px;
+      border-radius: 14px;
+      background: radial-gradient(circle at top left, rgba(55,198,255,0.08) 0, transparent 60%), #05070b;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .metric-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 1.1rem;
+      font-weight: 650;
+      margin-bottom: 2px;
+    }
+
+    .metric-caption {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .hero-side-box {
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(55,198,255,0.16) 0, transparent 52%),
+        radial-gradient(circle at 120% 120%, rgba(255,180,84,0.16) 0, transparent 52%),
+        #05070b;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-side-title {
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .hero-pill {
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(6,12,22,0.95);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .hero-step-list {
+      list-style: none;
+      margin: 10px 0 4px;
+      padding: 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .hero-step-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .hero-step-badge {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--accent-2);
+      flex-shrink: 0;
+      background: rgba(5,7,13,0.9);
+    }
+
+    .section {
+      margin-top: 26px;
+      padding: 18px 18px 16px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, rgba(15,20,34,0.98), rgba(5,7,11,0.98));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .section + .section {
+      margin-top: 20px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .section-kicker {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(4,6,11,0.96);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .section-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent-3);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      padding: 14px 14px 12px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at 0 0, rgba(55,198,255,0.08) 0, transparent 60%), #05070b;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 14px 32px rgba(0,0,0,0.5);
+    }
+
+    .card-muted {
+      background: #05070b;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .pill-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      background: rgba(4,6,12,0.96);
+    }
+
+    .pill-label-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .score-scale {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .score-segment {
+      padding: 7px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(5,7,12,0.95);
+      font-size: 0.76rem;
+    }
+
+    .score-segment strong {
+      display: block;
+      font-size: 0.83rem;
+      margin-bottom: 1px;
+    }
+
+    .score-segment span {
+      display: block;
+      color: var(--muted);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 6px;
+      font-size: 0.86rem;
+    }
+
+    .table th,
+    .table td {
+      padding: 5px 6px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .table th {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge-risk {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      font-size: 0.74rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(5,7,12,0.95);
+    }
+
+    .dot-green { background: var(--success); }
+    .dot-yellow { background: var(--warning); }
+    .dot-red { background: var(--danger); }
+
+    .toc {
+      margin-top: 20px;
+      padding: 14px 14px 10px;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at 0 0, rgba(55,198,255,0.12) 0, transparent 45%), #05070b;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .toc-title {
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 0.9rem;
+    }
+
+    .toc li {
+      margin-bottom: 4px;
+    }
+
+    .toc a {
+      color: var(--muted);
+    }
+
+    .toc a:hover {
+      color: var(--accent);
+    }
+
+    .toc-sub {
+      margin-left: 14px;
+      margin-top: 2px;
+    }
+
+    .flow-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 4px 0 4px;
+    }
+
+    .flow-steps {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 8px;
+      font-size: 0.9rem;
+    }
+
+    .flow-steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+
+    .flow-step-index {
+      width: 19px;
+      height: 19px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      color: var(--accent-2);
+      flex-shrink: 0;
+      background: rgba(4,6,12,0.96);
+    }
+
+    .highlight {
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.12);
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 8px 0;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 4px 0 8px;
+    }
+
+    .chip {
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(4,6,12,0.96);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 20px 10px 40px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .section {
+        padding: 14px 12px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-main">
+        <div class="hero-kicker">
+          <div class="hero-kicker-pill">∞</div>
+          <span>Protocole de Credit Banking On-Chain • Adrien × Qatar</span>
+        </div>
+        <h1>Infrastructure de crédit on-chain<br />pour actifs réels & mining Bitcoin</h1>
+        <p>
+          Conception complète d'une banque de crédit on-chain, sous-collatéralisée,
+          construite autour de trois piliers&nbsp;: un moteur de crédit score
+          hybride on-chain/off-chain, un système de nantissement NFT pour actifs
+          réels (RWA) et un protocole d'assurance paramétrique couvrant les défauts.
+          Cette architecture est pensée pour un déploiement institutionnel
+          (fonds souverain, banques, Qatar) avec exigences de conformité, de
+          transparence et de scalabilité globale.
+        </p>
+        <div class="hero-tags">
+          <div class="tag">
+            <span class="tag-dot"></span>
+            <span>Credit banking on-chain</span>
+          </div>
+          <div class="tag">
+            <span class="tag-dot tag-dot-alt"></span>
+            <span>NFT de nantissement RWA</span>
+          </div>
+          <div class="tag">
+            <span class="tag-dot"></span>
+            <span>Mining Bitcoin • ~3 EH/s</span>
+          </div>
+          <div class="tag">
+            <span class="tag-dot tag-dot-alt"></span>
+            <span>Assurance paramétrique défaut</span>
+          </div>
+        </div>
+        <div class="hero-cta-row">
+          <a href="#module-credit-score" class="btn btn-primary">
+            <span>1. Moteur de credit score</span>
+          </a>
+          <a href="#module-nft-rwa" class="btn btn-ghost">
+            <span>2. NFT & nantissement RWA</span>
+          </a>
+          <a href="#module-assurance" class="btn btn-ghost">
+            <span>3. Protocole d’assurance défaut</span>
+          </a>
+        </div>
+        <div class="hero-metric-grid">
+          <div class="metric-card">
+            <div class="metric-label">Capacité minière (actuelle)</div>
+            <div class="metric-value">≈ 3 EH/s</div>
+            <div class="metric-caption">
+              Hashrate mondial réparti, flux BTC prévisibles → base idéale pour
+              modéliser des revenus et financer des infrastructures corrélées.
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Structure de risque</div>
+            <div class="metric-value">Sous-collatéralisée, mais assurée</div>
+            <div class="metric-caption">
+              Le protocole accepte le risque de crédit en assumant que
+              le défaut est probabilisable et mutualisable via assurance
+              et notation dynamique.
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="hero-side">
+        <div class="hero-side-box">
+          <div class="hero-side-title">Angle stratégique pour le Qatar</div>
+          <div class="hero-pill-row">
+            <div class="hero-pill">Accès structuré à des RWA tokenisés</div>
+            <div class="hero-pill">Exposition minière BTC maîtrisée</div>
+            <div class="hero-pill">Infra de crédit islamique-compatible*</div>
+          </div>
+          <p style="font-size:0.82rem;margin-bottom:6px;">
+            *La structuration exacte (Murabaha, Ijara, etc.) reste un travail
+            juridique séparé, mais la couche technique est prête à supporter
+            ces logiques (flux plutôt que intérêt explicite, partage de profit,
+            etc.).
+          </p>
+          <ul class="hero-step-list">
+            <li>
+              <div class="hero-step-badge">1</div>
+              <div>
+                <strong>Moteur de score certifiable</strong><br />
+                Score 100&nbsp;% transparent et auditable, combinant identité,
+                comportement on-chain, métriques financières classiques
+                et qualité des actifs.
+              </div>
+            </li>
+            <li>
+              <div class="hero-step-badge">2</div>
+              <div>
+                <strong>Nantissement NFT des actifs financés</strong><br />
+                Les propriétés et équipements sont tokenisés, lockés
+                dans des smart contracts, avec transfert automatique en cas de défaut.
+              </div>
+            </li>
+            <li>
+              <div class="hero-step-badge">3</div>
+              <div>
+                <strong>Couche assurance défaut</strong><br />
+                Pools de capital (Qatar + investisseurs) qui absorbent le risque
+                mutualisé, avec déclencheurs paramétriques.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </header>
+
+    <section class="toc" id="sommaire">
+      <div class="toc-title">Sommaire cliquable</div>
+      <ul>
+        <li><a href="#vision">0. Vision & principes directeurs</a></li>
+        <li>
+          <a href="#module-credit-score">1. Moteur de credit score hybride</a>
+          <ul class="toc-sub">
+            <li><a href="#cs-architecture">1.1 Architecture générale</a></li>
+            <li><a href="#cs-onchain">1.2 On-chain Behavioral Analytics</a></li>
+            <li><a href="#cs-offchain">1.3 Off-chain Financial & Corporate Metrics</a></li>
+            <li><a href="#cs-assets">1.4 Asset-Based Metrics</a></li>
+            <li><a href="#cs-reputation">1.5 Reputation & Trust Layer</a></li>
+            <li><a href="#cs-score-final">1.6 Score final & mapping conditions</a></li>
+            <li><a href="#cs-tokenisation">1.7 Tokenisation & NFT de score</a></li>
+            <li><a href="#cs-kpi">1.8 KPIs, gouvernance & auditabilité</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#module-nft-rwa">2. Système de nantissement via NFT RWA</a>
+          <ul class="toc-sub">
+            <li><a href="#rwa-legal">2.1 Architecture légale & SPV</a></li>
+            <li><a href="#rwa-nft-structure">2.2 Structure du NFT RWA</a></li>
+            <li><a href="#rwa-flow">2.3 Flow complet de nantissement</a></li>
+            <li><a href="#rwa-enforcement">2.4 Enforcement & exécution</a></li>
+            <li><a href="#rwa-cas-usage">2.5 Cas d’usage : immobilier, mining, infra</a></li>
+            <li><a href="#rwa-qatar">2.6 Spécificités pour Qatar & fonds souverains</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#module-assurance">3. Protocole d’assurance défaut</a>
+          <ul class="toc-sub">
+            <li><a href="#assurance-risques">3.1 Typologie des risques couverts</a></li>
+            <li><a href="#assurance-architecture">3.2 Architecture pools & tranches</a></li>
+            <li><a href="#assurance-parametric">3.3 Déclencheurs paramétriques</a></li>
+            <li><a href="#assurance-pricing">3.4 Modèle de pricing & actuariat</a></li>
+            <li><a href="#assurance-dyn">3.5 Dynamiques de pools & scénarios</a></li>
+            <li><a href="#assurance-qatar">3.6 Offre typée pour Qatar</a></li>
+          </ul>
+        </li>
+        <li><a href="#journey-client">4. Journey complet d’un client</a></li>
+        <li><a href="#roadmap">5. Roadmap de déploiement</a></li>
+        <li><a href="#annexes">6. Annexes & variantes</a></li>
+      </ul>
+    </section>
+
+    <section class="section" id="vision">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">0. Vision</div>
+          <h2>Vision & principes directeurs</h2>
+        </div>
+        <div class="section-badge">
+          <span class="section-badge-dot"></span>
+          <span>Infra bancaire on-chain institutionnelle</span>
+        </div>
+      </div>
+      <p>
+        L’objectif est de créer une infrastructure complète de crédit on-chain,
+        pensée comme une banque de crédit spécialisée dans les actifs réels
+        (immobilier, infrastructures, équipements industriels, machines de mining,
+        etc.) et alimentée par une capacité minière Bitcoin existante (~3&nbsp;EH/s).
+      </p>
+      <div class="grid-2" style="margin-top:10px;">
+        <div class="card">
+          <h3>Principes fondamentaux</h3>
+          <ul>
+            <li><strong>Transparence totale on-chain</strong> des engagements, risques, flux et collatéraux.</li>
+            <li><strong>Sous-collatéralisation contrôlée</strong> : le protocole accepte le risque, mais de façon quantitative et pilotée.</li>
+            <li><strong>Nantissement réel</strong> via NFT RWA, donnant un droit exécutoire sur des actifs concrets.</li>
+            <li><strong>Assurance mutualisée</strong> pour absorber les défauts, rendre l’exposition attractive pour un fonds souverain.</li>
+            <li><strong>Compatibilité réglementaire</strong> et possibilité de déclinaisons Sharia-compliant.</li>
+          </ul>
+        </div>
+        <div class="card card-muted">
+          <h3>Rôle de chaque pilier</h3>
+          <ul>
+            <li><strong>Moteur de credit score</strong> : évalue la probabilité de défaut globale d’un client/actif.</li>
+            <li><strong>NFT de nantissement</strong> : matérialise et sécurise la valeur sous-jacente on-chain.</li>
+            <li><strong>Assurance paramétrique</strong> : mutualise et rémunère le risque, sécurise Qatar & co-investisseurs.</li>
+          </ul>
+          <div class="highlight">
+            La combinaison des trois modules transforme un flux de crédit
+            complexe et multi-juridictionnel en un système paramétrable,
+            auditable et pilotable en temps réel.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="module-credit-score">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">1. Moteur de credit score</div>
+          <h2>Moteur de credit score hybride on-chain / off-chain</h2>
+        </div>
+        <div class="section-badge">
+          <span class="section-badge-dot"></span>
+          <span>0–1000 • Tranches A+ à D</span>
+        </div>
+      </div>
+
+      <section id="cs-architecture">
+        <h3>1.1 Architecture générale</h3>
+        <p>
+          Le moteur de credit score est un <strong>Composite Risk Index</strong>
+          qui agrège quatre dimensions principales&nbsp;:
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <ul>
+              <li><strong>A. On-Chain Behavioral Analytics</strong> (30–45&nbsp;% du score)</li>
+              <li><strong>B. Off-Chain Financial & Corporate Metrics</strong> (30–40&nbsp;%)</li>
+              <li><strong>C. Asset-Based Metrics (RWA)</strong> (10–20&nbsp;%)</li>
+              <li><strong>D. Reputation & Trust Layer</strong> (5–10&nbsp;%)</li>
+            </ul>
+            <p>
+              Chacune de ces dimensions produit un sous-score normalisé qui est ensuite
+              agrégé en un score final, avec pondération configurable par marché, par
+              type d’actif et par cycle macro-économique.
+            </p>
+          </div>
+          <div class="card card-muted">
+            <h4>Data pipeline</h4>
+            <ul>
+              <li><strong>Collecte</strong> : données on-chain (EVM, BTC, etc.) + données bancaires + documents légaux.</li>
+              <li><strong>Normalisation</strong> : mapping par client et par “cluster de wallets”.</li>
+              <li><strong>Feature engineering</strong> : création de variables de risque (volatilité, stabilité, dette).</li>
+              <li><strong>Scoring</strong> : modèles statistiques ou ML (logit, XGBoost, etc.).</li>
+              <li><strong>Tokenisation</strong> : mint d’un NFT de score (Soulbound).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="cs-onchain">
+        <h3>1.2 On-chain Behavioral Analytics (30–45&nbsp;%)</h3>
+        <p>
+          L’objectif est d’extraire du comportement on-chain une mesure
+          de discipline, de sophistication et de risque pris par le client.
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Dimensions analysées</h4>
+            <ul>
+              <li><strong>Flux entrants/sortants</strong> (stabilité, régularité, grosses variations).</li>
+              <li><strong>Diversité des actifs</strong> (stablecoins, BTC, ETH, altcoins, shitcoins).</li>
+              <li><strong>Volatilité de portefeuille</strong> (mesurée par type d’actif et corrélations).</li>
+              <li><strong>Stabilité en stablecoins</strong> (proportion de réserves en actifs stables).</li>
+              <li><strong>Utilisation DeFi</strong> (lending, borrowing, LP, leverage, perp, options).</li>
+              <li><strong>Historique de liquidations</strong> (fréquence, intensité, récence).</li>
+              <li><strong>Ancienneté des wallets</strong> et consistance des comportements.</li>
+              <li><strong>Sybil & fraude</strong> (clustering de wallets liés, patterns de wash trading).</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Techniques</h4>
+            <ul>
+              <li>Graph ML (clustering d’adresses, détection de communautés).</li>
+              <li>Analyse Markovienne de transitions de portefeuille.</li>
+              <li>Détection de patterns extrêmes (anomalies de levier, activité soudaine).</li>
+              <li>Scoring positif pour&nbsp;:
+                <ul>
+                  <li>absence de liquidations significatives,</li>
+                  <li>ratio stablecoins &gt; X&nbsp;% dans les périodes de stress,</li>
+                  <li>historique de staking / savings soutenus.</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="highlight">
+              Sortie&nbsp;: <strong>On-Chain Reliability Score</strong> (0–300),
+              qui mesure la “maturité” et la “fiabilité” financière du client
+              sur la blockchain.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cs-offchain">
+        <h3>1.3 Off-chain Financial & Corporate Metrics (30–40&nbsp;%)</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Clients particuliers</h4>
+            <ul>
+              <li><strong>Revenus</strong> (montant, source, stabilité sur 3–12 mois).</li>
+              <li><strong>Ratio dette / revenu</strong> (avant et après nouveau prêt).</li>
+              <li><strong>Historique bancaire</strong> (incidents, découvert, retards).</li>
+              <li><strong>Patrimoine</strong> (épargne, immobilier, portefeuilles externes).</li>
+              <li><strong>Historique fiscal</strong> (cohérence revenus / style de vie).</li>
+              <li><strong>Pays de résidence</strong> (risque juridique, politique, devise).</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Clients entreprises / mineurs corporate</h4>
+            <ul>
+              <li><strong>P&amp;L minier</strong> (revenus BTC vs coûts électricité & OPEX).</li>
+              <li><strong>Coût marginal d’opération</strong> & seuil de rentabilité.</li>
+              <li><strong>Dépendance énergétique</strong> (un seul provider ou mix).</li>
+              <li><strong>Structure de dette existante</strong> (senior, mezzanine, etc.).</li>
+              <li><strong>Qualité des contrats</strong> (PPAs, baux fonciers, hébergement).</li>
+              <li><strong>Réputation & historique de paiement</strong> avec fournisseurs.</li>
+            </ul>
+            <div class="highlight">
+              Sortie&nbsp;: <strong>Off-Chain Financial Solidity Score</strong> (0–300),
+              calibré par type de client (B2C, B2B, mining, infra, HNWI).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cs-assets">
+        <h3>1.4 Asset-Based Metrics (10–20&nbsp;%)</h3>
+        <p>
+          Ici, on évalue l’actif que le client finance avec le prêt&nbsp;:
+          immobilier, ferme de mining, machines, infra énergétique, etc.
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Variables clés</h4>
+            <ul>
+              <li><strong>Valeur de marché</strong> (oracles + évaluations indépendantes).</li>
+              <li><strong>Liquidité</strong> (facilité de revente, profondeur du marché local).</li>
+              <li><strong>Localisation</strong> (risque politique, juridique, climat, réglementation).</li>
+              <li><strong>Dépréciation attendue</strong> (machines de mining vs immobilier prime).</li>
+              <li><strong>Diversification</strong> (portefeuille d’actifs vs concentration excessive).</li>
+              <li><strong>Qualité de l’assurance existante</strong> (incendie, catastrophe, dommage).</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <div class="highlight">
+              Sortie&nbsp;: <strong>Asset Quality Score</strong> (0–200),
+              modulé par type d’actif. Une villa à Paris ultra liquide
+              n’est pas notée comme une usine isolée dans un pays instable.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cs-reputation">
+        <h3>1.5 Reputation & Trust Layer (5–10&nbsp;%)</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Éléments utilisés</h4>
+            <ul>
+              <li><strong>Historique de remboursement interne</strong> (prêts passés).</li>
+              <li><strong>Durée de la relation</strong> avec la plateforme.</li>
+              <li><strong>Participation volontaire</strong> à des audits renforcés.</li>
+              <li><strong>Usage d’identités vérifiables</strong> (DID, zk-KYC).</li>
+              <li><strong>Social graph Web3</strong> (facultatif, pour signaux faibles).</li>
+              <li><strong>Signalement éventuel</strong> par d’autres institutions de confiance.</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <div class="highlight">
+              Sortie&nbsp;: <strong>Reputation Score</strong> (0–100). Ce score
+              peut compenser légèrement un profil borderline mais ne remplacera
+              jamais une mauvaise base financière.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cs-score-final">
+        <h3>1.6 Score final & conditions de crédit</h3>
+        <p>
+          Le score final va de <strong>0 à 1000</strong> et est mappé en tranches
+          de risque impactant le LTV, le pricing, la durée et l’accès à certaines
+          structures d’assurance.
+        </p>
+        <div class="score-scale">
+          <div class="score-segment">
+            <strong>A+</strong>
+            <span>Score &gt;= 850</span>
+            <span>Risque ultra faible, clients premium.</span>
+          </div>
+          <div class="score-segment">
+            <strong>A</strong>
+            <span>750–849</span>
+            <span>Risque faible, conditions très favorables.</span>
+          </div>
+          <div class="score-segment">
+            <strong>B</strong>
+            <span>600–749</span>
+            <span>Risque moyen, LTV modéré.</span>
+          </div>
+          <div class="score-segment">
+            <strong>C</strong>
+            <span>450–599</span>
+            <span>Risque élevé, LTV limité.</span>
+          </div>
+          <div class="score-segment">
+            <strong>D</strong>
+            <span>&lt; 450</span>
+            <span>Risque très élevé, crédit refusé ou collatéral quasi total.</span>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tranche</th>
+              <th>Score</th>
+              <th>LTV max</th>
+              <th>Taux indicatif</th>
+              <th>Accès assurance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge-risk"><span class="dot-green" style="width:7px;height:7px;border-radius:50%;"></span> A+</span></td>
+              <td>&gt;= 850</td>
+              <td>70–85&nbsp;%</td>
+              <td>Bas (+ prime de liquidité réduite)</td>
+              <td>Tranche senior + junior possible</td>
+            </tr>
+            <tr>
+              <td><span class="badge-risk"><span class="dot-green" style="width:7px;height:7px;border-radius:50%;"></span> A</span></td>
+              <td>750–849</td>
+              <td>60–70&nbsp;%</td>
+              <td>Bas / médian</td>
+              <td>Senior standard</td>
+            </tr>
+            <tr>
+              <td><span class="badge-risk"><span class="dot-yellow" style="width:7px;height:7px;border-radius:50%;"></span> B</span></td>
+              <td>600–749</td>
+              <td>40–60&nbsp;%</td>
+              <td>Normal / légèrement augmenté</td>
+              <td>Senior + mezzanine</td>
+            </tr>
+            <tr>
+              <td><span class="badge-risk"><span class="dot-yellow" style="width:7px;height:7px;border-radius:50%;"></span> C</span></td>
+              <td>450–599</td>
+              <td>30–40&nbsp;%</td>
+              <td>Élevé</td>
+              <td>Mezzanine uniquement</td>
+            </tr>
+            <tr>
+              <td><span class="badge-risk"><span class="dot-red" style="width:7px;height:7px;border-radius:50%;"></span> D</span></td>
+              <td>&lt; 450</td>
+              <td>&lt; 30&nbsp;% ou 100&nbsp;% collat.</td>
+              <td>Non pertinent</td>
+              <td>Pas de couverture / cas spéciaux</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="cs-tokenisation">
+        <h3>1.7 Tokenisation & NFT de score</h3>
+        <p>
+          Le score est encapsulé dans un <strong>Soulbound NFT</strong> non transférable
+          attaché à l’identité on-chain du client.
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Contenu du NFT de score</h4>
+            <ul>
+              <li>Score global (0–1000).</li>
+              <li>Tranche (A+, A, B, C, D).</li>
+              <li>Détails synthétiques&nbsp;: sous-scores A/B/C/D.</li>
+              <li>Version du modèle de scoring.</li>
+              <li>Timestamp d’émission & validité.</li>
+              <li>Hash des données sources (off-chain) pour audit.</li>
+              <li>Référence à la vérification KYC / AML.</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Accès par les autres modules</h4>
+            <ul>
+              <li>Les contrats de prêt lisent directement ce NFT pour décider des LTV.</li>
+              <li>Les pools d’assurance utilisent le score pour tarifer la prime.</li>
+              <li>Qatar et co-investisseurs peuvent auditer anonymement les portefeuilles
+                  par distribution de scores (sans voir les identités).</li>
+            </ul>
+            <div class="highlight">
+              Le NFT joue un rôle de “passeport de risque” portable entre
+              différents produits de crédit du protocole.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cs-kpi">
+        <h3>1.8 KPIs, gouvernance & auditabilité</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>KPIs de performance</h4>
+            <ul>
+              <li>Taux de défaut par tranche de score.</li>
+              <li>Loss Given Default réelle vs attendue.</li>
+              <li>Stabilité du score (volatilité des révisions).</li>
+              <li>Taux de migration entre tranches (B → A, etc.).</li>
+              <li>Impact macro (cycles BTC, taux, géopolitique) sur les défauts.</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Gouvernance & audits</h4>
+            <ul>
+              <li>Documentation détaillée du modèle de scoring.</li>
+              <li>Audit externe par cabinet de risk / Big Four.</li>
+              <li>Journalisation des changements de paramètres (Pondérations, cut-offs).</li>
+              <li>Backtesting récurrent vs base de prêts réalisée.</li>
+            </ul>
+            <p style="font-size:0.85rem;">
+              Le modèle ne reste pas figé : il est versionné, testé,
+              et ajusté selon la réalité terrain tout en restant stable
+              pour ne pas être arbitraire.
+            </p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="section" id="module-nft-rwa">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">2. NFT & RWA</div>
+          <h2>Système de nantissement via NFT RWA</h2>
+        </div>
+        <div class="section-badge">
+          <span class="section-badge-dot"></span>
+          <span>SPV • Tokenisation • Enforcement</span>
+        </div>
+      </div>
+
+      <section id="rwa-legal">
+        <h3>2.1 Architecture légale & SPV</h3>
+        <p>
+          Le cœur du modèle RWA repose sur une chaîne de propriété claire :
+          <strong>Actif réel → SPV → NFT RWA → Prêt</strong>. La SPV détient
+          l’actif et l’émetteur du NFT, ce qui permet de relier le monde légal
+          au monde on-chain.
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Rôle de la SPV</h4>
+            <ul>
+              <li>Être l’entité légale propriétaire de l’actif (titre, registre, etc.).</li>
+              <li>Signer les contrats avec l’emprunteur (bail, crédit-bail, etc.).</li>
+              <li>Émettre le NFT RWA représentant la “beneficial ownership claim”.</li>
+              <li>Définir contractuellement que <em>le détenteur du NFT</em> a droit aux flux.</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Variantes de structuration</h4>
+            <ul>
+              <li>SPV par projet (grands actifs / deals structurés).</li>
+              <li>SPV mutualisée par pays ou catégorie d’actifs.</li>
+              <li>Partenariats avec des entités régulées locales (banques, custodians).</li>
+            </ul>
+            <div class="highlight">
+              La structuration SPV est critique pour que la saisie de l’actif
+              soit viable et reconnue par les tribunaux locaux en cas de défaut.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="rwa-nft-structure">
+        <h3>2.2 Structure du NFT RWA</h3>
+        <p>
+          Le NFT RWA est le “jumeau numérique” de l’actif physique. Il ne s’agit
+          pas nécessairement d’un droit de propriété au sens cadastral, mais d’un
+          droit économique contractuellement valide.
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Metadata & informations clés</h4>
+            <ul>
+              <li>ID unique du NFT.</li>
+              <li>Référence SPV (juridiction, forme, registre).</li>
+              <li>Type d’actif (immobilier, machine de mining, infra énergie).</li>
+              <li>Valeur estimée initiale & date d’évaluation.</li>
+              <li>Documentations (hash vers IPFS / storage chiffré).</li>
+              <li>État de l’actif (inspection, maintenance, vétusté).</li>
+              <li>Paramètres d’hypothèque / de gage intégrés.</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Fonctions du NFT</h4>
+            <ul>
+              <li><strong>Lockable</strong> en collatéral dans un smart contract de prêt.</li>
+              <li><strong>Transférable sous condition</strong> (défaut, refinancement, vente).</li>
+              <li><strong>Updatable</strong> pour refléter la nouvelle valeur, l’état, la maintenance.</li>
+              <li><strong>Soulbound optionnel</strong> dans certaines structures (p. ex. concessions).</li>
+            </ul>
+            <div class="highlight">
+              Le contrat de prêt interagit directement avec le NFT pour vérifier
+              que l’actif est correctement immobilisé avant tout décaissement.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="rwa-flow">
+        <h3>2.3 Flow complet de nantissement</h3>
+        <p class="flow-label">Étapes principales</p>
+        <ul class="flow-steps">
+          <li>
+            <div class="flow-step-index">1</div>
+            <div>
+              <strong>Création de la SPV & acquisition de l’actif</strong><br />
+              La SPV achète l’actif, enregistre le titre légalement, obtient
+              les documents (notariés, cadastre, etc.).
+            </div>
+          </li>
+          <li>
+            <div class="flow-step-index">2</div>
+            <div>
+              <strong>Émission du NFT RWA</strong><br />
+              La SPV émet un NFT décrivant l’actif, avec lien contractuel
+              entre détention du NFT et droit économique.
+            </div>
+          </li>
+          <li>
+            <div class="flow-step-index">3</div>
+            <div>
+              <strong>Création du contrat de prêt</strong><br />
+              Le protocole crée un smart contract de prêt qui exige que le NFT
+              soit déposé en collatéral et que le score du client soit suffisant.
+            </div>
+          </li>
+          <li>
+            <div class="flow-step-index">4</div>
+            <div>
+              <strong>Locking du NFT</strong><br />
+              Le NFT est transféré en escrow dans le smart contract de prêt.
+              L’actif ne peut plus être vendu tant que le prêt n’est pas remboursé
+              ou refinancé.
+            </div>
+          </li>
+          <li>
+            <div class="flow-step-index">5</div>
+            <div>
+              <strong>Vie du prêt & mises à jour</strong><br />
+              Le client rembourse selon l’échéancier. Le NFT peut être mis à jour
+              (valeur, état) par la SPV ou un oracle certifié.
+            </div>
+          </li>
+          <li>
+            <div class="flow-step-index">6</div>
+            <div>
+              <strong>Remboursement intégral</strong><br />
+              À la fin du prêt, le contrat libère le NFT et le renvoie au client
+              ou à la SPV, selon la structure (crédit-bail, propriété directe, etc.).
+            </div>
+          </li>
+          <li>
+            <div class="flow-step-index">7</div>
+            <div>
+              <strong>Défaut</strong><br />
+              En cas de défaut avéré (critères paramétriques), le contrat transfère
+              le NFT au bénéficiaire (Qatar / entité prêteuse) et déclenche la logique
+              d’assurance.
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="rwa-enforcement">
+        <h3>2.4 Enforcement & exécution</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Logique contractuelle clé</h4>
+            <ul>
+              <li>Contrat légal stipulant que <em>le détenteur du NFT</em> a droit aux cash-flows.</li>
+              <li>Procédure de saisie codifiée dans les statuts de la SPV.</li>
+              <li>Reconnaissance du smart contract comme mécanisme de mise en gage.</li>
+              <li>Possibilité de vente rapide de l’actif pour couvrir le principal.</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Partie on-chain</h4>
+            <ul>
+              <li>Le smart contract vérifie les conditions de défaut.</li>
+              <li>À défaut, transfert automatique du NFT à la SPV du prêteur.</li>
+              <li>Log des événements on-chain = preuve pour les tribunaux.</li>
+            </ul>
+            <div class="highlight">
+              On-chain, la logique est <strong>immédiate et déterministe</strong>.
+              Off-chain, la SPV agit selon un protocole légal prédéfini aligné
+              sur cette logique.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="rwa-cas-usage">
+        <h3>2.5 Cas d’usage : immobilier, mining, infrastructures</h3>
+        <div class="grid-3">
+          <div class="card">
+            <h4>Immobilier résidentiel / commercial</h4>
+            <ul>
+              <li>Appartements, villas, bureaux “prime”.</li>
+              <li>SPV propriétaire, bail ou contrat d’achat différé.</li>
+              <li>NFT = droit économique + droit de saisie.</li>
+              <li>LTV typique&nbsp;: 50–75&nbsp;% selon marché.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Mining Bitcoin (machines & sites)</h4>
+            <ul>
+              <li>Machines ASIC, racks, containers, fermes.</li>
+              <li>Contrats électricité, hébergement, terrain.</li>
+              <li>NFT = bundle “machines + contrats”.</li>
+              <li>LTV typique&nbsp;: 30–60&nbsp;% (dépréciation rapide).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Infrastructures (énergie, data centers, etc.)</h4>
+            <ul>
+              <li>Sites de production ou de distribution.</li>
+              <li>Long-term offtake agreements (PPAs).</li>
+              <li>NFT = droit économique sur les flux & actifs.</li>
+              <li>LTV typique&nbsp;: 40–70&nbsp;%.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="rwa-qatar">
+        <h3>2.6 Spécificités pour Qatar & fonds souverains</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Avantages pour Qatar</h4>
+            <ul>
+              <li>Visibilité temps réel sur les actifs financés.</li>
+              <li>Possibilité de choisir expositions par type d’actif / région.</li>
+              <li>Compatibilité avec stratégies infra & énergie long terme.</li>
+              <li>Bridge vers des structures Sharia-compliant.</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Exigences adressées</h4>
+            <ul>
+              <li>Traçabilité intégrale du collatéral.</li>
+              <li>Process de saisie clair, codifié.</li>
+              <li>Réduction du risque opérationnel via assurance & co-investisseurs.</li>
+              <li>Alignement entre contrats on-chain et off-chain.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="section" id="module-assurance">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">3. Assurance défaut</div>
+          <h2>Protocole d’assurance défaut paramétrique</h2>
+        </div>
+        <div class="section-badge">
+          <span class="section-badge-dot"></span>
+          <span>Pools de capital • Pricing • Parametrics</span>
+        </div>
+      </div>
+
+      <section id="assurance-risques">
+        <h3>3.1 Typologie des risques couverts</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Risques principaux</h4>
+            <ul>
+              <li><strong>Risque de défaut de l’emprunteur</strong>
+                (incapacité de rembourser selon les conditions).</li>
+              <li><strong>Risque de marché</strong>
+                (chute de valeur rapide de l’actif vs prix d’achat).</li>
+              <li><strong>Risque opérationnel</strong>
+                (incendie, panne majeure de site de mining, etc.).</li>
+              <li><strong>Risque juridique / réglementaire</strong>
+                (blocage temporaire, interdiction, litige).</li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Granularité</h4>
+            <p>
+              Chaque prêt peut souscrire une couverture partielle ou totale
+              sur un ou plusieurs risques. Les primes sont ajustées selon :
+            </p>
+            <ul>
+              <li>la tranche de score de crédit,</li>
+              <li>la qualité de l’actif,</li>
+              <li>la juridiction,</li>
+              <li>la durée du prêt et le profil d’amortissement.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="assurance-architecture">
+        <h3>3.2 Architecture pools & tranches</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Types de pools</h4>
+            <ul>
+              <li><strong>Primary Pool (institutionnel)</strong>
+                <ul>
+                  <li>Capital fourni par Qatar ou grandes institutions.</li>
+                  <li>Prend des expositions senior peu risquées.</li>
+                  <li>Rendement modéré mais très sécurisé.</li>
+                </ul>
+              </li>
+              <li><strong>Risk Pool (DeFi / LPs privés)</strong>
+                <ul>
+                  <li>Rendement plus élevé.</li>
+                  <li>Supporte les premières pertes (tranche junior).</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Tranching</h4>
+            <ul>
+              <li><strong>Tranche senior</strong> : Qatar, faible probabilité de perte.</li>
+              <li><strong>Tranche mezzanine</strong> : investisseurs cherchant
+                  du rendement supérieur avec risque modéré.</li>
+              <li><strong>Tranche junior</strong> : LPs crypto, capture maximale
+                  des primes, encaisse premières pertes.</li>
+            </ul>
+            <div class="highlight">
+              Ce modèle permet d’aligner des profils de risque/rendement très
+              différents au sein de la même plateforme.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="assurance-parametric">
+        <h3>3.3 Déclencheurs paramétriques</h3>
+        <p>
+          Le protocole d’assurance repose sur des déclencheurs purement
+          paramétriques, codés dans les smart contracts, pour éviter les décisions
+          subjectives ou politisées.
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Examples de triggers</h4>
+            <ul>
+              <li><strong>Défaut financier</strong>
+                <ul>
+                  <li>N échéances consécutives non payées.</li>
+                  <li>Balance du compte client &lt; X % de l’échéance pendant Y jours.</li>
+                </ul>
+              </li>
+              <li><strong>Actifs de mining</strong>
+                <ul>
+                  <li>Hashrate &lt; seuil critique pendant une durée prolongée.</li>
+                  <li>Arrêt complet du site pour cause de sinistre.</li>
+                </ul>
+              </li>
+              <li><strong>Marché</strong>
+                <ul>
+                  <li>Chute du prix de l’actif &gt; 40&nbsp;% vs valeurs initiales
+                      sur une window définie.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Mécanique</h4>
+            <ul>
+              <li>Les oracles (off-chain ouacles décentralisés) fournissent les données
+                  (hashrate, prix, statut opérationnel).</li>
+              <li>Le smart contract vérifie les conditions à intervalle régulier.</li>
+              <li>En cas de trigger, il exécute automatiquement les payouts.</li>
+            </ul>
+            <div class="highlight">
+              Pas de comité opaque&nbsp;: les conditions de déclenchement sont
+              publiques, vérifiables et identiques pour tous.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="assurance-pricing">
+        <h3>3.4 Modèle de pricing & actuariat</h3>
+        <p>
+          La prime d’assurance est fonction de la probabilité de défaut (PD),
+          de la perte en cas de défaut (LGD) et de l’exposition à défaut (EAD).
+        </p>
+        <pre><code>Prime brute ≈ PD × LGD × EAD × (1 + marge de sécurité)
+Prime finale = Prime brute + frais opérationnels + marge protocole</code></pre>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Exemple chiffré (mining)</h4>
+            <ul>
+              <li>Montant du prêt (EAD) = 100 000 USD</li>
+              <li>PD estimée = 7 %</li>
+              <li>LGD estimée = 40 % (après saisie & revente machines)</li>
+            </ul>
+            <p>
+              Prime brute = 0,07 × 0,40 × 100 000 = <strong>2 800 USD</strong>.<br />
+              Avec marge de 10&nbsp;% + frais = ~<strong>3 080 USD/an</strong>.
+            </p>
+          </div>
+          <div class="card card-muted">
+            <h4>Évolution dynamique</h4>
+            <ul>
+              <li>Les PD & LGD sont recalibrées en continu sur base des défauts réels.</li>
+              <li>Les primes peuvent être revues à la hausse ou à la baisse selon :
+                <ul>
+                  <li>la distribution de scores dans le portefeuille,</li>
+                  <li>la conjoncture macro (prix BTC, taux, inflation),</li>
+                  <li>les corrélations entre actifs.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="assurance-dyn">
+        <h3>3.5 Dynamiques de pools & scénarios</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Entrées & sorties des pools</h4>
+            <ul>
+              <li><strong>Entrées</strong>
+                <ul>
+                  <li>Primes payées par les emprunteurs ou par les prêteurs.</li>
+                  <li>Capital injecté par Qatar et LPs.</li>
+                  <li>Rendements de placements temporaires.</li>
+                </ul>
+              </li>
+              <li><strong>Sorties</strong>
+                <ul>
+                  <li>Payouts d’assurance en cas de défaut.</li>
+                  <li>Rachats de parts (LPs sortants).</li>
+                  <li>Distribution de rendement aux participants.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="card card-muted">
+            <h4>Scénarios</h4>
+            <ul>
+              <li><strong>Scénario normal</strong> : défauts contenus, les primes
+                  couvrent largement les indemnités → rendement positif.</li>
+              <li><strong>Scénario stress</strong> : vague de défauts, utilisation
+                  des réserves, perte éventuelle sur la tranche junior.</li>
+              <li><strong>Scénario extrême</strong> : crise systémique (macro),
+                  possible haircut partiel sur la tranche mezzanine.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="assurance-qatar">
+        <h3>3.6 Offre typée pour Qatar</h3>
+        <div class="grid-3">
+          <div class="card">
+            <h4>Tranche senior</h4>
+            <ul>
+              <li>Destinée à Qatar & institutions AAA.</li>
+              <li>Exposition sur les prêts A+/A principalement.</li>
+              <li>Couverture supplémentaire par junior / mezzanine.</li>
+              <li>Rendement cible&nbsp;: 6–10&nbsp;% / an.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Tranche mezzanine</h4>
+            <ul>
+              <li>Investisseurs cherchant rendement intermédiaire.</li>
+              <li>Protégée partiellement par tranche junior.</li>
+              <li>Rendement cible&nbsp;: 12–18&nbsp;% / an.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Tranche junior</h4>
+            <ul>
+              <li>LPs crypto, hedge funds, family offices risqués.</li>
+              <li>Encaisse la majorité des primes et des premières pertes.</li>
+              <li>Rendement cible&nbsp;: 20–30&nbsp;% / an (variable).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="section" id="journey-client">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">4. Journey</div>
+          <h2>Journey complet d’un client</h2>
+        </div>
+        <div class="section-badge">
+          <span class="section-badge-dot"></span>
+          <span>De l’onboarding à la sortie</span>
+        </div>
+      </div>
+      <ul class="flow-steps">
+        <li>
+          <div class="flow-step-index">1</div>
+          <div>
+            <strong>Onboarding & KYC</strong><br />
+            Le client connecte son wallet, passe le KYC/KYB via un prestataire
+            agréé. Il obtient un credential ou un token KYC-OK on-chain.
+          </div>
+        </li>
+        <li>
+          <div class="flow-step-index">2</div>
+          <div>
+            <strong>Analyse & scoring</strong><br />
+            Le client relie ses wallets, fournit ses documents financiers.
+            Le moteur de scoring calcule son score et mint un NFT de score.
+          </div>
+        </li>
+        <li>
+          <div class="flow-step-index">3</div>
+          <div>
+            <strong>Structuration de l’actif</strong><br />
+            L’actif à financer (propriété, machines...) est logé dans une SPV
+            qui émet un NFT RWA.
+          </div>
+        </li>
+        <li>
+          <div class="flow-step-index">4</div>
+          <div>
+            <strong>Création & activation du prêt</strong><br />
+            Le smart contract de prêt est paramétré (montant, taux, durée, LTV),
+            le NFT RWA est déposé en collatéral. Qatar (ou un pool) apporte la
+            liquidité dans le lending pool.
+          </div>
+        </li>
+        <li>
+          <div class="flow-step-index">5</div>
+          <div>
+            <strong>Vie du prêt</strong><br />
+            Le client rembourse périodiquement, en stablecoins. Le score peut
+            être mis à jour, l’actif actualisé, les primes d’assurance payées.
+          </div>
+        </li>
+        <li>
+          <div class="flow-step-index">6</div>
+          <div>
+            <strong>Sortie positive</strong><br />
+            Remboursement total du prêt, libération du NFT RWA, mise à jour du
+            score (amélioration possible) et distribution des rendements à Qatar
+            et aux LPs.
+          </div>
+        </li>
+        <li>
+          <div class="flow-step-index">7</div>
+          <div>
+            <strong>Scénario de défaut</strong><br />
+            En cas de défaut, transfert automatique du NFT RWA au prêteur,
+            déclenchement de l’assurance, liquidation / restructuration off-chain,
+            mise à jour du score de crédit (chute significative).
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section" id="roadmap">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">5. Roadmap</div>
+          <h2>Roadmap de déploiement</h2>
+        </div>
+        <div class="section-badge">
+          <span class="section-badge-dot"></span>
+          <span>De MVP à déploiement institutionnel</span>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h4>Phase 1 — Prototype</h4>
+          <ul>
+            <li>Choix de la chaîne (L2 EVM, stable & peu coûteuse).</li>
+            <li>Intégration d’un provider KYC + identité on-chain.</li>
+            <li>Premier modèle de score (règles + sous-scores de base).</li>
+            <li>Smart contracts de prêt & NFT RWA rudimentaires.</li>
+            <li>Pilote interne avec quelques deals miniers.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Phase 2 — Pilote Qatar</h4>
+          <ul>
+            <li>Structuration légale détaillée avec un cabinet local.</li>
+            <li>Deals pilotes (5–10) sur actifs bien maîtrisés.</li>
+            <li>Monitoring intensif des performances & défauts.</li>
+            <li>Amélioration du moteur de scoring et du pricing assurance.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Phase 3 — Scale & multi-actifs</h4>
+          <ul>
+            <li>Extension à d’autres types d’actifs (immobilier, infra).</li>
+            <li>Ouverture à co-investisseurs institutionnels.</li>
+            <li>Tranching complet (senior / mezz / junior).</li>
+            <li>API & dashboards pour Qatar et partenaires bancaires.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="annexes">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">6. Annexes</div>
+          <h2>Annexes & variantes possibles</h2>
+        </div>
+        <div class="section-badge">
+          <span class="section-badge-dot"></span>
+          <span>Options & évolutions futures</span>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Extensions possibles</h4>
+          <div class="chip-row">
+            <div class="chip">Marché secondaire de parts de prêts</div>
+            <div class="chip">Tokenisation de portefeuilles entiers</div>
+            <div class="chip">Structures Sharia-compliant</div>
+            <div class="chip">Bridge vers banques locales</div>
+            <div class="chip">Intégration de scoring ESG</div>
+          </div>
+          <p>
+            À terme, le protocole peut devenir une “place de marché”
+            pour le risque de crédit tokenisé, avec Qatar comme ancrage
+            senior et d’autres acteurs sur les tranches plus risquées.
+          </p>
+        </div>
+        <div class="card card-muted">
+          <h4>Points de vigilance</h4>
+          <ul>
+            <li>Complexité réglementaire multi-pays.</li>
+            <li>Alignement strict des contrats on-chain et des contrats papier.</li>
+            <li>Qualité et indépendance des oracles (prix, hashrate, opérations).</li>
+            <li>Gouvernance du protocole (qui décide des paramètres).</li>
+          </ul>
+          <p>
+            Ces aspects n’empêchent pas le lancement, mais doivent être monitorés
+            en permanence avec des partenaires spécialisés (juristes, auditeurs,
+            risk managers).
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
