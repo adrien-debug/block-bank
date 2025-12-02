@@ -4170,6 +4170,9 @@
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
   font-family: var(--font-brand);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .loans-filters {
@@ -4306,6 +4309,8 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .loan-card::before {
@@ -4337,7 +4342,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
 }
 
 .loan-number {
@@ -4357,8 +4362,8 @@
 .loan-main-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-6);
-  margin-bottom: var(--space-4);
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
 }
 
 .loan-amount-section {
@@ -4372,6 +4377,20 @@
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
   font-family: var(--font-brand);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.currency-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.currency-text {
+  margin-left: var(--space-1);
 }
 
 .loan-amount-details {
@@ -4445,19 +4464,20 @@
 }
 
 .loan-payment-section {
-  margin-top: var(--space-6);
-  padding-top: var(--space-6);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
   border-top: 1px solid var(--bb-grey-200);
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: var(--space-6);
-  background: var(--bb-grey-50);
-  padding: var(--space-6);
-  border-radius: var(--radius-md);
-  margin-left: calc(var(--space-8) * -1);
-  margin-right: calc(var(--space-8) * -1);
-  margin-bottom: calc(var(--space-8) * -1);
+  align-items: flex-end;
+  gap: var(--space-4);
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  flex-wrap: wrap;
 }
 
 .payment-info-enhanced {
@@ -4465,12 +4485,40 @@
   flex-direction: column;
   gap: var(--space-3);
   flex: 1;
+  align-items: flex-start;
+}
+
+.payment-amount-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  gap: var(--space-4);
+}
+
+.payment-date-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: nowrap;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+}
+
+.payment-date-row .payment-date-label {
+  white-space: nowrap;
+}
+
+.payment-date-row .payment-date-value {
+  white-space: nowrap;
 }
 
 .payment-amount {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  flex-shrink: 0;
 }
 
 .payment-label {
@@ -4484,6 +4532,9 @@
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
   font-family: var(--font-brand);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .payment-date-info {
@@ -4513,15 +4564,16 @@
 .payment-days.urgent {
   color: var(--color-warning);
   font-weight: var(--font-semibold);
-  background: var(--color-warning-bg);
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 
 .loan-actions {
   display: flex;
   gap: var(--space-3);
   align-items: center;
+  flex-shrink: 0;
 }
 
 .btn-pay {
@@ -5930,6 +5982,24 @@
   height: 200px;
   border-radius: var(--radius-md);
   overflow: hidden;
+}
+
+.nft-preview-image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.nft-preview-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.nft-card-preview:hover .nft-preview-image img {
+  transform: scale(1.05);
 }
 
 .nft-card-image {

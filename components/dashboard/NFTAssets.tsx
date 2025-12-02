@@ -102,6 +102,7 @@ export default function NFTAssets() {
       currentValue: 310000,
       originalValue: 300000,
       metadataURI: 'ipfs://QmXxxx...',
+      imageURI: '/Villa-paris.jpeg',
       ownerAddress: '0xabc...def',
     },
     {
@@ -139,6 +140,7 @@ export default function NFTAssets() {
       currentValue: 145000,
       originalValue: 150000,
       metadataURI: 'ipfs://QmYyyy...',
+      imageURI: '/Mining1.webp',
       ownerAddress: '0xabc...def',
     },
     {
@@ -175,6 +177,7 @@ export default function NFTAssets() {
       currentValue: 520000,
       originalValue: 500000,
       metadataURI: 'ipfs://QmZzzz...',
+      imageURI: '/Data-Center.avif',
       ownerAddress: '0xabc...def',
     },
     {
@@ -211,6 +214,7 @@ export default function NFTAssets() {
       currentValue: 8200000,
       originalValue: 8000000,
       metadataURI: 'ipfs://QmWwww...',
+      imageURI: '/Gold1.jpg',
       ownerAddress: '0xabc...def',
     },
   ]
@@ -453,22 +457,49 @@ export default function NFTAssets() {
 
             {/* Image/Preview */}
             <div className="nft-card-preview">
-              <div className="nft-preview-gradient">
-                <div className="nft-preview-icon">
-                  {nft.assetType === 'REAL_ESTATE' && '🏢'}
-                  {nft.assetType === 'MINING' && '⛏️'}
-                  {nft.assetType === 'INFRASTRUCTURE' && '🏗️'}
-                  {nft.assetType === 'COMMODITIES' && '💎'}
-                  {nft.assetType === 'OTHER' && '📦'}
-                </div>
-              </div>
-              {nft.status === 'locked' && (
-                <div className="nft-selected-indicator">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" fill="var(--color-warning)" />
-                    <path d="M9 12L11 14L15 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
+              {nft.imageURI ? (
+                <>
+                  <div className="nft-preview-image">
+                    <img 
+                      src={nft.imageURI} 
+                      alt={nft.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: 'var(--radius-lg)'
+                      }}
+                    />
+                  </div>
+                  {nft.status === 'locked' && (
+                    <div className="nft-selected-indicator">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" fill="var(--color-warning)" />
+                        <path d="M9 12L11 14L15 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className="nft-preview-gradient">
+                    <div className="nft-preview-icon">
+                      {nft.assetType === 'REAL_ESTATE' && '🏢'}
+                      {nft.assetType === 'MINING' && '⛏️'}
+                      {nft.assetType === 'INFRASTRUCTURE' && '🏗️'}
+                      {nft.assetType === 'COMMODITIES' && '💎'}
+                      {nft.assetType === 'OTHER' && '📦'}
+                    </div>
+                  </div>
+                  {nft.status === 'locked' && (
+                    <div className="nft-selected-indicator">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" fill="var(--color-warning)" />
+                        <path d="M9 12L11 14L15 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
@@ -583,6 +614,26 @@ export default function NFTAssets() {
             </div>
 
             <div className="nft-detail-body">
+              {/* Image NFT */}
+              {selectedNFT.imageURI && (
+                <div className="detail-section">
+                  <div className="nft-detail-image-container">
+                    <img 
+                      src={selectedNFT.imageURI} 
+                      alt={selectedNFT.name}
+                      style={{
+                        width: '100%',
+                        maxWidth: '600px',
+                        height: 'auto',
+                        borderRadius: 'var(--radius-lg)',
+                        border: '1px solid rgba(37, 99, 235, 0.1)',
+                        boxShadow: 'var(--shadow-card)'
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+              
               {/* Informations principales */}
               <div className="detail-section">
                 <h3>Informations principales</h3>

@@ -6,6 +6,7 @@ import ShieldIcon from '../icons/ShieldIcon'
 import InfoIcon from '../icons/InfoIcon'
 import WarningIcon from '../icons/WarningIcon'
 import ChartIcon from '../icons/ChartIcon'
+import USDCIcon from '../icons/USDCIcon'
 
 type LoanStatus = 'active' | 'repaid' | 'default' | 'liquidated' | 'closed'
 type FilterStatus = 'all' | 'active' | 'repaid' | 'default'
@@ -224,6 +225,7 @@ export default function Loans() {
         tokenId: '#9012',
         contractAddress: '0x9012...3456',
         currentValue: 200000,
+        image: '/Data-Center.avif',
       },
       ltv: 60,
       rate: 7.8,
@@ -328,15 +330,33 @@ export default function Loans() {
         </div>
         <div className="stat-card-page">
           <div className="stat-label-page">Montant total emprunté</div>
-          <div className="stat-value-page">{formatNumber(stats.totalBorrowed)} USDC</div>
+          <div className="stat-value-page">
+            {formatNumber(stats.totalBorrowed)} 
+            <span className="currency-logo">
+              <USDCIcon size={18} />
+            </span>
+            <span className="currency-text">USDC</span>
+          </div>
         </div>
         <div className="stat-card-page">
           <div className="stat-label-page">Solde restant</div>
-          <div className="stat-value-page">{formatNumber(stats.totalRemaining)} USDC</div>
+          <div className="stat-value-page">
+            {formatNumber(stats.totalRemaining)} 
+            <span className="currency-logo">
+              <USDCIcon size={18} />
+            </span>
+            <span className="currency-text">USDC</span>
+          </div>
         </div>
         <div className="stat-card-page">
           <div className="stat-label-page">Prochain paiement total</div>
-          <div className="stat-value-page">{formatNumber(stats.nextPaymentTotal)} USDC</div>
+          <div className="stat-value-page">
+            {formatNumber(stats.nextPaymentTotal)} 
+            <span className="currency-logo">
+              <USDCIcon size={18} />
+            </span>
+            <span className="currency-text">USDC</span>
+          </div>
         </div>
       </div>
 
@@ -365,7 +385,13 @@ export default function Loans() {
               <div className="loan-main-info">
                 <div className="loan-amount-section">
                   <div className="loan-amount-large">
-                    {formatNumber(loan.amount)} {loan.currency}
+                    {formatNumber(loan.amount)} 
+                    {loan.currency === 'USDC' && (
+                      <span className="currency-logo">
+                        <USDCIcon size={20} />
+                      </span>
+                    )}
+                    <span className="currency-text">{loan.currency}</span>
                   </div>
                   <div className="loan-amount-details">
                     <span>Solde restant: {formatNumber(loan.remainingBalance)} {loan.currency}</span>
@@ -396,20 +422,26 @@ export default function Loans() {
 
               {loan.status === 'active' && (
                 <div className="loan-payment-section">
-                  <div className="payment-info-enhanced">
-                    <div className="payment-amount">
-                      <span className="payment-label">Prochain paiement</span>
-                      <span className="payment-value">{formatNumber(loan.nextPaymentAmount)} {loan.currency}</span>
-                    </div>
-                    <div className="payment-date-info">
-                      <span className="payment-date-label">Échéance</span>
-                      <span className="payment-date-value">{formatDateShort(loan.nextPaymentDate)}</span>
-                      {loan.daysUntilDue !== undefined && (
-                        <span className={`payment-days ${loan.daysUntilDue <= 7 ? 'urgent' : ''}`}>
-                          {loan.daysUntilDue} jour{loan.daysUntilDue > 1 ? 's' : ''} restant{loan.daysUntilDue > 1 ? 's' : ''}
+                  <div className="payment-amount">
+                    <span className="payment-label">Prochain paiement</span>
+                    <span className="payment-value">
+                      {formatNumber(loan.nextPaymentAmount)} 
+                      {loan.currency === 'USDC' && (
+                        <span className="currency-logo">
+                          <USDCIcon size={18} />
                         </span>
                       )}
-                    </div>
+                      <span className="currency-text">{loan.currency}</span>
+                    </span>
+                  </div>
+                  <div className="payment-date-row">
+                    <span className="payment-date-label">Échéance</span>
+                    <span className="payment-date-value">{formatDateShort(loan.nextPaymentDate)}</span>
+                    {loan.daysUntilDue !== undefined && (
+                      <span className={`payment-days ${loan.daysUntilDue <= 7 ? 'urgent' : ''}`}>
+                        {loan.daysUntilDue} jour{loan.daysUntilDue > 1 ? 's' : ''} restant{loan.daysUntilDue > 1 ? 's' : ''}
+                      </span>
+                    )}
                   </div>
                   <div className="loan-actions">
                     <button 
@@ -566,7 +598,7 @@ export default function Loans() {
                   borderRadius: 'var(--radius-lg)',
                   border: '1px solid rgba(37, 99, 235, 0.1)'
                 }}>
-                  <h4 style={{ marginBottom: 'var(--space-4)', fontSize: 'var(--text-h4)', color: 'var(--color-text-primary)' }}>Calculs détaillés</h4>
+                  <h4 style={{ marginBottom: 'var(--space-4)', fontSize: 'var(--text-h3)', color: 'var(--color-text-primary)' }}>Calculs détaillés</h4>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-4)' }}>
                     <div>
                       <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Intérêts totaux estimés:</span>
@@ -577,13 +609,13 @@ export default function Loans() {
                     <div>
                       <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Montant total à rembourser:</span>
                       <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)', marginTop: 'var(--space-1)' }}>
-                        {formatNumber(selectedLoan.amount + (selectedLoan.amount * selectedLoan.rate / 100) * (selectedLoan.term / 12)))} {selectedLoan.currency}
+                        {formatNumber(selectedLoan.amount + (selectedLoan.amount * selectedLoan.rate / 100) * (selectedLoan.term / 12))} {selectedLoan.currency}
                       </div>
                     </div>
                     <div>
                       <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Paiements restants:</span>
                       <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)', marginTop: 'var(--space-1)' }}>
-                        {Math.ceil(selectedLoan.remainingBalance / selectedLoan.monthlyPayment)} paiements
+                        {selectedLoan.monthlyPayment > 0 ? Math.ceil(selectedLoan.remainingBalance / selectedLoan.monthlyPayment) : 0} paiements
                       </div>
                     </div>
                     <div>
