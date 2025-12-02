@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import ThemeToggle from './ThemeToggle'
 
 interface SidebarItem {
   id: string
@@ -60,6 +61,9 @@ export default function Sidebar({
 
       {/* Sidebar */}
       <aside className={`dashboard-sidebar ${isOpen ? 'open' : ''} ${className}`}>
+        <div className="sidebar-header-controls">
+          <ThemeToggle />
+        </div>
         <nav className="sidebar-nav" aria-label="Navigation principale">
           {items.map((item) => {
             const IconComponent = item.icon

@@ -24,6 +24,7 @@ import InvestorIcon from './icons/InvestorIcon'
 import ChartIcon from './icons/ChartIcon'
 import DocumentIcon from './icons/DocumentIcon'
 import TermsAndConditions from './dashboard/TermsAndConditions'
+import ThemeToggle from './ui/ThemeToggle'
 
 declare global {
   interface Window {

@@ -4,6 +4,79 @@
 
 /* Design tokens are imported via globals.css */
 
+/* Dark Mode Global Overrides - Premium Dark Knight Style */
+:root.dark {
+  /* Override white backgrounds to use theme variables */
+  --bb-white: var(--color-bg-card);
+}
+
+:root.dark .card,
+:root.dark .box,
+:root.dark .stat-card,
+:root.dark [class*="card"],
+:root.dark [class*="Card"] {
+  background: var(--color-bg-card) !important;
+  border-color: var(--color-border-default) !important;
+  color: var(--color-text-primary);
+}
+
+:root.dark .feature-icon {
+  background: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgba(59, 130, 246, 0.25) !important;
+  color: var(--bb-blue-light) !important;
+}
+
+/* ====================================
+   THEME TOGGLE - STYLES
+   ==================================== */
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: var(--space-2);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-toggle:hover {
+  background: var(--color-bg-tertiary);
+  border-color: var(--color-border-hover);
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+:root.dark .theme-toggle {
+  background: var(--color-bg-secondary);
+  border-color: var(--color-border-default);
+}
+
+:root.dark .theme-toggle:hover {
+  background: var(--color-bg-tertiary);
+  border-color: var(--color-border-hover);
+}
+
 /* ====================================
    BLOCKBANK — COLOR SYSTEM USAGE RULES
    ==================================== */
@@ -12,6 +85,12 @@
 .header {
   background: var(--bb-gradient-primary);
   color: var(--bb-white);
+}
+
+:root.dark .header {
+  background: var(--bb-gradient-primary);
+  color: var(--bb-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* BUTTONS - PREMIUM */
@@ -102,8 +181,8 @@
 
 /* CARDS / BOXES - PREMIUM */
 .card, .box {
-  background: var(--bb-white);
-  border: 1px solid rgba(37, 99, 235, 0.1);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-xl);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow-card);
@@ -135,8 +214,8 @@
 }
 
 .card-default {
-  background: var(--bb-white);
-  border: 1px solid rgba(37, 99, 235, 0.1);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-xl);
   padding: var(--space-8);
   box-shadow: var(--shadow-card);
@@ -152,16 +231,16 @@
 }
 
 .card-elevated {
-  background: var(--bb-white);
-  border: 1px solid rgba(37, 99, 235, 0.1);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-xl);
   padding: var(--space-8);
   box-shadow: var(--shadow-card-hover);
 }
 
 .card-flat {
-  background: var(--bb-white);
-  border: 1px solid rgba(37, 99, 235, 0.1);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-xl);
   padding: var(--space-8);
   box-shadow: none;
@@ -247,10 +326,10 @@
   left: 0;
   width: var(--sidebar-width);
   height: calc(100vh - var(--header-height));
-  background: linear-gradient(to bottom, var(--bb-white) 0%, var(--bb-grey-50) 100%);
-  border-right: 2px solid rgba(37, 99, 235, 0.15);
+  background: var(--color-bg-secondary);
+  border-right: 2px solid var(--color-border-default);
   padding: var(--space-6);
-  box-shadow: 4px 0 24px rgba(15, 23, 42, 0.08), 2px 0 8px rgba(15, 23, 42, 0.04);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3), 2px 0 8px rgba(0, 0, 0, 0.2);
   z-index: var(--z-fixed);
   transform: translateX(-100%);
   transition: transform var(--transition-normal), width var(--transition-normal), box-shadow var(--transition-normal);
@@ -259,6 +338,12 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+}
+
+:root.dark .dashboard-sidebar {
+  background: var(--color-bg-secondary);
+  border-right-color: var(--color-border-default);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6), 2px 0 8px rgba(0, 0, 0, 0.4);
 }
 
 .dashboard-sidebar.open {
@@ -306,6 +391,15 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+.sidebar-header-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border-default);
 }
 
 .sidebar-header {
@@ -713,8 +807,8 @@
 }
 
 .stat-card {
-  background: var(--bb-white);
-  border: 1px solid rgba(37, 99, 235, 0.1);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-xl);
   padding: var(--space-8);
   box-shadow: var(--shadow-card);
@@ -1650,7 +1744,7 @@
   margin: 0 auto;
   padding: var(--space-8) var(--space-8);
   box-sizing: border-box;
-  background: var(--bb-gradient-body);
+  background: var(--color-bg-body);
   min-height: calc(100vh - var(--header-height));
 }
 

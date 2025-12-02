@@ -419,3 +419,92 @@
   animation: scaleIn var(--transition-normal) var(--ease-out);
 }
 
+/* ====================================
+   DARK MODE - VARIABLES
+   ==================================== */
+
+:root.dark {
+  /* Backgrounds - Dark Knight Premium Mode */
+  --color-bg-primary: #0A0E1A;
+  --color-bg-secondary: #111827;
+  --color-bg-tertiary: #1F2937;
+  --color-bg-deep: #0F1419;
+  --color-bg-deep-alt: #1A1F2E;
+  --color-bg-card: #1A1F2E;
+  --color-bg-card-hover: #252B3A;
+  --color-bg-gradient: linear-gradient(180deg, #0A0E1A 0%, #111827 100%);
+  --color-bg-body: linear-gradient(180deg, #0A0E1A 0%, #111827 25%, #1F2937 50%, #111827 75%, #0A0E1A 100%);
+  
+  /* BlockBank backgrounds - Dark Knight Mode */
+  --bb-bg-light: #1A1F2E;
+  --bb-bg-medium: #252B3A;
+  --bb-bg-dark: #0A0E1A;
+  
+  /* Text Colors - Dark Knight Mode (High Contrast) */
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-text-muted: #9CA3AF;
+  --color-text-disabled: #6B7280;
+  
+  /* BlockBank text - Dark Knight Mode */
+  --bb-text-dark: #F9FAFB;
+  --bb-text-light: #0A0E1A;
+  
+  /* Borders - Dark Knight Mode (Subtle but visible) */
+  --color-border-default: rgba(59, 130, 246, 0.15);
+  --color-border-hover: rgba(59, 130, 246, 0.25);
+  --color-border-focus: var(--color-primary-400);
+  --border-color: rgba(59, 130, 246, 0.15);
+  
+  /* BlockBank border - Dark Knight Mode */
+  --bb-border: rgba(59, 130, 246, 0.15);
+  --bb-shadow: rgba(0, 0, 0, 0.6);
+  
+  /* Status Colors - Dark Knight Mode */
+  --color-success-bg: rgba(34, 197, 94, 0.15);
+  --color-success-light: #4ADE80;
+  --color-warning-bg: rgba(251, 191, 36, 0.15);
+  --color-error-bg: rgba(239, 68, 68, 0.15);
+  --color-info-bg: rgba(59, 130, 246, 0.15);
+  
+  /* Chart Colors - Dark Knight Mode */
+  --color-chart-grid: rgba(59, 130, 246, 0.1);
+  --color-chart-grid-strong: rgba(59, 130, 246, 0.2);
+  --color-chart-axis: #D1D5DB;
+  
+  /* Gradients - Dark Knight Premium Mode */
+  --bb-gradient-soft: linear-gradient(180deg, #0A0E1A 0%, #111827 100%);
+  --bb-gradient-card: linear-gradient(145deg, rgba(59, 130, 246, 0.08) 0%, rgba(37, 99, 235, 0.05) 50%, rgba(26, 31, 46, 0.6) 100%);
+  --bb-gradient-kpi: linear-gradient(180deg, #1A1F2E 0%, #0A0E1A 100%);
+  --bb-gradient-body: linear-gradient(180deg, #0A0E1A 0%, #111827 25%, #1F2937 50%, #111827 75%, #0A0E1A 100%);
+  --bb-gradient-primary: linear-gradient(135deg, #1E3A8A 0%, #2563EB 50%, #3B82F6 100%);
+  --bb-gradient-button: linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 50%, #3B82F6 100%);
+  --bb-gradient-button-hover: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 50%, #3B82F6 100%);
+  
+  /* Shadows - Dark Knight Mode (Deep & Rich) */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(59, 130, 246, 0.1);
+  --shadow-card-hover: 0 12px 48px rgba(0, 0, 0, 0.6), 0 6px 24px rgba(37, 99, 235, 0.3), inset 0 1px 0 rgba(59, 130, 246, 0.15);
+  --shadow-cta: 0 8px 24px rgba(37, 99, 235, 0.5), 0 0 40px rgba(37, 99, 235, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-2xl: 0 24px 48px rgba(0, 0, 0, 0.7);
+  
+  /* Grey colors for dark mode */
+  --bb-grey-50: #0A0E1A;
+  --bb-grey-100: #111827;
+  --bb-grey-200: #1F2937;
+  --bb-grey-300: #374151;
+  --bb-grey-400: #4B5563;
+  --bb-grey-500: #6B7280;
+  --bb-grey-600: #9CA3AF;
+  --bb-grey-700: #D1D5DB;
+  --bb-grey-800: #E5E7EB;
+  --bb-grey-850: #F3F4F6;
+  --bb-grey-900: #F9FAFB;
+  --bb-grey-950: #FFFFFF;
+  
+  /* White becomes dark */
+  --bb-white: #1A1F2E;
+}
+

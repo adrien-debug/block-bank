@@ -9,7 +9,7 @@
   min-height: calc(100vh - var(--header-height));
   padding: var(--space-20) var(--margin-desktop);
   position: relative;
-  background: var(--bb-gradient-body);
+  background: var(--color-bg-body);
   overflow: hidden;
 }
 
@@ -118,8 +118,8 @@
 
 .feature-card {
   padding: var(--space-8);
-  background: var(--bb-white);
-  border: 1px solid rgba(37, 99, 235, 0.1);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-xl);
   text-align: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
