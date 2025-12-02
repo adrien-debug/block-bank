@@ -33,18 +33,19 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
   const showToast = useCallback((toast: Omit<ToastMessage, 'id'>) => {
     const id = Math.random().toString(36).substring(2, 9)
+    const duration = toast.duration ?? 5000
     const newToast: ToastMessage = {
       ...toast,
       id,
-      duration: toast.duration ?? 5000,
+      duration,
     }
     
     setToasts((prev) => [...prev, newToast])
 
-    if (newToast.duration > 0) {
+    if (duration > 0) {
       setTimeout(() => {
         hideToast(id)
-      }, newToast.duration)
+      }, duration)
     }
   }, [])
 
