@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import WalletConnect from '@/components/WalletConnect'
 import Landing from '@/components/Landing'
@@ -17,6 +17,7 @@ export default function Home() {
   const router = useRouter()
   const [kClickCount, setKClickCount] = useState(0)
   const [showL, setShowL] = useState(false)
+  const manuallyDisconnectedRef = useRef(false)
 
   useEffect(() => {
     if (showL) {
@@ -29,9 +30,13 @@ export default function Home() {
   }, [showL])
 
   useEffect(() => {
-    // Vérifier la connexion au chargement
+    // Vérifier si on a déconnecté manuellement
+    const wasManuallyDisconnected = localStorage.getItem('wallet_manually_disconnected') === 'true'
+    manuallyDisconnectedRef.current = wasManuallyDisconnected
+
+    // Vérifier la connexion au chargement seulement si pas déconnecté manuellement
     const checkInitialConnection = async () => {
-      if (typeof window !== 'undefined' && window.ethereum) {
+      if (typeof window !== 'undefined' && window.ethereum && !wasManuallyDisconnected) {
         try {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' })
           console.log('Initial accounts check:', accounts)
@@ -44,6 +49,8 @@ export default function Home() {
           console.error('Erreur vérification connexion initiale:', error)
           setIsConnected(false)
         }
+      } else {
+        setIsConnected(false)
       }
     }
     
@@ -52,6 +59,12 @@ export default function Home() {
     // Écouter aussi les changements depuis MetaMask directement
     if (typeof window !== 'undefined' && window.ethereum) {
       const handleAccountsChanged = (accounts: string[]) => {
+        // Ignorer si on a déconnecté manuellement
+        if (manuallyDisconnectedRef.current) {
+          console.log('Ignoring accountsChanged because of manual disconnect')
+          return
+        }
+        
         console.log('Accounts changed:', accounts)
         const connected = accounts.length > 0
         setIsConnected(connected)
@@ -72,17 +85,21 @@ export default function Home() {
     }
   }, [router])
 
-  const handleWalletConnect = (address: string) => {
-    console.log('handleWalletConnect called with address:', address)
+  const handleWalletConnect = useCallback((address: string) => {
+    console.log('Home: handleWalletConnect called with address:', address)
+    manuallyDisconnectedRef.current = false
+    localStorage.removeItem('wallet_manually_disconnected')
     setIsConnected(true)
     router.push('/dashboard')
-  }
+  }, [router])
 
-  const handleWalletDisconnect = () => {
-    console.log('handleWalletDisconnect called')
+  const handleWalletDisconnect = useCallback(() => {
+    console.log('Home: handleWalletDisconnect called')
+    manuallyDisconnectedRef.current = true
+    localStorage.setItem('wallet_manually_disconnected', 'true')
     setIsConnected(false)
-    router.push('/')
-  }
+    // Ne pas rediriger automatiquement, laisser l'utilisateur sur la page
+  }, [])
 
   return (
     <div className="app">

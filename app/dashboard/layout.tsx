@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import Sidebar from '@/components/ui/Sidebar'
 import DashboardIcon from '@/components/icons/DashboardIcon'
@@ -39,6 +39,7 @@ export default function DashboardLayout({
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [kClickCount, setKClickCount] = useState(0)
   const [showL, setShowL] = useState(false)
+  const manuallyDisconnectedRef = useRef(false)
 
   useEffect(() => {
     if (showL) {
@@ -51,8 +52,18 @@ export default function DashboardLayout({
   }, [showL])
 
   useEffect(() => {
+    // Vérifier si on a déconnecté manuellement
+    const wasManuallyDisconnected = localStorage.getItem('wallet_manually_disconnected') === 'true'
+    manuallyDisconnectedRef.current = wasManuallyDisconnected
+
     if (typeof window !== 'undefined' && window.ethereum) {
       const checkConnection = async () => {
+        // Ne pas vérifier si on a déconnecté manuellement
+        if (wasManuallyDisconnected) {
+          setAddress(null)
+          return
+        }
+        
         try {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' })
           if (accounts.length > 0) {
@@ -69,6 +80,12 @@ export default function DashboardLayout({
       checkConnection()
 
       const handleAccountsChanged = (accounts: string[]) => {
+        // Ignorer si on a déconnecté manuellement
+        if (manuallyDisconnectedRef.current) {
+          console.log('Dashboard: Ignoring accountsChanged because of manual disconnect')
+          return
+        }
+        
         if (accounts.length === 0) {
           setAddress(null)
         } else {
@@ -83,6 +100,8 @@ export default function DashboardLayout({
           window.ethereum.removeListener('accountsChanged', handleAccountsChanged)
         }
       }
+    } else {
+      setAddress(null)
     }
   }, [])
 
@@ -119,14 +138,20 @@ export default function DashboardLayout({
     return 'dashboard'
   }
 
-  const handleWalletConnect = (addr: string) => {
+  const handleWalletConnect = useCallback((addr: string) => {
+    console.log('Dashboard: handleWalletConnect called with:', addr)
+    manuallyDisconnectedRef.current = false
+    localStorage.removeItem('wallet_manually_disconnected')
     setAddress(addr)
-  }
+  }, [])
 
-  const handleWalletDisconnect = () => {
+  const handleWalletDisconnect = useCallback(() => {
+    console.log('Dashboard: handleWalletDisconnect called')
+    manuallyDisconnectedRef.current = true
+    localStorage.setItem('wallet_manually_disconnected', 'true')
     setAddress(null)
     router.push('/')
-  }
+  }, [router])
 
   return (
     <div className="app">
