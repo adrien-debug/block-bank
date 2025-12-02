@@ -11,9 +11,11 @@ interface LoanProfilesProps {
   conditions: LoanConditions
   creditTier: 'A' | 'B' | 'C' | 'D'
   onSelectProfile: (profile: LoanProfileOption) => void
+  onContinue?: () => void
+  onBack?: () => void
 }
 
-export default function LoanProfiles({ nft, conditions, creditTier, onSelectProfile }: LoanProfilesProps) {
+export default function LoanProfiles({ nft, conditions, creditTier, onSelectProfile, onContinue, onBack }: LoanProfilesProps) {
   const [selectedProfile, setSelectedProfile] = useState<LoanProfileOption | null>(null)
   
   // Calculer les 3 profils
@@ -33,11 +35,16 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
 
   const handleSelectProfile = (profile: LoanProfileOption) => {
     setSelectedProfile(profile)
+    onSelectProfile(profile)
   }
 
   const handleConfirm = () => {
     if (selectedProfile) {
+      if (onContinue) {
+        onContinue()
+      } else {
       onSelectProfile(selectedProfile)
+      }
     }
   }
 
@@ -209,6 +216,14 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
 
       {/* Actions Premium */}
       <div className="profile-actions-premium">
+        {onBack && (
+          <button 
+            className="btn-secondary btn-large-premium"
+            onClick={onBack}
+          >
+            Retour
+          </button>
+        )}
         <button 
           className="btn-primary btn-large-premium"
           onClick={handleConfirm}

@@ -16,54 +16,105 @@ export default function Explore() {
   const [selectedNFT, setSelectedNFT] = useState<NFTRWA | null>(null)
   const [loanConditions, setLoanConditions] = useState<LoanConditionsType | null>(null)
   const [selectedProfile, setSelectedProfile] = useState<LoanProfileOption | null>(null)
+  const [isTransitioning, setIsTransitioning] = useState(false)
   
   // User data (mock - en production depuis API/context)
   const creditScore = 750
   const creditTier = calculateCreditTier(creditScore)
   const walletBalance = 200000 // Mock balance
 
+  const transitionToStep = (newStep: ExploreStep, delay: number = 300) => {
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setIsTransitioning(false)
+    }, delay)
+  }
+
   const handleNFTSelected = (nft: NFTRWA) => {
-    setSelectedNFT(nft)
-    setStep('conditions')
+    transitionToStep('conditions')
+    setTimeout(() => {
+      setSelectedNFT(nft)
+      setStep('conditions')
+    }, 150)
   }
 
   const handleConditionsReady = (conditions: LoanConditionsType) => {
-    setLoanConditions(conditions)
-    setStep('profiles')
+    transitionToStep('profiles')
+    setTimeout(() => {
+      setLoanConditions(conditions)
+      setStep('profiles')
+    }, 150)
+  }
+
+  const handleConditionsBack = () => {
+    transitionToStep('marketplace')
+    setTimeout(() => {
+      setStep('marketplace')
+      setSelectedNFT(null)
+    }, 150)
   }
 
   const handleProfileSelected = (profile: LoanProfileOption) => {
     setSelectedProfile(profile)
-    setStep('validation')
+  }
+
+  const handleProfileContinue = () => {
+    if (selectedProfile) {
+      transitionToStep('validation')
+      setTimeout(() => {
+        setStep('validation')
+      }, 150)
+    }
+  }
+
+  const handleProfileBack = () => {
+    transitionToStep('conditions')
+    setTimeout(() => {
+      setStep('conditions')
+      setSelectedProfile(null)
+    }, 150)
   }
 
   const handleValidationConfirm = () => {
-    setStep('process')
+    transitionToStep('process')
+    setTimeout(() => {
+      setStep('process')
+    }, 150)
   }
 
   const handleValidationBack = () => {
-    setStep('profiles')
+    transitionToStep('profiles')
+    setTimeout(() => {
+      setStep('profiles')
+    }, 150)
   }
 
   const handleProcessComplete = () => {
     // Reset flow
-    setStep('marketplace')
-    setSelectedNFT(null)
-    setLoanConditions(null)
-    setSelectedProfile(null)
+    transitionToStep('marketplace')
+    setTimeout(() => {
+      setStep('marketplace')
+      setSelectedNFT(null)
+      setLoanConditions(null)
+      setSelectedProfile(null)
+    }, 150)
   }
 
   const handleBackToMarketplace = () => {
-    setStep('marketplace')
-    setSelectedNFT(null)
-    setLoanConditions(null)
-    setSelectedProfile(null)
+    transitionToStep('marketplace')
+    setTimeout(() => {
+      setStep('marketplace')
+      setSelectedNFT(null)
+      setLoanConditions(null)
+      setSelectedProfile(null)
+    }, 150)
   }
 
   return (
-    <div className="page-container">
-      {/* Progress Bar - seulement affiché si pas sur marketplace */}
-      {step !== 'marketplace' && (
+    <div className={`page-container explore-page-with-transitions ${isTransitioning ? 'transitioning' : ''}`}>
+      <div className="explore-content-wrapper">
+        {/* Progress Bar - seulement affiché si pas sur marketplace */}
+        {step !== 'marketplace' && (
         <div className="explore-progress-container">
           <div className="explore-progress-bar">
             <div className="progress-steps">
@@ -108,48 +159,64 @@ export default function Explore() {
         </div>
       )}
 
-      {/* Contenu selon l'étape */}
-      {step === 'marketplace' && (
-        <MarketplaceNFT onSelectNFT={handleNFTSelected} />
-      )}
+      {/* Contenu selon l'étape avec transitions */}
+      <div className={`explore-step-content ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
+        {step === 'marketplace' && (
+          <div className="explore-step-wrapper">
+            <MarketplaceNFT onSelectNFT={handleNFTSelected} />
+          </div>
+        )}
 
-      {step === 'conditions' && selectedNFT && (
-        <LoanConditions
-          nft={selectedNFT}
-          creditScore={creditScore}
-          creditTier={creditTier}
-          onConditionsReady={handleConditionsReady}
-        />
-      )}
+        {step === 'conditions' && selectedNFT && (
+          <div className="explore-step-wrapper">
+            <LoanConditions
+              nft={selectedNFT}
+              creditScore={creditScore}
+              creditTier={creditTier}
+              onConditionsReady={handleConditionsReady}
+              onBack={handleConditionsBack}
+            />
+          </div>
+        )}
 
-      {step === 'profiles' && selectedNFT && loanConditions && (
-        <LoanProfiles
-          nft={selectedNFT}
-          conditions={loanConditions}
-          creditTier={creditTier}
-          onSelectProfile={handleProfileSelected}
-        />
-      )}
+        {step === 'profiles' && selectedNFT && loanConditions && (
+          <div className="explore-step-wrapper">
+            <LoanProfiles
+              nft={selectedNFT}
+              conditions={loanConditions}
+              creditTier={creditTier}
+              onSelectProfile={handleProfileSelected}
+              onContinue={handleProfileContinue}
+              onBack={handleProfileBack}
+            />
+          </div>
+        )}
 
-      {step === 'validation' && selectedNFT && selectedProfile && (
-        <LoanValidation
-          nft={selectedNFT}
-          profile={selectedProfile}
-          creditScore={creditScore}
-          creditTier={creditTier}
-          walletBalance={walletBalance}
-          onConfirm={handleValidationConfirm}
-          onBack={handleValidationBack}
-        />
-      )}
+        {step === 'validation' && selectedNFT && selectedProfile && (
+          <div className="explore-step-wrapper">
+            <LoanValidation
+              nft={selectedNFT}
+              profile={selectedProfile}
+              creditScore={creditScore}
+              creditTier={creditTier}
+              walletBalance={walletBalance}
+              onConfirm={handleValidationConfirm}
+              onBack={handleValidationBack}
+            />
+          </div>
+        )}
 
-      {step === 'process' && selectedNFT && selectedProfile && (
-        <LoanProcess
-          nft={selectedNFT}
-          profile={selectedProfile}
-          onComplete={handleProcessComplete}
-        />
-      )}
+        {step === 'process' && selectedNFT && selectedProfile && (
+          <div className="explore-step-wrapper">
+            <LoanProcess
+              nft={selectedNFT}
+              profile={selectedProfile}
+              onComplete={handleProcessComplete}
+            />
+          </div>
+        )}
+      </div>
+      </div>
     </div>
   )
 }

@@ -11029,3 +11029,456 @@
   }
 }
 
+/* ============================================
+   EXPLORE PAGE TRANSITIONS
+   ============================================ */
+
+.explore-page-with-transitions {
+  position: relative;
+}
+
+.explore-content-wrapper {
+  position: relative;
+  min-height: 100%;
+}
+
+.explore-step-content {
+  position: relative;
+  width: 100%;
+}
+
+.explore-step-wrapper {
+  width: 100%;
+}
+
+.explore-step-content.fade-in {
+  animation: fadeInSlide 0.3s ease-out;
+}
+
+.explore-step-content.fade-out {
+  animation: fadeOutSlide 0.3s ease-in;
+  opacity: 0;
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutSlide {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.explore-page-with-transitions.transitioning .explore-step-content {
+  pointer-events: none;
+}
+
+/* ============================================
+   NFT DETAIL MODAL PREMIUM
+   ============================================ */
+
+.nft-detail-modal-premium {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: var(--space-6);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.nft-detail-modal-content-premium {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%);
+  border-radius: var(--radius-2xl);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+  width: calc(100% - var(--space-8));
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlideUp 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.nft-detail-modal-header-premium {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--space-8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nft-detail-modal-header-premium h2 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: #FFFFFF;
+  font-family: var(--font-brand);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.nft-detail-subtitle {
+  font-size: var(--text-base);
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-ui);
+  margin: 0;
+}
+
+.nft-detail-modal-header-premium .btn-ghost {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 20px;
+  padding: 0;
+}
+
+.nft-detail-modal-header-premium .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.nft-detail-modal-body-premium {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.nft-detail-preview-premium {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: var(--space-4);
+}
+
+.nft-detail-preview-gradient {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--bb-blue-medium) 0%, var(--bb-blue-dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nft-detail-preview-icon-large {
+  font-size: 80px;
+  opacity: 0.8;
+}
+
+.nft-detail-badges-premium {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.nft-detail-marketplace-badge {
+  padding: var(--space-2) var(--space-4);
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: #3B82F6;
+  font-family: var(--font-ui);
+}
+
+.nft-detail-risk-badge {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  font-family: var(--font-ui);
+}
+
+.nft-detail-risk-badge.risk-badge-safe {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10B981;
+}
+
+.nft-detail-risk-badge.risk-badge-moderate {
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #F59E0B;
+}
+
+.nft-detail-risk-badge.risk-badge-risky {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #EF4444;
+}
+
+.nft-detail-section-premium {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.nft-detail-section-premium h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: #FFFFFF;
+  font-family: var(--font-brand);
+  margin: 0;
+}
+
+.nft-detail-section-premium p {
+  font-size: var(--text-body);
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-ui);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+}
+
+.nft-detail-main-info-premium {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.nft-detail-info-card-premium {
+  padding: var(--space-6);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.info-card-label-premium {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-ui);
+  font-weight: var(--font-medium);
+}
+
+.info-card-value-premium-large {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: #FFFFFF;
+  font-family: var(--font-brand);
+}
+
+.nft-detail-grid-premium {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.nft-detail-grid-item-premium {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+}
+
+.nft-detail-grid-item-premium.full-width {
+  grid-column: 1 / -1;
+}
+
+.grid-item-label-premium {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-ui);
+  font-weight: var(--font-medium);
+}
+
+.grid-item-value-premium {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: #FFFFFF;
+  font-family: var(--font-ui);
+}
+
+.grid-item-value-premium.address-premium {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.grid-item-value-premium.link-premium {
+  color: var(--bb-blue-medium);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.grid-item-value-premium.link-premium:hover {
+  color: var(--bb-blue-light);
+  text-decoration: underline;
+}
+
+.nft-detail-risk-analysis-premium {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.risk-analysis-item-premium {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.risk-analysis-label-premium {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-ui);
+  font-weight: var(--font-medium);
+}
+
+.risk-analysis-value-premium {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  font-family: var(--font-brand);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  display: inline-block;
+  width: fit-content;
+}
+
+.risk-analysis-value-premium.risk-safe {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10B981;
+}
+
+.risk-analysis-value-premium.risk-moderate {
+  background: rgba(245, 158, 11, 0.2);
+  color: #F59E0B;
+}
+
+.risk-analysis-value-premium.risk-risky {
+  background: rgba(239, 68, 68, 0.2);
+  color: #EF4444;
+}
+
+.risk-score-display-premium {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.risk-score-bar-premium {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.risk-score-bar-fill-premium {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.risk-score-text-premium {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: #FFFFFF;
+  font-family: var(--font-ui);
+  min-width: 50px;
+}
+
+.nft-detail-modal-actions-premium {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  justify-content: flex-end;
+}
+
+.nft-detail-modal-actions-premium .btn-secondary,
+.nft-detail-modal-actions-premium .btn-primary {
+  min-width: 140px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nft-detail-modal-premium {
+    padding: var(--space-4);
+  }
+
+  .nft-detail-modal-content-premium {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+
+  .nft-detail-modal-header-premium {
+    padding: var(--space-6);
+  }
+
+  .nft-detail-modal-body-premium {
+    padding: var(--space-6);
+  }
+
+  .nft-detail-main-info-premium {
+    grid-template-columns: 1fr;
+  }
+
+  .nft-detail-grid-premium {
+    grid-template-columns: 1fr;
+  }
+
+  .nft-detail-modal-actions-premium {
+    flex-direction: column;
+  }
+
+  .nft-detail-modal-actions-premium .btn-secondary,
+  .nft-detail-modal-actions-premium .btn-primary {
+    width: 100%;
+  }
+}
+

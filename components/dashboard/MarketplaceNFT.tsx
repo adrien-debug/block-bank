@@ -15,6 +15,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
   const [selectedNFT, setSelectedNFT] = useState<NFTRWA | null>(null)
   const [hoveredNFT, setHoveredNFT] = useState<string | null>(null)
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
+  const [nftDetailModal, setNftDetailModal] = useState<NFTRWA | null>(null)
   
   // Filtres
   const [selectedMarketplace, setSelectedMarketplace] = useState<Marketplace | 'ALL'>('ALL')
@@ -275,6 +276,15 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
               {/* Card Footer */}
               <div className="nft-card-footer">
                 <button 
+                  className="btn-secondary btn-small"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setNftDetailModal(nft)
+                  }}
+                >
+                  Voir détails
+                </button>
+                <button 
                   className="btn-select-nft"
                   onClick={(e) => {
                     e.stopPropagation()
@@ -295,6 +305,166 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
           <div className="empty-state-icon">🔍</div>
           <h3>Aucun NFT trouvé</h3>
           <p>Essayez de modifier vos filtres pour voir plus de résultats</p>
+        </div>
+      )}
+
+      {/* Modal détails NFT */}
+      {nftDetailModal && (
+        <div 
+          className="nft-detail-modal-premium" 
+          onClick={() => setNftDetailModal(null)}
+        >
+          <div 
+            className="nft-detail-modal-content-premium" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="nft-detail-modal-header-premium">
+              <div>
+                <h2>{nftDetailModal.name}</h2>
+                <p className="nft-detail-subtitle">{getAssetTypeLabel(nftDetailModal.assetType)}</p>
+              </div>
+              <button 
+                className="btn-ghost"
+                onClick={() => setNftDetailModal(null)}
+                aria-label="Fermer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="nft-detail-modal-body-premium">
+              {/* Preview Image */}
+              <div className="nft-detail-preview-premium">
+                <div className="nft-detail-preview-gradient">
+                  <div className="nft-detail-preview-icon-large">
+                    {nftDetailModal.assetType === 'REAL_ESTATE' && '🏢'}
+                    {nftDetailModal.assetType === 'MINING' && '⛏️'}
+                    {nftDetailModal.assetType === 'INFRASTRUCTURE' && '🏗️'}
+                    {nftDetailModal.assetType === 'COMMODITIES' && '💎'}
+                    {nftDetailModal.assetType === 'OTHER' && '📦'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Badges */}
+              <div className="nft-detail-badges-premium">
+                <span className="nft-detail-marketplace-badge">
+                  {getMarketplaceLabel(nftDetailModal.marketplace)}
+                </span>
+                <span className={`nft-detail-risk-badge ${getRiskBadgeClass(nftDetailModal.riskClass)}`}>
+                  {nftDetailModal.riskClass}
+                </span>
+              </div>
+
+              {/* Description */}
+              <div className="nft-detail-section-premium">
+                <h3>Description</h3>
+                <p>{nftDetailModal.description}</p>
+              </div>
+
+              {/* Informations principales */}
+              <div className="nft-detail-main-info-premium">
+                <div className="nft-detail-info-card-premium">
+                  <div className="info-card-label-premium">Valeur</div>
+                  <div className="info-card-value-premium-large">
+                    {formatNumber(nftDetailModal.value)} {nftDetailModal.valueCurrency}
+                  </div>
+                </div>
+                <div className="nft-detail-info-card-premium">
+                  <div className="info-card-label-premium">Risk Score</div>
+                  <div className="info-card-value-premium-large">
+                    {nftDetailModal.riskScore}/100
+                  </div>
+                </div>
+              </div>
+
+              {/* Détails techniques */}
+              <div className="nft-detail-section-premium">
+                <h3>Détails techniques</h3>
+                <div className="nft-detail-grid-premium">
+                  <div className="nft-detail-grid-item-premium">
+                    <span className="grid-item-label-premium">Token ID</span>
+                    <span className="grid-item-value-premium">#{nftDetailModal.tokenId}</span>
+                  </div>
+                  <div className="nft-detail-grid-item-premium">
+                    <span className="grid-item-label-premium">Contrat</span>
+                    <span className="grid-item-value-premium address-premium">
+                      {nftDetailModal.contractAddress.slice(0, 10)}...{nftDetailModal.contractAddress.slice(-8)}
+                    </span>
+                  </div>
+                  <div className="nft-detail-grid-item-premium">
+                    <span className="grid-item-label-premium">Marketplace</span>
+                    <span className="grid-item-value-premium">{getMarketplaceLabel(nftDetailModal.marketplace)}</span>
+                  </div>
+                  <div className="nft-detail-grid-item-premium">
+                    <span className="grid-item-label-premium">Type d'actif</span>
+                    <span className="grid-item-value-premium">{getAssetTypeLabel(nftDetailModal.assetType)}</span>
+                  </div>
+                  {nftDetailModal.metadataURI && (
+                    <div className="nft-detail-grid-item-premium full-width">
+                      <span className="grid-item-label-premium">Metadata URI</span>
+                      <a 
+                        href={nftDetailModal.metadataURI}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="grid-item-value-premium link-premium"
+                      >
+                        Voir sur IPFS
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Informations de risque */}
+              <div className="nft-detail-section-premium">
+                <h3>Évaluation du risque</h3>
+                <div className="nft-detail-risk-analysis-premium">
+                  <div className="risk-analysis-item-premium">
+                    <div className="risk-analysis-label-premium">Classification</div>
+                    <div className={`risk-analysis-value-premium risk-${nftDetailModal.riskClass.toLowerCase()}`}>
+                      {nftDetailModal.riskClass}
+                    </div>
+                  </div>
+                  <div className="risk-analysis-item-premium">
+                    <div className="risk-analysis-label-premium">Score de risque</div>
+                    <div className="risk-score-display-premium">
+                      <div className="risk-score-bar-premium">
+                        <div 
+                          className="risk-score-bar-fill-premium"
+                          style={{ 
+                            width: `${nftDetailModal.riskScore}%`,
+                            backgroundColor: nftDetailModal.riskScore <= 30 ? '#10B981' : 
+                                            nftDetailModal.riskScore <= 60 ? '#F59E0B' : '#EF4444'
+                          }}
+                        />
+                      </div>
+                      <span className="risk-score-text-premium">{nftDetailModal.riskScore}/100</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="nft-detail-modal-actions-premium">
+              <button 
+                className="btn-secondary btn-large"
+                onClick={() => setNftDetailModal(null)}
+              >
+                Fermer
+              </button>
+              <button 
+                className="btn-primary btn-large"
+                onClick={() => {
+                  handleSelectNFT(nftDetailModal)
+                  setNftDetailModal(null)
+                }}
+              >
+                Sélectionner ce NFT
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

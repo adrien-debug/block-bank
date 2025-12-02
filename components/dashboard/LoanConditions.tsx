@@ -11,9 +11,10 @@ interface LoanConditionsProps {
   creditScore: number
   creditTier: 'A' | 'B' | 'C' | 'D'
   onConditionsReady: (conditions: LoanConditionsType) => void
+  onBack?: () => void
 }
 
-export default function LoanConditions({ nft, creditScore, creditTier, onConditionsReady }: LoanConditionsProps) {
+export default function LoanConditions({ nft, creditScore, creditTier, onConditionsReady, onBack }: LoanConditionsProps) {
   const [conditions, setConditions] = useState<LoanConditionsType | null>(null)
   const [insuranceOptions, setInsuranceOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -212,8 +213,13 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
         </div>
       </div>
 
-      {/* Bouton Continuer */}
+      {/* Actions */}
       <div className="conditions-actions">
+        {onBack && (
+          <button className="btn-secondary btn-large" onClick={onBack}>
+            Retour
+          </button>
+        )}
         <button className="btn-primary btn-large" onClick={handleContinue}>
           Continuer vers les Profils
         </button>

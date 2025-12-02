@@ -12,6 +12,7 @@ import '../styles/components/hero.css'
 import '../styles/components/navigation.css'
 import '../styles/components/sections.css'
 import '../styles/components/wallet-connect.css'
+import '../styles/components/toast.css'
 // Pages CSS
 import '../styles/pages/landing.css'
 // Dashboard styles
