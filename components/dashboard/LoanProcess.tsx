@@ -88,8 +88,8 @@ export default function LoanProcess({ nft, profile, onComplete }: LoanProcessPro
     <div className="loan-process-page">
       <div className="page-header">
         <div>
-          <h1>Finalisation de votre prêt</h1>
-          <p className="page-subtitle">Suivi en temps réel du processus</p>
+          <h1>Finalisation</h1>
+          <p className="page-subtitle">Suivi en cours</p>
         </div>
       </div>
 
@@ -140,7 +140,7 @@ export default function LoanProcess({ nft, profile, onComplete }: LoanProcessPro
       {/* Détails Prêt */}
       <div className="process-summary">
         <div className="summary-card">
-          <h3>Résumé du prêt</h3>
+          <h3>Résumé</h3>
           <div className="summary-grid">
             <div className="summary-item">
               <span className="summary-label">NFT</span>
@@ -177,9 +177,9 @@ export default function LoanProcess({ nft, profile, onComplete }: LoanProcessPro
         )}
         {steps.every(s => s.status === 'COMPLETED') && (
           <div className="message-box success">
-            <h4>✓ Prêt activé avec succès !</h4>
-            <p>Votre prêt est maintenant actif. Les stablecoins ont été débloqués vers votre wallet.</p>
-            <p className="message-note">Redirection vers votre dashboard...</p>
+            <h4>✓ Prêt activé</h4>
+            <p>Votre prêt est actif. Les fonds ont été débloqués.</p>
+            <p className="message-note">Redirection en cours...</p>
           </div>
         )}
       </div>

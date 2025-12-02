@@ -54,8 +54,8 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
       {/* Header Premium */}
       <div className="page-header">
         <div>
-          <h1>Choisissez votre profil de prêt</h1>
-          <p className="page-subtitle">3 options adaptées à votre situation et profil de risque</p>
+          <h1>Choisissez votre profil</h1>
+          <p className="page-subtitle">3 options disponibles</p>
         </div>
       </div>
 
@@ -199,16 +199,16 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
         <div className="recommendation-card-premium">
           <div className="recommendation-icon">💡</div>
           <div className="recommendation-content-premium">
-            <h3 className="recommendation-title">Recommandation</h3>
+            <h3 className="recommendation-title">Conseil</h3>
             <p className="recommendation-text">
               {selectedProfile?.profile === 'SAFE' && 
-                'Le profil SAFE offre la meilleure sécurité avec un apport élevé et des conditions favorables. Idéal si vous privilégiez la stabilité et la réduction des risques.'}
+                'Sécurité maximale avec apport élevé. Idéal pour la stabilité.'}
               {selectedProfile?.profile === 'BALANCED' && 
-                'Le profil BALANCED offre le meilleur équilibre entre apport et levier. Recommandé pour la plupart des utilisateurs recherchant un compromis optimal.'}
+                'Équilibre optimal entre apport et levier. Recommandé.'}
               {selectedProfile?.profile === 'MAX_LEVERAGE' && 
-                'Le profil MAX LEVERAGE maximise votre capacité d\'emprunt mais nécessite une assurance obligatoire. Idéal si vous êtes confiant dans votre capacité de remboursement et souhaitez optimiser votre capital.'}
+                'Capacité d\'emprunt maximale. Assurance obligatoire requise.'}
               {!selectedProfile && 
-                'Sélectionnez un profil pour voir la recommandation personnalisée basée sur votre choix.'}
+                'Sélectionnez un profil pour voir les recommandations.'}
             </p>
           </div>
         </div>

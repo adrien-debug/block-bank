@@ -226,15 +226,30 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
 
               {/* Image/Preview */}
               <div className="nft-card-preview">
-                <div className="nft-preview-gradient">
-                  <div className="nft-preview-icon">
-                    {nft.assetType === 'REAL_ESTATE' && '🏢'}
-                    {nft.assetType === 'MINING' && '⛏️'}
-                    {nft.assetType === 'INFRASTRUCTURE' && '🏗️'}
-                    {nft.assetType === 'COMMODITIES' && '💎'}
-                    {nft.assetType === 'OTHER' && '📦'}
+                {nft.imageURI ? (
+                  <img 
+                    src={nft.imageURI} 
+                    alt={nft.name}
+                    className="nft-card-image"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      borderRadius: 'var(--radius-xl)',
+                      backgroundColor: 'var(--bb-grey-50)'
+                    }}
+                  />
+                ) : (
+                  <div className="nft-preview-gradient">
+                    <div className="nft-preview-icon">
+                      {nft.assetType === 'REAL_ESTATE' && '🏢'}
+                      {nft.assetType === 'MINING' && '⛏️'}
+                      {nft.assetType === 'INFRASTRUCTURE' && '🏗️'}
+                      {nft.assetType === 'COMMODITIES' && '💎'}
+                      {nft.assetType === 'OTHER' && '📦'}
+                    </div>
                   </div>
-                </div>
+                )}
                 {selectedNFT?.id === nft.id && (
                   <div className="nft-selected-indicator">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -335,15 +350,23 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
             <div className="nft-detail-modal-body-premium">
               {/* Preview Image */}
               <div className="nft-detail-preview-premium">
-                <div className="nft-detail-preview-gradient">
-                  <div className="nft-detail-preview-icon-large">
-                    {nftDetailModal.assetType === 'REAL_ESTATE' && '🏢'}
-                    {nftDetailModal.assetType === 'MINING' && '⛏️'}
-                    {nftDetailModal.assetType === 'INFRASTRUCTURE' && '🏗️'}
-                    {nftDetailModal.assetType === 'COMMODITIES' && '💎'}
-                    {nftDetailModal.assetType === 'OTHER' && '📦'}
+                {nftDetailModal.imageURI ? (
+                  <img 
+                    src={nftDetailModal.imageURI} 
+                    alt={nftDetailModal.name}
+                    className="nft-detail-image-premium"
+                  />
+                ) : (
+                  <div className="nft-detail-preview-gradient">
+                    <div className="nft-detail-preview-icon-large">
+                      {nftDetailModal.assetType === 'REAL_ESTATE' && '🏢'}
+                      {nftDetailModal.assetType === 'MINING' && '⛏️'}
+                      {nftDetailModal.assetType === 'INFRASTRUCTURE' && '🏗️'}
+                      {nftDetailModal.assetType === 'COMMODITIES' && '💎'}
+                      {nftDetailModal.assetType === 'OTHER' && '📦'}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Badges */}

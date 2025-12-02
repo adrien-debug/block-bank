@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { formatNumber } from '@/lib/utils'
 import { NFTRWA, LoanConditions as LoanConditionsType } from '@/types'
 import { calculateLoanConditions } from '@/lib/services/riskEngine'
-import { calculateInsuranceOptions } from '@/lib/services/insuranceCalculator'
+import { calculateInsuranceOptions, calculateInsurancePremium } from '@/lib/services/insuranceCalculator'
+import { calculateDiscountSummary } from '@/lib/services/nftDiscountCalculator'
 
 interface LoanConditionsProps {
   nft: NFTRWA
@@ -17,6 +18,8 @@ interface LoanConditionsProps {
 export default function LoanConditions({ nft, creditScore, creditTier, onConditionsReady, onBack }: LoanConditionsProps) {
   const [conditions, setConditions] = useState<LoanConditionsType | null>(null)
   const [insuranceOptions, setInsuranceOptions] = useState<any[]>([])
+  const [discountSummary, setDiscountSummary] = useState<any>(null)
+  const [selectedInsuranceIndex, setSelectedInsuranceIndex] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -33,12 +36,28 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
     setConditions(calculatedConditions)
     
     // Calculer les options d'assurance
+    const estimatedLoanAmount = nft.value * (calculatedConditions.finalLTV / 100)
     const insurance = calculateInsuranceOptions(
-      nft.value * 0.7, // Estimation prêt à 70% LTV
+      estimatedLoanAmount,
       creditTier,
       calculatedConditions.nftRiskClass
     )
     setInsuranceOptions(insurance)
+    
+    // Calculer les remises NFT - utiliser la prime de base standard
+    const baseInsurancePremium = calculateInsurancePremium(
+      estimatedLoanAmount,
+      creditTier,
+      calculatedConditions.nftRiskClass
+    )
+    const discount = calculateDiscountSummary(
+      nft,
+      creditTier,
+      calculatedConditions.baseLTV,
+      calculatedConditions.baseRate,
+      baseInsurancePremium
+    )
+    setDiscountSummary(discount)
     
     setLoading(false)
   }
@@ -54,8 +73,8 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
       <div className="loan-conditions-page">
         <div className="loading-state-large">
           <div className="loading-spinner-large"></div>
-          <h2>Calcul des conditions optimales...</h2>
-          <p>Analyse du risque NFT et calcul des conditions de prêt</p>
+          <h2>Calcul en cours...</h2>
+          <p>Analyse du risque et calcul des conditions</p>
         </div>
       </div>
     )
@@ -68,7 +87,7 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
       <div className="page-header">
         <div>
           <h1>Conditions de Prêt</h1>
-          <p className="page-subtitle">NFT sélectionné : {nft.name}</p>
+          <p className="page-subtitle">{nft.name}</p>
         </div>
       </div>
 
@@ -95,7 +114,7 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
 
       {/* Calcul Risque NFT */}
       <div className="conditions-section">
-        <h2>Évaluation Risque NFT RWA</h2>
+            <h2>Évaluation Risque</h2>
         <div className="risk-analysis-grid">
           <div className="risk-analysis-card">
             <div className="risk-analysis-header">
@@ -125,9 +144,9 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
               </div>
             </div>
             <p className="risk-description">
-              {conditions.nftRiskClass === 'SAFE' && 'Actif très sûr avec faible volatilité et liquidité élevée'}
-              {conditions.nftRiskClass === 'MODERATE' && 'Actif modérément risqué avec volatilité acceptable'}
-              {conditions.nftRiskClass === 'RISKY' && 'Actif présentant un risque plus élevé, nécessitant des conditions ajustées'}
+              {conditions.nftRiskClass === 'SAFE' && 'Risque faible, volatilité limitée'}
+              {conditions.nftRiskClass === 'MODERATE' && 'Risque modéré, volatilité acceptable'}
+              {conditions.nftRiskClass === 'RISKY' && 'Risque élevé, conditions ajustées'}
             </p>
           </div>
         </div>
@@ -135,7 +154,7 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
 
       {/* Conditions Base */}
       <div className="conditions-section">
-        <h2>Conditions de Prêt Calculées</h2>
+            <h2>Conditions Calculées</h2>
         <div className="conditions-grid">
           <div className="condition-card">
             <div className="condition-label">LTV Maximum</div>
@@ -175,12 +194,47 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
         </div>
       </div>
 
+      {/* Économies NFT RWA */}
+      <div className="conditions-section">
+        <h2>Économies NFT RWA</h2>
+        <div className="conditions-grid">
+          <div className="condition-card">
+            <div className="condition-label">Réduction taux d'intérêt</div>
+            <div className="condition-value-large">-0.50% APY</div>
+            <div className="condition-breakdown">
+              <span>Économie sur le prêt</span>
+            </div>
+          </div>
+          
+          <div className="condition-card">
+            <div className="condition-label">Réduction LTV Maximum</div>
+            <div className="condition-value-large">-20%</div>
+            <div className="condition-breakdown">
+              <span>Réduction appliquée</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       {/* Options Assurance */}
       <div className="conditions-section">
-        <h2>Options d'Assurance</h2>
+          <h2>Assurance</h2>
         <div className="insurance-options-grid">
           {insuranceOptions.map((option, index) => (
-            <div key={index} className="insurance-option-card">
+            <div 
+              key={index} 
+              className={`insurance-option-card ${selectedInsuranceIndex === index ? 'selected' : ''}`}
+              onClick={() => setSelectedInsuranceIndex(index)}
+            >
+              {selectedInsuranceIndex === index && (
+                <div className="insurance-selected-indicator">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" fill="var(--bb-blue-medium)" />
+                    <path d="M9 12L11 14L15 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              )}
               <div className="insurance-option-header">
                 <h4>Option {index + 1}</h4>
                 <div className="insurance-coverage-badge">{option.totalCoverage}%</div>
@@ -221,7 +275,7 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
           </button>
         )}
         <button className="btn-primary btn-large" onClick={handleContinue}>
-          Continuer vers les Profils
+          Continuer
         </button>
       </div>
     </div>

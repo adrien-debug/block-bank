@@ -42,7 +42,7 @@ export default function LoanValidation({
       <div className="page-header">
         <div>
           <h1>Confirmez votre prêt</h1>
-          <p className="page-subtitle">Étape 4/5 - Vérification finale et paiement</p>
+          <p className="page-subtitle">Étape 4/5 - Validation</p>
         </div>
       </div>
 
@@ -138,7 +138,7 @@ export default function LoanValidation({
               </div>
             )}
             <div className="summary-item total">
-              <span className="summary-label">Total à payer maintenant</span>
+              <span className="summary-label">Total à payer</span>
               <span className="summary-value-large">{formatNumber(totalRequired)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
@@ -170,7 +170,7 @@ export default function LoanValidation({
           </div>
           {!hasSufficientBalance && (
             <div className="solvency-warning">
-              <p>Votre solde est insuffisant. Veuillez approvisionner votre wallet avant de continuer.</p>
+              <p>Solde insuffisant. Approvisionnez votre wallet avant de continuer.</p>
             </div>
           )}
         </div>

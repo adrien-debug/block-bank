@@ -174,6 +174,11 @@
 
 .logo:hover {
   transform: translateY(-1px);
+  cursor: pointer;
+}
+
+.logo[style*="cursor: pointer"] {
+  cursor: pointer !important;
 }
 
 .logo svg {
@@ -527,20 +532,20 @@
   }
 }
 
-/* Animation des boutons - Couleurs Brésil */
+/* Animation des boutons - Néons Bleu */
 .brazil-party-mode button,
 .brazil-party-mode .btn-primary,
 .brazil-party-mode .btn-secondary,
 .brazil-party-mode .btn-select-nft,
 .brazil-party-mode .btn-connect-wallet {
   animation: brazilButtonDance 0.6s ease-in-out infinite alternate !important;
-  background: linear-gradient(135deg, #009739 0%, #FEDD00 50%, #009739 100%) !important;
+  background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 50%, #3B82F6 100%) !important;
   background-size: 200% 200% !important;
   box-shadow: 
-    0 0 20px rgba(0, 151, 57, 0.6),
-    0 0 40px rgba(254, 221, 0, 0.4),
-    0 0 60px rgba(0, 151, 57, 0.3) !important;
-  border: 2px solid #FEDD00 !important;
+    0 0 20px rgba(59, 130, 246, 0.8),
+    0 0 40px rgba(96, 165, 250, 0.6),
+    0 0 60px rgba(59, 130, 246, 0.4) !important;
+  border: 2px solid #60A5FA !important;
   transform-origin: center;
 }
 
@@ -567,8 +572,8 @@
 .brazil-party-mode [class*="chart"] {
   animation: brazilChartSpin 3s linear infinite !important;
   filter: 
-    drop-shadow(0 0 10px rgba(0, 151, 57, 0.8))
-    drop-shadow(0 0 20px rgba(254, 221, 0, 0.6))
+    drop-shadow(0 0 10px rgba(59, 130, 246, 0.8))
+    drop-shadow(0 0 20px rgba(96, 165, 250, 0.6))
     brightness(1.2) saturate(1.3) !important;
 }
 
@@ -576,36 +581,36 @@
   0% {
     transform: rotate(0deg) scale(1);
     filter: 
-      drop-shadow(0 0 10px rgba(0, 151, 57, 0.8))
-      drop-shadow(0 0 20px rgba(254, 221, 0, 0.6))
+      drop-shadow(0 0 10px rgba(59, 130, 246, 0.8))
+      drop-shadow(0 0 20px rgba(96, 165, 250, 0.6))
       brightness(1.2) saturate(1.3);
   }
   25% {
     transform: rotate(1deg) scale(1.02);
     filter: 
-      drop-shadow(0 0 15px rgba(0, 151, 57, 1))
-      drop-shadow(0 0 25px rgba(254, 221, 0, 0.8))
+      drop-shadow(0 0 15px rgba(59, 130, 246, 1))
+      drop-shadow(0 0 25px rgba(96, 165, 250, 0.8))
       brightness(1.3) saturate(1.4);
   }
   50% {
     transform: rotate(0deg) scale(1);
     filter: 
-      drop-shadow(0 0 10px rgba(0, 151, 57, 0.8))
-      drop-shadow(0 0 20px rgba(254, 221, 0, 0.6))
+      drop-shadow(0 0 10px rgba(59, 130, 246, 0.8))
+      drop-shadow(0 0 20px rgba(96, 165, 250, 0.6))
       brightness(1.2) saturate(1.3);
   }
   75% {
     transform: rotate(-1deg) scale(1.02);
     filter: 
-      drop-shadow(0 0 15px rgba(0, 151, 57, 1))
-      drop-shadow(0 0 25px rgba(254, 221, 0, 0.8))
+      drop-shadow(0 0 15px rgba(59, 130, 246, 1))
+      drop-shadow(0 0 25px rgba(96, 165, 250, 0.8))
       brightness(1.3) saturate(1.4);
   }
   100% {
     transform: rotate(0deg) scale(1);
     filter: 
-      drop-shadow(0 0 10px rgba(0, 151, 57, 0.8))
-      drop-shadow(0 0 20px rgba(254, 221, 0, 0.6))
+      drop-shadow(0 0 10px rgba(59, 130, 246, 0.8))
+      drop-shadow(0 0 20px rgba(96, 165, 250, 0.6))
       brightness(1.2) saturate(1.3);
   }
 }
@@ -618,7 +623,7 @@
   animation: brazilCardPulse 1.5s ease-in-out infinite !important;
   border: 2px solid transparent !important;
   background: linear-gradient(white, white) padding-box,
-              linear-gradient(135deg, #009739, #FEDD00, #009739) border-box !important;
+              linear-gradient(135deg, #3B82F6, #60A5FA, #3B82F6) border-box !important;
   background-size: 200% 200% !important;
 }
 
@@ -627,15 +632,15 @@
     transform: scale(1);
     background-position: 0% 50%;
     box-shadow: 
-      0 4px 12px rgba(0, 151, 57, 0.3),
-      0 0 20px rgba(254, 221, 0, 0.2);
+      0 4px 12px rgba(59, 130, 246, 0.4),
+      0 0 20px rgba(96, 165, 250, 0.3);
   }
   50% {
     transform: scale(1.02);
     background-position: 100% 50%;
     box-shadow: 
-      0 8px 24px rgba(0, 151, 57, 0.5),
-      0 0 30px rgba(254, 221, 0, 0.4);
+      0 8px 24px rgba(59, 130, 246, 0.6),
+      0 0 30px rgba(96, 165, 250, 0.5);
   }
 }
 
@@ -643,7 +648,7 @@
 .brazil-party-mode svg[class*="icon"],
 .brazil-party-mode [class*="icon"] {
   animation: brazilIconSpin 2s ease-in-out infinite !important;
-  filter: drop-shadow(0 0 8px rgba(254, 221, 0, 0.8)) !important;
+  filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.8)) !important;
 }
 
 @keyframes brazilIconSpin {
@@ -668,36 +673,36 @@
 .brazil-party-mode h3 {
   animation: brazilTextGlow 1s ease-in-out infinite alternate !important;
   text-shadow: 
-    0 0 10px rgba(0, 151, 57, 0.8),
-    0 0 20px rgba(254, 221, 0, 0.6),
-    0 0 30px rgba(0, 151, 57, 0.4) !important;
+    0 0 10px rgba(59, 130, 246, 0.8),
+    0 0 20px rgba(96, 165, 250, 0.6),
+    0 0 30px rgba(59, 130, 246, 0.4) !important;
 }
 
 @keyframes brazilTextGlow {
   0% {
     filter: brightness(1) saturate(1);
     text-shadow: 
-      0 0 10px rgba(0, 151, 57, 0.8),
-      0 0 20px rgba(254, 221, 0, 0.6),
-      0 0 30px rgba(0, 151, 57, 0.4);
+      0 0 10px rgba(59, 130, 246, 0.8),
+      0 0 20px rgba(96, 165, 250, 0.6),
+      0 0 30px rgba(59, 130, 246, 0.4);
   }
   100% {
     filter: brightness(1.3) saturate(1.5);
     text-shadow: 
-      0 0 15px rgba(0, 151, 57, 1),
-      0 0 30px rgba(254, 221, 0, 0.9),
-      0 0 45px rgba(0, 151, 57, 0.6);
+      0 0 15px rgba(59, 130, 246, 1),
+      0 0 30px rgba(96, 165, 250, 0.9),
+      0 0 45px rgba(59, 130, 246, 0.6);
   }
 }
 
 /* Animation du header */
 .brazil-party-mode .app-header {
   animation: brazilHeaderDance 2s ease-in-out infinite !important;
-  background: linear-gradient(135deg, #009739 0%, #FEDD00 25%, #009739 50%, #FEDD00 75%, #009739 100%) !important;
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 25%, #1E3A8A 50%, #3B82F6 75%, #1E3A8A 100%) !important;
   background-size: 200% 200% !important;
   box-shadow: 
-    0 0 30px rgba(0, 151, 57, 0.6),
-    0 0 60px rgba(254, 221, 0, 0.4),
+    0 0 30px rgba(59, 130, 246, 0.6),
+    0 0 60px rgba(96, 165, 250, 0.4),
     inset 0 0 20px rgba(255, 255, 255, 0.2) !important;
 }
 
@@ -721,10 +726,10 @@
   width: 100%;
   height: 100%;
   background-image: 
-    radial-gradient(circle at 20% 50%, rgba(0, 151, 57, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(254, 221, 0, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(0, 151, 57, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 60% 20%, rgba(254, 221, 0, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(96, 165, 250, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 60% 20%, rgba(96, 165, 250, 0.2) 0%, transparent 50%);
   animation: brazilConfetti 3s ease-in-out infinite;
   pointer-events: none;
   z-index: 10000;
@@ -763,7 +768,7 @@
   height: 200px;
   animation: pic1PopupBounce 2s ease-in-out infinite;
   pointer-events: none;
-  filter: drop-shadow(0 0 20px rgba(0, 151, 57, 0.8)) drop-shadow(0 0 40px rgba(254, 221, 0, 0.6));
+  filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 40px rgba(96, 165, 250, 0.6));
   opacity: 0;
   animation-fill-mode: forwards;
 }
@@ -773,10 +778,10 @@
   height: 100%;
   object-fit: cover;
   border-radius: var(--radius-lg);
-  border: 3px solid #FEDD00;
+  border: 3px solid #60A5FA;
   box-shadow: 
-    0 0 30px rgba(0, 151, 57, 0.8),
-    0 0 60px rgba(254, 221, 0, 0.6),
+    0 0 30px rgba(59, 130, 246, 0.8),
+    0 0 60px rgba(96, 165, 250, 0.6),
     inset 0 0 20px rgba(255, 255, 255, 0.3);
   animation: pic1PopupRotate 3s linear infinite;
   filter: brightness(1.1) contrast(1.1) saturate(1.2);
@@ -827,5 +832,107 @@
   100% {
     transform: rotate(0deg);
   }
+}
+
+/* Message d'erreur audio */
+.audio-error-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+  border: 3px solid #60A5FA;
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: 
+    0 0 30px rgba(59, 130, 246, 0.8),
+    0 0 60px rgba(96, 165, 250, 0.6),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  animation: audioErrorPulse 2s ease-in-out infinite;
+  max-width: 400px;
+  text-align: center;
+}
+
+@keyframes audioErrorPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 
+      0 0 30px rgba(59, 130, 246, 0.8),
+      0 0 60px rgba(96, 165, 250, 0.6);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 
+      0 0 40px rgba(59, 130, 246, 1),
+      0 0 80px rgba(96, 165, 250, 0.8);
+  }
+}
+
+.audio-error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.audio-error-icon {
+  font-size: 3rem;
+  animation: audioErrorIconSpin 2s linear infinite;
+}
+
+@keyframes audioErrorIconSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.audio-error-text {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.audio-error-text strong {
+  font-size: 1.25rem;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.audio-error-text p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin: 0.5rem 0;
+}
+
+.audio-error-text code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+}
+
+.audio-error-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.audio-error-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
