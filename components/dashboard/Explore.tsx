@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MarketplaceNFT from './MarketplaceNFT'
 import LoanConditions from './LoanConditions'
 import LoanProfiles from './LoanProfiles'
@@ -17,6 +17,26 @@ export default function Explore() {
   const [loanConditions, setLoanConditions] = useState<LoanConditionsType | null>(null)
   const [selectedProfile, setSelectedProfile] = useState<LoanProfileOption | null>(null)
   const [isTransitioning, setIsTransitioning] = useState(false)
+
+  // Scroll vers le haut quand on arrive à l'étape profiles (étape 3) ou validation (étape 4)
+  useEffect(() => {
+    if (step === 'profiles') {
+      // Scroll immédiat vers le haut
+      window.scrollTo({ top: 0, behavior: 'auto' })
+      // Scroll smooth après un court délai pour s'assurer que le contenu est rendu
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }, 200)
+    }
+    if (step === 'validation') {
+      // Scroll immédiat vers le haut
+      window.scrollTo({ top: 0, behavior: 'auto' })
+      // Scroll smooth après un court délai pour s'assurer que le contenu est rendu
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }, 200)
+    }
+  }, [step])
   
   // User data (mock - en production depuis API/context)
   const creditScore = 750
@@ -39,10 +59,18 @@ export default function Explore() {
   }
 
   const handleConditionsReady = (conditions: LoanConditionsType) => {
+    // Scroll immédiat vers le haut avant la transition
+    window.scrollTo({ top: 0, behavior: 'auto' })
     transitionToStep('profiles')
     setTimeout(() => {
       setLoanConditions(conditions)
       setStep('profiles')
+      // Scroll vers le haut après le changement d'étape
+      window.scrollTo({ top: 0, behavior: 'auto' })
+      // Scroll smooth après un court délai pour s'assurer
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }, 50)
     }, 150)
   }
 
@@ -60,9 +88,17 @@ export default function Explore() {
 
   const handleProfileContinue = () => {
     if (selectedProfile) {
+      // Scroll immédiat vers le haut avant la transition
+      window.scrollTo({ top: 0, behavior: 'auto' })
       transitionToStep('validation')
       setTimeout(() => {
         setStep('validation')
+        // Scroll vers le haut après le changement d'étape
+        window.scrollTo({ top: 0, behavior: 'auto' })
+        // Scroll smooth après un court délai pour s'assurer
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }, 50)
       }, 150)
     }
   }
