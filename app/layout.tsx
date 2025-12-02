@@ -46,10 +46,6 @@ export const metadata: Metadata = {
     description: 'Infrastructure de crédit on-chain pour actifs réels & mining Bitcoin',
     images: ['/og-image.svg'],
   },
-  icons: {
-    icon: '/og-image.svg',
-    apple: '/og-image.svg',
-  },
 }
 
 export default function RootLayout({
