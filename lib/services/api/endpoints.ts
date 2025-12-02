@@ -64,6 +64,18 @@ export const endpoints = {
     history: `${API_BASE_URL}/credit-score/history`,
     update: `${API_BASE_URL}/credit-score/update`,
     export: (format: string) => `${API_BASE_URL}/credit-score/export/${format}`,
+    nft: {
+      get: `${API_BASE_URL}/credit-score/nft`,
+      metadata: `${API_BASE_URL}/credit-score/nft/metadata`,
+      verify: (tokenId: string) => `${API_BASE_URL}/credit-score/nft/${tokenId}/verify`,
+    },
+    partners: {
+      list: `${API_BASE_URL}/credit-score/partners`,
+      access: (platform: string) => `${API_BASE_URL}/credit-score/partners/${platform}/access`,
+      revoke: (platform: string) => `${API_BASE_URL}/credit-score/partners/${platform}/revoke`,
+      generateApiKey: (platform: string) => `${API_BASE_URL}/credit-score/partners/${platform}/api-key`,
+      stats: `${API_BASE_URL}/credit-score/partners/stats`,
+    },
   },
 } as const
 

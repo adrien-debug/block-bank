@@ -61,14 +61,33 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
 
       {/* NFT Rappel Premium */}
       <div className="profiles-nft-reminder-card">
-        <div className="nft-reminder-content">
-          <div className="nft-reminder-icon">
-            {nft.assetType === 'REAL_ESTATE' && '🏢'}
-            {nft.assetType === 'MINING' && '⛏️'}
-            {nft.assetType === 'INFRASTRUCTURE' && '🏗️'}
-            {nft.assetType === 'COMMODITIES' && '💎'}
-            {nft.assetType === 'OTHER' && '📦'}
+        {nft.imageURI && (
+          <div className="nft-reminder-image">
+            <img 
+              src={nft.imageURI} 
+              alt={nft.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: 'var(--radius-lg)',
+              }}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
           </div>
+        )}
+        <div className="nft-reminder-content">
+          {!nft.imageURI && (
+            <div className="nft-reminder-icon">
+              {nft.assetType === 'REAL_ESTATE' && '🏢'}
+              {nft.assetType === 'MINING' && '⛏️'}
+              {nft.assetType === 'INFRASTRUCTURE' && '🏗️'}
+              {nft.assetType === 'COMMODITIES' && '💎'}
+              {nft.assetType === 'OTHER' && '📦'}
+            </div>
+          )}
           <div className="nft-reminder-info">
             <span className="nft-reminder-label">NFT sélectionné</span>
             <span className="nft-reminder-name">{nft.name}</span>

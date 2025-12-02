@@ -16,6 +16,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
   const [hoveredNFT, setHoveredNFT] = useState<string | null>(null)
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
   const [nftDetailModal, setNftDetailModal] = useState<NFTRWA | null>(null)
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
   
   // Filtres
   const [selectedMarketplace, setSelectedMarketplace] = useState<Marketplace | 'ALL'>('ALL')
@@ -226,7 +227,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
 
               {/* Image/Preview */}
               <div className="nft-card-preview">
-                {nft.imageURI ? (
+                {nft.imageURI && !imageErrors.has(nft.id) ? (
                   <img 
                     src={nft.imageURI} 
                     alt={nft.name}
@@ -237,6 +238,9 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
                       objectFit: 'contain',
                       borderRadius: 'var(--radius-xl)',
                       backgroundColor: 'var(--bb-grey-50)'
+                    }}
+                    onError={() => {
+                      setImageErrors(prev => new Set(prev).add(nft.id))
                     }}
                   />
                 ) : (
@@ -350,11 +354,14 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
             <div className="nft-detail-modal-body-premium">
               {/* Preview Image */}
               <div className="nft-detail-preview-premium">
-                {nftDetailModal.imageURI ? (
+                {nftDetailModal.imageURI && !imageErrors.has(nftDetailModal.id) ? (
                   <img 
                     src={nftDetailModal.imageURI} 
                     alt={nftDetailModal.name}
                     className="nft-detail-image-premium"
+                    onError={() => {
+                      setImageErrors(prev => new Set(prev).add(nftDetailModal.id))
+                    }}
                   />
                 ) : (
                   <div className="nft-detail-preview-gradient">

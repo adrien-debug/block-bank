@@ -6,7 +6,6 @@ import ShieldIcon from '../icons/ShieldIcon'
 import InfoIcon from '../icons/InfoIcon'
 import WarningIcon from '../icons/WarningIcon'
 import ChartIcon from '../icons/ChartIcon'
-import USDCIcon from '../icons/USDCIcon'
 
 type LoanStatus = 'active' | 'repaid' | 'default' | 'liquidated' | 'closed'
 type FilterStatus = 'all' | 'active' | 'repaid' | 'default'
@@ -332,9 +331,6 @@ export default function Loans() {
           <div className="stat-label-page">Montant total emprunté</div>
           <div className="stat-value-page">
             {formatNumber(stats.totalBorrowed)} 
-            <span className="currency-logo">
-              <USDCIcon size={18} />
-            </span>
             <span className="currency-text">USDC</span>
           </div>
         </div>
@@ -342,9 +338,6 @@ export default function Loans() {
           <div className="stat-label-page">Solde restant</div>
           <div className="stat-value-page">
             {formatNumber(stats.totalRemaining)} 
-            <span className="currency-logo">
-              <USDCIcon size={18} />
-            </span>
             <span className="currency-text">USDC</span>
           </div>
         </div>
@@ -352,9 +345,6 @@ export default function Loans() {
           <div className="stat-label-page">Prochain paiement total</div>
           <div className="stat-value-page">
             {formatNumber(stats.nextPaymentTotal)} 
-            <span className="currency-logo">
-              <USDCIcon size={18} />
-            </span>
             <span className="currency-text">USDC</span>
           </div>
         </div>
@@ -386,11 +376,6 @@ export default function Loans() {
                 <div className="loan-amount-section">
                   <div className="loan-amount-large">
                     {formatNumber(loan.amount)} 
-                    {loan.currency === 'USDC' && (
-                      <span className="currency-logo">
-                        <USDCIcon size={20} />
-                      </span>
-                    )}
                     <span className="currency-text">{loan.currency}</span>
                   </div>
                   <div className="loan-amount-details">
@@ -426,11 +411,6 @@ export default function Loans() {
                     <span className="payment-label">Prochain paiement</span>
                     <span className="payment-value">
                       {formatNumber(loan.nextPaymentAmount)} 
-                      {loan.currency === 'USDC' && (
-                        <span className="currency-logo">
-                          <USDCIcon size={18} />
-                        </span>
-                      )}
                       <span className="currency-text">{loan.currency}</span>
                     </span>
                   </div>
@@ -602,13 +582,13 @@ export default function Loans() {
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-4)' }}>
                     <div>
                       <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Intérêts totaux estimés:</span>
-                      <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)', marginTop: 'var(--space-1)' }}>
+                      <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)', marginTop: 'var(--space-1)', color: 'var(--bb-blue-medium)' }}>
                         {formatNumber((selectedLoan.amount * selectedLoan.rate / 100) * (selectedLoan.term / 12))} {selectedLoan.currency}
                       </div>
                     </div>
                     <div>
                       <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Montant total à rembourser:</span>
-                      <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)', marginTop: 'var(--space-1)' }}>
+                      <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)', marginTop: 'var(--space-1)', color: 'var(--bb-blue-medium)' }}>
                         {formatNumber(selectedLoan.amount + (selectedLoan.amount * selectedLoan.rate / 100) * (selectedLoan.term / 12))} {selectedLoan.currency}
                       </div>
                     </div>

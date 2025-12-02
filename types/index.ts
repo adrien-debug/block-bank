@@ -1,6 +1,6 @@
 // BlockBank Data Model Types
 
-export type CreditTier = 'A' | 'B' | 'C' | 'D'
+export type CreditTier = 'A+' | 'A' | 'B' | 'C' | 'D'
 export type LoanStatus = 'PENDING' | 'ACTIVE' | 'REPAID' | 'DEFAULT' | 'LIQUIDATED' | 'CLOSED'
 export type LoanProfile = 'SAFE' | 'BALANCED' | 'MAX_LEVERAGE'
 export type NFTRiskClass = 'SAFE' | 'MODERATE' | 'RISKY'
@@ -44,6 +44,59 @@ export interface CreditScoreEntry {
   }
   calculatedAt: Date
   factors: string[] // Raisons changement score
+}
+
+export interface CreditScoreNFTMetadata {
+  // Identifiants
+  tokenId: string
+  contractAddress: string
+  walletAddress: string
+  
+  // Score principal
+  globalScore: number // 0-1000
+  tier: CreditTier
+  
+  // Sous-scores détaillés
+  subScores: {
+    onChain: number
+    offChain: number
+    assets: number
+    reputation: number
+  }
+  
+  // Métadonnées techniques
+  modelVersion: string // "v2.1"
+  issuedAt: number // timestamp
+  validUntil: number // timestamp (30 jours)
+  dataHash: string // hash des données sources off-chain
+  
+  // Vérifications
+  kycVerified: boolean
+  amlVerified: boolean
+  verificationLevel: 'basic' | 'enhanced' | 'premium'
+  
+  // Historique synthétique
+  scoreHistory: {
+    lastUpdate: number
+    trend: 'up' | 'down' | 'stable'
+    change: number
+  }
+}
+
+export type PartnerPlatform = 'REALT' | 'TANGIBL' | 'COURTYARD' | '4K' | 'MAPLE' | 'BACKED' | 'CENTRIFUGE' | 'LANDSHARE' | '21CO' | 'DIBBS'
+
+export interface PartnerAccess {
+  platform: PartnerPlatform
+  platformName: string
+  authorized: boolean
+  lastAccessed?: number
+  accessCount: number
+  permissions: {
+    readScore: boolean
+    readMetadata: boolean
+    readFullData: boolean
+  }
+  apiKey?: string
 }
 
 export interface NFTRWA {

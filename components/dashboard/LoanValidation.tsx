@@ -50,6 +50,24 @@ export default function LoanValidation({
       <div className="validation-summary">
         <div className="summary-section">
           <h2>NFT RWA</h2>
+          {nft.imageURI && (
+            <div className="nft-image-preview" style={{ marginBottom: 'var(--space-4)' }}>
+              <img 
+                src={nft.imageURI} 
+                alt={nft.name}
+                style={{
+                  width: '100%',
+                  maxHeight: '300px',
+                  objectFit: 'contain',
+                  borderRadius: 'var(--radius-lg)',
+                  backgroundColor: 'var(--bb-grey-50)',
+                }}
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            </div>
+          )}
           <div className="summary-card">
             <div className="summary-item">
               <span className="summary-label">Nom</span>

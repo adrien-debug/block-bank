@@ -3,176 +3,26 @@
 import { useState } from 'react'
 import { formatDateShort } from '@/lib/utils'
 import ChartIcon from '../icons/ChartIcon'
-import DocumentIcon from '../icons/DocumentIcon'
-import LightBulbIcon from '../icons/LightBulbIcon'
-import PackageIcon from '../icons/PackageIcon'
 import ShieldIcon from '../icons/ShieldIcon'
 import InfoIcon from '../icons/InfoIcon'
-import CheckIcon from '../icons/CheckIcon'
+import type { CreditTier, PartnerPlatform, CreditScoreNFTMetadata, PartnerAccess } from '@/types'
 
-type CreditScoreTab = 'overview' | 'breakdown' | 'recommendations' | 'history' | 'tokenisation' | 'governance' | 'tiers'
+type CreditScoreTab = 'overview' | 'nft' | 'partners'
 
 export default function CreditScore() {
   const [activeTab, setActiveTab] = useState<CreditScoreTab>('overview')
   const score = 750
-  const tier = 'A'
+  const tier: CreditTier = 'A'
   const previousScore = 738
   const scoreChange = score - previousScore
   
-  const scoreBreakdown = {
-    onChain: { 
-      value: 280, 
-      max: 300, 
-      label: 'On-Chain Behavioral Analytics',
-      percentage: 93,
-      weight: '30-45%',
-      description: 'Mesure de discipline, sophistication et risque pris par le client sur la blockchain',
-      details: [
-        { label: 'Transaction volume & frequency', value: 95, status: 'excellent', description: 'Volume total et régularité des transactions' },
-        { label: 'Wallet history & age', value: 88, status: 'good', description: 'Ancienneté et consistance des comportements' },
-        { label: 'Asset diversity', value: 92, status: 'excellent', description: 'Diversité des actifs (stablecoins, BTC, ETH, altcoins)' },
-        { label: 'DeFi activity', value: 85, status: 'good', description: 'Utilisation protocoles DeFi (lending, borrowing, LP, leverage)' },
-        { label: 'Stablecoin stability', value: 90, status: 'excellent', description: 'Proportion de réserves en actifs stables' },
-        { label: 'Liquidation history', value: 100, status: 'excellent', description: 'Absence de liquidations significatives' },
-        { label: 'Sybil & fraud detection', value: 85, status: 'good', description: 'Absence de patterns suspects ou wash trading' },
-      ],
-      techniques: [
-        'Graph ML (clustering d\'adresses)',
-        'Analyse Markovienne de transitions',
-        'Détection de patterns extrêmes',
-        'Scoring positif pour stabilité'
-      ]
-    },
-    offChain: { 
-      value: 250, 
-      max: 300, 
-      label: 'Off-Chain Financial & Corporate Metrics',
-      percentage: 83,
-      weight: '30-40%',
-      description: 'Évaluation de la solidité financière traditionnelle et corporate',
-      details: [
-        { label: 'Stable income', value: 90, status: 'excellent', description: 'Montant, source et stabilité sur 3-12 mois' },
-        { label: 'Debt-to-income ratio', value: 75, status: 'good', description: 'Ratio dette/revenu avant et après nouveau prêt' },
-        { label: 'Banking history', value: 88, status: 'good', description: 'Historique bancaire (incidents, découvert, retards)' },
-        { label: 'Professional stability', value: 85, status: 'good', description: 'Stabilité professionnelle et historique fiscal' },
-        { label: 'Wealth & assets', value: 80, status: 'good', description: 'Patrimoine (épargne, immobilier, portefeuilles externes)' },
-        { label: 'Country of residence', value: 90, status: 'excellent', description: 'Risque juridique, politique et devise' },
-      ],
-      clientType: 'Particulier',
-      corporateMetrics: [
-        'P&L minier (revenus BTC vs coûts)',
-        'Coût marginal d\'opération',
-        'Dépendance énergétique',
-        'Structure de dette existante',
-        'Qualité des contrats (PPAs, baux)'
-      ]
-    },
-    assets: { 
-      value: 150, 
-      max: 200, 
-      label: 'Asset-Based Metrics (RWA)',
-      percentage: 75,
-      weight: '10-20%',
-      description: 'Évaluation de l\'actif financé : immobilier, mining, machines, infrastructure',
-      details: [
-        { label: 'Total NFT RWA value', value: 80, status: 'good', description: 'Valeur totale des actifs tokenisés' },
-        { label: 'Available liquidity', value: 70, status: 'average', description: 'Facilité de revente et profondeur du marché' },
-        { label: 'Asset diversification', value: 75, status: 'good', description: 'Portefeuille d\'actifs vs concentration excessive' },
-        { label: 'Collateral quality', value: 85, status: 'good', description: 'Valeur de marché (oracles + évaluations indépendantes)' },
-        { label: 'Location risk', value: 90, status: 'excellent', description: 'Risque politique, juridique, climat, réglementation' },
-        { label: 'Depreciation rate', value: 80, status: 'good', description: 'Dépréciation attendue selon type d\'actif' },
-        { label: 'Insurance quality', value: 85, status: 'good', description: 'Qualité de l\'assurance existante (incendie, catastrophe)' },
-      ],
-      assetTypes: [
-        'Immobilier (villas, propriétés)',
-        'Fermes de mining Bitcoin',
-        'Infrastructure énergétique',
-        'Machines et équipements',
-        'Commodities tokenisées'
-      ]
-    },
-    reputation: { 
-      value: 70, 
-      max: 100, 
-      label: 'Reputation & Trust Layer',
-      percentage: 70,
-      weight: '5-10%',
-      description: 'Historique de remboursement, durée de relation, vérifications et références',
-      details: [
-        { label: 'On-chain reputation', value: 75, status: 'good', description: 'Score via protocoles réputation et historique interactions' },
-        { label: 'Payment history', value: 100, status: 'excellent', description: 'Historique de remboursement interne (prêts passés)' },
-        { label: 'Platform relationship', value: 80, status: 'good', description: 'Durée de la relation avec la plateforme' },
-        { label: 'KYC verifications', value: 90, status: 'excellent', description: 'Usage d\'identités vérifiables (DID, zk-KYC)' },
-        { label: 'Voluntary audits', value: 60, status: 'average', description: 'Participation volontaire à des audits renforcés' },
-        { label: 'References', value: 60, status: 'average', description: 'Signalement par autres institutions de confiance' },
-      ],
-      factors: [
-        'Historique de remboursement interne',
-        'Durée de la relation',
-        'Participation audits renforcés',
-        'Usage identités vérifiables',
-        'Social graph Web3 (facultatif)'
-      ]
-    },
+  // Données simplifiées pour le graphique donut
+  const scoreComponents = {
+    onChain: { value: 280, max: 300, label: 'On-Chain', color: '#2563EB' },
+    offChain: { value: 250, max: 300, label: 'Off-Chain', color: '#3B82F6' },
+    assets: { value: 150, max: 200, label: 'Assets', color: '#60A5FA' },
+    reputation: { value: 70, max: 100, label: 'Reputation', color: '#93C5FD' },
   }
-
-  const scoreHistory = {
-    '1m': [745, 748, 750],
-    '6m': [680, 690, 700, 710, 720, 730, 738, 745, 750],
-    '12m': [650, 665, 680, 690, 700, 710, 720, 730, 738, 745, 750],
-    'all': [600, 620, 640, 660, 680, 690, 700, 710, 720, 730, 738, 745, 750],
-  }
-
-  const recommendations = [
-    {
-      title: 'Augmenter la liquidité disponible',
-      description: 'Maintenir au moins 50,000 USDC en liquidité améliorerait votre score Asset-Based de 5 points. Cela démontre votre capacité à gérer les fluctuations de marché.',
-      impact: '+5 points',
-      priority: 'high',
-      action: 'Déposer des stablecoins',
-      category: 'Asset-Based'
-    },
-    {
-      title: 'Diversifier vos actifs NFT RWA',
-      description: 'Ajouter un actif de type infrastructure augmenterait votre diversification et réduirait le risque de concentration. Cela améliorerait votre score Asset-Based.',
-      impact: '+3 points',
-      priority: 'medium',
-      action: 'Explorer le marketplace',
-      category: 'Asset-Based'
-    },
-    {
-      title: 'Améliorer l\'activité DeFi',
-      description: 'Participer à plus de protocoles DeFi (lending, staking, LP) renforcerait votre profil on-chain et démontrerait votre sophistication technique.',
-      impact: '+2 points',
-      priority: 'low',
-      action: 'Voir les protocoles',
-      category: 'On-Chain'
-    },
-    {
-      title: 'Augmenter la proportion de stablecoins',
-      description: 'Maintenir plus de 40% de votre portefeuille en stablecoins pendant les périodes de stress améliorerait votre score On-Chain Behavioral.',
-      impact: '+4 points',
-      priority: 'high',
-      action: 'Rééquilibrer le portefeuille',
-      category: 'On-Chain'
-    },
-    {
-      title: 'Compléter la vérification KYC',
-      description: 'Compléter votre vérification KYC avec des documents supplémentaires améliorerait votre score Off-Chain Financial et Reputation.',
-      impact: '+6 points',
-      priority: 'medium',
-      action: 'Mettre à jour KYC',
-      category: 'Off-Chain'
-    },
-    {
-      title: 'Améliorer l\'historique de paiement',
-      description: 'Effectuer tous vos paiements de prêt à l\'avance ou à temps améliorerait significativement votre score Reputation & Trust.',
-      impact: '+3 points',
-      priority: 'medium',
-      action: 'Voir mes prêts',
-      category: 'Reputation'
-    }
-  ]
 
   const tierInfo = {
     'A+': {
@@ -180,90 +30,107 @@ export default function CreditScore() {
       ltv: '70-85%',
       rate: '6-8%',
       maxAmount: '2,000,000 USDC',
-      maxDuration: '48 months',
-      insurance: 'Senior + Junior possible',
-      riskLevel: 'Ultra faible',
-      description: 'Risque ultra faible, clients premium',
-      benefits: [
-        'Taux préférentiels les plus bas',
-        'LTV maximum élevé (70-85%)',
-        'Processus accéléré',
-        'Support prioritaire',
-        'Accès assurance tranche senior + junior',
-        'Montant maximum élevé'
-      ]
     },
     A: { 
       scoreRange: '750-849',
       ltv: '60-70%', 
       rate: '6.5-8.5%', 
       maxAmount: '1,000,000 USDC',
-      maxDuration: '48 months',
-      insurance: 'Senior standard',
-      riskLevel: 'Faible',
-      description: 'Risque faible, conditions très favorables',
-      benefits: [
-        'Taux préférentiels',
-        'LTV élevé (60-70%)',
-        'Processus accéléré',
-        'Support prioritaire',
-        'Accès assurance senior standard'
-      ]
     },
     B: {
       scoreRange: '600-749',
       ltv: '40-60%',
       rate: '8.5-10.5%',
       maxAmount: '500,000 USDC',
-      maxDuration: '36 months',
-      insurance: 'Senior + Mezzanine',
-      riskLevel: 'Moyen',
-      description: 'Risque moyen, LTV modéré',
-      benefits: [
-        'Taux compétitifs',
-        'LTV modéré (40-60%)',
-        'Accès assurance senior + mezzanine'
-      ]
     },
     C: {
       scoreRange: '450-599',
       ltv: '30-40%',
       rate: '10.5-12.5%',
       maxAmount: '250,000 USDC',
-      maxDuration: '24 months',
-      insurance: 'Mezzanine uniquement',
-      riskLevel: 'Élevé',
-      description: 'Risque élevé, LTV limité',
-      benefits: [
-        'Accès crédit avec conditions strictes',
-        'LTV limité (30-40%)',
-        'Assurance mezzanine uniquement'
-      ]
     },
     D: {
       scoreRange: '< 450',
-      ltv: '< 30% ou 100% collatéral',
-      rate: 'Non pertinent',
-      maxAmount: 'Refusé ou cas spéciaux',
-      maxDuration: 'N/A',
-      insurance: 'Pas de couverture / cas spéciaux',
-      riskLevel: 'Très élevé',
-      description: 'Risque très élevé, crédit refusé ou collatéral quasi total',
-      benefits: []
+      ltv: '< 30%',
+      rate: 'N/A',
+      maxAmount: 'Refusé',
     }
   }
 
-  const currentTier = tierInfo[tier as keyof typeof tierInfo]
+  const currentTier = tierInfo[tier]
+
+  // Métadonnées NFT
+  const nftMetadata: CreditScoreNFTMetadata = {
+    tokenId: '0x1234...5678',
+    contractAddress: '0xBlockBankCreditScore',
+    walletAddress: '0xUser...Wallet',
+    globalScore: score,
+    tier: tier,
+    subScores: {
+      onChain: 280,
+      offChain: 250,
+      assets: 150,
+      reputation: 70,
+    },
+    modelVersion: 'v2.1',
+    issuedAt: Date.now() - 7 * 24 * 60 * 60 * 1000, // Il y a 7 jours
+    validUntil: Date.now() + 23 * 24 * 60 * 60 * 1000, // Valide 30 jours
+    dataHash: '0xabc123...def456',
+    kycVerified: true,
+    amlVerified: true,
+    verificationLevel: 'enhanced',
+    scoreHistory: {
+      lastUpdate: Date.now() - 7 * 24 * 60 * 60 * 1000,
+      trend: 'up',
+      change: scoreChange,
+    }
+  }
+
+  // Partenaires
+  const partners: PartnerAccess[] = [
+    { platform: 'REALT', platformName: 'RealT', authorized: true, accessCount: 12, lastAccessed: Date.now() - 2 * 24 * 60 * 60 * 1000, permissions: { readScore: true, readMetadata: true, readFullData: false } },
+    { platform: 'TANGIBL', platformName: 'Tangibl', authorized: true, accessCount: 8, lastAccessed: Date.now() - 5 * 24 * 60 * 60 * 1000, permissions: { readScore: true, readMetadata: true, readFullData: false } },
+    { platform: 'COURTYARD', platformName: 'Courtyard', authorized: false, accessCount: 0, permissions: { readScore: false, readMetadata: false, readFullData: false } },
+    { platform: '4K', platformName: '4K', authorized: true, accessCount: 5, lastAccessed: Date.now() - 10 * 24 * 60 * 60 * 1000, permissions: { readScore: true, readMetadata: false, readFullData: false } },
+    { platform: 'MAPLE', platformName: 'Maple', authorized: false, accessCount: 0, permissions: { readScore: false, readMetadata: false, readFullData: false } },
+    { platform: 'BACKED', platformName: 'Backed Finance', authorized: true, accessCount: 3, lastAccessed: Date.now() - 15 * 24 * 60 * 60 * 1000, permissions: { readScore: true, readMetadata: true, readFullData: false } },
+    { platform: 'CENTRIFUGE', platformName: 'Centrifuge', authorized: false, accessCount: 0, permissions: { readScore: false, readMetadata: false, readFullData: false } },
+    { platform: 'LANDSHARE', platformName: 'Landshare', authorized: false, accessCount: 0, permissions: { readScore: false, readMetadata: false, readFullData: false } },
+    { platform: '21CO', platformName: '21.co', authorized: true, accessCount: 2, lastAccessed: Date.now() - 20 * 24 * 60 * 60 * 1000, permissions: { readScore: true, readMetadata: false, readFullData: false } },
+    { platform: 'DIBBS', platformName: 'Dibbs', authorized: false, accessCount: 0, permissions: { readScore: false, readMetadata: false, readFullData: false } },
+  ]
 
   const tabs = [
-    { id: 'overview' as CreditScoreTab, label: 'Overview', icon: ChartIcon },
-    { id: 'breakdown' as CreditScoreTab, label: 'Score Breakdown', icon: DocumentIcon },
-    { id: 'recommendations' as CreditScoreTab, label: 'Recommendations', icon: LightBulbIcon },
-    { id: 'history' as CreditScoreTab, label: 'History', icon: PackageIcon },
-    { id: 'tokenisation' as CreditScoreTab, label: 'Tokenisation', icon: ShieldIcon },
-    { id: 'governance' as CreditScoreTab, label: 'Governance', icon: InfoIcon },
-    { id: 'tiers' as CreditScoreTab, label: 'All Tiers', icon: CheckIcon },
+    { id: 'overview' as CreditScoreTab, label: 'Vue d\'ensemble', icon: ChartIcon },
+    { id: 'nft' as CreditScoreTab, label: 'NFT Score', icon: ShieldIcon },
+    { id: 'partners' as CreditScoreTab, label: 'Partenaires', icon: InfoIcon },
   ]
+
+  // Fonction pour calculer le donut chart
+  const calculateDonutChart = () => {
+    const total = Object.values(scoreComponents).reduce((sum, comp) => sum + comp.value, 0)
+    const radius = 80
+    const circumference = 2 * Math.PI * radius
+    let currentOffset = 0
+
+    return Object.entries(scoreComponents).map(([key, comp]) => {
+      const percentage = (comp.value / total) * 100
+      const strokeDasharray = (comp.value / total) * circumference
+      
+      const result = {
+        key,
+        ...comp,
+        percentage: percentage.toFixed(1),
+        strokeDasharray,
+        strokeDashoffset: currentOffset,
+      }
+      
+      currentOffset += strokeDasharray
+      return result
+    })
+  }
+
+  const donutSegments = calculateDonutChart()
 
   return (
     <div className="page-container">
@@ -278,7 +145,7 @@ export default function CreditScore() {
         </div>
       </div>
 
-      {/* Navigation Menu - Horizontal Premium */}
+      {/* Navigation Menu - 3 onglets simplifiés */}
       <div className="credit-score-nav-menu-premium">
         <nav className="credit-score-nav-horizontal">
           {tabs.map((tab) => {
@@ -299,494 +166,350 @@ export default function CreditScore() {
         </nav>
       </div>
 
-      {/* Content based on active tab */}
+      {/* Onglet Overview - Simplifié */}
       {activeTab === 'overview' && (
-        <>
-          {/* Main score with evolution */}
-          <div className="score-display-enhanced">
-        <div className="score-circle-wrapper">
-          <div className="score-circle">
-            <div className="score-value">{score}</div>
-            <div className="score-tier">Tier {tier}</div>
-            <div className="score-change">
-              {scoreChange > 0 ? '↑' : '↓'} {Math.abs(scoreChange)} points
-            </div>
-          </div>
-        </div>
-        
-        <div className="score-info-enhanced">
-          <div className="score-badges">
-            <div className="score-badge badge-a">Tier {tier} • Excellent</div>
-            <div className="score-trend-badge trend-up">
-              <span>↑ +{scoreChange}</span>
-              <span>vs last month</span>
-            </div>
-          </div>
-          
-          <div className="score-benefits">
-            <h3>Benefits of your score</h3>
-            <div className="benefits-grid">
-              {currentTier.benefits && currentTier.benefits.map((benefit: string, index: number) => (
-                <div key={index} className="benefit-item">
-                  <span className="benefit-icon">✓</span>
-                  <span>{benefit}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="score-conditions">
-            <div className="condition-item">
-              <span className="condition-label">Plage de score</span>
-              <span className="condition-value">{currentTier.scoreRange || '750-849'}</span>
-            </div>
-            <div className="condition-item">
-              <span className="condition-label">LTV Maximum</span>
-              <span className="condition-value">{currentTier.ltv}</span>
-            </div>
-            <div className="condition-item">
-              <span className="condition-label">Taux d'intérêt (APY)</span>
-              <span className="condition-value">{currentTier.rate}</span>
-            </div>
-            <div className="condition-item">
-              <span className="condition-label">Montant maximum</span>
-              <span className="condition-value">{currentTier.maxAmount}</span>
-            </div>
-            <div className="condition-item">
-              <span className="condition-label">Durée maximum</span>
-              <span className="condition-value">{currentTier.maxDuration || '48 months'}</span>
-            </div>
-            <div className="condition-item">
-              <span className="condition-label">Accès assurance</span>
-              <span className="condition-value">{currentTier.insurance || 'Standard'}</span>
-            </div>
-            <div className="condition-item">
-              <span className="condition-label">Niveau de risque</span>
-              <span className="condition-value">{currentTier.riskLevel || 'Faible'}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-          {/* Evolution chart */}
-          <div className="score-chart-section">
-        <div className="chart-card">
-          <div className="chart-header">
-            <h3>Credit Score Evolution</h3>
-          </div>
-          <div className="chart-container-enhanced">
-            <div className="line-chart-enhanced">
-              <svg className="chart-line-enhanced" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMid meet" style={{ filter: 'drop-shadow(0 2px 4px rgba(15, 23, 42, 0.08))' }}>
-                <defs>
-                  <linearGradient id="scoreLineGradient-all" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#2563EB" />
-                    <stop offset="50%" stopColor="#3B82F6" />
-                    <stop offset="100%" stopColor="#2563EB" />
-                  </linearGradient>
-                  <linearGradient id="scoreGradient-all" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#2563EB" stopOpacity="0.4" />
-                    <stop offset="50%" stopColor="#3B82F6" stopOpacity="0.2" />
-                    <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                {(() => {
-                  const points = scoreHistory.all.map((value, index, array) => {
-                    const maxValue = Math.max(...array)
-                    const minValue = Math.min(...array)
-                    const range = maxValue - minValue
-                    const percentage = ((value - minValue) / range) * 100
-                    const x = (index / (array.length - 1)) * 1000
-                    const y = 300 - (percentage / 100) * 300
-                    return { x, y }
-                  })
-                  
-                  // Créer une courbe de Bézier lisse
-                  const createSmoothPath = (points: { x: number; y: number }[]) => {
-                    if (points.length < 2) return ''
-                    
-                    let path = `M ${points[0].x} ${points[0].y}`
-                    
-                    for (let i = 0; i < points.length - 1; i++) {
-                      const current = points[i]
-                      const next = points[i + 1]
-                      const afterNext = points[i + 2]
-                      
-                      let cp1x, cp1y, cp2x, cp2y
-                      
-                      if (i === 0) {
-                        // Premier point
-                        cp1x = current.x + (next.x - current.x) / 3
-                        cp1y = current.y
-                        cp2x = next.x - (afterNext ? (afterNext.x - current.x) / 3 : (next.x - current.x) / 3)
-                        cp2y = next.y
-                      } else if (i === points.length - 2) {
-                        // Dernier point
-                        const prev = points[i - 1]
-                        cp1x = current.x + (next.x - prev.x) / 3
-                        cp1y = current.y + (next.y - prev.y) / 3
-                        cp2x = next.x - (next.x - current.x) / 3
-                        cp2y = next.y
-                      } else {
-                        // Points intermédiaires
-                        const prev = points[i - 1]
-                        cp1x = current.x + (next.x - prev.x) / 3
-                        cp1y = current.y + (next.y - prev.y) / 3
-                        cp2x = next.x - (afterNext.x - current.x) / 3
-                        cp2y = next.y - (afterNext.y - current.y) / 3
-                      }
-                      
-                      path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${next.x} ${next.y}`
-                    }
-                    
-                    return path
+        <div className="credit-score-overview-simplified">
+          {/* Score principal avec donut chart */}
+          <div className="score-display-donut">
+            <div className="donut-chart-container">
+              <svg className="donut-chart" viewBox="0 0 200 200">
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="80"
+                  fill="none"
+                  stroke="#E5E7EB"
+                  strokeWidth="20"
+                />
+                {donutSegments.map((segment, index) => {
+                  // Calculer l'angle de départ et de fin pour chaque segment
+                  const total = Object.values(scoreComponents).reduce((sum, comp) => sum + comp.value, 0)
+                  let startAngle = 0
+                  for (let i = 0; i < index; i++) {
+                    startAngle += (scoreComponents[Object.keys(scoreComponents)[i] as keyof typeof scoreComponents].value / total) * 360
                   }
+                  const endAngle = startAngle + (segment.value / total) * 360
                   
-                  const smoothPath = createSmoothPath(points)
-                  const areaPath = smoothPath + ` L 1000 300 L 0 300 Z`
+                  // Convertir en radians
+                  const startRad = (startAngle - 90) * (Math.PI / 180)
+                  const endRad = (endAngle - 90) * (Math.PI / 180)
+                  
+                  // Calculer les points de l'arc
+                  const x1 = 100 + 80 * Math.cos(startRad)
+                  const y1 = 100 + 80 * Math.sin(startRad)
+                  const x2 = 100 + 80 * Math.cos(endRad)
+                  const y2 = 100 + 80 * Math.sin(endRad)
+                  
+                  const largeArc = endAngle - startAngle > 180 ? 1 : 0
                   
                   return (
-                    <>
-                      <path 
-                        d={areaPath}
-                        fill="url(#scoreGradient-all)"
-                      />
-                      <path 
-                        d={smoothPath}
-                        stroke="url(#scoreLineGradient-all)"
-                        fill="none"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </>
+                    <path
+                      key={segment.key}
+                      d={`M ${x1} ${y1} A 80 80 0 ${largeArc} 1 ${x2} ${y2}`}
+                      fill="none"
+                      stroke={segment.color}
+                      strokeWidth="20"
+                      strokeLinecap="round"
+                    />
                   )
-                })()}
+                })}
               </svg>
+              <div className="donut-center">
+                <div className="score-value-large">{score}</div>
+                <div className="score-tier-badge">Tier {tier}</div>
+                <div className="score-change-indicator">
+                  {scoreChange > 0 ? '↑' : scoreChange < 0 ? '↓' : '→'} {Math.abs(scoreChange)} points
+                </div>
+              </div>
+            </div>
+            
+            {/* Légende */}
+            <div className="donut-legend">
+              {Object.entries(scoreComponents).map(([key, comp]) => {
+                const segment = donutSegments.find(s => s.key === key)
+                return (
+                  <div key={key} className="legend-item">
+                    <div className="legend-color" style={{ backgroundColor: comp.color }}></div>
+                    <div className="legend-info">
+                      <span className="legend-label">{comp.label}</span>
+                      <span className="legend-value">{comp.value}/{comp.max} ({segment?.percentage}%)</span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Métriques essentielles */}
+          <div className="score-metrics-grid">
+            <div className="metric-card">
+              <div className="metric-label">LTV Maximum</div>
+              <div className="metric-value">{currentTier.ltv}</div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-label">Taux d'intérêt (APY)</div>
+              <div className="metric-value">{currentTier.rate}</div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-label">Montant maximum</div>
+              <div className="metric-value">{currentTier.maxAmount}</div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-label">Plage de score</div>
+              <div className="metric-value">{currentTier.scoreRange}</div>
+            </div>
+          </div>
+
+          {/* Bouton vers NFT */}
+          <div className="score-cta-nft">
+            <button 
+              className="btn-primary btn-large"
+              onClick={() => setActiveTab('nft')}
+            >
+              Voir mon NFT de Score
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Onglet NFT Score */}
+      {activeTab === 'nft' && (
+        <div className="credit-score-nft">
+          <div className="nft-visualization-card">
+            <div className="nft-card-header">
+              <h2>Soulbound NFT de Score</h2>
+              <div className="nft-badge-soulbound">Soulbound • Non transférable</div>
+            </div>
+            
+            {/* Visualisation NFT */}
+            <div className="nft-card-visual">
+              <div className="nft-card-design">
+                <div className="nft-card-background">
+                  <div className="nft-card-content">
+                    <div className="nft-logo">BlockBank</div>
+                    <div className="nft-score-display">{nftMetadata.globalScore}</div>
+                    <div className="nft-tier-display">Tier {nftMetadata.tier}</div>
+                    <div className="nft-token-id">#{nftMetadata.tokenId.slice(-8)}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Métadonnées structurées */}
+            <div className="nft-metadata-section">
+              <h3>Métadonnées du NFT</h3>
+              <div className="metadata-grid">
+                <div className="metadata-item">
+                  <span className="metadata-label">Token ID</span>
+                  <span className="metadata-value">{nftMetadata.tokenId}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">Contract Address</span>
+                  <span className="metadata-value font-mono">{nftMetadata.contractAddress}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">Wallet Address</span>
+                  <span className="metadata-value font-mono">{nftMetadata.walletAddress}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">Score Global</span>
+                  <span className="metadata-value">{nftMetadata.globalScore}/1000</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">Tier</span>
+                  <span className="metadata-value">Tier {nftMetadata.tier}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">Version du modèle</span>
+                  <span className="metadata-value">{nftMetadata.modelVersion}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">Émis le</span>
+                  <span className="metadata-value">{formatDateShort(new Date(nftMetadata.issuedAt))}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">Valide jusqu'au</span>
+                  <span className="metadata-value">{formatDateShort(new Date(nftMetadata.validUntil))}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">Hash des données</span>
+                  <span className="metadata-value font-mono text-xs">{nftMetadata.dataHash}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">KYC Vérifié</span>
+                  <span className="metadata-value">{nftMetadata.kycVerified ? '✓ Oui' : '✗ Non'}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">AML Vérifié</span>
+                  <span className="metadata-value">{nftMetadata.amlVerified ? '✓ Oui' : '✗ Non'}</span>
+                </div>
+                <div className="metadata-item">
+                  <span className="metadata-label">Niveau de vérification</span>
+                  <span className="metadata-value capitalize">{nftMetadata.verificationLevel}</span>
+                </div>
+              </div>
+
+              {/* Sous-scores */}
+              <div className="nft-sub-scores">
+                <h4>Sous-scores détaillés</h4>
+                <div className="sub-scores-grid">
+                  <div className="sub-score-item">
+                    <span className="sub-score-label">On-Chain</span>
+                    <span className="sub-score-value">{nftMetadata.subScores.onChain}/300</span>
+                  </div>
+                  <div className="sub-score-item">
+                    <span className="sub-score-label">Off-Chain</span>
+                    <span className="sub-score-value">{nftMetadata.subScores.offChain}/300</span>
+                  </div>
+                  <div className="sub-score-item">
+                    <span className="sub-score-label">Assets</span>
+                    <span className="sub-score-value">{nftMetadata.subScores.assets}/200</span>
+                  </div>
+                  <div className="sub-score-item">
+                    <span className="sub-score-label">Reputation</span>
+                    <span className="sub-score-value">{nftMetadata.subScores.reputation}/100</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Historique synthétique */}
+              <div className="nft-history">
+                <h4>Historique</h4>
+                <div className="history-summary">
+                  <div className="history-item">
+                    <span className="history-label">Dernière mise à jour</span>
+                    <span className="history-value">{formatDateShort(new Date(nftMetadata.scoreHistory.lastUpdate))}</span>
+                  </div>
+                  <div className="history-item">
+                    <span className="history-label">Tendance</span>
+                    <span className={`history-value history-trend-${nftMetadata.scoreHistory.trend}`}>
+                      {nftMetadata.scoreHistory.trend === 'up' ? '↑ Hausse' : nftMetadata.scoreHistory.trend === 'down' ? '↓ Baisse' : '→ Stable'}
+                    </span>
+                  </div>
+                  <div className="history-item">
+                    <span className="history-label">Variation</span>
+                    <span className="history-value">{nftMetadata.scoreHistory.change > 0 ? '+' : ''}{nftMetadata.scoreHistory.change} points</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="nft-actions">
+              <button className="btn-primary">Vérifier sur blockchain</button>
+              <button className="btn-secondary">Télécharger métadonnées JSON</button>
             </div>
           </div>
         </div>
-      </div>
-        </>
       )}
 
-      {activeTab === 'breakdown' && (
-        <div className="score-breakdown-enhanced">
-        <h2>Score breakdown by component</h2>
-        <div className="breakdown-grid-enhanced">
-          {Object.entries(scoreBreakdown).map(([key, data]) => (
-            <div key={key} className="breakdown-card">
-              <div className="breakdown-card-header">
-                <div>
-                  <h4>{data.label}</h4>
-                  <div className="breakdown-percentage">{data.percentage}%</div>
-                  {data.weight && (
-                    <div className="breakdown-weight">Pondération: {data.weight}</div>
-                  )}
-                </div>
-                <div className="breakdown-score">
-                  <span className="score-current">{data.value}</span>
-                  <span className="score-max">/{data.max}</span>
-                </div>
-              </div>
-              {data.description && (
-                <p className="breakdown-description">{data.description}</p>
-              )}
-              
-              <div className="breakdown-bar-enhanced">
-                <div 
-                  className="breakdown-fill-enhanced"
-                  style={{ width: `${data.percentage}%` }}
-                />
-              </div>
-
-              <div className="breakdown-details">
-                {data.details.map((detail, index) => (
-                  <div key={index} className="detail-row">
-                    <div className="detail-info">
-                      <div className="detail-name-wrapper">
-                        <span className="detail-name">{detail.label}</span>
-                        {detail.description && (
-                          <span className="detail-tooltip" title={detail.description}>ℹ️</span>
-                        )}
-                      </div>
-                      <span className={`detail-status status-${detail.status}`}>
-                        {detail.status === 'excellent' ? 'Excellent' : 
-                         detail.status === 'good' ? 'Bon' : 'Moyen'}
-                      </span>
-                    </div>
-                    <div className="detail-bar-mini">
-                      <div 
-                        className="detail-bar-fill"
-                        style={{ width: `${detail.value}%` }}
-                      />
-                    </div>
-                    <span className="detail-value">{detail.value}%</span>
-                  </div>
-                ))}
-              </div>
-              {'techniques' in data && data.techniques && (
-                <div className="breakdown-techniques">
-                  <h5>Techniques utilisées :</h5>
-                  <ul>
-                    {data.techniques.map((tech: string, index: number) => (
-                      <li key={index}>{tech}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {'corporateMetrics' in data && data.corporateMetrics && (
-                <div className="breakdown-corporate">
-                  <h5>Métriques Corporate (si applicable) :</h5>
-                  <ul>
-                    {data.corporateMetrics.map((metric: string, index: number) => (
-                      <li key={index}>{metric}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {'assetTypes' in data && data.assetTypes && (
-                <div className="breakdown-asset-types">
-                  <h5>Types d'actifs évalués :</h5>
-                  <ul>
-                    {data.assetTypes.map((type: string, index: number) => (
-                      <li key={index}>{type}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {'factors' in data && data.factors && (
-                <div className="breakdown-factors">
-                  <h5>Facteurs évalués :</h5>
-                  <ul>
-                    {data.factors.map((factor: string, index: number) => (
-                      <li key={index}>{factor}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+      {/* Onglet Partenaires */}
+      {activeTab === 'partners' && (
+        <div className="credit-score-partners">
+          <div className="partners-header">
+            <div>
+              <h2>Plateformes Partenaires</h2>
+              <p>Gérez l'accès de vos partenaires à votre NFT de score via BlockBank</p>
             </div>
-          ))}
-        </div>
-      </div>
-      )}
+            <div className="partners-stats">
+              <div className="stat-item">
+                <span className="stat-value">{partners.filter(p => p.authorized).length}</span>
+                <span className="stat-label">Autorisés</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-value">{partners.reduce((sum, p) => sum + p.accessCount, 0)}</span>
+                <span className="stat-label">Consultations</span>
+              </div>
+            </div>
+          </div>
 
-      {activeTab === 'recommendations' && (
-        <div className="score-recommendations">
-        <h2>Recommendations to improve your score</h2>
-            <div className="recommendations-grid">
-              {recommendations.map((rec, index) => (
-                <div key={index} className={`recommendation-card priority-${rec.priority}`}>
-                  <div className="recommendation-header">
-                    <div className="recommendation-icon">
-                      {rec.priority === 'high' ? '🔥' : rec.priority === 'medium' ? '⚡' : '💡'}
+          <div className="partners-list">
+            {partners.map((partner) => (
+              <div key={partner.platform} className={`partner-card ${partner.authorized ? 'authorized' : ''}`}>
+                <div className="partner-header">
+                  <div className="partner-info">
+                    <h3>{partner.platformName}</h3>
+                    <div className="partner-status">
+                      {partner.authorized ? (
+                        <span className="status-badge authorized">✓ Autorisé</span>
+                      ) : (
+                        <span className="status-badge not-authorized">✗ Non autorisé</span>
+                      )}
                     </div>
-                    <div className="recommendation-impact">{rec.impact}</div>
-                    {rec.category && (
-                      <div className="recommendation-category">{rec.category}</div>
+                  </div>
+                  <div className="partner-stats-mini">
+                    <div className="stat-mini">
+                      <span className="stat-mini-value">{partner.accessCount}</span>
+                      <span className="stat-mini-label">consultations</span>
+                    </div>
+                    {partner.lastAccessed && (
+                      <div className="stat-mini">
+                        <span className="stat-mini-label">Dernière consultation</span>
+                        <span className="stat-mini-value">{formatDateShort(new Date(partner.lastAccessed))}</span>
+                      </div>
                     )}
                   </div>
-                  <h4>{rec.title}</h4>
-                  <p>{rec.description}</p>
-                  {rec.action && (
-                    <button className="btn-secondary btn-small">{rec.action}</button>
+                </div>
+
+                <div className="partner-permissions">
+                  <h4>Permissions actuelles</h4>
+                  <div className="permissions-list">
+                    <div className="permission-item">
+                      <span className={`permission-icon ${partner.permissions.readScore ? 'enabled' : 'disabled'}`}>
+                        {partner.permissions.readScore ? '✓' : '✗'}
+                      </span>
+                      <span>Lecture du score</span>
+                    </div>
+                    <div className="permission-item">
+                      <span className={`permission-icon ${partner.permissions.readMetadata ? 'enabled' : 'disabled'}`}>
+                        {partner.permissions.readMetadata ? '✓' : '✗'}
+                      </span>
+                      <span>Lecture des métadonnées</span>
+                    </div>
+                    <div className="permission-item">
+                      <span className={`permission-icon ${partner.permissions.readFullData ? 'enabled' : 'disabled'}`}>
+                        {partner.permissions.readFullData ? '✓' : '✗'}
+                      </span>
+                      <span>Accès complet</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="partner-actions">
+                  {partner.authorized ? (
+                    <>
+                      <button className="btn-secondary btn-small">Modifier permissions</button>
+                      <button className="btn-danger btn-small">Révoquer l'accès</button>
+                      {partner.apiKey && (
+                        <button className="btn-ghost btn-small">Voir clé API</button>
+                      )}
+                    </>
+                  ) : (
+                    <button className="btn-primary btn-small">Autoriser l'accès</button>
                   )}
                 </div>
-              ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Documentation API */}
+          <div className="partners-api-docs">
+            <h3>Documentation API pour partenaires</h3>
+            <p>Les plateformes partenaires peuvent intégrer votre NFT de score via notre API BlockBank.</p>
+            <div className="api-info">
+              <div className="api-endpoint">
+                <span className="api-method">GET</span>
+                <span className="api-path">/api/credit-score/nft/{'{tokenId}'}</span>
+              </div>
+              <div className="api-endpoint">
+                <span className="api-method">GET</span>
+                <span className="api-path">/api/credit-score/nft/metadata/{'{tokenId}'}</span>
+              </div>
             </div>
+            <button className="btn-secondary">Voir la documentation complète</button>
+          </div>
         </div>
       )}
-
-      {activeTab === 'history' && (
-        <div className="score-history">
-        <h2>Change history</h2>
-        <div className="history-timeline">
-          <div className="history-item">
-            <div className="history-date">Jan 15, 2024</div>
-            <div className="history-content">
-              <div className="history-title">Score updated</div>
-              <div className="history-details">+12 points • On-Chain Behavioral improvement</div>
-            </div>
-            <div className="history-score">750</div>
-          </div>
-          <div className="history-item">
-            <div className="history-date">Jan 1, 2024</div>
-            <div className="history-content">
-              <div className="history-title">New NFT RWA added</div>
-              <div className="history-details">+8 points • Asset-Based improved</div>
-            </div>
-            <div className="history-score">738</div>
-          </div>
-          <div className="history-item">
-            <div className="history-date">Dec 15, 2023</div>
-            <div className="history-content">
-              <div className="history-title">Payment made on time</div>
-              <div className="history-details">+5 points • Reputation improved</div>
-            </div>
-            <div className="history-score">730</div>
-          </div>
-        </div>
-      </div>
-      )}
-
-      {activeTab === 'tokenisation' && (
-        <div className="score-tokenisation">
-        <h2>Tokenisation & NFT de Score</h2>
-        <div className="tokenisation-card">
-          <div className="tokenisation-info">
-            <h3>Soulbound NFT de Score</h3>
-            <p>
-              Votre score est encapsulé dans un <strong>Soulbound NFT</strong> non transférable
-              attaché à l'identité on-chain de votre wallet.
-            </p>
-            <div className="nft-content-list">
-              <h4>Contenu du NFT de score :</h4>
-              <ul>
-                <li>Score global : <strong>{score}/1000</strong></li>
-                <li>Tranche : <strong>{tier}</strong></li>
-                <li>Détails synthétiques : sous-scores A/B/C/D</li>
-                <li>Version du modèle de scoring : <strong>v2.1</strong></li>
-                <li>Timestamp d'émission : <strong>{formatDateShort(new Date())}</strong></li>
-                <li>Validité : <strong>30 jours</strong></li>
-                <li>Hash des données sources (off-chain) pour audit</li>
-                <li>Référence à la vérification KYC / AML</li>
-              </ul>
-            </div>
-            <div className="nft-usage">
-              <h4>Utilisation par les autres modules :</h4>
-              <ul>
-                <li>Les contrats de prêt lisent directement ce NFT pour décider des LTV</li>
-                <li>Les pools d'assurance utilisent le score pour tarifer la prime</li>
-                <li>Qatar et co-investisseurs peuvent auditer anonymement les portefeuilles par distribution de scores</li>
-              </ul>
-              <p className="nft-note">
-                Le NFT joue un rôle de <strong>"passeport de risque"</strong> portable entre
-                différents produits de crédit du protocole.
-              </p>
-            </div>
-          </div>
-          <div className="tokenisation-actions">
-            <button className="btn-primary">Voir mon NFT de score</button>
-            <button className="btn-secondary">Vérifier sur blockchain</button>
-          </div>
-        </div>
-      </div>
-      )}
-
-      {activeTab === 'governance' && (
-        <div className="score-governance">
-        <h2>KPIs, Gouvernance & Auditabilité</h2>
-        <div className="governance-grid">
-          <div className="governance-card">
-            <h3>KPIs de Performance</h3>
-            <div className="kpi-list">
-              <div className="kpi-item">
-                <span className="kpi-label">Taux de défaut par tranche</span>
-                <span className="kpi-value">Tier {tier}: 0.8%</span>
-              </div>
-              <div className="kpi-item">
-                <span className="kpi-label">Loss Given Default réelle vs attendue</span>
-                <span className="kpi-value">-12% (meilleure que prévu)</span>
-              </div>
-              <div className="kpi-item">
-                <span className="kpi-label">Stabilité du score (volatilité)</span>
-                <span className="kpi-value">Faible (2.3 points/mois)</span>
-              </div>
-              <div className="kpi-item">
-                <span className="kpi-label">Taux de migration entre tranches</span>
-                <span className="kpi-value">B → A: 15% des utilisateurs</span>
-              </div>
-              <div className="kpi-item">
-                <span className="kpi-label">Impact macro sur défauts</span>
-                <span className="kpi-value">Corrélation faible avec cycles BTC</span>
-              </div>
-            </div>
-          </div>
-          <div className="governance-card">
-            <h3>Gouvernance & Audits</h3>
-            <div className="governance-list">
-              <div className="governance-item">
-                <span className="governance-icon">✓</span>
-                <div>
-                  <strong>Documentation détaillée</strong>
-                  <p>Modèle de scoring entièrement documenté et versionné</p>
-                </div>
-              </div>
-              <div className="governance-item">
-                <span className="governance-icon">✓</span>
-                <div>
-                  <strong>Audit externe</strong>
-                  <p>Audit régulier par cabinet de risk / Big Four</p>
-                </div>
-              </div>
-              <div className="governance-item">
-                <span className="governance-icon">✓</span>
-                <div>
-                  <strong>Journalisation</strong>
-                  <p>Tous les changements de paramètres (pondérations, cut-offs) sont journalisés</p>
-                </div>
-              </div>
-              <div className="governance-item">
-                <span className="governance-icon">✓</span>
-                <div>
-                  <strong>Backtesting</strong>
-                  <p>Tests récurrents vs base de prêts réalisée</p>
-                </div>
-              </div>
-            </div>
-            <p className="governance-note">
-              Le modèle ne reste pas figé : il est versionné, testé,
-              et ajusté selon la réalité terrain tout en restant stable
-              pour ne pas être arbitraire.
-            </p>
-          </div>
-        </div>
-      </div>
-      )}
-
-      {activeTab === 'tiers' && (
-        <div className="score-all-tiers">
-        <h2>Toutes les tranches de score</h2>
-        <div className="tiers-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Tranche</th>
-                <th>Score</th>
-                <th>LTV max</th>
-                <th>Taux indicatif</th>
-                <th>Montant max</th>
-                <th>Durée max</th>
-                <th>Accès assurance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(tierInfo).map(([tierKey, tierData]) => (
-                <tr key={tierKey} className={tier === tierKey ? 'current-tier' : ''}>
-                  <td>
-                    <span className={`badge-tier tier-${tierKey.toLowerCase().replace('+', 'plus')}`}>
-                      {tierKey}
-                    </span>
-                  </td>
-                  <td>{tierData.scoreRange}</td>
-                  <td>{tierData.ltv}</td>
-                  <td>{tierData.rate}</td>
-                  <td>{tierData.maxAmount}</td>
-                  <td>{tierData.maxDuration || 'N/A'}</td>
-                  <td>{tierData.insurance}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      )}
-
-      {/* Actions - Always visible */}
-      <div className="score-actions-enhanced">
-        <button className="btn-primary">Mettre à jour mon score</button>
-        <button className="btn-secondary">Voir l'historique complet</button>
-        <button className="btn-ghost">Télécharger le rapport PDF</button>
-      </div>
     </div>
   )
 }

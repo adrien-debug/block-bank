@@ -93,6 +93,23 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
 
       {/* NFT Sélectionné */}
       <div className="selected-nft-card">
+        {nft.imageURI && (
+          <div className="selected-nft-image">
+            <img 
+              src={nft.imageURI} 
+              alt={nft.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: 'var(--radius-lg)',
+              }}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          </div>
+        )}
         <div className="selected-nft-info">
           <h3>{nft.name}</h3>
           <p className="nft-type">{nft.assetType}</p>

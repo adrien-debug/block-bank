@@ -542,8 +542,8 @@ export default function NFTAssets() {
               {nft.status === 'available' ? (
                 <>
                   <button 
-                    className="btn-secondary"
-                    style={{ marginBottom: 'var(--space-2)', width: '100%' }}
+                    className="btn-secondary btn-small"
+                    style={{ width: '50%' }}
                     onClick={(e) => {
                       e.stopPropagation()
                       setSelectedNFT(nft)
@@ -552,8 +552,7 @@ export default function NFTAssets() {
                     Voir détails
                   </button>
                   <button 
-                    className="btn-primary"
-                    style={{ width: '100%' }}
+                    className="btn-primary btn-small"
                     onClick={(e) => {
                       e.stopPropagation()
                       // Rediriger vers la création de prêt avec ce NFT
