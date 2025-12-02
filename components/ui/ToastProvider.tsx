@@ -37,15 +37,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     const newToast: ToastMessage = {
       ...toast,
       id,
-      duration,
+      duration: duration, // Toujours défini grâce à ??
     }
     
     setToasts((prev) => [...prev, newToast])
 
-    if (duration > 0) {
+    if (newToast.duration && newToast.duration > 0) {
       setTimeout(() => {
         hideToast(id)
-      }, duration)
+      }, newToast.duration)
     }
   }, [])
 
