@@ -252,8 +252,8 @@ export default function NFTAssets() {
   return (
     <div className="nft-assets-page">
       {/* Header */}
-      <div className="nft-page-header">
-          <div>
+      <div className="page-header">
+        <div>
           <h1>Mes NFT RWA</h1>
           <p className="page-subtitle">Gérez vos actifs réels tokenisés</p>
         </div>

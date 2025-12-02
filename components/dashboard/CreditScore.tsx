@@ -266,14 +266,14 @@ export default function CreditScore() {
 
   return (
     <div className="credit-score-page">
-      <div className="score-page-header">
+      <div className="page-header">
         <div>
-          <h1>My Credit Score</h1>
-          <p className="score-page-subtitle">Transparent and auditable hybrid on-chain/off-chain score</p>
+          <h1>Mon Credit Score</h1>
+          <p className="page-subtitle">Score hybride on-chain/off-chain transparent et auditable</p>
         </div>
         <div className="score-header-actions">
-          <button className="btn-secondary">Export report</button>
-          <button className="btn-primary">Update</button>
+          <button className="btn-secondary">Exporter le rapport</button>
+          <button className="btn-primary">Mettre à jour</button>
         </div>
       </div>
 

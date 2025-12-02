@@ -69,7 +69,7 @@ export default function Explore() {
             <div className="progress-steps">
               <div className="progress-step completed">
                 <div className="step-number">1</div>
-                <div className="step-label">NFT Selection</div>
+                <div className="step-label">Sélection NFT</div>
               </div>
               <div className={`progress-connector ${['profiles', 'validation', 'process'].includes(step || '') ? 'completed' : ''}`}></div>
               
@@ -81,7 +81,7 @@ export default function Explore() {
               
               <div className={`progress-step ${step === 'profiles' ? 'active' : ['validation', 'process'].includes(step || '') ? 'completed' : ''}`}>
                 <div className="step-number">3</div>
-                <div className="step-label">Profiles</div>
+                <div className="step-label">Profils</div>
               </div>
               <div className={`progress-connector ${step === 'process' ? 'completed' : ''}`}></div>
               
@@ -93,7 +93,7 @@ export default function Explore() {
               
               <div className={`progress-step ${step === 'process' ? 'active' : ''}`}>
                 <div className="step-number">5</div>
-                <div className="step-label">Process</div>
+                <div className="step-label">Traitement</div>
               </div>
             </div>
             

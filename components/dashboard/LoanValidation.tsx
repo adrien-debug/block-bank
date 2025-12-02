@@ -46,8 +46,8 @@ export default function LoanValidation({
     <div className="loan-validation-page">
       <div className="page-header">
         <div>
-          <h1>Confirm Your Loan</h1>
-          <p className="page-subtitle">Step 4/5 - Final verification and payment</p>
+          <h1>Confirmez votre prêt</h1>
+          <p className="page-subtitle">Étape 4/5 - Vérification finale et paiement</p>
         </div>
       </div>
 
@@ -57,7 +57,7 @@ export default function LoanValidation({
           <h2>NFT RWA</h2>
           <div className="summary-card">
             <div className="summary-item">
-              <span className="summary-label">Name</span>
+              <span className="summary-label">Nom</span>
               <span className="summary-value">{nft.name}</span>
             </div>
             <div className="summary-item">
@@ -65,7 +65,7 @@ export default function LoanValidation({
               <span className="summary-value">{nft.assetType}</span>
             </div>
             <div className="summary-item">
-              <span className="summary-label">Value</span>
+              <span className="summary-label">Valeur</span>
               <span className="summary-value">{formatCurrency(nft.value)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
@@ -73,25 +73,25 @@ export default function LoanValidation({
               <span className="summary-value">#{nft.tokenId}</span>
             </div>
             <div className="summary-item">
-              <span className="summary-label">Contract</span>
+              <span className="summary-label">Contrat</span>
               <span className="summary-value address">{nft.contractAddress.slice(0, 10)}...{nft.contractAddress.slice(-8)}</span>
             </div>
           </div>
         </div>
 
         <div className="summary-section">
-          <h2>Selected Profile</h2>
+          <h2>Profil sélectionné</h2>
           <div className="summary-card">
             <div className="summary-item">
-              <span className="summary-label">Profile</span>
+              <span className="summary-label">Profil</span>
               <span className="summary-value profile-badge">{profile.profile}</span>
             </div>
             <div className="summary-item">
-              <span className="summary-label">Down Payment</span>
+              <span className="summary-label">Apport</span>
               <span className="summary-value">{formatCurrency(profile.downPayment)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
-              <span className="summary-label">Loan Amount</span>
+              <span className="summary-label">Montant du prêt</span>
               <span className="summary-value">{formatCurrency(profile.loanAmount)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
@@ -99,15 +99,15 @@ export default function LoanValidation({
               <span className="summary-value">{profile.ltv.toFixed(1)}%</span>
             </div>
             <div className="summary-item">
-              <span className="summary-label">APY Rate</span>
+              <span className="summary-label">Taux APY</span>
               <span className="summary-value">{profile.interestRate.toFixed(2)}%</span>
             </div>
             <div className="summary-item">
-              <span className="summary-label">Duration</span>
-              <span className="summary-value">{profile.duration} months</span>
+              <span className="summary-label">Durée</span>
+              <span className="summary-value">{profile.duration} mois</span>
             </div>
             <div className="summary-item highlight">
-              <span className="summary-label">Monthly Payment</span>
+              <span className="summary-label">Mensualité</span>
               <span className="summary-value-large">{formatCurrency(profile.monthlyPayment)} {nft.valueCurrency}</span>
             </div>
           </div>
@@ -118,11 +118,11 @@ export default function LoanValidation({
             <h2>Insurance</h2>
             <div className="summary-card">
               <div className="summary-item">
-                <span className="summary-label">Status</span>
-                <span className="summary-value">{profile.insuranceRequired ? 'Required' : 'Optional'}</span>
+                <span className="summary-label">Statut</span>
+                <span className="summary-value">{profile.insuranceRequired ? 'Requis' : 'Optionnel'}</span>
               </div>
               <div className="summary-item">
-                <span className="summary-label">Annual Premium</span>
+                <span className="summary-label">Prime annuelle</span>
                 <span className="summary-value">{formatCurrency(profile.insurancePremium)} {nft.valueCurrency}</span>
               </div>
             </div>
@@ -133,21 +133,21 @@ export default function LoanValidation({
           <h2>Costs</h2>
           <div className="summary-card">
             <div className="summary-item">
-              <span className="summary-label">Required Down Payment</span>
+              <span className="summary-label">Apport requis</span>
               <span className="summary-value">{formatCurrency(profile.downPayment)} {nft.valueCurrency}</span>
             </div>
             {profile.insurancePremium && (
               <div className="summary-item">
-                <span className="summary-label">Insurance Premium</span>
+                <span className="summary-label">Prime d'assurance</span>
                 <span className="summary-value">{formatCurrency(profile.insurancePremium)} {nft.valueCurrency}</span>
               </div>
             )}
             <div className="summary-item total">
-              <span className="summary-label">Total to pay now</span>
+              <span className="summary-label">Total à payer maintenant</span>
               <span className="summary-value-large">{formatCurrency(totalRequired)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
-              <span className="summary-label">Total loan cost</span>
+              <span className="summary-label">Coût total du prêt</span>
               <span className="summary-value">{formatCurrency(profile.totalCost)} {nft.valueCurrency}</span>
             </div>
           </div>
@@ -157,25 +157,25 @@ export default function LoanValidation({
       {/* Solvency Verification */}
       <div className={`solvency-check ${hasSufficientBalance ? 'sufficient' : 'insufficient'}`}>
         <div className="solvency-header">
-          <h3>Solvency Verification</h3>
+          <h3>Vérification de solvabilité</h3>
           {hasSufficientBalance ? (
-            <span className="solvency-status success">✓ Sufficient</span>
+            <span className="solvency-status success">✓ Suffisant</span>
           ) : (
-            <span className="solvency-status error">✗ Insufficient</span>
+            <span className="solvency-status error">✗ Insuffisant</span>
           )}
         </div>
         <div className="solvency-details">
           <div className="solvency-item">
-            <span>Current wallet balance</span>
+            <span>Solde actuel du wallet</span>
             <span>{formatCurrency(walletBalance)} {nft.valueCurrency}</span>
           </div>
           <div className="solvency-item">
-            <span>Required amount</span>
+            <span>Montant requis</span>
             <span>{formatCurrency(totalRequired)} {nft.valueCurrency}</span>
           </div>
           {!hasSufficientBalance && (
             <div className="solvency-warning">
-              <p>Your balance is insufficient. Please fund your wallet before continuing.</p>
+              <p>Votre solde est insuffisant. Veuillez approvisionner votre wallet avant de continuer.</p>
             </div>
           )}
         </div>
@@ -183,7 +183,7 @@ export default function LoanValidation({
 
       {/* Legal Conditions */}
       <div className="legal-conditions">
-        <h3>Legal Conditions</h3>
+        <h3>Conditions légales</h3>
         <div className="conditions-checkboxes">
           <label className="checkbox-label">
             <input 
@@ -192,15 +192,15 @@ export default function LoanValidation({
               onChange={(e) => setTermsAccepted(e.target.checked)}
             />
             <span>
-              I accept the{' '}
+              J'accepte les{' '}
               <button
                 type="button"
                 className="link-button"
                 onClick={() => setShowTermsModal(true)}
               >
-                terms and conditions
+                conditions générales
               </button>{' '}
-              of BlockBank
+              de BlockBank
             </span>
           </label>
           <label className="checkbox-label">
@@ -209,7 +209,7 @@ export default function LoanValidation({
               checked={risksAccepted}
               onChange={(e) => setRisksAccepted(e.target.checked)}
             />
-            <span>I have read and understood the risks associated with this loan</span>
+            <span>J'ai lu et compris les risques associés à ce prêt</span>
           </label>
         </div>
       </div>
@@ -231,14 +231,14 @@ export default function LoanValidation({
       {/* Actions */}
       <div className="validation-actions">
         <button className="btn-secondary" onClick={onBack}>
-          Back
+          Retour
         </button>
         <button 
           className="btn-primary btn-large"
           onClick={onConfirm}
           disabled={!canProceed}
         >
-          Confirm and Pay
+          Confirmer et payer
         </button>
       </div>
     </div>

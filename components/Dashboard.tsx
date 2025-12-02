@@ -246,14 +246,14 @@ export default function Dashboard() {
                         <svg className="chart-bars-svg" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
                           <defs>
                             <linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                              <stop offset="0%" stopColor="#4B5563" />
+                              <stop offset="0%" stopColor="#111827" />
                               <stop offset="50%" stopColor="#1F2937" />
                               <stop offset="100%" stopColor="#374151" />
                             </linearGradient>
                             <linearGradient id="barGradientHover" x1="0%" y1="0%" x2="0%" y2="100%">
-                              <stop offset="0%" stopColor="#6B7280" />
+                              <stop offset="0%" stopColor="#374151" />
                               <stop offset="50%" stopColor="#4B5563" />
-                              <stop offset="100%" stopColor="#1F2937" />
+                              <stop offset="100%" stopColor="#6B7280" />
                             </linearGradient>
                           </defs>
                           {data.map((value, index) => {
@@ -340,11 +340,11 @@ export default function Dashboard() {
                     {(() => {
                       // Data - All historical data - Couleurs neutres (bleu retiré)
                       const assets = [
-                        { name: 'Real Estate', value: 300000, color: '#374151' }, // Gris foncé
+                        { name: 'Real Estate', value: 300000, color: '#111827' }, // Presque noir
                         { name: 'Mining', value: 150000, color: '#6B7280' }, // Gris moyen
                         { name: 'Infrastructure', value: 500000, color: '#1F2937' }, // Gris très foncé
-                        { name: 'Vehicles', value: 50000, color: '#111827' }, // Presque noir
-                        { name: 'Collectibles', value: 25000, color: '#4B5563' } // Gris
+                        { name: 'Vehicles', value: 50000, color: '#4B5563' }, // Gris foncé
+                        { name: 'Collectibles', value: 25000, color: '#374151' } // Gris moyen-foncé
                       ]
                       const total = assets.reduce((sum, asset) => sum + asset.value, 0)
                       

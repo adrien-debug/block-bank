@@ -50,12 +50,10 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
   return (
     <div className="loan-profiles-page-premium">
       {/* Header Premium */}
-      <div className="profiles-page-header">
-        <div className="profiles-header-content">
-          <div>
-            <h1 className="profiles-title">Choose your loan profile</h1>
-            <p className="profiles-subtitle">3 options adapted to your situation and risk profile</p>
-          </div>
+      <div className="page-header">
+        <div>
+          <h1>Choisissez votre profil de prêt</h1>
+          <p className="page-subtitle">3 options adaptées à votre situation et profil de risque</p>
         </div>
       </div>
 
@@ -70,7 +68,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
             {nft.assetType === 'OTHER' && '📦'}
           </div>
           <div className="nft-reminder-info">
-            <span className="nft-reminder-label">Selected NFT</span>
+            <span className="nft-reminder-label">NFT sélectionné</span>
             <span className="nft-reminder-name">{nft.name}</span>
           </div>
           <div className="nft-reminder-value">
@@ -91,7 +89,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
             {profile.recommended && (
               <div className="profile-recommended-badge-premium">
                 <span className="badge-icon">⭐</span>
-                <span>Recommended</span>
+                <span>Recommandé</span>
               </div>
             )}
             
@@ -115,7 +113,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
             <div className="profile-card-body-premium">
               {/* Down Payment Main */}
               <div className="profile-main-metric-premium">
-                <div className="metric-label-premium">Required down payment</div>
+                <div className="metric-label-premium">Apport requis</div>
                 <div className="metric-value-premium-large">
                   {formatCurrency(profile.downPayment)}
                 </div>
@@ -126,7 +124,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
               {/* Details */}
               <div className="profile-details-premium">
                 <div className="profile-detail-item">
-                  <span className="detail-label-premium">Loan amount</span>
+                  <span className="detail-label-premium">Montant du prêt</span>
                   <span className="detail-value-premium">{formatCurrency(profile.loanAmount)} {nft.valueCurrency}</span>
                 </div>
                 <div className="profile-detail-item">
@@ -134,18 +132,18 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
                   <span className="detail-value-premium">{profile.ltv.toFixed(1)}%</span>
                 </div>
                 <div className="profile-detail-item">
-                  <span className="detail-label-premium">APY Rate</span>
+                  <span className="detail-label-premium">Taux APY</span>
                   <span className="detail-value-premium">{profile.interestRate.toFixed(2)}%</span>
                 </div>
                 <div className="profile-detail-item">
-                  <span className="detail-label-premium">Duration</span>
-                  <span className="detail-value-premium">{profile.duration} months</span>
+                  <span className="detail-label-premium">Durée</span>
+                  <span className="detail-value-premium">{profile.duration} mois</span>
                 </div>
                 
                 <div className="profile-detail-divider"></div>
                 
                 <div className="profile-detail-item highlight-premium">
-                  <span className="detail-label-premium">Monthly payment</span>
+                  <span className="detail-label-premium">Mensualité</span>
                   <span className="detail-value-premium-large">{formatCurrency(profile.monthlyPayment)} {nft.valueCurrency}</span>
                 </div>
                 
@@ -154,7 +152,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
                     <span className="detail-label-premium">Insurance</span>
                     <span className="detail-value-premium">
                       <span className={`insurance-badge ${profile.insuranceRequired ? 'required' : 'optional'}`}>
-                        {profile.insuranceRequired ? 'Required' : 'Optional'}
+                        {profile.insuranceRequired ? 'Requis' : 'Optionnel'}
                       </span>
                       <span className="insurance-premium"> {formatCurrency(profile.insurancePremium)} {nft.valueCurrency}/year</span>
                     </span>
@@ -164,7 +162,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
 
               {/* Total Cost */}
               <div className="profile-total-cost-premium">
-                <div className="total-cost-label-premium">Total cost</div>
+                <div className="total-cost-label-premium">Coût total</div>
                 <div className="total-cost-value-premium">{formatCurrency(profile.totalCost)} {nft.valueCurrency}</div>
               </div>
             </div>
@@ -183,10 +181,10 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
                       <circle cx="10" cy="10" r="9" fill="currentColor" />
                       <path d="M7 10L9 12L13 8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <span>Selected</span>
+                    <span>Sélectionné</span>
                   </>
                 ) : (
-                  <span>Select</span>
+                  <span>Sélectionner</span>
                 )}
               </button>
             </div>
@@ -199,16 +197,16 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
         <div className="recommendation-card-premium">
           <div className="recommendation-icon">💡</div>
           <div className="recommendation-content-premium">
-            <h3 className="recommendation-title">Recommendation</h3>
+            <h3 className="recommendation-title">Recommandation</h3>
             <p className="recommendation-text">
               {selectedProfile?.profile === 'SAFE' && 
-                'The SAFE profile offers the best security with a high down payment and favorable conditions. Ideal if you prioritize stability and risk reduction.'}
+                'Le profil SAFE offre la meilleure sécurité avec un apport élevé et des conditions favorables. Idéal si vous privilégiez la stabilité et la réduction des risques.'}
               {selectedProfile?.profile === 'BALANCED' && 
-                'The BALANCED profile offers the best balance between down payment and leverage. Recommended for most users seeking an optimal compromise.'}
+                'Le profil BALANCED offre le meilleur équilibre entre apport et levier. Recommandé pour la plupart des utilisateurs recherchant un compromis optimal.'}
               {selectedProfile?.profile === 'MAX_LEVERAGE' && 
-                'The MAX LEVERAGE profile maximizes your borrowing capacity but requires mandatory insurance. Ideal if you are confident in your repayment capacity and want to optimize your capital.'}
+                'Le profil MAX LEVERAGE maximise votre capacité d\'emprunt mais nécessite une assurance obligatoire. Idéal si vous êtes confiant dans votre capacité de remboursement et souhaitez optimiser votre capital.'}
               {!selectedProfile && 
-                'Select a profile to see the personalized recommendation based on your selection.'}
+                'Sélectionnez un profil pour voir la recommandation personnalisée basée sur votre choix.'}
             </p>
           </div>
         </div>
@@ -221,7 +219,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
           onClick={handleConfirm}
           disabled={!selectedProfile}
         >
-          {selectedProfile ? 'Confirm and continue' : 'Select a profile'}
+          {selectedProfile ? 'Confirmer et continuer' : 'Sélectionnez un profil'}
         </button>
       </div>
     </div>

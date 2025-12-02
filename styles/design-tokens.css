@@ -3,21 +3,35 @@
      COULEURS - PALETTE PREMIUM BLOCKBANK
      ==================================== */
   
-  /* Primary Colors - Neutres (bleu retiré) */
-  --color-primary-900: #030712;
-  --color-primary-700: #111827;
-  --color-primary-500: #1F2937;
-  --color-primary-400: #4B5563;
-  --color-primary-300: #6B7280;
-  --color-primary-200: #9CA3AF;
-  --color-primary-100: #D1D5DB;
-  --color-primary-50: #F3F4F6;
+  /* PRIMARY COLORS - BlockBank Blue System */
+  --bb-blue: #1A6CFF;
+  --bb-blue-dark: #0F3D91;
   
-  /* BlockBank specific - neutres */
-  --bb-primary: #1F2937;
-  --bb-primary-hover: #111827;
-  --bb-primary-active: #030712;
-  --bb-primary-gradient: linear-gradient(135deg, #1F2937 0%, #4B5563 100%);
+  /* NEUTRALS */
+  --bb-white: #FFFFFF;
+  --bb-grey-100: #F5F7FA;
+  --bb-grey-300: #D7DCE3;
+  
+  /* GRADIENTS */
+  --bb-gradient-primary: linear-gradient(135deg, #1A6CFF 0%, #0F3D91 100%);
+  --bb-gradient-kpi: linear-gradient(180deg, #F5F7FA 0%, #FFFFFF 100%);
+  --bb-gradient-glow: linear-gradient(145deg, #1A6CFF15 0%, #1A6CFF00 100%);
+  
+  /* Primary Colors - Legacy support (mapped to blue) */
+  --color-primary-900: #0F3D91;
+  --color-primary-700: #0F3D91;
+  --color-primary-500: #1A6CFF;
+  --color-primary-400: #1A6CFF;
+  --color-primary-300: #4B8EFF;
+  --color-primary-200: #7BAEFF;
+  --color-primary-100: #B3D4FF;
+  --color-primary-50: #E6F2FF;
+  
+  /* BlockBank specific - Blue System */
+  --bb-primary: var(--bb-blue);
+  --bb-primary-hover: var(--bb-blue-dark);
+  --bb-primary-active: #0F3D91;
+  --bb-primary-gradient: var(--bb-gradient-primary);
   
   /* Accent - gris */
   --color-accent-600: #374151;
@@ -85,6 +99,15 @@
   --text-3xl: clamp(2rem, 1.75rem + 1.25vw, 2.5rem);         /* 32-40px */
   --text-4xl: clamp(2.5rem, 2.15rem + 1.75vw, 3.5rem);       /* 40-56px */
   
+  /* Typography Headings - Fixed sizes for consistency */
+  --text-h1: 48px;
+  --text-h1-large: 64px;
+  --text-h2: 32px;
+  --text-h2-large: 40px;
+  --text-h3: 24px;
+  --text-h3-large: 28px;
+  --text-label: 12px;
+  
   /* Font Weights */
   --font-normal: 400;
   --font-medium: 500;
@@ -134,6 +157,9 @@
   --radius-2xl: 2rem;      /* 32px */
   --radius-full: 9999px;
   
+  /* Card specific radius */
+  --radius-card: 20px;     /* 20px as per design-tokens.json */
+  
   --border-width: 1px;
   --border-width-medium: 1.5px;
   --border-width-thick: 2px;
@@ -178,6 +204,12 @@
   --transition-fast: var(--duration-fast) var(--ease-in-out);
   --transition-normal: var(--duration-normal) var(--ease-in-out);
   --transition-slow: var(--duration-slow) var(--ease-in-out);
+  
+  /* Letter Spacing System */
+  --letter-spacing-h1: 0.12em;
+  --letter-spacing-h2: 0.08em;
+  --letter-spacing-h3: 0.04em;
+  --letter-spacing-body: 0;
   
   /* ====================================
      LAYOUT

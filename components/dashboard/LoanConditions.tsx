@@ -38,8 +38,13 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
     )
     setInsuranceOptions(insurance)
     
-    onConditionsReady(calculatedConditions)
     setLoading(false)
+  }
+
+  const handleContinue = () => {
+    if (conditions) {
+      onConditionsReady(conditions)
+    }
   }
 
   if (loading) {
@@ -205,8 +210,13 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
           ))}
         </div>
       </div>
+
+      {/* Bouton Continuer */}
+      <div className="conditions-actions">
+        <button className="btn-primary btn-large" onClick={handleContinue}>
+          Continuer vers les Profils
+        </button>
+      </div>
     </div>
   )
 }
-
-

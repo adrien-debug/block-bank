@@ -5,6 +5,59 @@
 /* Design tokens are imported via globals.css */
 
 /* ====================================
+   BLOCKBANK — COLOR SYSTEM USAGE RULES
+   ==================================== */
+
+/* HEADERS */
+.header {
+  background: var(--bb-gradient-primary);
+  color: var(--bb-white);
+}
+
+/* BUTTONS */
+.btn-primary {
+  background: var(--bb-blue);
+  color: var(--bb-white);
+  transition: background var(--transition-normal);
+}
+
+.btn-primary:hover {
+  background: var(--bb-blue-dark);
+}
+
+/* CARDS / BOXES */
+.card, .box {
+  background: var(--bb-white);
+  border: 1px solid var(--bb-grey-300);
+  transition: background var(--transition-normal);
+}
+
+.card:hover, .box:hover {
+  background: var(--bb-gradient-glow);
+}
+
+/* KPI BLOCKS */
+.kpi {
+  background: var(--bb-gradient-kpi);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+/* GRAPHIQUES */
+.graph-line-primary { 
+  stroke: var(--bb-blue); 
+}
+
+.graph-line-secondary { 
+  stroke: var(--bb-blue-dark); 
+}
+
+.graph-area-fill {
+  fill: var(--bb-blue);
+  fill-opacity: 0.15;
+}
+
+/* ====================================
    SIDEBAR PREMIUM
    ==================================== */
 
@@ -17,7 +70,7 @@
   background: var(--glass-bg);
   backdrop-filter: var(--glass-backdrop);
   border-right: 1px solid var(--glass-border);
-  padding: var(--space-6);
+  padding: var(--space-4);
   box-shadow: var(--shadow-xl);
   z-index: var(--z-fixed);
   transform: translateX(0);
@@ -120,15 +173,15 @@
 }
 
 .sidebar-toggle-btn:hover {
-  background: var(--color-primary-500);
-  border-color: var(--color-primary-500);
+  background: var(--bb-blue);
+  border-color: var(--bb-blue);
   color: white;
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--space-2);
   flex: 1;
 }
 
@@ -158,7 +211,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background: var(--color-primary-500);
+  background: var(--bb-blue);
   transform: scaleY(0);
   transition: transform var(--transition-normal);
 }
@@ -170,7 +223,7 @@
 }
 
 .nav-item.active {
-  background: var(--color-primary-500);
+  background: var(--bb-blue);
   color: white;
   font-weight: var(--font-semibold);
   box-shadow: var(--shadow-glow-primary);
@@ -264,13 +317,14 @@
 .investor-page h1,
 .insurance-page h1,
 .loans-page h1 {
-  font-size: var(--text-3xl);
+  font-size: var(--text-h1);
   font-weight: var(--font-bold);
   font-family: var(--font-brand);
-  letter-spacing: 0.12em;
+  letter-spacing: var(--letter-spacing-h1);
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
+  line-height: var(--leading-tight);
 }
 
 /* Même wrapper pour tous les headers de page */
@@ -281,7 +335,7 @@
 .explore-page-header .explore-header-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: var(--space-8);
 }
 
@@ -317,14 +371,14 @@
   background: var(--glass-bg);
   backdrop-filter: var(--glass-backdrop);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   padding: var(--space-6);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-6);
 }
 
 .stat-card::before {
@@ -341,8 +395,9 @@
 
 .stat-card:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--color-primary-300);
+  box-shadow: var(--shadow-md);
+  border-color: var(--bb-blue);
+  background: var(--bb-gradient-glow);
 }
 
 .stat-card:hover::before {
@@ -350,7 +405,7 @@
 }
 
 .stat-card-primary::before {
-  color: var(--color-text-primary);
+  color: var(--bb-blue);
 }
 
 .stat-card-success::before {
@@ -394,7 +449,7 @@
 }
 
 .stat-label {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: var(--font-medium);
   color: var(--color-text-secondary);
   font-family: var(--font-ui);
@@ -437,7 +492,8 @@
 }
 
 .stat-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
@@ -483,7 +539,7 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-primary-500), var(--color-primary-400));
+  background: var(--bb-gradient-primary);
   border-radius: var(--radius-full);
   transition: width var(--transition-slow);
   position: relative;
@@ -549,9 +605,9 @@
   background: var(--glass-bg);
   backdrop-filter: var(--glass-backdrop);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
@@ -565,7 +621,7 @@
 
 .chart-card-premium:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
+  box-shadow: var(--shadow-md);
 }
 
 .chart-header-premium {
@@ -615,15 +671,17 @@
 }
 
 .time-filter-btn.active {
-  background: var(--color-primary-500);
-  color: var(--color-text-primary);
-  border-color: var(--color-primary-500);
+  background: var(--bb-blue);
+  color: var(--bb-white);
+  border-color: var(--bb-blue);
 }
 
 .chart-container-premium {
   flex: 1;
   min-height: 300px;
   position: relative;
+  padding: var(--space-4);
+  box-sizing: border-box;
 }
 
 /* Chart Styles - Conservés depuis l'existant */
@@ -653,7 +711,7 @@
   left: -60px;
   top: -10px;
   font-size: var(--text-xs);
-  color: var(--color-chart-axis);
+  color: var(--color-text-secondary);
   font-family: var(--font-mono);
   font-weight: var(--font-medium);
 }
@@ -684,16 +742,16 @@
   width: 10px;
   height: 10px;
   border-radius: var(--radius-full);
-  background: var(--color-primary-500);
+  background: var(--bb-blue);
   border: 3px solid white;
-  box-shadow: 0 0 0 2px rgba(31, 41, 55, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 2px rgba(26, 108, 255, 0.3), 0 4px 12px rgba(26, 108, 255, 0.2);
   transition: all var(--transition-normal);
 }
 
 .chart-point-premium:hover .point-dot-premium {
   transform: scale(1.5);
-  background: var(--color-primary-700); /* Change to darker gray on hover */
-  box-shadow: 0 0 0 4px rgba(31, 41, 55, 0.3), 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: var(--bb-blue-dark);
+  box-shadow: 0 0 0 4px rgba(15, 61, 145, 0.3), 0 6px 20px rgba(15, 61, 145, 0.3);
 }
 
 .point-tooltip-premium {
@@ -735,13 +793,13 @@
 
 /* Change line and points color on hover - change blue to green */
 .chart-container-premium:hover .chart-line-path {
-  stroke: url(#chartLineGradient-hover);
+  stroke: var(--bb-blue-dark);
   transition: stroke var(--transition-normal);
 }
 
 .chart-container-premium:hover .chart-point-premium .point-dot-premium {
-  background: #6B7280;
-  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.3), 0 4px 12px rgba(107, 114, 128, 0.4);
+  background: var(--bb-blue-dark);
+  box-shadow: 0 0 0 2px rgba(15, 61, 145, 0.3), 0 4px 12px rgba(15, 61, 145, 0.4);
 }
 
 /* Bar Chart */
@@ -761,13 +819,13 @@
 }
 
 .chart-bar {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--transition-normal);
   cursor: pointer;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .bar-group {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--transition-normal);
 }
 
 .bar-group:hover {
@@ -789,7 +847,7 @@
   font-weight: 600;
   fill: var(--color-text-primary);
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition-normal);
 }
 
 .bar-labels-container {
@@ -1049,7 +1107,7 @@
   min-width: 24px;
   height: 24px;
   padding: 0 var(--space-2);
-  background: var(--color-primary-500);
+  background: var(--bb-blue);
   color: white;
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
@@ -1191,7 +1249,7 @@
 }
 
 .alert-action {
-  background: var(--color-primary-500);
+  background: var(--bb-blue);
   color: white;
   border: none;
   padding: var(--space-2) var(--space-4);
@@ -1204,7 +1262,7 @@
 }
 
 .alert-action:hover {
-  background: var(--color-primary-400);
+  background: var(--bb-blue-dark);
   transform: scale(1.05);
 }
 

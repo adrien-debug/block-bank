@@ -88,17 +88,15 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
   return (
     <div className="explore-marketplace-page">
       {/* Header Premium */}
-      <div className="explore-page-header">
-        <div className="explore-header-content">
-          <div>
-            <h1 className="explore-title">Explore NFT RWA</h1>
-            <p className="explore-subtitle">Select a tokenized real-world asset to create your loan</p>
-          </div>
-          <div className="explore-stats">
-            <div className="stat-item">
-              <span className="stat-value">{nfts.length}</span>
-              <span className="stat-label">Available NFTs</span>
-            </div>
+      <div className="page-header">
+        <div>
+          <h1>Explore NFT RWA</h1>
+          <p className="page-subtitle">Sélectionnez un actif réel tokenisé pour créer votre prêt</p>
+        </div>
+        <div className="explore-stats">
+          <div className="stat-item">
+            <span className="stat-value">{nfts.length}</span>
+            <span className="stat-label">NFT disponibles</span>
           </div>
         </div>
       </div>
@@ -175,7 +173,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
       {loading ? (
         <div className="explore-loading">
           <div className="loading-spinner-large"></div>
-          <p>Loading NFT RWA...</p>
+          <p>Chargement des NFT RWA...</p>
         </div>
       ) : (
         <div className="explore-nft-grid">
@@ -255,7 +253,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
                     handleSelectNFT(nft)
                   }}
                 >
-                  {selectedNFT?.id === nft.id ? '✓ Selected' : 'Select'}
+                  {selectedNFT?.id === nft.id ? '✓ Sélectionné' : 'Sélectionner'}
                 </button>
               </div>
             </div>
@@ -267,8 +265,8 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
       {!loading && nfts.length === 0 && (
         <div className="explore-empty-state">
           <div className="empty-state-icon">🔍</div>
-          <h3>No NFT found</h3>
-          <p>Try modifying your filters to see more results</p>
+          <h3>Aucun NFT trouvé</h3>
+          <p>Essayez de modifier vos filtres pour voir plus de résultats</p>
         </div>
       )}
     </div>

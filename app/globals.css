@@ -14,15 +14,29 @@
   --color-text-muted: #94A3B8;
   --color-border-default: #E2E8F0;
   
-  /* Primary Colors - Neutres (bleu retiré) */
-  --color-primary-500: #1F2937; /* Couleur primaire principale - gris foncé */
-  --color-primary-400: #4B5563; /* Dégradé primaire - gris moyen */
-  --color-primary-300: #6B7280; /* Dégradé primaire clair - gris clair */
-  --color-primary-700: #111827; /* Hover state - gris très foncé */
-  --color-primary-900: #030712; /* Active state - presque noir */
+  /* PRIMARY COLORS - BlockBank Blue System */
+  --bb-blue: #1A6CFF;
+  --bb-blue-dark: #0F3D91;
   
-  /* Dégradé premium neutre */
-  --bb-primary-gradient: linear-gradient(135deg, #1F2937 0%, #4B5563 100%);
+  /* NEUTRALS */
+  --bb-white: #FFFFFF;
+  --bb-grey-100: #F5F7FA;
+  --bb-grey-300: #D7DCE3;
+  
+  /* GRADIENTS */
+  --bb-gradient-primary: linear-gradient(135deg, #1A6CFF 0%, #0F3D91 100%);
+  --bb-gradient-kpi: linear-gradient(180deg, #F5F7FA 0%, #FFFFFF 100%);
+  --bb-gradient-glow: linear-gradient(145deg, #1A6CFF15 0%, #1A6CFF00 100%);
+  
+  /* Primary Colors - Mapped to BlockBank Blue */
+  --color-primary-500: var(--bb-blue); /* Couleur primaire principale - bleu */
+  --color-primary-400: #4B8EFF; /* Dégradé primaire - bleu moyen */
+  --color-primary-300: #7BAEFF; /* Dégradé primaire clair - bleu clair */
+  --color-primary-700: var(--bb-blue-dark); /* Hover state - bleu foncé */
+  --color-primary-900: #0F3D91; /* Active state - bleu très foncé */
+  
+  /* Dégradé premium bleu */
+  --bb-primary-gradient: var(--bb-gradient-primary);
   
   /* Backgrounds - BlockBank - Couleurs claires */
   --color-bg-deep: #FFFFFF; /* Blanc */
@@ -70,10 +84,10 @@
   --color-error: #4B5563;
   --color-info: #6B7280;
   
-  /* BlockBank specific colors - neutres */
-  --bb-primary: #1F2937;
-  --bb-primary-hover: #111827;
-  --bb-primary-active: #030712;
+  /* BlockBank specific colors - Blue System */
+  --bb-primary: var(--bb-blue);
+  --bb-primary-hover: var(--bb-blue-dark);
+  --bb-primary-active: #0F3D91;
   --bb-border: #DCE7F2;
   --bb-shadow: rgba(0, 0, 0, 0.15);
   
@@ -1166,12 +1180,12 @@ html, body {
 }
 
 .loan-validation-page .page-subtitle {
-  font-size: 11px !important;
+  font-size: var(--text-sm) !important;
   color: var(--color-text-secondary);
   margin-top: var(--space-1);
   font-family: var(--font-ui);
   font-weight: var(--font-normal);
-  line-height: 1.4;
+  line-height: var(--leading-normal);
 }
 
 /* Summary Sections */
@@ -3809,6 +3823,53 @@ html, body {
 }
 
 /* ====================================
+   INPUTS GÉNÉRAUX
+   ==================================== */
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  height: 48px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font-size: var(--text-body);
+  font-family: var(--font-ui);
+  transition: all var(--transition-normal);
+  box-sizing: border-box;
+}
+
+textarea {
+  height: auto;
+  min-height: 48px;
+  resize: vertical;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
+}
+
+/* ====================================
    BOUTONS
    ==================================== */
 
@@ -3817,14 +3878,15 @@ html, body {
   color: var(--color-text-primary);
   border: none;
   padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-medium);
+  border-radius: var(--radius-md);
   font-weight: var(--font-semibold);
   font-size: var(--text-body);
   font-family: var(--font-ui);
   cursor: pointer;
-  transition: var(--transition-normal);
+  transition: all var(--transition-normal);
   box-shadow: var(--shadow-cta);
   height: 48px;
+  line-height: 48px;
   letter-spacing: -0.01em;
   display: inline-flex;
   align-items: center;
@@ -3832,7 +3894,7 @@ html, body {
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--color-primary-300);
+  background: var(--color-primary-400);
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(31, 41, 55, 0.4);
 }
@@ -3846,13 +3908,14 @@ html, body {
   border: var(--border-width-medium) solid var(--color-primary-500);
   color: var(--color-primary-500);
   padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-medium);
+  border-radius: var(--radius-md);
   font-weight: var(--font-semibold);
   font-size: var(--text-body);
   font-family: var(--font-ui);
   cursor: pointer;
-  transition: var(--transition-normal);
+  transition: all var(--transition-normal);
   height: 48px;
+  line-height: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -4117,10 +4180,12 @@ html, body {
 }
 
 .score-page-subtitle {
-  font-size: var(--text-body);
+  font-size: var(--text-sm);
   color: var(--color-text-secondary);
   font-family: var(--font-ui);
+  font-weight: var(--font-normal);
   margin-top: var(--space-2);
+  line-height: var(--leading-normal);
 }
 
 .score-header-actions {
@@ -4679,8 +4744,79 @@ html, body {
 
 .btn-small {
   padding: var(--space-2) var(--space-4);
-  font-size: var(--text-label-large);
-  height: auto;
+  font-size: var(--text-xs);
+  height: 36px;
+  line-height: 36px;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-semibold);
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-small.btn-primary {
+  background: var(--color-primary-500);
+  color: var(--color-text-primary);
+  border: none;
+  box-shadow: var(--shadow-cta);
+}
+
+.btn-small.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-400);
+  transform: translateY(-1px);
+}
+
+.btn-small.btn-secondary {
+  background: transparent;
+  border: var(--border-width-medium) solid var(--color-primary-500);
+  color: var(--color-primary-500);
+}
+
+.btn-small.btn-secondary:hover {
+  background: rgba(31, 41, 55, 0.1);
+  border-color: var(--color-primary-300);
+}
+
+.btn-large {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-base);
+  height: 56px;
+  line-height: 56px;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-semibold);
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-large.btn-primary {
+  background: var(--color-primary-500);
+  color: var(--color-text-primary);
+  border: none;
+  box-shadow: var(--shadow-cta);
+}
+
+.btn-large.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-400);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(31, 41, 55, 0.4);
+}
+
+.btn-large.btn-secondary {
+  background: transparent;
+  border: var(--border-width-medium) solid var(--color-primary-500);
+  color: var(--color-primary-500);
+}
+
+.btn-large.btn-secondary:hover {
+  background: rgba(31, 41, 55, 0.1);
+  border-color: var(--color-primary-300);
 }
 
 .score-history {
@@ -5637,10 +5773,12 @@ html, body {
 }
 
 .page-subtitle {
-  font-size: var(--text-body);
+  font-size: var(--text-sm);
   color: var(--color-text-secondary);
   font-family: var(--font-ui);
+  font-weight: var(--font-normal);
   margin-top: var(--space-2);
+  line-height: var(--leading-normal);
 }
 
 /* Statistiques prêts */
@@ -11064,9 +11202,12 @@ section {
 }
 
 .page-subtitle {
-  font-size: var(--text-body);
+  font-size: var(--text-sm);
   color: var(--color-text-secondary);
+  font-family: var(--font-ui);
+  font-weight: var(--font-normal);
   margin-bottom: var(--space-8);
+  line-height: var(--leading-normal);
 }
 
 /* Statistiques globales */
@@ -13243,11 +13384,12 @@ section {
 }
 
 .page-subtitle {
-  font-size: var(--text-body-large);
+  font-size: var(--text-sm);
   color: var(--color-text-secondary);
   margin-top: var(--space-3);
   font-family: var(--font-ui);
   font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
   line-height: var(--leading-relaxed);
 }
 
