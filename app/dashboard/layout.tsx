@@ -7,7 +7,6 @@ import DashboardIcon from '@/components/icons/DashboardIcon'
 import StarIcon from '@/components/icons/StarIcon'
 import MoneyIcon from '@/components/icons/MoneyIcon'
 import NFTIcon from '@/components/icons/NFTIcon'
-import ShieldIcon from '@/components/icons/ShieldIcon'
 import UserIcon from '@/components/icons/UserIcon'
 import ExploreIcon from '@/components/icons/ExploreIcon'
 import InvestorIcon from '@/components/icons/InvestorIcon'
@@ -111,7 +110,6 @@ export default function DashboardLayout({
     { id: 'credit-score', label: 'Credit Score', icon: StarIcon, href: '/dashboard/credit-score' },
     { id: 'loans', label: 'My Loans', icon: MoneyIcon, href: '/dashboard/loans' },
     { id: 'nft', label: 'NFT RWA', icon: NFTIcon, href: '/dashboard/nft' },
-    { id: 'insurance', label: 'Insurance', icon: ShieldIcon, href: '/dashboard/insurance' },
     { id: 'investor', label: 'Investor', icon: InvestorIcon, href: '/dashboard/investor' },
     { id: 'profile', label: 'Profile', icon: UserIcon, href: '/dashboard/profile' },
     { id: 'terms', label: 'Terms & Conditions', icon: DocumentIcon, href: '/dashboard/terms' },
