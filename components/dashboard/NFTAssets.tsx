@@ -261,7 +261,7 @@ export default function NFTAssets() {
 
       {/* Navigation Menu Horizontal */}
       <div className="nft-nav-menu">
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav horizontal-nav">
           {tabs.map((tab) => {
             const IconComponent = tab.icon
             return (

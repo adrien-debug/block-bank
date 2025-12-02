@@ -254,9 +254,9 @@ export default function Insurance() {
         </button>
       </div>
 
-      {/* Navigation Menu with Dashboard Style */}
+      {/* Navigation Menu Horizontal */}
       <div className="insurance-nav-menu">
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav horizontal-nav">
           {tabs.map((tab) => {
             const IconComponent = tab.icon
             return (
