@@ -312,16 +312,6 @@ export default function CreditScore() {
               {scoreChange > 0 ? '↑' : '↓'} {Math.abs(scoreChange)} points
             </div>
           </div>
-          <div className="score-comparison">
-            <div className="comparison-item">
-              <span className="comparison-label">User average</span>
-              <span className="comparison-value">685</span>
-            </div>
-            <div className="comparison-item">
-              <span className="comparison-label">Top 10%</span>
-              <span className="comparison-value">780+</span>
-            </div>
-          </div>
         </div>
         
         <div className="score-info-enhanced">
@@ -386,24 +376,7 @@ export default function CreditScore() {
           </div>
           <div className="chart-container-enhanced">
             <div className="line-chart-enhanced">
-              {scoreHistory.all.map((value, index, array) => {
-                const maxValue = Math.max(...array)
-                const minValue = Math.min(...array)
-                const range = maxValue - minValue
-                const percentage = ((value - minValue) / range) * 100
-                const left = (index / (array.length - 1)) * 100
-                
-                return (
-                  <div key={index} className="chart-point-enhanced" style={{ 
-                    left: `${left}%`,
-                    bottom: `${percentage}%`
-                  }}>
-                    <div className="point-tooltip">{value}</div>
-                    <div className="point-dot-enhanced"></div>
-                  </div>
-                )
-              })}
-              <svg className="chart-line-enhanced" viewBox="0 0 1000 300">
+              <svg className="chart-line-enhanced" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMid meet" style={{ filter: 'drop-shadow(0 2px 4px rgba(15, 23, 42, 0.08))' }}>
                 <defs>
                   <linearGradient id="scoreLineGradient-all" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="#2563EB" />
@@ -416,34 +389,78 @@ export default function CreditScore() {
                     <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
                   </linearGradient>
                 </defs>
-                <path 
-                  d={`M ${scoreHistory.all.map((value, index, array) => {
+                {(() => {
+                  const points = scoreHistory.all.map((value, index, array) => {
                     const maxValue = Math.max(...array)
                     const minValue = Math.min(...array)
                     const range = maxValue - minValue
                     const percentage = ((value - minValue) / range) * 100
                     const x = (index / (array.length - 1)) * 1000
                     const y = 300 - (percentage / 100) * 300
-                    return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
-                  }).join(' ')}`}
-                  stroke="url(#scoreLineGradient-all)"
-                  fill="none"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path 
-                  d={`M ${scoreHistory.all.map((value, index, array) => {
-                    const maxValue = Math.max(...array)
-                    const minValue = Math.min(...array)
-                    const range = maxValue - minValue
-                    const percentage = ((value - minValue) / range) * 100
-                    const x = (index / (array.length - 1)) * 1000
-                    const y = 300 - (percentage / 100) * 300
-                    return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
-                  }).join(' ')} L 1000 300 L 0 300 Z`}
-                  fill="url(#scoreGradient-all)"
-                />
+                    return { x, y }
+                  })
+                  
+                  // Créer une courbe de Bézier lisse
+                  const createSmoothPath = (points: { x: number; y: number }[]) => {
+                    if (points.length < 2) return ''
+                    
+                    let path = `M ${points[0].x} ${points[0].y}`
+                    
+                    for (let i = 0; i < points.length - 1; i++) {
+                      const current = points[i]
+                      const next = points[i + 1]
+                      const afterNext = points[i + 2]
+                      
+                      let cp1x, cp1y, cp2x, cp2y
+                      
+                      if (i === 0) {
+                        // Premier point
+                        cp1x = current.x + (next.x - current.x) / 3
+                        cp1y = current.y
+                        cp2x = next.x - (afterNext ? (afterNext.x - current.x) / 3 : (next.x - current.x) / 3)
+                        cp2y = next.y
+                      } else if (i === points.length - 2) {
+                        // Dernier point
+                        const prev = points[i - 1]
+                        cp1x = current.x + (next.x - prev.x) / 3
+                        cp1y = current.y + (next.y - prev.y) / 3
+                        cp2x = next.x - (next.x - current.x) / 3
+                        cp2y = next.y
+                      } else {
+                        // Points intermédiaires
+                        const prev = points[i - 1]
+                        cp1x = current.x + (next.x - prev.x) / 3
+                        cp1y = current.y + (next.y - prev.y) / 3
+                        cp2x = next.x - (afterNext.x - current.x) / 3
+                        cp2y = next.y - (afterNext.y - current.y) / 3
+                      }
+                      
+                      path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${next.x} ${next.y}`
+                    }
+                    
+                    return path
+                  }
+                  
+                  const smoothPath = createSmoothPath(points)
+                  const areaPath = smoothPath + ` L 1000 300 L 0 300 Z`
+                  
+                  return (
+                    <>
+                      <path 
+                        d={areaPath}
+                        fill="url(#scoreGradient-all)"
+                      />
+                      <path 
+                        d={smoothPath}
+                        stroke="url(#scoreLineGradient-all)"
+                        fill="none"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </>
+                  )
+                })()}
               </svg>
             </div>
           </div>

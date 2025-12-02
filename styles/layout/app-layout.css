@@ -147,7 +147,7 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
   font-size: 14px;
   font-weight: var(--font-bold);
   font-family: var(--font-brand);
@@ -157,25 +157,27 @@
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3),
                0 0 20px rgba(59, 130, 246, 0.4);
   position: relative;
-  padding: 8px 12px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0;
+  background: transparent;
+  border: none;
   transition: all var(--transition-normal);
 }
 
 .logo:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
 }
 
 .logo svg {
   flex-shrink: 0;
+  width: 48px;
+  height: 48px;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))
           drop-shadow(0 0 12px rgba(59, 130, 246, 0.5));
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo:hover svg {
+  transform: scale(1.05);
 }
 
 .logo-text {

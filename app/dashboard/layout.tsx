@@ -101,9 +101,23 @@ export default function DashboardLayout({
 
   // Déterminer l'onglet actif basé sur le pathname
   const getActiveTab = () => {
+    // Si on est exactement sur /dashboard, retourner dashboard
     if (pathname === '/dashboard') return 'dashboard'
-    const tab = tabs.find(tab => pathname === tab.href || pathname.startsWith(tab.href + '/'))
-    return tab?.id || 'dashboard'
+    
+    // Chercher le tab qui correspond au pathname
+    // On trie par longueur de href (du plus long au plus court) pour éviter les matches partiels
+    const sortedTabs = [...tabs].sort((a, b) => b.href.length - a.href.length)
+    
+    // Chercher d'abord une correspondance exacte
+    const exactMatch = sortedTabs.find(tab => pathname === tab.href)
+    if (exactMatch) return exactMatch.id
+    
+    // Ensuite chercher si le pathname commence par le href du tab
+    const prefixMatch = sortedTabs.find(tab => pathname.startsWith(tab.href + '/') || pathname.startsWith(tab.href))
+    if (prefixMatch) return prefixMatch.id
+    
+    // Par défaut, retourner dashboard
+    return 'dashboard'
   }
 
   const handleWalletConnect = (addr: string) => {
