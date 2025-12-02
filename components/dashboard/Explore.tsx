@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import MarketplaceNFT from './MarketplaceNFT'
 import LoanConditions from './LoanConditions'
 import LoanProfiles from './LoanProfiles'
@@ -18,18 +18,6 @@ export default function Explore() {
   const [selectedProfile, setSelectedProfile] = useState<LoanProfileOption | null>(null)
   const [isTransitioning, setIsTransitioning] = useState(false)
 
-  // Scroll vers le haut à chaque changement de section (1→2, 2→3, 3→4, 4→5)
-  useEffect(() => {
-    if (step && step !== 'marketplace') {
-      // Scroll immédiat vers le haut
-      window.scrollTo({ top: 0, behavior: 'auto' })
-      // Scroll smooth après un court délai pour s'assurer que le contenu est rendu
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }, 200)
-    }
-  }, [step])
-  
   // User data (mock - en production depuis API/context)
   const creditScore = 750
   const creditTier = calculateCreditTier(creditScore)
@@ -43,32 +31,18 @@ export default function Explore() {
   }
 
   const handleNFTSelected = (nft: NFTRWA) => {
-    // Scroll vers le haut avant la transition (section 1→2)
-    window.scrollTo({ top: 0, behavior: 'auto' })
     transitionToStep('conditions')
     setTimeout(() => {
       setSelectedNFT(nft)
       setStep('conditions')
-      // Scroll vers le haut après le changement d'étape
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }, 50)
     }, 150)
   }
 
   const handleConditionsReady = (conditions: LoanConditionsType) => {
-    // Scroll immédiat vers le haut avant la transition
-    window.scrollTo({ top: 0, behavior: 'auto' })
     transitionToStep('profiles')
     setTimeout(() => {
       setLoanConditions(conditions)
       setStep('profiles')
-      // Scroll vers le haut après le changement d'étape
-      window.scrollTo({ top: 0, behavior: 'auto' })
-      // Scroll smooth après un court délai pour s'assurer
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }, 50)
     }, 150)
   }
 
@@ -86,17 +60,9 @@ export default function Explore() {
 
   const handleProfileContinue = () => {
     if (selectedProfile) {
-      // Scroll immédiat vers le haut avant la transition
-      window.scrollTo({ top: 0, behavior: 'auto' })
       transitionToStep('validation')
       setTimeout(() => {
         setStep('validation')
-        // Scroll vers le haut après le changement d'étape
-        window.scrollTo({ top: 0, behavior: 'auto' })
-        // Scroll smooth après un court délai pour s'assurer
-        setTimeout(() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' })
-        }, 50)
       }, 150)
     }
   }
@@ -110,15 +76,9 @@ export default function Explore() {
   }
 
   const handleValidationConfirm = () => {
-    // Scroll vers le haut avant la transition (section 4→5)
-    window.scrollTo({ top: 0, behavior: 'auto' })
     transitionToStep('process')
     setTimeout(() => {
       setStep('process')
-      // Scroll vers le haut après le changement d'étape
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }, 50)
     }, 150)
   }
 
