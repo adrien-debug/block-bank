@@ -13,6 +13,7 @@ interface SidebarItem {
 
 interface SidebarProps {
   items: SidebarItem[]
+  footerItems?: SidebarItem[]
   activeItem: string
   onItemClick?: (id: string) => void
   isOpen: boolean
@@ -23,6 +24,7 @@ interface SidebarProps {
 
 export default function Sidebar({
   items,
+  footerItems = [],
   activeItem,
   onItemClick,
   isOpen,
@@ -112,6 +114,77 @@ export default function Sidebar({
             )
           })}
         </nav>
+        
+        {/* Items de footer (Profile, Terms & Conditions) */}
+        {footerItems.length > 0 && (
+          <nav className="sidebar-nav sidebar-nav-footer" aria-label="Navigation footer">
+            {footerItems.map((item) => {
+              const IconComponent = item.icon
+              const isActive = activeItem === item.id
+              const href = item.href || `#${item.id}`
+
+              // Si href est fourni, utiliser Link, sinon utiliser button
+              if (item.href) {
+                return (
+                  <Link
+                    key={item.id}
+                    href={href}
+                    className={`nav-item ${isActive ? 'active' : ''}`}
+                    aria-current={isActive ? 'page' : undefined}
+                    aria-label={item.label}
+                    onClick={() => {
+                      if (isMobile) {
+                        onToggle()
+                      }
+                      if (onItemClick) {
+                        onItemClick(item.id)
+                      }
+                    }}
+                  >
+                    <span className="nav-icon">
+                      <IconComponent />
+                    </span>
+                    <span className="nav-label">{item.label}</span>
+                    {isActive && <span className="nav-indicator" aria-hidden="true" />}
+                  </Link>
+                )
+              }
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    if (onItemClick) {
+                      onItemClick(item.id)
+                    }
+                  }}
+                  className={`nav-item ${isActive ? 'active' : ''}`}
+                  aria-current={isActive ? 'page' : undefined}
+                  aria-label={item.label}
+                >
+                  <span className="nav-icon">
+                    <IconComponent />
+                  </span>
+                  <span className="nav-label">{item.label}</span>
+                  {isActive && <span className="nav-indicator" aria-hidden="true" />}
+                </button>
+              )
+            })}
+          </nav>
+        )}
+        
+        {/* Footer du sidebar */}
+        <footer className="sidebar-footer">
+          <div className="sidebar-footer-content">
+            <div className="sidebar-footer-text">
+              <p className="sidebar-footer-title">Block Bank</p>
+              <p className="sidebar-footer-subtitle">Infrastructure de crédit on-chain</p>
+            </div>
+            <div className="sidebar-footer-version">
+              <span>v1.0.0</span>
+            </div>
+          </div>
+        </footer>
       </aside>
     </>
   )

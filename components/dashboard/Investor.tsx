@@ -73,21 +73,22 @@ export default function Investor() {
   const [showWithdrawModal, setShowWithdrawModal] = useState(false)
   const [selectedInvestment, setSelectedInvestment] = useState<Investment | null>(null)
 
+  // Pools regroupés par token pour affichage institutionnel
   const pools: Pool[] = [
     {
-      id: 'POOL-001',
-      name: 'Primary Pool USDC',
+      id: 'POOL-USDC',
+      name: 'Liquidity Pool USDC',
       type: 'PRIMARY',
       token: 'USDC',
-      totalLiquidity: 2500000,
-      availableLiquidity: 850000,
-      totalInvestors: 342,
+      totalLiquidity: 4500000,
+      availableLiquidity: 1650000,
+      totalInvestors: 642,
       tranches: [
         {
           type: 'SENIOR',
           apy: 8.5,
-          totalLiquidity: 1500000,
-          availableLiquidity: 500000,
+          totalLiquidity: 2500000,
+          availableLiquidity: 750000,
           minDeposit: 10000,
           riskLevel: 'low',
           description: 'Tranche senior sécurisée, faible probabilité de perte',
@@ -96,8 +97,8 @@ export default function Investor() {
         {
           type: 'MEZZANINE',
           apy: 12.5,
-          totalLiquidity: 800000,
-          availableLiquidity: 300000,
+          totalLiquidity: 1500000,
+          availableLiquidity: 650000,
           minDeposit: 5000,
           riskLevel: 'medium',
           description: 'Rendement supérieur avec risque modéré',
@@ -106,35 +107,35 @@ export default function Investor() {
         {
           type: 'JUNIOR',
           apy: 18.0,
-          totalLiquidity: 200000,
-          availableLiquidity: 50000,
+          totalLiquidity: 500000,
+          availableLiquidity: 250000,
           minDeposit: 1000,
           riskLevel: 'high',
           description: 'Capture maximale des primes, encaisse premières pertes',
           lossAbsorption: 100,
         },
       ],
-      description: 'Pool institutionnel pour financement de prêts immobiliers avec garanties NFT RWA',
+      description: 'Pool institutionnel pour financement de prêts avec garanties NFT RWA',
       createdAt: '2023-06-01',
-      utilizationRate: 66,
-      totalLoansFunded: 45,
+      utilizationRate: 63,
+      totalLoansFunded: 78,
       defaultRate: 2.1,
       contractAddress: '0x1234...5678',
     },
     {
-      id: 'POOL-002',
-      name: 'Risk Pool USDT',
-      type: 'RISK',
+      id: 'POOL-USDT',
+      name: 'Liquidity Pool USDT',
+      type: 'PRIMARY',
       token: 'USDT',
-      totalLiquidity: 1800000,
-      availableLiquidity: 420000,
-      totalInvestors: 198,
+      totalLiquidity: 3200000,
+      availableLiquidity: 920000,
+      totalInvestors: 398,
       tranches: [
         {
           type: 'SENIOR',
           apy: 9.0,
-          totalLiquidity: 1000000,
-          availableLiquidity: 250000,
+          totalLiquidity: 1800000,
+          availableLiquidity: 520000,
           minDeposit: 10000,
           riskLevel: 'low',
           description: 'Tranche senior sécurisée',
@@ -143,8 +144,8 @@ export default function Investor() {
         {
           type: 'MEZZANINE',
           apy: 13.5,
-          totalLiquidity: 600000,
-          availableLiquidity: 150000,
+          totalLiquidity: 1100000,
+          availableLiquidity: 320000,
           minDeposit: 5000,
           riskLevel: 'medium',
           description: 'Rendement équilibré',
@@ -153,35 +154,35 @@ export default function Investor() {
         {
           type: 'JUNIOR',
           apy: 20.5,
-          totalLiquidity: 200000,
-          availableLiquidity: 20000,
+          totalLiquidity: 300000,
+          availableLiquidity: 80000,
           minDeposit: 1000,
           riskLevel: 'high',
           description: 'Rendement élevé, premières pertes',
           lossAbsorption: 100,
         },
       ],
-      description: 'Pool DeFi pour projets de mining Bitcoin avec collatéralisation',
+      description: 'Pool institutionnel pour financement de projets avec collatéralisation',
       createdAt: '2023-08-15',
-      utilizationRate: 77,
-      totalLoansFunded: 32,
-      defaultRate: 3.5,
+      utilizationRate: 71,
+      totalLoansFunded: 52,
+      defaultRate: 2.8,
       contractAddress: '0xabcd...efgh',
     },
     {
-      id: 'POOL-003',
-      name: 'Primary Pool DAI',
+      id: 'POOL-DAI',
+      name: 'Liquidity Pool DAI',
       type: 'PRIMARY',
       token: 'DAI',
-      totalLiquidity: 3200000,
-      availableLiquidity: 1100000,
+      totalLiquidity: 3800000,
+      availableLiquidity: 1400000,
       totalInvestors: 507,
       tranches: [
         {
           type: 'SENIOR',
           apy: 7.5,
-          totalLiquidity: 2000000,
-          availableLiquidity: 700000,
+          totalLiquidity: 2400000,
+          availableLiquidity: 900000,
           minDeposit: 10000,
           riskLevel: 'low',
           description: 'Tranche senior très sécurisée',
@@ -190,8 +191,8 @@ export default function Investor() {
         {
           type: 'MEZZANINE',
           apy: 11.8,
-          totalLiquidity: 1000000,
-          availableLiquidity: 350000,
+          totalLiquidity: 1200000,
+          availableLiquidity: 450000,
           minDeposit: 5000,
           riskLevel: 'medium',
           description: 'Rendement modéré',
@@ -208,10 +209,10 @@ export default function Investor() {
           lossAbsorption: 100,
         },
       ],
-      description: 'Pool pour financement de prêts à moyen terme',
+      description: 'Pool institutionnel pour financement de prêts à moyen terme',
       createdAt: '2023-09-20',
-      utilizationRate: 66,
-      totalLoansFunded: 58,
+      utilizationRate: 63,
+      totalLoansFunded: 68,
       defaultRate: 1.8,
       contractAddress: '0x9876...5432',
     },
@@ -354,7 +355,6 @@ export default function Investor() {
         <div>
           <div className="investor-header-top">
             <h1>Investisseur</h1>
-            <span className="qatar-badge">Q-MAY Look</span>
           </div>
           <p className="page-subtitle">Financez les pools de liquidité et générez des rendements avec APY</p>
         </div>
@@ -381,46 +381,38 @@ export default function Investor() {
         </nav>
       </div>
 
-      {/* Statistiques globales */}
-      <div className="investor-stats">
-        <div className="investor-stat-card">
-          <div className="stat-icon">
-            <MoneyBagIcon />
+      {/* Tableau de liquidité - Design premium symétrique */}
+      <div className="liquidity-table-premium">
+        <div className="liquidity-table-row-premium">
+          <div className="liquidity-card-premium">
+            <div className="liquidity-card-header-premium">
+              <MoneyBagIcon className="liquidity-icon-premium" />
+              <span className="liquidity-label-premium">Total Liquidity</span>
+            </div>
+            <div className="liquidity-value-premium">{formatNumber(stats.totalTVL)}</div>
           </div>
-          <div className="stat-info">
-            <div className="stat-label">Total TVL</div>
-            <div className="stat-value">{formatNumber(stats.totalTVL)} USDC</div>
-            <div className="stat-subtitle">Disponible: {formatNumber(stats.totalAvailable)} USDC</div>
-          </div>
-        </div>
-        <div className="investor-stat-card">
-          <div className="stat-icon">
-            <ChartUpIcon />
-          </div>
-          <div className="stat-info">
-            <div className="stat-label">APY Moyen</div>
-            <div className="stat-value">{stats.averageAPY.toFixed(2)}%</div>
-            <div className="stat-subtitle">Tous pools confondus</div>
+          <div className="liquidity-card-premium">
+            <div className="liquidity-card-header-premium">
+              <MoneyIcon className="liquidity-icon-premium" />
+              <span className="liquidity-label-premium">Available</span>
+            </div>
+            <div className="liquidity-value-premium">{formatNumber(stats.totalAvailable)}</div>
           </div>
         </div>
-        <div className="investor-stat-card">
-          <div className="stat-icon">
-            <UsersIcon />
+        <div className="liquidity-table-row-premium">
+          <div className="liquidity-card-premium">
+            <div className="liquidity-card-header-premium">
+              <ChartUpIcon className="liquidity-icon-premium" />
+              <span className="liquidity-label-premium">APY Moyen Pondéré</span>
+            </div>
+            <div className="liquidity-value-premium">{stats.averageAPY.toFixed(2)}%</div>
           </div>
-          <div className="stat-info">
-            <div className="stat-label">Investisseurs actifs</div>
-            <div className="stat-value">{stats.totalInvestors}</div>
-            <div className="stat-subtitle">Sur {pools.length} pools</div>
-          </div>
-        </div>
-        <div className="investor-stat-card">
-          <div className="stat-icon">
-            <MoneyIcon />
-          </div>
-          <div className="stat-info">
-            <div className="stat-label">Mes investissements</div>
-            <div className="stat-value">{formatNumber(stats.totalInvested)} USDC</div>
-            <div className="stat-subtitle">Rendements: {formatNumber(stats.totalEarned)} USDC</div>
+          <div className="liquidity-card-premium">
+            <div className="liquidity-card-header-premium">
+              <UsersIcon className="liquidity-icon-premium" />
+              <span className="liquidity-label-premium">Investisseurs Actifs</span>
+            </div>
+            <div className="liquidity-value-premium">{stats.totalInvestors}</div>
           </div>
         </div>
       </div>
@@ -428,79 +420,111 @@ export default function Investor() {
       {activeTab === 'pools' && (
         <div className="pools-section">
           <div className="pools-section-header">
-            <h2 className="section-title">Available Funding Pool</h2>
-            <span className="section-subtitle-inline"> - Explorez et investissez dans les pools de liquidité disponibles</span>
+            <h2 className="section-title">Pools de Liquidité Institutionnels</h2>
+            <span className="section-subtitle-inline"> - Investissez selon votre profil de risque avec des rendements compétitifs</span>
           </div>
-          <div className="pools-vertical-grid">
-            {pools.map((pool) => (
-              <div key={pool.id} className="pool-card-full-width">
-                <div className="pool-card-header">
-                  <div className="pool-header-top">
-                    <h3>{pool.name}</h3>
-                    <span className="pool-type-badge">{getPoolTypeLabel(pool.type)}</span>
-                  </div>
-                  <div className="pool-token-badge">
-                    {pool.token === 'USDC' ? (
-                      <>
-                        <MoneyIcon className="token-icon" />
-                        <span>{pool.token}</span>
-                      </>
-                    ) : pool.token === 'USDT' ? (
-                      <>
-                        <DollarIcon className="token-icon" />
-                        <span>{pool.token}</span>
-                      </>
-                    ) : (
-                      <>
-                        <CreditCardIcon className="token-icon" />
-                        <span>{pool.token}</span>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                <div className="pool-main-stats">
-                  <div className="pool-main-stat">
-                    <span className="pool-main-label">Liquidité totale</span>
-                    <span className="pool-main-value">{formatNumber(pool.totalLiquidity)} {pool.token}</span>
-                  </div>
-                  <div className="pool-main-stat highlight">
-                    <span className="pool-main-label">Disponible</span>
-                    <span className="pool-main-value">{formatNumber(pool.availableLiquidity)} {pool.token}</span>
-                  </div>
-                </div>
-
-                {/* Menu horizontal des tranches */}
-                <div className="pool-tranches-menu">
-                  <div className="tranches-menu-horizontal">
-                    {pool.tranches.map((tranche, idx) => (
-                      <button
-                        key={idx}
-                        className="tranche-menu-item"
-                        onClick={() => handleDeposit(pool, tranche.type)}
-                        disabled={tranche.availableLiquidity === 0}
-                      >
-                        <div className="tranche-menu-header">
-                          <span className="tranche-menu-type">{getTrancheLabel(tranche.type)}</span>
-                          <span className="tranche-menu-apy">{tranche.apy}% APY</span>
+          
+          {/* Pools groupés par token */}
+          <div className="pools-by-token">
+            {pools.map((pool) => {
+              // Calculer l'APY moyen pondéré pour ce pool
+              const totalPoolLiquidity = pool.tranches.reduce((sum, t) => sum + t.totalLiquidity, 0)
+              const weightedAPY = pool.tranches.reduce((sum, t) => {
+                return sum + (t.apy * (t.totalLiquidity / totalPoolLiquidity))
+              }, 0)
+              
+              return (
+                <div key={pool.id} className="pool-token-card">
+                  <div className="pool-token-header">
+                    <div className="pool-token-title">
+                      {pool.token === 'USDC' ? (
+                        <MoneyIcon className="token-icon-large" />
+                      ) : pool.token === 'USDT' ? (
+                        <DollarIcon className="token-icon-large" />
+                      ) : (
+                        <CreditCardIcon className="token-icon-large" />
+                      )}
+                      <div>
+                        <h3>
+                          <span className="pool-token-badge-title">{pool.token}</span> Liquidity Pool
+                        </h3>
+                        <div className="pool-token-meta">
+                          <span>TVL: {formatNumber(pool.totalLiquidity)} {pool.token}</span>
+                          <span>•</span>
+                          <span>APY Moyen: {weightedAPY.toFixed(2)}%</span>
+                          <span>•</span>
+                          <span>{pool.totalInvestors} investisseurs</span>
                         </div>
-                        <div className="tranche-menu-info">
-                          <span className="tranche-menu-available">
-                            Disponible: {formatNumber(tranche.availableLiquidity)} {pool.token}
-                          </span>
-                          <span 
-                            className="tranche-menu-risk" 
-                            style={{ color: getRiskColor(tranche.riskLevel) }}
+                      </div>
+                    </div>
+                    <div className="pool-token-available">
+                      <span className="available-label">Disponible</span>
+                      <span className="available-value">{formatNumber(pool.availableLiquidity)} {pool.token}</span>
+                    </div>
+                  </div>
+
+                  {/* Tranches en format institutionnel */}
+                  <div className="pool-tranches-institutional">
+                    {pool.tranches
+                      .sort((a, b) => {
+                        // Trier: Senior, Mezzanine, Junior
+                        const order = { 'SENIOR': 1, 'MEZZANINE': 2, 'JUNIOR': 3 }
+                        return order[a.type] - order[b.type]
+                      })
+                      .map((tranche) => (
+                        <div key={tranche.type} className="tranche-card-institutional">
+                          <div className="tranche-header-institutional">
+                            <div className="tranche-title-section">
+                              <span className="tranche-label-institutional">{getTrancheLabel(tranche.type)}</span>
+                              <span className="tranche-apy-institutional">{tranche.apy}% APY</span>
+                            </div>
+                            <span 
+                              className="tranche-risk-badge" 
+                              style={{ 
+                                backgroundColor: getRiskColor(tranche.riskLevel) + '20',
+                                color: getRiskColor(tranche.riskLevel)
+                              }}
+                            >
+                              {getRiskLabel(tranche.riskLevel)}
+                            </span>
+                          </div>
+                          
+                          {/* Symétrie Liquidité Totale / Disponible */}
+                          <div className="tranche-liquidity-symmetric">
+                            <div className="tranche-liquidity-card">
+                              <div className="tranche-liquidity-label">Total Liquidity</div>
+                              <div className="tranche-liquidity-value">{formatNumber(tranche.totalLiquidity)} {pool.token}</div>
+                            </div>
+                            <div className="tranche-liquidity-card available">
+                              <div className="tranche-liquidity-label">Available</div>
+                              <div className="tranche-liquidity-value">{formatNumber(tranche.availableLiquidity)} {pool.token}</div>
+                            </div>
+                          </div>
+
+                          <div className="tranche-stats-institutional">
+                            <div className="tranche-stat-item">
+                              <span className="tranche-stat-label">Dépôt minimum</span>
+                              <span className="tranche-stat-value">{formatNumber(tranche.minDeposit)} {pool.token}</span>
+                            </div>
+                            <div className="tranche-stat-item">
+                              <span className="tranche-stat-label">Absorption pertes</span>
+                              <span className="tranche-stat-value">{tranche.lossAbsorption}%</span>
+                            </div>
+                          </div>
+
+                          <button
+                            className="btn-primary tranche-invest-btn"
+                            onClick={() => handleDeposit(pool, tranche.type)}
+                            disabled={tranche.availableLiquidity === 0}
                           >
-                            {getRiskLabel(tranche.riskLevel)}
-                          </span>
+                            Investir dans {getTrancheLabel(tranche.type)}
+                          </button>
                         </div>
-                      </button>
-                    ))}
+                      ))}
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       )}

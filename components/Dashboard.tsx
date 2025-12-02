@@ -111,7 +111,7 @@ export default function Dashboard() {
     'All': [600, 620, 640, 660, 680, 700, 720, 735, 745, 748, 750]
   }
 
-  const tabs = [
+  const mainTabs = [
     { id: 'dashboard' as Tab, label: 'Dashboard', icon: DashboardIcon },
     { id: 'explore' as Tab, label: 'Explore', icon: ExploreIcon },
     { id: 'credit-score' as Tab, label: 'Credit Score', icon: StarIcon },
@@ -119,6 +119,9 @@ export default function Dashboard() {
     { id: 'nft' as Tab, label: 'NFT RWA', icon: NFTIcon },
     { id: 'insurance' as Tab, label: 'Insurance', icon: ShieldIcon },
     { id: 'investor' as Tab, label: 'Investor', icon: InvestorIcon },
+  ]
+
+  const footerTabs = [
     { id: 'profile' as Tab, label: 'Profile', icon: UserIcon },
     { id: 'terms' as Tab, label: 'Terms & Conditions', icon: DocumentIcon },
   ]
@@ -127,7 +130,12 @@ export default function Dashboard() {
     <div className="dashboard">
       {/* Menu latéral */}
       <Sidebar
-        items={tabs.map(tab => ({
+        items={mainTabs.map(tab => ({
+          id: tab.id,
+          label: tab.label,
+          icon: tab.icon,
+        }))}
+        footerItems={footerTabs.map(tab => ({
           id: tab.id,
           label: tab.label,
           icon: tab.icon,
