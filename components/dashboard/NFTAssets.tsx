@@ -459,7 +459,12 @@ export default function NFTAssets() {
             <div className="nft-card-preview">
               {nft.imageURI ? (
                 <>
-                  <div className="nft-preview-image">
+                  <div 
+                    className="nft-preview-image"
+                    style={{
+                      '--nft-image-bg': `url(${nft.imageURI})`
+                    } as React.CSSProperties}
+                  >
                     <img 
                       src={nft.imageURI} 
                       alt={nft.name}

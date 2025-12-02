@@ -5947,16 +5947,19 @@
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .nft-marketplace-badge-premium {
   padding: 4px 12px;
-  background: var(--bb-gradient-primary);
-  color: var(--bb-white);
+  background: linear-gradient(135deg, var(--bb-grey-200) 0%, var(--bb-grey-300) 100%);
+  color: var(--bb-grey-800);
   border-radius: var(--radius-sm);
   font-size: 12px;
   font-weight: var(--font-semibold);
   font-family: var(--font-ui);
+  border: 1px solid var(--bb-grey-300);
 }
 
 .nft-risk-badge-premium {
@@ -5965,29 +5968,37 @@
   font-size: 12px;
   font-weight: var(--font-semibold);
   font-family: var(--font-ui);
+  background: linear-gradient(135deg, var(--bb-grey-200) 0%, var(--bb-grey-300) 100%);
+  color: var(--bb-grey-800);
+  border: 1px solid var(--bb-grey-300);
 }
 
 .nft-risk-badge-premium.risk-badge-safe {
-  background: var(--color-success-bg);
-  color: var(--color-success);
+  background: linear-gradient(135deg, var(--bb-grey-200) 0%, var(--bb-grey-300) 100%);
+  color: var(--bb-grey-800);
+  border: 1px solid var(--bb-grey-300);
 }
 
 .nft-risk-badge-premium.risk-badge-moderate {
-  background: var(--color-warning-bg);
-  color: var(--color-warning);
+  background: linear-gradient(135deg, var(--bb-grey-300) 0%, var(--bb-grey-400) 100%);
+  color: var(--bb-grey-800);
+  border: 1px solid var(--bb-grey-400);
 }
 
 .nft-risk-badge-premium.risk-badge-risky {
-  background: var(--color-error-bg);
-  color: var(--color-error);
+  background: linear-gradient(135deg, var(--bb-grey-400) 0%, var(--bb-grey-500) 100%);
+  color: var(--bb-grey-900);
+  border: 1px solid var(--bb-grey-500);
 }
 
 .nft-card-preview {
   position: relative;
   width: 100%;
-  height: 150px;
-  border-radius: var(--radius-md);
+  height: 200px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  background: var(--bb-grey-100);
+  border: 2px solid var(--bb-grey-200);
 }
 
 .nft-preview-image {
@@ -5995,6 +6006,22 @@
   height: 100%;
   position: relative;
   overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.nft-preview-image::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background-image: var(--nft-image-bg);
+  background-size: cover;
+  background-position: center;
+  filter: blur(20px) brightness(1.2) saturate(1.4);
+  z-index: 0;
+  opacity: 0.7;
 }
 
 .nft-preview-image img {
@@ -6002,6 +6029,10 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .nft-card-preview:hover .nft-preview-image img {
@@ -6022,7 +6053,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bb-gradient-primary);
+  background: linear-gradient(135deg, var(--bb-grey-200) 0%, var(--bb-grey-300) 100%);
+  border-radius: var(--radius-lg);
 }
 
 .nft-preview-icon {
@@ -6075,12 +6107,14 @@
   padding: var(--space-4);
   background: var(--bb-grey-100);
   border-radius: var(--radius-md);
+  text-align: center;
 }
 
 .value-main {
   display: flex;
   align-items: baseline;
   gap: var(--space-2);
+  justify-content: center;
 }
 
 .value-amount-premium {
@@ -6092,8 +6126,9 @@
 
 .value-currency-premium {
   font-size: var(--text-body);
-  color: var(--color-text-secondary);
+  color: var(--bb-blue-medium);
   font-family: var(--font-ui);
+  font-weight: var(--font-semibold);
 }
 
 .nft-card-meta {
@@ -6138,18 +6173,18 @@
 .nft-card-footer .btn-primary {
   width: 50%;
   text-align: center;
-  padding: 6px 12px;
+  padding: 8px 12px;
   font-size: var(--text-xs);
 }
 
 .nft-card-footer .btn-primary.btn-small {
-  padding: 6px 12px;
+  padding: 8px 12px;
   font-size: var(--text-xs);
 }
 
 .btn-select-nft {
   width: 50%;
-  padding: 6px 12px;
+  padding: 8px 12px;
   background: var(--bb-gradient-button);
   color: var(--bb-white);
   border: none;
@@ -11496,12 +11531,12 @@
 
 .nft-detail-marketplace-badge {
   padding: var(--space-2) var(--space-4);
-  background: rgba(59, 130, 246, 0.2);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, var(--bb-grey-600) 0%, var(--bb-grey-700) 100%);
+  border: 1px solid var(--bb-grey-700);
   border-radius: var(--radius-full);
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
-  color: #3B82F6;
+  color: var(--bb-white);
   font-family: var(--font-ui);
 }
 
@@ -11514,21 +11549,21 @@
 }
 
 .nft-detail-risk-badge.risk-badge-safe {
-  background: rgba(16, 185, 129, 0.2);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  color: #10B981;
+  background: linear-gradient(135deg, var(--bb-grey-500) 0%, var(--bb-grey-600) 100%);
+  border: 1px solid var(--bb-grey-600);
+  color: var(--bb-white);
 }
 
 .nft-detail-risk-badge.risk-badge-moderate {
-  background: rgba(245, 158, 11, 0.2);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  color: #F59E0B;
+  background: linear-gradient(135deg, var(--bb-grey-600) 0%, var(--bb-grey-700) 100%);
+  border: 1px solid var(--bb-grey-700);
+  color: var(--bb-white);
 }
 
 .nft-detail-risk-badge.risk-badge-risky {
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #EF4444;
+  background: linear-gradient(135deg, var(--bb-grey-700) 0%, var(--bb-grey-800) 100%);
+  border: 1px solid var(--bb-grey-800);
+  color: var(--bb-white);
 }
 
 .nft-detail-section-premium {
