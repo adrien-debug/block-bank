@@ -128,20 +128,18 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
         </select>
 
         {/* Bouton pour afficher/masquer les filtres avancés */}
-        <div style={{ width: '100%', flexBasis: '100%', order: 998 }}>
-          <button 
-            className="btn-toggle-filters"
-            onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-            aria-expanded={showAdvancedFilters}
-            type="button"
-          >
-            {showAdvancedFilters ? '▼ Moins de filtres' : '▶ Plus de filtres'}
-          </button>
-        </div>
+        <button 
+          className="btn-toggle-filters"
+          onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+          aria-expanded={showAdvancedFilters}
+          type="button"
+        >
+          {showAdvancedFilters ? '▼ Moins de filtres' : '▶ Plus de filtres'}
+        </button>
 
         {/* Filtres avancés dans un menu déroulant */}
         {showAdvancedFilters && (
-          <div className="filters-dropdown" style={{ width: '100%', flexBasis: '100%', order: 999 }}>
+          <div className="filters-dropdown">
             <div className="filters-dropdown-content">
               <div className="filter-group">
                 <label className="filter-label">Valeur min (USDC)</label>

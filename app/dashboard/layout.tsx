@@ -37,6 +37,18 @@ export default function DashboardLayout({
   const router = useRouter()
   const [address, setAddress] = useState<string | null>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [kClickCount, setKClickCount] = useState(0)
+  const [showL, setShowL] = useState(false)
+
+  useEffect(() => {
+    if (showL) {
+      const timer = setTimeout(() => {
+        setShowL(false)
+      }, 10000) // 10 secondes
+
+      return () => clearTimeout(timer)
+    }
+  }, [showL])
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -119,6 +131,15 @@ export default function DashboardLayout({
   return (
     <div className="app">
       <header className="app-header">
+        {showL && (
+          <div className="brazil-flag-animation">
+            <div className="brazil-flag">
+              <div className="flag-green"></div>
+              <div className="flag-yellow"></div>
+              <div className="flag-blue-circle"></div>
+            </div>
+          </div>
+        )}
         <div className="header-content">
           <div className="header-left">
             <button 
@@ -133,7 +154,24 @@ export default function DashboardLayout({
             </button>
             <div className="logo">
               <Logo />
-              <span className="logo-text">Block. Bank.</span>
+              <span className="logo-text">
+                <span className={`letter-b ${showL ? 'letter-b-glow' : ''}`}>B</span><span className="letter-white">lock</span><span className={`letter-b ${showL ? 'letter-b-glow' : ''}`}>B</span><span className="letter-white">an</span>
+                <span 
+                  className="letter-white letter-k"
+                  onClick={() => {
+                    const newCount = kClickCount + 1
+                    setKClickCount(newCount)
+                    if (newCount >= 5) {
+                      setShowL(true)
+                      setKClickCount(0)
+                    }
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  k
+                </span>
+                {showL && <span className="letter-l">L</span>}
+              </span>
             </div>
           </div>
           <WalletConnect 

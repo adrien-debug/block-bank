@@ -6,6 +6,9 @@ import WalletIcon from '../icons/WalletIcon'
 import ShieldIcon from '../icons/ShieldIcon'
 import LightBulbIcon from '../icons/LightBulbIcon'
 import UserIcon from '../icons/UserIcon'
+import CreditCardIcon from '../icons/CreditCardIcon'
+import StarIcon from '../icons/StarIcon'
+import ChartIcon from '../icons/ChartIcon'
 
 declare global {
   interface Window {
@@ -32,144 +35,165 @@ export default function Profile() {
   }, [])
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <div>
-          <h1>Mon Profil</h1>
-          <p className="page-subtitle">Gérez vos informations personnelles et vos paramètres</p>
-        </div>
-      </div>
-
-      <div className="profile-sections-grid">
-        {/* Section Wallet Information */}
-        <div className="profile-section-card">
-          <div className="profile-section-header">
-            <div className="profile-section-icon">
-              <WalletIcon />
-            </div>
-            <h2 className="section-title">Informations Wallet</h2>
-          </div>
-          <div className="profile-card-content">
-            <div className="profile-info-item">
-              <span className="profile-info-label">Adresse</span>
-              <span className="profile-info-value">
-                {address ? formatAddress(address) : 'Non connecté'}
-              </span>
-            </div>
-            <div className="profile-info-item">
-              <span className="profile-info-label">Réseau</span>
-              <span className="profile-info-value">Ethereum Mainnet</span>
-            </div>
-            {address && (
-              <div className="profile-info-item">
-                <span className="profile-info-label">Statut</span>
-                <span className="profile-info-value status-connected">● Connecté</span>
+    <div className="profile-page-container">
+      <div className="profile-two-boxes-grid">
+        {/* Boîte 1 : Informations du compte */}
+        <div className="profile-main-card">
+          <div className="profile-card-header">
+            <div className="profile-card-header-left">
+              <div className="profile-card-icon">
+                <UserIcon />
               </div>
-            )}
-          </div>
-        </div>
-
-        {/* Section KYC Information */}
-        <div className="profile-section-card">
-          <div className="profile-section-header">
-            <div className="profile-section-icon">
-              <ShieldIcon />
-            </div>
-            <h2 className="section-title">Vérification KYC</h2>
-          </div>
-          <div className="profile-card-content">
-            <div className="kyc-status-card">
-              <div className="kyc-status-header">
-                <span className="kyc-badge verified">
-                  <ShieldIcon className="kyc-badge-icon" />
-                  Vérifié
-                </span>
-                <span className="kyc-date">Vérifié le 15 Jan 2024</span>
+              <div>
+                <h2 className="profile-card-title">Informations du compte</h2>
+                <p className="profile-card-subtitle">Détails de votre compte et wallet</p>
               </div>
-              <p className="kyc-description">
-                Votre identité a été vérifiée et validée. Vous pouvez accéder à tous les services de la plateforme.
-              </p>
-              <button className="btn-secondary">Mettre à jour</button>
             </div>
           </div>
-        </div>
-
-        {/* Section Settings */}
-        <div className="profile-section-card">
-          <div className="profile-section-header">
-            <div className="profile-section-icon">
-              <LightBulbIcon />
-            </div>
-            <h2 className="section-title">Paramètres</h2>
-          </div>
-          <div className="profile-card-content">
-            <div className="settings-list">
-              <div className="setting-item">
-                <div className="setting-item-content">
-                  <span className="setting-label">Notifications email</span>
-                  <span className="setting-description">Recevoir des notifications par email</span>
+          <div className="profile-card-body">
+            {/* Wallet Information */}
+            <div className="profile-section-group">
+              <h3 className="profile-section-group-title">
+                <WalletIcon />
+                Informations Wallet
+              </h3>
+              <div className="profile-detail-row">
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">Adresse</span>
+                  <span className="profile-detail-value address">
+                    {address ? formatAddress(address) : 'Non connecté'}
+                  </span>
                 </div>
-                <label className="toggle-switch">
+              </div>
+              <div className="profile-detail-row">
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">Réseau</span>
+                  <span className="profile-detail-value">Ethereum Mainnet</span>
+                </div>
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">Statut</span>
+                  <span className="profile-detail-value status-connected">
+                    <span className="status-indicator"></span>
+                    Connecté
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* KYC Information */}
+            <div className="profile-section-group">
+              <h3 className="profile-section-group-title">
+                <ShieldIcon />
+                Vérification KYC
+              </h3>
+              <div className="profile-kyc-status">
+                <div className="profile-kyc-badge-large">
+                  <ShieldIcon />
+                  <div>
+                    <span className="profile-kyc-badge-title">Vérification Complète</span>
+                    <span className="profile-kyc-badge-date">Vérifié le 15 Jan 2024</span>
+                  </div>
+                </div>
+                <p className="profile-kyc-description">
+                  Votre identité a été vérifiée et validée. Vous pouvez accéder à tous les services de la plateforme.
+                </p>
+                <button className="profile-btn-secondary">Mettre à jour les documents</button>
+              </div>
+            </div>
+
+            {/* Account Info */}
+            <div className="profile-section-group">
+              <h3 className="profile-section-group-title">
+                <CreditCardIcon />
+                Détails du compte
+              </h3>
+              <div className="profile-detail-row">
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">Membre depuis</span>
+                  <span className="profile-detail-value">Janvier 2024</span>
+                </div>
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">Type de compte</span>
+                  <span className="profile-detail-value">Premium</span>
+                </div>
+              </div>
+              <div className="profile-detail-row">
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">Niveau de vérification</span>
+                  <span className="profile-detail-value">Niveau 2 (KYC complet)</span>
+                </div>
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">Limite de crédit</span>
+                  <span className="profile-detail-value highlight">500,000 USDC</span>
+                </div>
+              </div>
+              <div className="profile-detail-row">
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">Score de crédit</span>
+                  <span className="profile-detail-value">850</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Boîte 2 : Paramètres */}
+        <div className="profile-main-card">
+          <div className="profile-card-header">
+            <div className="profile-card-header-left">
+              <div className="profile-card-icon">
+                <LightBulbIcon />
+              </div>
+              <div>
+                <h2 className="profile-card-title">Paramètres</h2>
+                <p className="profile-card-subtitle">Gérez vos préférences et notifications</p>
+              </div>
+            </div>
+          </div>
+          <div className="profile-card-body">
+            <div className="profile-settings-list">
+              <div className="profile-setting-item">
+                <div className="profile-setting-content">
+                  <span className="profile-setting-label">Notifications email</span>
+                  <span className="profile-setting-description">Recevoir des notifications par email</span>
+                </div>
+                <label className="profile-toggle-switch">
                   <input
                     type="checkbox"
                     checked={emailNotifications}
                     onChange={(e) => setEmailNotifications(e.target.checked)}
                   />
-                  <span className="toggle-slider"></span>
+                  <span className="profile-toggle-slider"></span>
                 </label>
               </div>
-              <div className="setting-item">
-                <div className="setting-item-content">
-                  <span className="setting-label">Notifications push</span>
-                  <span className="setting-description">Recevoir des notifications push</span>
+              <div className="profile-setting-item">
+                <div className="profile-setting-content">
+                  <span className="profile-setting-label">Notifications push</span>
+                  <span className="profile-setting-description">Recevoir des notifications push</span>
                 </div>
-                <label className="toggle-switch">
+                <label className="profile-toggle-switch">
                   <input
                     type="checkbox"
                     checked={pushNotifications}
                     onChange={(e) => setPushNotifications(e.target.checked)}
                   />
-                  <span className="toggle-slider"></span>
+                  <span className="profile-toggle-slider"></span>
                 </label>
               </div>
-              <div className="setting-item">
-                <div className="setting-item-content">
-                  <span className="setting-label">Mode sombre</span>
-                  <span className="setting-description">Activer le thème sombre</span>
+              <div className="profile-setting-item">
+                <div className="profile-setting-content">
+                  <span className="profile-setting-label">Mode sombre</span>
+                  <span className="profile-setting-description">Activer le thème sombre</span>
                 </div>
-                <label className="toggle-switch">
+                <label className="profile-toggle-switch">
                   <input
                     type="checkbox"
                     checked={darkMode}
                     onChange={(e) => setDarkMode(e.target.checked)}
                   />
-                  <span className="toggle-slider"></span>
+                  <span className="profile-toggle-slider"></span>
                 </label>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Section Account Info */}
-        <div className="profile-section-card">
-          <div className="profile-section-header">
-            <div className="profile-section-icon">
-              <UserIcon />
-            </div>
-            <h2 className="section-title">Informations du compte</h2>
-          </div>
-          <div className="profile-card-content">
-            <div className="profile-info-item">
-              <span className="profile-info-label">Membre depuis</span>
-              <span className="profile-info-value">Janvier 2024</span>
-            </div>
-            <div className="profile-info-item">
-              <span className="profile-info-label">Niveau de vérification</span>
-              <span className="profile-info-value">Niveau 2 (KYC complet)</span>
-            </div>
-            <div className="profile-info-item">
-              <span className="profile-info-label">Limite de crédit</span>
-              <span className="profile-info-value highlight">500,000 USDC</span>
             </div>
           </div>
         </div>

@@ -209,27 +209,7 @@ export default function Loans() {
         </button>
       </div>
 
-      {/* Statistiques résumées */}
-      <div className="page-grid-4">
-        <div className="stat-card-page">
-          <div className="stat-label-page">Prêts actifs</div>
-          <div className="stat-value-page">{stats.totalActive}</div>
-        </div>
-        <div className="stat-card-page">
-          <div className="stat-label-page">Montant total emprunté</div>
-          <div className="stat-value-page">{formatNumber(stats.totalBorrowed)} USDC</div>
-        </div>
-        <div className="stat-card-page">
-          <div className="stat-label-page">Solde restant</div>
-          <div className="stat-value-page">{formatNumber(stats.totalRemaining)} USDC</div>
-        </div>
-        <div className="stat-card-page">
-          <div className="stat-label-page">Prochain paiement total</div>
-          <div className="stat-value-page">{formatNumber(stats.nextPaymentTotal)} USDC</div>
-        </div>
-      </div>
-
-      {/* Filtres */}
+      {/* Filtres - Au-dessus de tout */}
       <div className="loans-filters">
         <div className="filter-group">
           <button 
@@ -256,6 +236,26 @@ export default function Loans() {
           >
             En défaut
           </button>
+        </div>
+      </div>
+
+      {/* Statistiques résumées */}
+      <div className="page-grid-4">
+        <div className="stat-card-page">
+          <div className="stat-label-page">Prêts actifs</div>
+          <div className="stat-value-page">{stats.totalActive}</div>
+        </div>
+        <div className="stat-card-page">
+          <div className="stat-label-page">Montant total emprunté</div>
+          <div className="stat-value-page">{formatNumber(stats.totalBorrowed)} USDC</div>
+        </div>
+        <div className="stat-card-page">
+          <div className="stat-label-page">Solde restant</div>
+          <div className="stat-value-page">{formatNumber(stats.totalRemaining)} USDC</div>
+        </div>
+        <div className="stat-card-page">
+          <div className="stat-label-page">Prochain paiement total</div>
+          <div className="stat-value-page">{formatNumber(stats.nextPaymentTotal)} USDC</div>
         </div>
       </div>
 
