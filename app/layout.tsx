@@ -24,6 +24,32 @@ import { Providers } from './providers'
 export const metadata: Metadata = {
   title: 'Block Bank - Credit Banking On-Chain',
   description: 'Infrastructure de crédit on-chain pour actifs réels & mining Bitcoin',
+  openGraph: {
+    title: 'Block Bank - Credit Banking On-Chain',
+    description: 'Infrastructure de crédit on-chain pour actifs réels & mining Bitcoin',
+    url: 'https://blockbank.app',
+    siteName: 'Block Bank',
+    images: [
+      {
+        url: '/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Block Bank - Credit Banking On-Chain',
+      },
+    ],
+    locale: 'fr_FR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Block Bank - Credit Banking On-Chain',
+    description: 'Infrastructure de crédit on-chain pour actifs réels & mining Bitcoin',
+    images: ['/og-image.svg'],
+  },
+  icons: {
+    icon: '/og-image.svg',
+    apple: '/og-image.svg',
+  },
 }
 
 export default function RootLayout({
