@@ -408,3 +408,424 @@
   }
 }
 
+/* ====================================
+   PIC1 HEADER ANIMATION
+   ==================================== */
+
+.pic1-header-animation {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  animation: pic1HeaderPass 4s ease-in-out forwards;
+  pointer-events: none;
+}
+
+.pic1-header-duplicate {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.header-content-duplicate {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  position: relative;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.logo-duplicate {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+.pic1-image-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.9;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.pic1-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(1.05) contrast(1.1) saturate(1.15);
+}
+
+@keyframes pic1HeaderPass {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 0;
+  }
+  100% {
+    left: 100%;
+    animation-fill-mode: forwards;
+  }
+}
+
+/* ====================================
+   BRAZIL PARTY MODE - SAMBA TIME!
+   ==================================== */
+
+.brazil-party-mode {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Étoiles qui tombent */
+.falling-stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10001;
+  overflow: hidden;
+}
+
+.falling-star {
+  position: absolute;
+  font-size: 24px;
+  animation: starFall linear infinite;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+}
+
+@keyframes starFall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(100vh + 100px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Animation des boutons - Couleurs Brésil */
+.brazil-party-mode button,
+.brazil-party-mode .btn-primary,
+.brazil-party-mode .btn-secondary,
+.brazil-party-mode .btn-select-nft,
+.brazil-party-mode .btn-connect-wallet {
+  animation: brazilButtonDance 0.6s ease-in-out infinite alternate !important;
+  background: linear-gradient(135deg, #009739 0%, #FEDD00 50%, #009739 100%) !important;
+  background-size: 200% 200% !important;
+  box-shadow: 
+    0 0 20px rgba(0, 151, 57, 0.6),
+    0 0 40px rgba(254, 221, 0, 0.4),
+    0 0 60px rgba(0, 151, 57, 0.3) !important;
+  border: 2px solid #FEDD00 !important;
+  transform-origin: center;
+}
+
+@keyframes brazilButtonDance {
+  0% {
+    transform: scale(1) rotate(-2deg);
+    background-position: 0% 50%;
+  }
+  50% {
+    transform: scale(1.05) rotate(0deg);
+    background-position: 100% 50%;
+  }
+  100% {
+    transform: scale(1) rotate(2deg);
+    background-position: 0% 50%;
+  }
+}
+
+/* Animation des graphiques */
+.brazil-party-mode canvas,
+.brazil-party-mode svg,
+.brazil-party-mode .chart-container,
+.brazil-party-mode .chart-card,
+.brazil-party-mode [class*="chart"] {
+  animation: brazilChartSpin 3s linear infinite !important;
+  filter: 
+    drop-shadow(0 0 10px rgba(0, 151, 57, 0.8))
+    drop-shadow(0 0 20px rgba(254, 221, 0, 0.6))
+    brightness(1.2) saturate(1.3) !important;
+}
+
+@keyframes brazilChartSpin {
+  0% {
+    transform: rotate(0deg) scale(1);
+    filter: 
+      drop-shadow(0 0 10px rgba(0, 151, 57, 0.8))
+      drop-shadow(0 0 20px rgba(254, 221, 0, 0.6))
+      brightness(1.2) saturate(1.3);
+  }
+  25% {
+    transform: rotate(1deg) scale(1.02);
+    filter: 
+      drop-shadow(0 0 15px rgba(0, 151, 57, 1))
+      drop-shadow(0 0 25px rgba(254, 221, 0, 0.8))
+      brightness(1.3) saturate(1.4);
+  }
+  50% {
+    transform: rotate(0deg) scale(1);
+    filter: 
+      drop-shadow(0 0 10px rgba(0, 151, 57, 0.8))
+      drop-shadow(0 0 20px rgba(254, 221, 0, 0.6))
+      brightness(1.2) saturate(1.3);
+  }
+  75% {
+    transform: rotate(-1deg) scale(1.02);
+    filter: 
+      drop-shadow(0 0 15px rgba(0, 151, 57, 1))
+      drop-shadow(0 0 25px rgba(254, 221, 0, 0.8))
+      brightness(1.3) saturate(1.4);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+    filter: 
+      drop-shadow(0 0 10px rgba(0, 151, 57, 0.8))
+      drop-shadow(0 0 20px rgba(254, 221, 0, 0.6))
+      brightness(1.2) saturate(1.3);
+  }
+}
+
+/* Animation des cartes et éléments interactifs */
+.brazil-party-mode .card,
+.brazil-party-mode [class*="card"],
+.brazil-party-mode .stat-card,
+.brazil-party-mode .nft-card {
+  animation: brazilCardPulse 1.5s ease-in-out infinite !important;
+  border: 2px solid transparent !important;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, #009739, #FEDD00, #009739) border-box !important;
+  background-size: 200% 200% !important;
+}
+
+@keyframes brazilCardPulse {
+  0%, 100% {
+    transform: scale(1);
+    background-position: 0% 50%;
+    box-shadow: 
+      0 4px 12px rgba(0, 151, 57, 0.3),
+      0 0 20px rgba(254, 221, 0, 0.2);
+  }
+  50% {
+    transform: scale(1.02);
+    background-position: 100% 50%;
+    box-shadow: 
+      0 8px 24px rgba(0, 151, 57, 0.5),
+      0 0 30px rgba(254, 221, 0, 0.4);
+  }
+}
+
+/* Animation des icônes */
+.brazil-party-mode svg[class*="icon"],
+.brazil-party-mode [class*="icon"] {
+  animation: brazilIconSpin 2s ease-in-out infinite !important;
+  filter: drop-shadow(0 0 8px rgba(254, 221, 0, 0.8)) !important;
+}
+
+@keyframes brazilIconSpin {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(5deg) scale(1.1);
+  }
+  50% {
+    transform: rotate(0deg) scale(1);
+  }
+  75% {
+    transform: rotate(-5deg) scale(1.1);
+  }
+}
+
+/* Effet de clignotement néon */
+.brazil-party-mode .logo-text,
+.brazil-party-mode h1,
+.brazil-party-mode h2,
+.brazil-party-mode h3 {
+  animation: brazilTextGlow 1s ease-in-out infinite alternate !important;
+  text-shadow: 
+    0 0 10px rgba(0, 151, 57, 0.8),
+    0 0 20px rgba(254, 221, 0, 0.6),
+    0 0 30px rgba(0, 151, 57, 0.4) !important;
+}
+
+@keyframes brazilTextGlow {
+  0% {
+    filter: brightness(1) saturate(1);
+    text-shadow: 
+      0 0 10px rgba(0, 151, 57, 0.8),
+      0 0 20px rgba(254, 221, 0, 0.6),
+      0 0 30px rgba(0, 151, 57, 0.4);
+  }
+  100% {
+    filter: brightness(1.3) saturate(1.5);
+    text-shadow: 
+      0 0 15px rgba(0, 151, 57, 1),
+      0 0 30px rgba(254, 221, 0, 0.9),
+      0 0 45px rgba(0, 151, 57, 0.6);
+  }
+}
+
+/* Animation du header */
+.brazil-party-mode .app-header {
+  animation: brazilHeaderDance 2s ease-in-out infinite !important;
+  background: linear-gradient(135deg, #009739 0%, #FEDD00 25%, #009739 50%, #FEDD00 75%, #009739 100%) !important;
+  background-size: 200% 200% !important;
+  box-shadow: 
+    0 0 30px rgba(0, 151, 57, 0.6),
+    0 0 60px rgba(254, 221, 0, 0.4),
+    inset 0 0 20px rgba(255, 255, 255, 0.2) !important;
+}
+
+@keyframes brazilHeaderDance {
+  0%, 100% {
+    background-position: 0% 50%;
+    transform: translateY(0);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: translateY(-2px);
+  }
+}
+
+/* Effet de particules confettis */
+.brazil-party-mode::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(0, 151, 57, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(254, 221, 0, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(0, 151, 57, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 60% 20%, rgba(254, 221, 0, 0.2) 0%, transparent 50%);
+  animation: brazilConfetti 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: overlay;
+}
+
+@keyframes brazilConfetti {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+/* ====================================
+   PIC1 POPUPS PARTOUT
+   ==================================== */
+
+.pic1-popups {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10002;
+  overflow: hidden;
+}
+
+.pic1-popup {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  animation: pic1PopupBounce 2s ease-in-out infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 0 20px rgba(0, 151, 57, 0.8)) drop-shadow(0 0 40px rgba(254, 221, 0, 0.6));
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.pic1-popup-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 3px solid #FEDD00;
+  box-shadow: 
+    0 0 30px rgba(0, 151, 57, 0.8),
+    0 0 60px rgba(254, 221, 0, 0.6),
+    inset 0 0 20px rgba(255, 255, 255, 0.3);
+  animation: pic1PopupRotate 3s linear infinite;
+  filter: brightness(1.1) contrast(1.1) saturate(1.2);
+}
+
+@keyframes pic1PopupBounce {
+  0% {
+    transform: translateY(0) scale(0.5) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-30px) scale(1.1) rotate(10deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateY(-20px) scale(1.05) rotate(-10deg);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(50px) scale(0.5) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+@keyframes pic1PopupRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(8deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-8deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+

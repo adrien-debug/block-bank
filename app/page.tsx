@@ -102,36 +102,85 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="app">
+    <div className={`app ${showL ? 'brazil-party-mode' : ''}`}>
+      {/* Étoiles qui tombent */}
+      {showL && (
+        <div className="falling-stars">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <div key={i} className="falling-star" style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 2}s`,
+              animationDuration: `${2 + Math.random() * 2}s`
+            }}>⭐</div>
+          ))}
+        </div>
+      )}
+      {/* Popups Pic1 partout */}
+      {showL && (
+        <div className="pic1-popups">
+          {Array.from({ length: 15 }).map((_, i) => (
+            <div 
+              key={i} 
+              className="pic1-popup" 
+              style={{
+                left: `${10 + Math.random() * 80}%`,
+                top: `${10 + Math.random() * 80}%`,
+                animationDelay: `${Math.random() * 2}s`,
+                animationDuration: `${1.5 + Math.random() * 1.5}s`,
+                transform: `scale(${0.3 + Math.random() * 0.4}) rotate(${Math.random() * 360}deg)`
+              }}
+            >
+              <img src="/Pic1.jpg" alt="Pic1" className="pic1-popup-image" />
+            </div>
+          ))}
+        </div>
+      )}
       <header className="app-header">
         {showL && (
-          <div className="brazil-flag-animation">
-            <div className="brazil-flag">
-              <div className="flag-green"></div>
-              <div className="flag-yellow"></div>
-              <div className="flag-blue-circle"></div>
+          <>
+            <div className="brazil-flag-animation">
+              <div className="brazil-flag">
+                <div className="flag-green"></div>
+                <div className="flag-yellow"></div>
+                <div className="flag-blue-circle"></div>
+              </div>
             </div>
-          </div>
+            <div className="pic1-header-animation">
+              <div className="pic1-header-duplicate">
+                <div className="header-content-duplicate">
+                  <div className="logo-duplicate">
+                    <Logo />
+                    <span className="logo-text">
+                      <span className="letter-b letter-b-glow">B</span><span className="letter-white">LOCK</span><span className="letter-b letter-b-glow">B</span><span className="letter-white">AN</span>
+                      <span className="letter-white letter-k">K</span>
+                      <span className="letter-l">L</span>
+                    </span>
+                  </div>
+                  <div className="pic1-image-wrapper">
+                    <img src="/Pic1.jpg" alt="Pic1" className="pic1-image" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
         )}
         <div className="header-content">
-          <div className="logo">
+          <div 
+            className="logo"
+            onClick={() => {
+              const newCount = kClickCount + 1
+              setKClickCount(newCount)
+              if (newCount >= 5) {
+                setShowL(true)
+                setKClickCount(0)
+              }
+            }}
+            style={{ cursor: 'pointer' }}
+          >
             <Logo />
             <span className="logo-text">
               <span className={`letter-b ${showL ? 'letter-b-glow' : ''}`}>B</span><span className="letter-white">LOCK</span><span className={`letter-b ${showL ? 'letter-b-glow' : ''}`}>B</span><span className="letter-white">AN</span>
-              <span 
-                className="letter-white letter-k"
-                onClick={() => {
-                  const newCount = kClickCount + 1
-                  setKClickCount(newCount)
-                  if (newCount >= 5) {
-                    setShowL(true)
-                    setKClickCount(0)
-                  }
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                K
-              </span>
+              <span className="letter-white letter-k">K</span>
               {showL && <span className="letter-l">L</span>}
             </span>
           </div>
