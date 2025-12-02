@@ -56,45 +56,6 @@ export default function Sidebar({
 
       {/* Sidebar */}
       <aside className={`dashboard-sidebar ${isOpen ? 'open' : ''} ${className}`}>
-        <div className="sidebar-header">
-          <div className="sidebar-logo">
-            <h2>BLOCKBANK</h2>
-            <button
-              className="sidebar-toggle-btn"
-              onClick={onToggle}
-              aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-              aria-expanded={isOpen}
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {isOpen ? (
-                  <>
-                    <path d="M5 5L15 15M15 5L5 15" />
-                  </>
-                ) : (
-                  <>
-                    <line x1="3" y1="6" x2="17" y2="6" />
-                    <line x1="3" y1="12" x2="17" y2="12" />
-                    <line x1="3" y1="18" x2="17" y2="18" />
-                  </>
-                )}
-              </svg>
-            </button>
-          </div>
-          {walletAddress && (
-            <p className="wallet-address-small">
-              {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-            </p>
-          )}
-        </div>
         <nav className="sidebar-nav" aria-label="Navigation principale">
           {items.map((item) => {
             const IconComponent = item.icon
