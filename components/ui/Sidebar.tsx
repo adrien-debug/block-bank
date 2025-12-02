@@ -47,11 +47,10 @@ export default function Sidebar({
   
   return (
     <>
-      {/* Backdrop pour mobile seulement quand le menu est ouvert */}
-      {/* Sur desktop, ne jamais afficher le backdrop */}
-      {isMounted && isOpen && isMobile && (
+      {/* Backdrop visible quand le menu est ouvert */}
+      {isMounted && isOpen && (
         <div
-          className="sidebar-backdrop mobile-only"
+          className="sidebar-backdrop"
           onClick={onToggle}
           aria-hidden="true"
         />

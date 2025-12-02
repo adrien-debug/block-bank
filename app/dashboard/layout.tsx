@@ -36,20 +36,7 @@ export default function DashboardLayout({
   const pathname = usePathname()
   const router = useRouter()
   const [address, setAddress] = useState<string | null>(null)
-  const [isMenuOpen, setIsMenuOpen] = useState(true)
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setIsMenuOpen(true)
-      }
-    }
-    
-    window.addEventListener('resize', handleResize)
-    handleResize()
-    
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -133,9 +120,21 @@ export default function DashboardLayout({
     <div className="app">
       <header className="app-header">
         <div className="header-content">
-          <div className="logo">
-            <Logo />
-            <span className="logo-text">BLOCKBANK</span>
+          <div className="header-left">
+            <button 
+              className="hamburger-menu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={isMenuOpen}
+            >
+              <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+              <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+              <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+            </button>
+            <div className="logo">
+              <Logo />
+              <span className="logo-text">Block. Bank.</span>
+            </div>
           </div>
           <WalletConnect 
             onConnect={handleWalletConnect}
@@ -158,7 +157,7 @@ export default function DashboardLayout({
             onToggle={() => setIsMenuOpen(!isMenuOpen)}
             walletAddress={address}
           />
-          <div className="dashboard-content">
+          <div className={`dashboard-content ${isMenuOpen ? 'sidebar-open' : ''}`}>
             {children}
           </div>
         </div>
