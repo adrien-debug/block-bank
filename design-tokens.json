@@ -1,50 +1,59 @@
 {
   "colors": {
-    "primary": "#2563EB",
-    "primaryHover": "#1D4ED8",
+    "primary": "#1E3A8A",
+    "primaryHover": "#1E40AF",
     "primaryLight": "#3B82F6",
-    "primaryDark": "#1E40AF",
-    "grey50": "#F9FAFB",
-    "grey100": "#F3F4F6",
-    "grey200": "#E5E7EB",
-    "grey300": "#D1D5DB",
-    "grey400": "#9CA3AF",
-    "grey500": "#6B7280",
-    "grey600": "#4B5563",
-    "grey700": "#374151",
-    "grey800": "#1F2937",
-    "grey900": "#111827",
+    "primaryDark": "#0F172A",
+    "primaryDeep": "#0F172A",
+    "grey50": "#FFFFFF",
+    "grey100": "#F8FAFC",
+    "grey200": "#F1F5F9",
+    "grey300": "#E2E8F0",
+    "grey400": "#CBD5E1",
+    "grey500": "#94A3B8",
+    "grey600": "#64748B",
+    "grey700": "#475569",
+    "grey800": "#334155",
+    "grey850": "#1E293B",
+    "grey900": "#0F172A",
+    "grey950": "#030712",
     "black": "#000000",
     "white": "#FFFFFF",
     "background": "#FFFFFF",
-    "backgroundSecondary": "#F9FAFB",
-    "backgroundTertiary": "#F3F4F6",
-    "textDark": "#111827",
-    "textSecondary": "#6B7280",
-    "textLight": "#9CA3AF",
+    "backgroundSecondary": "#F8FAFC",
+    "backgroundTertiary": "#F1F5F9",
+    "backgroundDeep": "#F8FAFC",
+    "textDark": "#0F172A",
+    "textSecondary": "#64748B",
+    "textLight": "#94A3B8",
     "success": "#6B7280",
     "error": "#EF4444",
     "warning": "#F59E0B",
     "info": "#3B82F6",
-    "gradientPrimary": "linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)",
+    "gradientPrimary": "linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #2563EB 100%)",
     "gradientSecondary": "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
-    "gradientPremium": "linear-gradient(135deg, #1E40AF 0%, #2563EB 50%, #3B82F6 100%)",
-    "gradientGrey": "linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%)",
-    "gradientSoft": "linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%)",
-    "gradientCard": "linear-gradient(145deg, rgba(37, 99, 235, 0.05) 0%, rgba(243, 244, 246, 0.3) 100%)"
+    "gradientPremium": "linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #2563EB 100%)",
+    "gradientGrey": "linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%)",
+    "gradientSoft": "linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)",
+    "gradientCard": "linear-gradient(145deg, rgba(15, 23, 42, 0.03) 0%, rgba(30, 58, 138, 0.02) 50%, rgba(241, 245, 249, 0.4) 100%)",
+    "gradientBody": "linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 25%, #F1F5F9 50%, #F8FAFC 75%, #FFFFFF 100%)"
   },
   "radius": {
     "small": "8px",
     "medium": "12px",
     "large": "20px",
-    "xl": "32px"
+    "xl": "24px",
+    "2xl": "32px"
   },
   "shadow": {
     "elevated": "0 8px 32px rgba(37, 99, 235, 0.12), 0 4px 16px rgba(107, 114, 128, 0.08)",
     "cta": "0 8px 24px rgba(37, 99, 235, 0.3), 0 4px 12px rgba(107, 114, 128, 0.2)",
     "subtle": "0 2px 12px rgba(37, 99, 235, 0.06), 0 1px 4px rgba(107, 114, 128, 0.04)",
     "premium": "0 12px 40px rgba(37, 99, 235, 0.15), 0 6px 20px rgba(107, 114, 128, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.5)",
-    "glow": "0 0 30px rgba(37, 99, 235, 0.2), 0 0 60px rgba(107, 114, 128, 0.15)"
+    "glow": "0 0 30px rgba(37, 99, 235, 0.2), 0 0 60px rgba(107, 114, 128, 0.15)",
+    "card": "0 4px 24px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+    "cardHover": "0 12px 48px rgba(15, 23, 42, 0.12), 0 6px 24px rgba(30, 58, 138, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+    "chartCard": "0 8px 32px rgba(15, 23, 42, 0.08), 0 4px 16px rgba(30, 58, 138, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9)"
   },
   "font": {
     "title": "SF Pro Display, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif",
@@ -84,12 +93,14 @@
     }
   },
   "spacing": {
-    "gridGutter": "24px",
-    "gridGutterLarge": "32px",
+    "gridGutter": "32px",
+    "gridGutterLarge": "40px",
     "marginDesktop": "80px",
     "marginDesktopLarge": "120px",
-    "cardPadding": "24px",
-    "cardPaddingLarge": "32px"
+    "cardPadding": "32px",
+    "cardPaddingLarge": "40px",
+    "cardMargin": "8px",
+    "cardMarginHover": "16px"
   },
   "button": {
     "primary": {
@@ -110,10 +121,10 @@
     "focusRing": "0 0 0 3px rgba(10,132,255,0.3)"
   },
   "card": {
-    "radius": "20px",
+    "radius": "24px",
     "borderWidth": "1px",
-    "padding": "24px",
-    "paddingLarge": "32px"
+    "padding": "32px",
+    "paddingLarge": "40px"
   }
 }
 
