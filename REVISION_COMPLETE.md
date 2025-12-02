@@ -187,3 +187,4 @@ Toutes les vérifications demandées ont été effectuées:
 
 Le code est maintenant plus cohérent, mieux structuré et suit les standards du design system.
 
+

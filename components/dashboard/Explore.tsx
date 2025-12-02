@@ -61,7 +61,7 @@ export default function Explore() {
   }
 
   return (
-    <div className="explore-page">
+    <div className="page-container">
       {/* Progress Bar - seulement affiché si pas sur marketplace */}
       {step !== 'marketplace' && (
         <div className="explore-progress-container">

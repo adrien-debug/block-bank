@@ -278,11 +278,11 @@ export default function Investor() {
   const getRiskColor = (risk: string) => {
     switch (risk) {
       case 'low':
-        return '#6B7280'
+        return 'var(--bb-blue)'
       case 'medium':
-        return '#9CA3AF'
+        return 'var(--bb-blue-light)'
       case 'high':
-        return '#4B5563'
+        return 'var(--bb-blue-dark)'
       default:
         return 'var(--color-text-secondary)'
     }
@@ -348,7 +348,7 @@ export default function Investor() {
   ]
 
   return (
-    <div className="investor-page">
+    <div className="page-container">
       <div className="page-header">
         <div>
           <div className="investor-header-top">
@@ -833,15 +833,15 @@ export default function Investor() {
               <h3>Niveaux de risque</h3>
               <div className="risk-levels">
                 <div className="risk-level-item">
-                  <span className="risk-level-badge" style={{ color: '#6B7280' }}>Faible</span>
+                  <span className="risk-level-badge" style={{ color: 'var(--bb-blue)' }}>Faible</span>
                   <p>Pools conservateurs avec rendements stables. Idéal pour les investisseurs recherchant la sécurité.</p>
                 </div>
                 <div className="risk-level-item">
-                  <span className="risk-level-badge" style={{ color: '#9CA3AF' }}>Moyen</span>
+                  <span className="risk-level-badge" style={{ color: 'var(--bb-blue-light)' }}>Moyen</span>
                   <p>Pools équilibrés avec un compromis risque-rendement. Pour investisseurs modérés.</p>
                 </div>
                 <div className="risk-level-item">
-                  <span className="risk-level-badge" style={{ color: '#4B5563' }}>Élevé</span>
+                  <span className="risk-level-badge" style={{ color: 'var(--bb-blue-dark)' }}>Élevé</span>
                   <p>Pools agressifs avec rendements potentiels plus élevés. Pour investisseurs expérimentés acceptant le risque.</p>
                 </div>
               </div>

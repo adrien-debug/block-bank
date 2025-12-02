@@ -265,7 +265,7 @@ export default function CreditScore() {
   ]
 
   return (
-    <div className="credit-score-page">
+    <div className="page-container">
       <div className="page-header">
         <div>
           <h1>Mon Credit Score</h1>
@@ -405,14 +405,14 @@ export default function CreditScore() {
               <svg className="chart-line-enhanced" viewBox="0 0 1000 300">
                 <defs>
                   <linearGradient id="scoreLineGradient-all" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#1F2937" />
-                    <stop offset="50%" stopColor="#4B5563" />
-                    <stop offset="100%" stopColor="#1F2937" />
+                    <stop offset="0%" stopColor="#2563EB" />
+                    <stop offset="50%" stopColor="#3B82F6" />
+                    <stop offset="100%" stopColor="#2563EB" />
                   </linearGradient>
                   <linearGradient id="scoreGradient-all" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#1F2937" stopOpacity="0.4" />
-                    <stop offset="50%" stopColor="#4B5563" stopOpacity="0.2" />
-                    <stop offset="100%" stopColor="#1F2937" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#2563EB" stopOpacity="0.4" />
+                    <stop offset="50%" stopColor="#3B82F6" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 <path 

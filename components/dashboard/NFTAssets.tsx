@@ -250,7 +250,7 @@ export default function NFTAssets() {
   ]
 
   return (
-    <div className="nft-assets-page">
+    <div className="page-container">
       {/* Header */}
       <div className="page-header">
         <div>

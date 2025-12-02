@@ -246,14 +246,14 @@ export default function Dashboard() {
                         <svg className="chart-bars-svg" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
                           <defs>
                             <linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                              <stop offset="0%" stopColor="#111827" />
-                              <stop offset="50%" stopColor="#1F2937" />
-                              <stop offset="100%" stopColor="#374151" />
+                              <stop offset="0%" stopColor="#2563EB" />
+                              <stop offset="50%" stopColor="#3B82F6" />
+                              <stop offset="100%" stopColor="#60A5FA" />
                             </linearGradient>
                             <linearGradient id="barGradientHover" x1="0%" y1="0%" x2="0%" y2="100%">
-                              <stop offset="0%" stopColor="#374151" />
-                              <stop offset="50%" stopColor="#4B5563" />
-                              <stop offset="100%" stopColor="#6B7280" />
+                              <stop offset="0%" stopColor="#1D4ED8" />
+                              <stop offset="50%" stopColor="#2563EB" />
+                              <stop offset="100%" stopColor="#3B82F6" />
                             </linearGradient>
                           </defs>
                           {data.map((value, index) => {
@@ -338,13 +338,13 @@ export default function Dashboard() {
                 <div className="chart-container-premium">
                   <div className="asset-distribution-chart">
                     {(() => {
-                      // Data - All historical data - Couleurs neutres (bleu retiré)
+                      // Data - All historical data - Couleurs bleues avec dégradés
                       const assets = [
-                        { name: 'Real Estate', value: 300000, color: '#111827' }, // Presque noir
-                        { name: 'Mining', value: 150000, color: '#6B7280' }, // Gris moyen
-                        { name: 'Infrastructure', value: 500000, color: '#1F2937' }, // Gris très foncé
-                        { name: 'Vehicles', value: 50000, color: '#4B5563' }, // Gris foncé
-                        { name: 'Collectibles', value: 25000, color: '#374151' } // Gris moyen-foncé
+                        { name: 'Real Estate', value: 300000, color: '#1E40AF' }, // Bleu foncé
+                        { name: 'Mining', value: 150000, color: '#3B82F6' }, // Bleu moyen
+                        { name: 'Infrastructure', value: 500000, color: '#2563EB' }, // Bleu principal
+                        { name: 'Vehicles', value: 50000, color: '#60A5FA' }, // Bleu clair
+                        { name: 'Collectibles', value: 25000, color: '#93C5FD' } // Bleu très clair
                       ]
                       const total = assets.reduce((sum, asset) => sum + asset.value, 0)
                       
@@ -379,24 +379,26 @@ export default function Dashboard() {
                           <svg className="donut-chart-premium" viewBox="0 0 300 300">
                             <defs>
                               {segments.map((segment, index) => {
-                                // Créer des dégradés neutres selon le segment (bleu retiré)
+                                // Créer des dégradés bleus selon le segment
                                 let gradientColors: { start: string; end: string } = { start: segment.color, end: segment.color }
-                                if (segment.color === '#374151') {
-                                  gradientColors = { start: '#374151', end: '#4B5563' }
-                                } else if (segment.color === '#6B7280') {
-                                  gradientColors = { start: '#6B7280', end: '#9CA3AF' }
-                                } else if (segment.color === '#1F2937') {
-                                  gradientColors = { start: '#1F2937', end: '#374151' }
-                                } else if (segment.color === '#111827') {
-                                  gradientColors = { start: '#111827', end: '#1F2937' }
+                                if (segment.color === '#1E40AF') {
+                                  gradientColors = { start: '#1E40AF', end: '#2563EB' }
+                                } else if (segment.color === '#2563EB') {
+                                  gradientColors = { start: '#2563EB', end: '#3B82F6' }
+                                } else if (segment.color === '#3B82F6') {
+                                  gradientColors = { start: '#3B82F6', end: '#60A5FA' }
+                                } else if (segment.color === '#60A5FA') {
+                                  gradientColors = { start: '#60A5FA', end: '#93C5FD' }
+                                } else if (segment.color === '#93C5FD') {
+                                  gradientColors = { start: '#93C5FD', end: '#DBEAFE' }
                                 } else {
-                                  gradientColors = { start: segment.color, end: '#6B7280' }
+                                  gradientColors = { start: segment.color, end: '#3B82F6' }
                                 }
                                 return (
                                   <linearGradient key={index} id={`gradient-all-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stopColor={gradientColors.start} stopOpacity="1" />
-                                    <stop offset="50%" stopColor={gradientColors.start} stopOpacity="0.9" />
-                                    <stop offset="100%" stopColor={gradientColors.end} stopOpacity="0.8" />
+                                    <stop offset="50%" stopColor={gradientColors.start} stopOpacity="0.95" />
+                                    <stop offset="100%" stopColor={gradientColors.end} stopOpacity="0.85" />
                                   </linearGradient>
                                 )
                               })}
@@ -415,7 +417,7 @@ export default function Dashboard() {
                                   onMouseEnter={() => setHoveredSegmentIndex(index)}
                                   onMouseLeave={() => setHoveredSegmentIndex(null)}
                                   style={{ 
-                                    filter: isHovered ? 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))' : 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15))',
+                                    filter: isHovered ? 'drop-shadow(0 4px 12px rgba(37, 99, 235, 0.4))' : 'drop-shadow(0 2px 6px rgba(37, 99, 235, 0.2))',
                                     transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                                     transformOrigin: '150px 150px',
                                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',

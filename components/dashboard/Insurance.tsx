@@ -239,7 +239,7 @@ export default function Insurance() {
   }
 
   return (
-    <div className="insurance-page">
+    <div className="page-container">
       <div className="page-header">
         <div>
           <h1>Mes Assurances</h1>

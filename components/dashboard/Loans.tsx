@@ -194,7 +194,7 @@ export default function Loans() {
   }
 
   return (
-    <div className="loans-page">
+    <div className="page-container">
       <div className="page-header">
         <div>
           <h1>Mes Prêts</h1>
@@ -209,22 +209,22 @@ export default function Loans() {
       </div>
 
       {/* Statistiques résumées */}
-      <div className="loans-stats">
-        <div className="stat-card-loan">
-          <div className="stat-label-loan">Prêts actifs</div>
-          <div className="stat-value-loan">{stats.totalActive}</div>
+      <div className="page-grid-4">
+        <div className="stat-card-page">
+          <div className="stat-label-page">Prêts actifs</div>
+          <div className="stat-value-page">{stats.totalActive}</div>
         </div>
-        <div className="stat-card-loan">
-          <div className="stat-label-loan">Montant total emprunté</div>
-          <div className="stat-value-loan">{stats.totalBorrowed.toLocaleString()} USDC</div>
+        <div className="stat-card-page">
+          <div className="stat-label-page">Montant total emprunté</div>
+          <div className="stat-value-page">{stats.totalBorrowed.toLocaleString()} USDC</div>
         </div>
-        <div className="stat-card-loan">
-          <div className="stat-label-loan">Solde restant</div>
-          <div className="stat-value-loan">{stats.totalRemaining.toLocaleString()} USDC</div>
+        <div className="stat-card-page">
+          <div className="stat-label-page">Solde restant</div>
+          <div className="stat-value-page">{stats.totalRemaining.toLocaleString()} USDC</div>
         </div>
-        <div className="stat-card-loan">
-          <div className="stat-label-loan">Prochain paiement total</div>
-          <div className="stat-value-loan">{stats.nextPaymentTotal.toLocaleString()} USDC</div>
+        <div className="stat-card-page">
+          <div className="stat-label-page">Prochain paiement total</div>
+          <div className="stat-value-page">{stats.nextPaymentTotal.toLocaleString()} USDC</div>
         </div>
       </div>
 

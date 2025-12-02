@@ -108,8 +108,8 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
                 className="risk-bar-fill"
                 style={{ 
                   width: `${conditions.nftRiskScore}%`,
-                  backgroundColor: conditions.nftRiskScore <= 30 ? '#6B7280' : 
-                                  conditions.nftRiskScore <= 60 ? '#9CA3AF' : '#4B5563'
+                  backgroundColor: conditions.nftRiskScore <= 30 ? 'var(--bb-blue)' : 
+                                  conditions.nftRiskScore <= 60 ? 'var(--bb-blue-light)' : 'var(--bb-blue-dark)'
                 }}
               />
             </div>

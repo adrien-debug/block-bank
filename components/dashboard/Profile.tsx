@@ -32,7 +32,7 @@ export default function Profile() {
   }, [])
 
   return (
-    <div className="profile-page">
+    <div className="page-container">
       <div className="page-header">
         <div>
           <h1>Mon Profil</h1>

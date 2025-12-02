@@ -159,3 +159,4 @@ Révision complète effectuée sur les composants principaux du flux de prêt:
 
 Tous les textes utilisateur sont maintenant en français, avec une cohérence parfaite dans toute l'application.
 
+
