@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { formatNumber } from '@/lib/utils'
 import { NFTRWA, LoanProfileOption } from '@/types'
 import TermsAndConditions from '../TermsAndConditions'
 
@@ -35,12 +36,6 @@ export default function LoanValidation({
     setCanProceed(termsAccepted && risksAccepted && hasSufficientBalance)
   }, [termsAccepted, risksAccepted, hasSufficientBalance])
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value)
-  }
 
   return (
     <div className="loan-validation-page">
@@ -66,7 +61,7 @@ export default function LoanValidation({
             </div>
             <div className="summary-item">
               <span className="summary-label">Valeur</span>
-              <span className="summary-value">{formatCurrency(nft.value)} {nft.valueCurrency}</span>
+              <span className="summary-value">{formatNumber(nft.value)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
               <span className="summary-label">Token ID</span>
@@ -88,11 +83,11 @@ export default function LoanValidation({
             </div>
             <div className="summary-item">
               <span className="summary-label">Apport</span>
-              <span className="summary-value">{formatCurrency(profile.downPayment)} {nft.valueCurrency}</span>
+              <span className="summary-value">{formatNumber(profile.downPayment)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
               <span className="summary-label">Montant du prêt</span>
-              <span className="summary-value">{formatCurrency(profile.loanAmount)} {nft.valueCurrency}</span>
+              <span className="summary-value">{formatNumber(profile.loanAmount)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
               <span className="summary-label">LTV</span>
@@ -108,7 +103,7 @@ export default function LoanValidation({
             </div>
             <div className="summary-item highlight">
               <span className="summary-label">Mensualité</span>
-              <span className="summary-value-large">{formatCurrency(profile.monthlyPayment)} {nft.valueCurrency}</span>
+              <span className="summary-value-large">{formatNumber(profile.monthlyPayment)} {nft.valueCurrency}</span>
             </div>
           </div>
         </div>
@@ -123,7 +118,7 @@ export default function LoanValidation({
               </div>
               <div className="summary-item">
                 <span className="summary-label">Prime annuelle</span>
-                <span className="summary-value">{formatCurrency(profile.insurancePremium)} {nft.valueCurrency}</span>
+                <span className="summary-value">{formatNumber(profile.insurancePremium)} {nft.valueCurrency}</span>
               </div>
             </div>
           </div>
@@ -134,21 +129,21 @@ export default function LoanValidation({
           <div className="summary-card">
             <div className="summary-item">
               <span className="summary-label">Apport requis</span>
-              <span className="summary-value">{formatCurrency(profile.downPayment)} {nft.valueCurrency}</span>
+              <span className="summary-value">{formatNumber(profile.downPayment)} {nft.valueCurrency}</span>
             </div>
             {profile.insurancePremium && (
               <div className="summary-item">
                 <span className="summary-label">Prime d'assurance</span>
-                <span className="summary-value">{formatCurrency(profile.insurancePremium)} {nft.valueCurrency}</span>
+                <span className="summary-value">{formatNumber(profile.insurancePremium)} {nft.valueCurrency}</span>
               </div>
             )}
             <div className="summary-item total">
               <span className="summary-label">Total à payer maintenant</span>
-              <span className="summary-value-large">{formatCurrency(totalRequired)} {nft.valueCurrency}</span>
+              <span className="summary-value-large">{formatNumber(totalRequired)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
               <span className="summary-label">Coût total du prêt</span>
-              <span className="summary-value">{formatCurrency(profile.totalCost)} {nft.valueCurrency}</span>
+              <span className="summary-value">{formatNumber(profile.totalCost)} {nft.valueCurrency}</span>
             </div>
           </div>
         </div>
@@ -167,11 +162,11 @@ export default function LoanValidation({
         <div className="solvency-details">
           <div className="solvency-item">
             <span>Solde actuel du wallet</span>
-            <span>{formatCurrency(walletBalance)} {nft.valueCurrency}</span>
+            <span>{formatNumber(walletBalance)} {nft.valueCurrency}</span>
           </div>
           <div className="solvency-item">
             <span>Montant requis</span>
-            <span>{formatCurrency(totalRequired)} {nft.valueCurrency}</span>
+            <span>{formatNumber(totalRequired)} {nft.valueCurrency}</span>
           </div>
           {!hasSufficientBalance && (
             <div className="solvency-warning">

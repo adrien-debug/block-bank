@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { formatNumber, formatDateShort } from '@/lib/utils'
 import InvestorIcon from '../icons/InvestorIcon'
 import ChartIcon from '../icons/ChartIcon'
 import MoneyIcon from '../icons/MoneyIcon'
@@ -388,8 +389,8 @@ export default function Investor() {
           </div>
           <div className="stat-info">
             <div className="stat-label">Total TVL</div>
-            <div className="stat-value">{stats.totalTVL.toLocaleString()} USDC</div>
-            <div className="stat-subtitle">Disponible: {stats.totalAvailable.toLocaleString()} USDC</div>
+            <div className="stat-value">{formatNumber(stats.totalTVL)} USDC</div>
+            <div className="stat-subtitle">Disponible: {formatNumber(stats.totalAvailable)} USDC</div>
           </div>
         </div>
         <div className="investor-stat-card">
@@ -418,8 +419,8 @@ export default function Investor() {
           </div>
           <div className="stat-info">
             <div className="stat-label">Mes investissements</div>
-            <div className="stat-value">{stats.totalInvested.toLocaleString()} USDC</div>
-            <div className="stat-subtitle">Rendements: {stats.totalEarned.toLocaleString()} USDC</div>
+            <div className="stat-value">{formatNumber(stats.totalInvested)} USDC</div>
+            <div className="stat-subtitle">Rendements: {formatNumber(stats.totalEarned)} USDC</div>
           </div>
         </div>
       </div>
@@ -461,11 +462,11 @@ export default function Investor() {
                 <div className="pool-main-stats">
                   <div className="pool-main-stat">
                     <span className="pool-main-label">Liquidité totale</span>
-                    <span className="pool-main-value">{pool.totalLiquidity.toLocaleString()} {pool.token}</span>
+                    <span className="pool-main-value">{formatNumber(pool.totalLiquidity)} {pool.token}</span>
                   </div>
                   <div className="pool-main-stat highlight">
                     <span className="pool-main-label">Disponible</span>
-                    <span className="pool-main-value">{pool.availableLiquidity.toLocaleString()} {pool.token}</span>
+                    <span className="pool-main-value">{formatNumber(pool.availableLiquidity)} {pool.token}</span>
                   </div>
                 </div>
 
@@ -485,7 +486,7 @@ export default function Investor() {
                         </div>
                         <div className="tranche-menu-info">
                           <span className="tranche-menu-available">
-                            Disponible: {tranche.availableLiquidity.toLocaleString()} {pool.token}
+                            Disponible: {formatNumber(tranche.availableLiquidity)} {pool.token}
                           </span>
                           <span 
                             className="tranche-menu-risk" 
@@ -520,15 +521,15 @@ export default function Investor() {
               <div className="investments-summary">
                 <div className="summary-card-investment">
                   <div className="summary-label-investment">Total investi</div>
-                  <div className="summary-value-investment">{stats.totalInvested.toLocaleString()} USDC</div>
+                  <div className="summary-value-investment">{formatNumber(stats.totalInvested)} USDC</div>
                 </div>
                 <div className="summary-card-investment">
                   <div className="summary-label-investment">Rendements gagnés</div>
-                  <div className="summary-value-investment">{stats.totalEarned.toLocaleString()} USDC</div>
+                  <div className="summary-value-investment">{formatNumber(stats.totalEarned)} USDC</div>
                 </div>
                 <div className="summary-card-investment">
                   <div className="summary-label-investment">Rendements estimés</div>
-                  <div className="summary-value-investment">{stats.totalEstimated.toLocaleString()} USDC</div>
+                  <div className="summary-value-investment">{formatNumber(stats.totalEstimated)} USDC</div>
                 </div>
               </div>
 
@@ -552,17 +553,17 @@ export default function Investor() {
 
                       <div className="investment-main-info">
                         <div className="investment-amount-section">
-                          <div className="investment-amount-large">{investment.amount.toLocaleString()} {investment.token}</div>
+                          <div className="investment-amount-large">{formatNumber(investment.amount)} {investment.token}</div>
                           <div className="investment-apy">{investment.apy}% APY</div>
                         </div>
                         <div className="investment-returns-section">
                           <div className="returns-item">
                             <span className="returns-label">Gagné</span>
-                            <span className="returns-value earned">{investment.earnedReturns.toLocaleString()} {investment.token}</span>
+                            <span className="returns-value earned">{formatNumber(investment.earnedReturns)} {investment.token}</span>
                           </div>
                           <div className="returns-item">
                             <span className="returns-label">Estimé</span>
-                            <span className="returns-value estimated">{investment.estimatedReturns.toLocaleString()} {investment.token}</span>
+                            <span className="returns-value estimated">{formatNumber(investment.estimatedReturns)} {investment.token}</span>
                           </div>
                         </div>
                       </div>
@@ -570,7 +571,7 @@ export default function Investor() {
                       <div className="investment-details">
                         <div className="investment-detail-item">
                           <span className="investment-detail-label">Date de dépôt</span>
-                          <span className="investment-detail-value">{new Date(investment.depositDate).toLocaleDateString('fr-FR')}</span>
+                          <span className="investment-detail-value">{formatDateShort(investment.depositDate)}</span>
                         </div>
                         <div className="investment-detail-item">
                           <span className="investment-detail-label">Période de verrouillage</span>
@@ -578,7 +579,7 @@ export default function Investor() {
                         </div>
                         <div className="investment-detail-item">
                           <span className="investment-detail-label">Date de déverrouillage</span>
-                          <span className="investment-detail-value">{new Date(investment.lockEndDate).toLocaleDateString('fr-FR')}</span>
+                          <span className="investment-detail-value">{formatDateShort(investment.lockEndDate)}</span>
                         </div>
                         {investment.status === 'LOCKED' && (
                           <div className="investment-detail-item">
@@ -644,17 +645,17 @@ export default function Investor() {
           <div className="analytics-summary">
             <div className="analytics-card">
               <h3>Total investi</h3>
-              <div className="analytics-value">{stats.totalInvested.toLocaleString()} USDC</div>
+              <div className="analytics-value">{formatNumber(stats.totalInvested)} USDC</div>
               <div className="analytics-subtitle">Sur {investments.length} investissements</div>
             </div>
             <div className="analytics-card">
               <h3>Rendements totaux</h3>
-              <div className="analytics-value">{stats.totalEarned.toLocaleString()} USDC</div>
+              <div className="analytics-value">{formatNumber(stats.totalEarned)} USDC</div>
               <div className="analytics-subtitle">Gagnés jusqu'à présent</div>
             </div>
             <div className="analytics-card">
               <h3>Rendements estimés</h3>
-              <div className="analytics-value">{stats.totalEstimated.toLocaleString()} USDC</div>
+              <div className="analytics-value">{formatNumber(stats.totalEstimated)} USDC</div>
               <div className="analytics-subtitle">À maturité</div>
             </div>
             <div className="analytics-card">
@@ -687,8 +688,8 @@ export default function Investor() {
                         </span>
                       </div>
                       <div className="breakdown-details">
-                        <span>Investi: {poolTotal.toLocaleString()} {pool.token}</span>
-                        <span>Gagné: {poolEarned.toLocaleString()} {pool.token}</span>
+                        <span>Investi: {formatNumber(poolTotal)} {pool.token}</span>
+                        <span>Gagné: {formatNumber(poolEarned)} {pool.token}</span>
                       </div>
                     </div>
                   )
@@ -703,14 +704,14 @@ export default function Investor() {
               <div className="timeline-list">
                 {investments.map(inv => (
                   <div key={inv.id} className="timeline-item">
-                    <div className="timeline-date">{new Date(inv.depositDate).toLocaleDateString('fr-FR')}</div>
+                    <div className="timeline-date">{formatDateShort(inv.depositDate)}</div>
                     <div className="timeline-content">
                       <div className="timeline-title">Investissement dans {inv.poolName}</div>
                       <div className="timeline-description">
-                        {inv.amount.toLocaleString()} {inv.token} • {getTrancheLabel(inv.trancheType)} • {inv.apy}% APY
+                        {formatNumber(inv.amount)} {inv.token} • {getTrancheLabel(inv.trancheType)} • {inv.apy}% APY
                       </div>
                     </div>
-                    <div className="timeline-amount">+{inv.amount.toLocaleString()} {inv.token}</div>
+                    <div className="timeline-amount">+{formatNumber(inv.amount)} {inv.token}</div>
                   </div>
                 ))}
               </div>
@@ -935,11 +936,11 @@ export default function Investor() {
                   </div>
                   <div className="summary-item">
                     <span>Dépôt minimum:</span>
-                    <span className="summary-value">{tranche.minDeposit.toLocaleString()} {selectedPool.token}</span>
+                    <span className="summary-value">{formatNumber(tranche.minDeposit)} {selectedPool.token}</span>
                   </div>
                   <div className="summary-item">
                     <span>Liquidité disponible:</span>
-                    <span className="summary-value">{tranche.availableLiquidity.toLocaleString()} {selectedPool.token}</span>
+                    <span className="summary-value">{formatNumber(tranche.availableLiquidity)} {selectedPool.token}</span>
                   </div>
                   <div className="summary-item">
                     <span>Absorption pertes:</span>
@@ -954,7 +955,7 @@ export default function Investor() {
                   <input
                     type="number"
                     className="deposit-input"
-                    placeholder={`Minimum: ${tranche.minDeposit.toLocaleString()}`}
+                    placeholder={`Minimum: ${formatNumber(tranche.minDeposit)}`}
                     value={depositAmount}
                     onChange={(e) => setDepositAmount(e.target.value)}
                     min={tranche.minDeposit}
@@ -966,19 +967,13 @@ export default function Investor() {
                       <div className="preview-item">
                         <span>Rendement annuel estimé:</span>
                         <span className="preview-value">
-                          {(parseFloat(depositAmount) * tranche.apy / 100).toLocaleString('fr-FR', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                          })} {selectedPool.token}
+                          {formatNumber(parseFloat(depositAmount) * tranche.apy / 100)} {selectedPool.token}
                         </span>
                       </div>
                       <div className="preview-item">
                         <span>Rendement mensuel estimé:</span>
                         <span className="preview-value">
-                          {(parseFloat(depositAmount) * tranche.apy / 100 / 12).toLocaleString('fr-FR', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                          })} {selectedPool.token}
+                          {formatNumber(parseFloat(depositAmount) * tranche.apy / 100 / 12)} {selectedPool.token}
                         </span>
                       </div>
                     </div>
@@ -1050,16 +1045,16 @@ export default function Investor() {
                 </div>
                 <div className="withdraw-item">
                   <span className="withdraw-label">Montant investi:</span>
-                  <span className="withdraw-value">{selectedInvestment.amount.toLocaleString()} {selectedInvestment.token}</span>
+                  <span className="withdraw-value">{formatNumber(selectedInvestment.amount)} {selectedInvestment.token}</span>
                 </div>
                 <div className="withdraw-item">
                   <span className="withdraw-label">Rendements gagnés:</span>
-                  <span className="withdraw-value earned">{selectedInvestment.earnedReturns.toLocaleString()} {selectedInvestment.token}</span>
+                  <span className="withdraw-value earned">{formatNumber(selectedInvestment.earnedReturns)} {selectedInvestment.token}</span>
                 </div>
                 <div className="withdraw-item total">
                   <span className="withdraw-label">Total à retirer:</span>
                   <span className="withdraw-value total">
-                    {(selectedInvestment.amount + selectedInvestment.earnedReturns).toLocaleString()} {selectedInvestment.token}
+                    {formatNumber(selectedInvestment.amount + selectedInvestment.earnedReturns)} {selectedInvestment.token}
                   </span>
                 </div>
               </div>
@@ -1096,7 +1091,7 @@ export default function Investor() {
                       alert('Cet investissement est encore verrouillé.')
                       return
                     }
-                    alert(`Retrait de ${(selectedInvestment.amount + selectedInvestment.earnedReturns).toLocaleString()} ${selectedInvestment.token}...`)
+                    alert(`Retrait de ${formatNumber(selectedInvestment.amount + selectedInvestment.earnedReturns)} ${selectedInvestment.token}...`)
                     setShowWithdrawModal(false)
                     setSelectedInvestment(null)
                   }}
@@ -1128,7 +1123,7 @@ export default function Investor() {
                 <div className="investment-detail-grid">
                   <div className="detail-item">
                     <span className="detail-label">Montant investi</span>
-                    <span className="detail-value">{selectedInvestment.amount.toLocaleString()} {selectedInvestment.token}</span>
+                    <span className="detail-value">{formatNumber(selectedInvestment.amount)} {selectedInvestment.token}</span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">APY</span>
@@ -1142,7 +1137,7 @@ export default function Investor() {
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Date de dépôt</span>
-                    <span className="detail-value">{new Date(selectedInvestment.depositDate).toLocaleDateString('fr-FR')}</span>
+                    <span className="detail-value">{formatDateShort(selectedInvestment.depositDate)}</span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Période de verrouillage</span>
@@ -1150,7 +1145,7 @@ export default function Investor() {
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Date de déverrouillage</span>
-                    <span className="detail-value">{new Date(selectedInvestment.lockEndDate).toLocaleDateString('fr-FR')}</span>
+                    <span className="detail-value">{formatDateShort(selectedInvestment.lockEndDate)}</span>
                   </div>
                 </div>
               </div>
@@ -1160,16 +1155,16 @@ export default function Investor() {
                 <div className="returns-details">
                   <div className="returns-detail-item">
                     <span className="returns-detail-label">Rendements gagnés</span>
-                    <span className="returns-detail-value earned">{selectedInvestment.earnedReturns.toLocaleString()} {selectedInvestment.token}</span>
+                    <span className="returns-detail-value earned">{formatNumber(selectedInvestment.earnedReturns)} {selectedInvestment.token}</span>
                   </div>
                   <div className="returns-detail-item">
                     <span className="returns-detail-label">Rendements estimés</span>
-                    <span className="returns-detail-value estimated">{selectedInvestment.estimatedReturns.toLocaleString()} {selectedInvestment.token}</span>
+                    <span className="returns-detail-value estimated">{formatNumber(selectedInvestment.estimatedReturns)} {selectedInvestment.token}</span>
                   </div>
                   <div className="returns-detail-item total">
                     <span className="returns-detail-label">Total disponible</span>
                     <span className="returns-detail-value total">
-                      {(selectedInvestment.amount + selectedInvestment.earnedReturns).toLocaleString()} {selectedInvestment.token}
+                      {formatNumber(selectedInvestment.amount + selectedInvestment.earnedReturns)} {selectedInvestment.token}
                     </span>
                   </div>
                 </div>

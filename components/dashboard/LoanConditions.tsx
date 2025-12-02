@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { formatNumber } from '@/lib/utils'
 import { NFTRWA, LoanConditions as LoanConditionsType } from '@/types'
 import { calculateLoanConditions } from '@/lib/services/riskEngine'
 import { calculateInsuranceOptions } from '@/lib/services/insuranceCalculator'
@@ -76,7 +77,7 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
           <h3>{nft.name}</h3>
           <p className="nft-type">{nft.assetType}</p>
           <div className="nft-value-display">
-            <span className="value-large">{nft.value.toLocaleString()}</span>
+            <span className="value-large">{formatNumber(nft.value)}</span>
             <span className="currency">{nft.valueCurrency}</span>
           </div>
         </div>
@@ -198,7 +199,7 @@ export default function LoanConditions({ nft, creditScore, creditTier, onConditi
                 </div>
                 <div className="insurance-premium">
                   <span>Prime annuelle</span>
-                  <span className="premium-value">{option.annualPremium.toLocaleString()} USDC</span>
+                  <span className="premium-value">{formatNumber(option.annualPremium)} USDC</span>
                 </div>
                 {option.impactOnLTV > 0 && (
                   <div className="insurance-benefit">

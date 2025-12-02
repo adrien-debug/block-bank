@@ -1,7 +1,22 @@
 import type { Metadata } from 'next'
-import './globals.css'
+// Design tokens (variables CSS) - source unique
 import '../styles/design-tokens.css'
+// Reset CSS de base
+import '../styles/utilities/reset.css'
+// Animations globales
+import '../styles/utilities/animations.css'
+// Layout de base
+import '../styles/layout/app-layout.css'
+// Composants CSS
+import '../styles/components/hero.css'
+import '../styles/components/navigation.css'
+import '../styles/components/sections.css'
+import '../styles/components/wallet-connect.css'
+// Pages CSS
+import '../styles/pages/landing.css'
+// Dashboard styles
 import '../styles/dashboard.css'
+// Skeleton styles
 import '../styles/skeleton.css'
 import { Providers } from './providers'
 

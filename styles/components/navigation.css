@@ -1,0 +1,63 @@
+/* ====================================
+   NAVIGATION STICKY
+   ==================================== */
+
+.sticky-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: var(--border-width) solid var(--border-color);
+  box-shadow: var(--shadow-subtle);
+}
+
+.sticky-nav-content {
+  width: 100%;
+  margin: 0;
+  padding: 12px var(--margin-desktop);
+  display: flex;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sticky-nav-logo {
+  font-size: 14px;
+  font-weight: var(--font-bold);
+  font-family: var(--font-brand);
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.sticky-nav-links {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.sticky-nav-links button {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-family: var(--font-ui);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: var(--radius-medium);
+  transition: var(--transition-normal);
+}
+
+.sticky-nav-links button:hover {
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+}
+
+.sticky-nav-links button.active {
+  color: var(--color-primary-500);
+  font-weight: var(--font-semibold);
+}
+
+

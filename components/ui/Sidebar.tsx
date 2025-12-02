@@ -1,17 +1,20 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 interface SidebarItem {
   id: string
   label: string
   icon: React.ComponentType<{ className?: string }>
+  href?: string
 }
 
 interface SidebarProps {
   items: SidebarItem[]
   activeItem: string
-  onItemClick: (id: string) => void
+  onItemClick?: (id: string) => void
   isOpen: boolean
   onToggle: () => void
   walletAddress?: string | null
@@ -60,12 +63,42 @@ export default function Sidebar({
           {items.map((item) => {
             const IconComponent = item.icon
             const isActive = activeItem === item.id
+            const href = item.href || `#${item.id}`
+
+            // Si href est fourni, utiliser Link, sinon utiliser button
+            if (item.href) {
+              return (
+                <Link
+                  key={item.id}
+                  href={href}
+                  className={`nav-item ${isActive ? 'active' : ''}`}
+                  aria-current={isActive ? 'page' : undefined}
+                  aria-label={item.label}
+                  onClick={() => {
+                    if (isMobile) {
+                      onToggle()
+                    }
+                    if (onItemClick) {
+                      onItemClick(item.id)
+                    }
+                  }}
+                >
+                  <span className="nav-icon">
+                    <IconComponent />
+                  </span>
+                  <span className="nav-label">{item.label}</span>
+                  {isActive && <span className="nav-indicator" aria-hidden="true" />}
+                </Link>
+              )
+            }
 
             return (
               <button
                 key={item.id}
                 onClick={() => {
-                  onItemClick(item.id)
+                  if (onItemClick) {
+                    onItemClick(item.id)
+                  }
                 }}
                 className={`nav-item ${isActive ? 'active' : ''}`}
                 aria-current={isActive ? 'page' : undefined}

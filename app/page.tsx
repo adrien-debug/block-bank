@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import WalletConnect from '@/components/WalletConnect'
-import Dashboard from '@/components/Dashboard'
 import Landing from '@/components/Landing'
 import Logo from '@/components/icons/Logo'
 
@@ -14,6 +14,7 @@ declare global {
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     // Vérifier la connexion au chargement
@@ -21,7 +22,12 @@ export default function Home() {
       if (typeof window !== 'undefined' && window.ethereum) {
         try {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' })
-          setIsConnected(accounts.length > 0)
+          console.log('Initial accounts check:', accounts)
+          const connected = accounts.length > 0
+          setIsConnected(connected)
+          if (connected) {
+            router.push('/dashboard')
+          }
         } catch (error) {
           console.error('Erreur vérification connexion initiale:', error)
           setIsConnected(false)
@@ -34,7 +40,14 @@ export default function Home() {
     // Écouter aussi les changements depuis MetaMask directement
     if (typeof window !== 'undefined' && window.ethereum) {
       const handleAccountsChanged = (accounts: string[]) => {
-        setIsConnected(accounts.length > 0)
+        console.log('Accounts changed:', accounts)
+        const connected = accounts.length > 0
+        setIsConnected(connected)
+        if (connected) {
+          router.push('/dashboard')
+        } else {
+          router.push('/')
+        }
       }
       
       window.ethereum.on('accountsChanged', handleAccountsChanged)
@@ -45,14 +58,18 @@ export default function Home() {
         }
       }
     }
-  }, [])
+  }, [router])
 
   const handleWalletConnect = (address: string) => {
+    console.log('handleWalletConnect called with address:', address)
     setIsConnected(true)
+    router.push('/dashboard')
   }
 
   const handleWalletDisconnect = () => {
+    console.log('handleWalletDisconnect called')
     setIsConnected(false)
+    router.push('/')
   }
 
   return (
@@ -71,7 +88,7 @@ export default function Home() {
       </header>
 
       <main className="app-main">
-        {isConnected ? <Dashboard /> : <Landing />}
+        <Landing />
       </main>
     </div>
   )

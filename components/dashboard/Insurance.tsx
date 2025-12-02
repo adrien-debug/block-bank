@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { formatNumber, formatDateShort } from '@/lib/utils'
 import ShieldIcon from '../icons/ShieldIcon'
 import InfoIcon from '../icons/InfoIcon'
 import ChartIcon from '../icons/ChartIcon'
@@ -283,17 +284,17 @@ export default function Insurance() {
         </div>
         <div className="stat-card-insurance">
           <div className="stat-label-insurance">Couverture totale</div>
-          <div className="stat-value-insurance">{stats.totalCoverage.toLocaleString()} USDC</div>
+          <div className="stat-value-insurance">{formatNumber(stats.totalCoverage)} USDC</div>
           <div className="stat-subtitle-insurance">Valeur couverte</div>
         </div>
         <div className="stat-card-insurance">
           <div className="stat-label-insurance">Prime annuelle totale</div>
-          <div className="stat-value-insurance">{stats.totalAnnualPremium.toLocaleString()} USDC</div>
+          <div className="stat-value-insurance">{formatNumber(stats.totalAnnualPremium)} USDC</div>
           <div className="stat-subtitle-insurance">Répartie sur {stats.activePolicies} polices</div>
         </div>
         <div className="stat-card-insurance">
           <div className="stat-label-insurance">Prime mensuelle</div>
-          <div className="stat-value-insurance">{stats.totalMonthlyPremium.toLocaleString()} USDC</div>
+          <div className="stat-value-insurance">{formatNumber(stats.totalMonthlyPremium)} USDC</div>
           <div className="stat-subtitle-insurance">Par mois</div>
         </div>
         <div className="stat-card-insurance">
@@ -326,7 +327,7 @@ export default function Insurance() {
                   <div className="policy-header">
                     <div>
                       <h3>{policy.loanNumber}</h3>
-                      <p className="policy-loan-amount">Prêt: {policy.loanAmount.toLocaleString()} {policy.currency}</p>
+                      <p className="policy-loan-amount">Prêt: {formatNumber(policy.loanAmount)} {policy.currency}</p>
                     </div>
                     <span className={`policy-status policy-status-${policy.status}`}>
                       {getStatusLabel(policy.status)}
@@ -361,26 +362,26 @@ export default function Insurance() {
                   <div className="policy-premium-section">
                     <div className="premium-item">
                       <span className="premium-label">Prime annuelle</span>
-                      <span className="premium-value">{policy.annualPremium.toLocaleString()} {policy.currency}</span>
+                      <span className="premium-value">{formatNumber(policy.annualPremium)} {policy.currency}</span>
                     </div>
                     <div className="premium-item">
                       <span className="premium-label">Prime mensuelle</span>
-                      <span className="premium-value">{policy.monthlyPremium.toLocaleString()} {policy.currency}</span>
+                      <span className="premium-value">{formatNumber(policy.monthlyPremium)} {policy.currency}</span>
                     </div>
                   </div>
 
                   <div className="policy-dates">
                     <div className="date-item">
                       <span className="date-label">Date début</span>
-                      <span className="date-value">{new Date(policy.startDate).toLocaleDateString('fr-FR')}</span>
+                      <span className="date-value">{formatDateShort(policy.startDate)}</span>
                     </div>
                     <div className="date-item">
                       <span className="date-label">Date expiration</span>
-                      <span className="date-value">{new Date(policy.endDate).toLocaleDateString('fr-FR')}</span>
+                      <span className="date-value">{formatDateShort(policy.endDate)}</span>
                     </div>
                     <div className="date-item">
                       <span className="date-label">Renouvellement</span>
-                      <span className="date-value">{new Date(policy.renewalDate).toLocaleDateString('fr-FR')}</span>
+                      <span className="date-value">{formatDateShort(policy.renewalDate)}</span>
                     </div>
                   </div>
 
@@ -646,16 +647,16 @@ export default function Insurance() {
                     </div>
                     <div className="claim-detail-item">
                       <span className="claim-detail-label">Montant réclamé</span>
-                      <span className="claim-detail-value">{claim.amount.toLocaleString()} USDC</span>
+                      <span className="claim-detail-value">{formatNumber(claim.amount)} USDC</span>
                     </div>
                     <div className="claim-detail-item">
                       <span className="claim-detail-label">Date de soumission</span>
-                      <span className="claim-detail-value">{new Date(claim.submittedDate).toLocaleDateString('fr-FR')}</span>
+                      <span className="claim-detail-value">{formatDateShort(claim.submittedDate)}</span>
                     </div>
                     {claim.processedDate && (
                       <div className="claim-detail-item">
                         <span className="claim-detail-label">Date de traitement</span>
-                        <span className="claim-detail-value">{new Date(claim.processedDate).toLocaleDateString('fr-FR')}</span>
+                        <span className="claim-detail-value">{formatDateShort(claim.processedDate)}</span>
                       </div>
                     )}
                     <div className="claim-detail-item">
@@ -701,7 +702,7 @@ export default function Insurance() {
               {history.map((entry) => (
                 <div key={entry.id} className="history-item-insurance">
                   <div className="history-date-insurance">
-                    {new Date(entry.date).toLocaleDateString('fr-FR')}
+                    {formatDateShort(entry.date)}
                   </div>
                   <div className="history-content-insurance">
                     <div className="history-title-insurance">
@@ -723,7 +724,7 @@ export default function Insurance() {
                   {entry.amount && (
                     <div className="history-amount-insurance">
                       {entry.type === 'CREATED' || entry.type === 'RENEWED' ? '-' : '+'}
-                      {entry.amount.toLocaleString()} {entry.currency}
+                      {formatNumber(entry.amount)} {entry.currency}
                     </div>
                   )}
                 </div>
@@ -758,7 +759,7 @@ export default function Insurance() {
                   </div>
                   <div className="info-item">
                     <span className="info-label">Montant du prêt</span>
-                    <span className="info-value">{selectedPolicy.loanAmount.toLocaleString()} {selectedPolicy.currency}</span>
+                    <span className="info-value">{formatNumber(selectedPolicy.loanAmount)} {selectedPolicy.currency}</span>
                   </div>
                   <div className="info-item">
                     <span className="info-label">Tranche de crédit</span>
@@ -812,15 +813,15 @@ export default function Insurance() {
                 <div className="premium-details">
                   <div className="premium-detail-item">
                     <span className="premium-detail-label">Prime annuelle</span>
-                    <span className="premium-detail-value">{selectedPolicy.annualPremium.toLocaleString()} {selectedPolicy.currency}</span>
+                    <span className="premium-detail-value">{formatNumber(selectedPolicy.annualPremium)} {selectedPolicy.currency}</span>
                   </div>
                   <div className="premium-detail-item">
                     <span className="premium-detail-label">Prime mensuelle</span>
-                    <span className="premium-detail-value">{selectedPolicy.monthlyPremium.toLocaleString()} {selectedPolicy.currency}</span>
+                    <span className="premium-detail-value">{formatNumber(selectedPolicy.monthlyPremium)} {selectedPolicy.currency}</span>
                   </div>
                   <div className="premium-detail-item">
                     <span className="premium-detail-label">Prochain paiement</span>
-                    <span className="premium-detail-value">{selectedPolicy.monthlyPremium.toLocaleString()} {selectedPolicy.currency}</span>
+                    <span className="premium-detail-value">{formatNumber(selectedPolicy.monthlyPremium)} {selectedPolicy.currency}</span>
                   </div>
                 </div>
               </div>
@@ -831,15 +832,15 @@ export default function Insurance() {
                 <div className="dates-details">
                   <div className="date-detail-item">
                     <span className="date-detail-label">Date de début</span>
-                    <span className="date-detail-value">{new Date(selectedPolicy.startDate).toLocaleDateString('fr-FR')}</span>
+                    <span className="date-detail-value">{formatDateShort(selectedPolicy.startDate)}</span>
                   </div>
                   <div className="date-detail-item">
                     <span className="date-detail-label">Date d'expiration</span>
-                    <span className="date-detail-value">{new Date(selectedPolicy.endDate).toLocaleDateString('fr-FR')}</span>
+                    <span className="date-detail-value">{formatDateShort(selectedPolicy.endDate)}</span>
                   </div>
                   <div className="date-detail-item">
                     <span className="date-detail-label">Date de renouvellement</span>
-                    <span className="date-detail-value">{new Date(selectedPolicy.renewalDate).toLocaleDateString('fr-FR')}</span>
+                    <span className="date-detail-value">{formatDateShort(selectedPolicy.renewalDate)}</span>
                   </div>
                 </div>
               </div>

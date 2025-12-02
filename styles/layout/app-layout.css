@@ -1,0 +1,229 @@
+/* ====================================
+   APP LAYOUT
+   ==================================== */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: transparent; /* Transparent pour voir le gradient du body */
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 25%, #1E40AF 50%, #2563EB 75%, #3B82F6 100%);
+  border: none;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+  padding: 12px var(--margin-desktop);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  z-index: 1000;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.4), 
+              0 4px 16px rgba(30, 64, 175, 0.3),
+              0 0 0 1px rgba(59, 130, 246, 0.2) inset,
+              0 0 60px rgba(37, 99, 235, 0.15);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Vagues fixes dans le header */
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    /* Vague 1 - en haut à gauche */
+    radial-gradient(ellipse 800px 400px at 10% 20%, rgba(59, 130, 246, 0.25) 0%, transparent 60%),
+    /* Vague 2 - au centre */
+    radial-gradient(ellipse 1000px 500px at 50% 50%, rgba(37, 99, 235, 0.2) 0%, transparent 65%),
+    /* Vague 3 - en bas à droite */
+    radial-gradient(ellipse 900px 450px at 90% 80%, rgba(30, 64, 175, 0.18) 0%, transparent 60%),
+    /* Vague 4 - milieu gauche */
+    radial-gradient(ellipse 700px 350px at 25% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 55%),
+    /* Vague 5 - haut droite */
+    radial-gradient(ellipse 600px 300px at 75% 15%, rgba(37, 99, 235, 0.12) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(59, 130, 246, 0.4) 15%, 
+    rgba(37, 99, 235, 0.6) 30%,
+    rgba(59, 130, 246, 0.7) 50%,
+    rgba(37, 99, 235, 0.6) 70%,
+    rgba(59, 130, 246, 0.4) 85%, 
+    transparent 100%);
+  z-index: 1;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Header premium - éléments visuels supplémentaires */
+.header-content::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(59, 130, 246, 0.6) 20%, 
+    rgba(255, 255, 255, 0.4) 50%, 
+    rgba(59, 130, 246, 0.6) 80%, 
+    transparent 100%);
+  border-radius: 2px;
+  opacity: 0.6;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.header-content::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(59, 130, 246, 0.6) 20%, 
+    rgba(255, 255, 255, 0.4) 50%, 
+    rgba(59, 130, 246, 0.6) 80%, 
+    transparent 100%);
+  border-radius: 2px;
+  opacity: 0.6;
+  animation: pulseGlow 3s ease-in-out infinite 1.5s;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.6);
+  }
+}
+
+.header-content {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  gap: var(--space-6);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 14px;
+  font-weight: var(--font-bold);
+  font-family: var(--font-brand);
+  color: #FFFFFF;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3),
+               0 0 20px rgba(59, 130, 246, 0.4);
+  position: relative;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all var(--transition-normal);
+}
+
+.logo:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+.logo svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))
+          drop-shadow(0 0 12px rgba(59, 130, 246, 0.5));
+}
+
+.logo-text {
+  color: #FFFFFF;
+  font-weight: var(--font-bold);
+  background: linear-gradient(135deg, #FFFFFF 0%, #E0E7FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.logo-text::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.6) 50%, 
+    transparent 100%);
+  border-radius: 2px;
+}
+
+.app-main {
+  flex: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  padding-top: calc(var(--header-height));
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.app-main:has(.landing) {
+  padding: var(--space-8) var(--margin-content-horizontal);
+  padding-top: calc(var(--header-height) + var(--space-8));
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Sur grands écrans pour la landing */
+@media (min-width: 1600px) {
+  .app-main:has(.landing) {
+    padding-left: var(--margin-content-horizontal-large);
+    padding-right: var(--margin-content-horizontal-large);
+  }
+}
+

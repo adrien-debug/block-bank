@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { formatNumber, formatDateLong } from '@/lib/utils'
 import CreditScore from './dashboard/CreditScore'
 import Loans from './dashboard/Loans'
 import NFTAssets from './dashboard/NFTAssets'
@@ -146,7 +147,7 @@ export default function Dashboard() {
                 <h1>Dashboard</h1>
               </div>
               <div className="dashboard-date">
-                {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                {formatDateLong(new Date())}
               </div>
             </div>
 
@@ -429,7 +430,7 @@ export default function Dashboard() {
                             })}
                             <circle cx="150" cy="150" r="80" fill="#FFFFFF" />
                             <text x="150" y="145" textAnchor="middle" className="donut-center-value" fill="#0A0A0A">
-                              {total.toLocaleString()}
+                              {formatNumber(total)}
                             </text>
                             <text x="150" y="165" textAnchor="middle" className="donut-center-label" fill="#64748B">
                               USDC
@@ -441,7 +442,7 @@ export default function Dashboard() {
                                 <div className="legend-color-premium" style={{ background: segment.color }}></div>
                                 <span className="legend-name-premium">{segment.name}</span>
                                 <div className="legend-values">
-                                  <span className="legend-value-premium">{segment.value.toLocaleString()} USDC</span>
+                                  <span className="legend-value-premium">{formatNumber(segment.value)} USDC</span>
                                   <span className="legend-percentage-premium">{segment.percentage.toFixed(1)}%</span>
                                 </div>
                               </div>

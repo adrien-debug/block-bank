@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { formatNumber } from '@/lib/utils'
 import { NFTRWA, LoanConditions, LoanProfileOption } from '@/types'
 import { calculateLoanProfiles } from '@/lib/services/riskEngine'
 import { calculateInsurancePremium } from '@/lib/services/insuranceCalculator'
@@ -40,12 +41,6 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
     }
   }
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value)
-  }
 
   return (
     <div className="loan-profiles-page-premium">
@@ -72,7 +67,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
             <span className="nft-reminder-name">{nft.name}</span>
           </div>
           <div className="nft-reminder-value">
-            <span className="value-amount">{formatCurrency(nft.value)}</span>
+            <span className="value-amount">{formatNumber(nft.value)}</span>
             <span className="value-currency">{nft.valueCurrency}</span>
           </div>
         </div>
@@ -115,7 +110,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
               <div className="profile-main-metric-premium">
                 <div className="metric-label-premium">Apport requis</div>
                 <div className="metric-value-premium-large">
-                  {formatCurrency(profile.downPayment)}
+                  {formatNumber(profile.downPayment)}
                 </div>
                 <div className="metric-currency">{nft.valueCurrency}</div>
                 <div className="metric-percent-badge">{profile.downPaymentPercent}%</div>
@@ -125,7 +120,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
               <div className="profile-details-premium">
                 <div className="profile-detail-item">
                   <span className="detail-label-premium">Montant du prêt</span>
-                  <span className="detail-value-premium">{formatCurrency(profile.loanAmount)} {nft.valueCurrency}</span>
+                  <span className="detail-value-premium">{formatNumber(profile.loanAmount)} {nft.valueCurrency}</span>
                 </div>
                 <div className="profile-detail-item">
                   <span className="detail-label-premium">LTV</span>
@@ -144,7 +139,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
                 
                 <div className="profile-detail-item highlight-premium">
                   <span className="detail-label-premium">Mensualité</span>
-                  <span className="detail-value-premium-large">{formatCurrency(profile.monthlyPayment)} {nft.valueCurrency}</span>
+                  <span className="detail-value-premium-large">{formatNumber(profile.monthlyPayment)} {nft.valueCurrency}</span>
                 </div>
                 
                 {profile.insurancePremium && (
@@ -154,7 +149,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
                       <span className={`insurance-badge ${profile.insuranceRequired ? 'required' : 'optional'}`}>
                         {profile.insuranceRequired ? 'Requis' : 'Optionnel'}
                       </span>
-                      <span className="insurance-premium"> {formatCurrency(profile.insurancePremium)} {nft.valueCurrency}/year</span>
+                      <span className="insurance-premium"> {formatNumber(profile.insurancePremium)} {nft.valueCurrency}/year</span>
                     </span>
                   </div>
                 )}
@@ -163,7 +158,7 @@ export default function LoanProfiles({ nft, conditions, creditTier, onSelectProf
               {/* Total Cost */}
               <div className="profile-total-cost-premium">
                 <div className="total-cost-label-premium">Coût total</div>
-                <div className="total-cost-value-premium">{formatCurrency(profile.totalCost)} {nft.valueCurrency}</div>
+                <div className="total-cost-value-premium">{formatNumber(profile.totalCost)} {nft.valueCurrency}</div>
               </div>
             </div>
 

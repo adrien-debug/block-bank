@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { formatNumber, formatDateShort } from '@/lib/utils'
 
 type LoanStatus = 'active' | 'repaid' | 'default' | 'liquidated' | 'closed'
 type FilterStatus = 'all' | 'active' | 'repaid' | 'default'
@@ -216,15 +217,15 @@ export default function Loans() {
         </div>
         <div className="stat-card-page">
           <div className="stat-label-page">Montant total emprunté</div>
-          <div className="stat-value-page">{stats.totalBorrowed.toLocaleString()} USDC</div>
+          <div className="stat-value-page">{formatNumber(stats.totalBorrowed)} USDC</div>
         </div>
         <div className="stat-card-page">
           <div className="stat-label-page">Solde restant</div>
-          <div className="stat-value-page">{stats.totalRemaining.toLocaleString()} USDC</div>
+          <div className="stat-value-page">{formatNumber(stats.totalRemaining)} USDC</div>
         </div>
         <div className="stat-card-page">
           <div className="stat-label-page">Prochain paiement total</div>
-          <div className="stat-value-page">{stats.nextPaymentTotal.toLocaleString()} USDC</div>
+          <div className="stat-value-page">{formatNumber(stats.nextPaymentTotal)} USDC</div>
         </div>
       </div>
 
@@ -283,12 +284,12 @@ export default function Loans() {
               <div className="loan-main-info">
                 <div className="loan-amount-section">
                   <div className="loan-amount-large">
-                    {loan.amount.toLocaleString()} {loan.currency}
+                    {formatNumber(loan.amount)} {loan.currency}
                   </div>
                   <div className="loan-amount-details">
-                    <span>Solde restant: {loan.remainingBalance.toLocaleString()} {loan.currency}</span>
+                    <span>Solde restant: {formatNumber(loan.remainingBalance)} {loan.currency}</span>
                     <span>•</span>
-                    <span>Remboursé: {loan.totalPaid.toLocaleString()} {loan.currency}</span>
+                    <span>Remboursé: {formatNumber(loan.totalPaid)} {loan.currency}</span>
                   </div>
                 </div>
                 
@@ -317,11 +318,11 @@ export default function Loans() {
                   <div className="payment-info-enhanced">
                     <div className="payment-amount">
                       <span className="payment-label">Prochain paiement</span>
-                      <span className="payment-value">{loan.nextPaymentAmount.toLocaleString()} {loan.currency}</span>
+                      <span className="payment-value">{formatNumber(loan.nextPaymentAmount)} {loan.currency}</span>
                     </div>
                     <div className="payment-date-info">
                       <span className="payment-date-label">Échéance</span>
-                      <span className="payment-date-value">{new Date(loan.nextPaymentDate).toLocaleDateString('fr-FR')}</span>
+                      <span className="payment-date-value">{formatDateShort(loan.nextPaymentDate)}</span>
                       {loan.daysUntilDue !== undefined && (
                         <span className={`payment-days ${loan.daysUntilDue <= 7 ? 'urgent' : ''}`}>
                           {loan.daysUntilDue} jour{loan.daysUntilDue > 1 ? 's' : ''} restant{loan.daysUntilDue > 1 ? 's' : ''}
@@ -346,7 +347,7 @@ export default function Loans() {
               {loan.status === 'repaid' && (
                 <div className="loan-completed">
                   <span className="completed-icon">✓</span>
-                  <span>Prêt remboursé avec succès le {new Date(loan.endDate).toLocaleDateString('fr-FR')}</span>
+                  <span>Prêt remboursé avec succès le {formatDateShort(loan.endDate)}</span>
                   <button 
                     className="btn-secondary btn-small"
                     onClick={() => setSelectedLoan(loan)}
@@ -390,7 +391,7 @@ export default function Loans() {
                       <span>Token ID: {selectedLoan.asset.tokenId}</span>
                     </div>
                     <div className="nft-value">
-                      Valeur actuelle: <strong>{selectedLoan.asset.currentValue.toLocaleString()} {selectedLoan.currency}</strong>
+                      Valeur actuelle: <strong>{formatNumber(selectedLoan.asset.currentValue)} {selectedLoan.currency}</strong>
                     </div>
                     <div className="nft-contract">
                       Contract: <code>{selectedLoan.asset.contractAddress}</code>
@@ -405,11 +406,11 @@ export default function Loans() {
                 <div className="conditions-grid">
                   <div className="condition-item-detail">
                     <span className="condition-label-detail">Montant initial</span>
-                    <span className="condition-value-detail">{selectedLoan.amount.toLocaleString()} {selectedLoan.currency}</span>
+                    <span className="condition-value-detail">{formatNumber(selectedLoan.amount)} {selectedLoan.currency}</span>
                   </div>
                   <div className="condition-item-detail">
                     <span className="condition-label-detail">Solde restant</span>
-                    <span className="condition-value-detail">{selectedLoan.remainingBalance.toLocaleString()} {selectedLoan.currency}</span>
+                    <span className="condition-value-detail">{formatNumber(selectedLoan.remainingBalance)} {selectedLoan.currency}</span>
                   </div>
                   <div className="condition-item-detail">
                     <span className="condition-label-detail">LTV actuel</span>
@@ -421,7 +422,7 @@ export default function Loans() {
                   </div>
                   <div className="condition-item-detail">
                     <span className="condition-label-detail">Mensualité</span>
-                    <span className="condition-value-detail">{selectedLoan.monthlyPayment.toLocaleString()} {selectedLoan.currency}</span>
+                    <span className="condition-value-detail">{formatNumber(selectedLoan.monthlyPayment)} {selectedLoan.currency}</span>
                   </div>
                   <div className="condition-item-detail">
                     <span className="condition-label-detail">Durée</span>
@@ -429,11 +430,11 @@ export default function Loans() {
                   </div>
                   <div className="condition-item-detail">
                     <span className="condition-label-detail">Date début</span>
-                    <span className="condition-value-detail">{new Date(selectedLoan.startDate).toLocaleDateString('fr-FR')}</span>
+                    <span className="condition-value-detail">{formatDateShort(selectedLoan.startDate)}</span>
                   </div>
                   <div className="condition-item-detail">
                     <span className="condition-label-detail">Date fin prévue</span>
-                    <span className="condition-value-detail">{new Date(selectedLoan.endDate).toLocaleDateString('fr-FR')}</span>
+                    <span className="condition-value-detail">{formatDateShort(selectedLoan.endDate)}</span>
                   </div>
                 </div>
               </div>
@@ -455,11 +456,11 @@ export default function Loans() {
                       </div>
                       <div className="insurance-item">
                         <span>Prime annuelle</span>
-                        <span>{selectedLoan.insurance.premium.toLocaleString()} {selectedLoan.currency}</span>
+                        <span>{formatNumber(selectedLoan.insurance.premium)} {selectedLoan.currency}</span>
                       </div>
                       <div className="insurance-item">
                         <span>Date expiration</span>
-                        <span>{new Date(selectedLoan.insurance.expirationDate).toLocaleDateString('fr-FR')}</span>
+                        <span>{formatDateShort(selectedLoan.insurance.expirationDate)}</span>
                       </div>
                     </div>
                   </div>
@@ -482,8 +483,8 @@ export default function Loans() {
                     <tbody>
                       {selectedLoan.payments.map((payment) => (
                         <tr key={payment.id}>
-                          <td>{new Date(payment.date).toLocaleDateString('fr-FR')}</td>
-                          <td>{payment.amount.toLocaleString()} {selectedLoan.currency}</td>
+                          <td>{formatDateShort(payment.date)}</td>
+                          <td>{formatNumber(payment.amount)} {selectedLoan.currency}</td>
                           <td>
                             <span className={`payment-status payment-status-${payment.status}`}>
                               {payment.status === 'paid' ? '✓ Payé' : 
@@ -513,11 +514,11 @@ export default function Loans() {
                   <div className="next-payment-card">
                     <div className="next-payment-amount">
                       <span className="next-payment-label">Montant dû</span>
-                      <span className="next-payment-value">{selectedLoan.nextPaymentAmount.toLocaleString()} {selectedLoan.currency}</span>
+                      <span className="next-payment-value">{formatNumber(selectedLoan.nextPaymentAmount)} {selectedLoan.currency}</span>
                     </div>
                     <div className="next-payment-info">
                       <div className="next-payment-date">
-                        <span>Date échéance: {new Date(selectedLoan.nextPaymentDate).toLocaleDateString('fr-FR')}</span>
+                        <span>Date échéance: {formatDateShort(selectedLoan.nextPaymentDate)}</span>
                         {selectedLoan.daysUntilDue !== undefined && (
                           <span className={`next-payment-days ${selectedLoan.daysUntilDue <= 7 ? 'urgent' : ''}`}>
                             {selectedLoan.daysUntilDue} jour{selectedLoan.daysUntilDue > 1 ? 's' : ''} restant{selectedLoan.daysUntilDue > 1 ? 's' : ''}
@@ -585,19 +586,19 @@ export default function Loans() {
                     <div className="repayment-summary">
                       <div className="repayment-item">
                         <span>Principal restant</span>
-                        <span>{repayment.principal.toLocaleString()} {loanForEarlyRepayment.currency}</span>
+                        <span>{formatNumber(repayment.principal)} {loanForEarlyRepayment.currency}</span>
                       </div>
                       <div className="repayment-item">
                         <span>Intérêts restants</span>
-                        <span>{repayment.interest.toLocaleString()} {loanForEarlyRepayment.currency}</span>
+                        <span>{formatNumber(repayment.interest)} {loanForEarlyRepayment.currency}</span>
                       </div>
                       <div className="repayment-item">
                         <span>Pénalité (max 1%)</span>
-                        <span>{repayment.penalty.toLocaleString()} {loanForEarlyRepayment.currency}</span>
+                        <span>{formatNumber(repayment.penalty)} {loanForEarlyRepayment.currency}</span>
                       </div>
                       <div className="repayment-total">
                         <span>Total à payer</span>
-                        <span>{repayment.total.toLocaleString()} {loanForEarlyRepayment.currency}</span>
+                        <span>{formatNumber(repayment.total)} {loanForEarlyRepayment.currency}</span>
                       </div>
                     </div>
                     <div className="repayment-actions">

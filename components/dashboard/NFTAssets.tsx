@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { formatNumber, formatDateShort } from '@/lib/utils'
 import { AssetType, NFTRiskClass, Marketplace } from '@/types'
 import NFTIcon from '../icons/NFTIcon'
 import NFTAssetIcon from '../icons/NFTAssetIcon'
@@ -235,13 +236,6 @@ export default function NFTAssets() {
     return 'risk-badge-risky'
   }
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value)
-  }
-
   const tabs = [
     { id: 'my-nfts' as NFTTab, label: 'Mes NFT', icon: NFTAssetIcon },
     { id: 'marketplace' as NFTTab, label: 'Marketplace', icon: NFTIcon },
@@ -305,11 +299,11 @@ export default function NFTAssets() {
           </div>
         <div className="stat-card-nft">
           <div className="stat-label-nft">Valeur totale</div>
-          <div className="stat-value-nft">{stats.totalValue.toLocaleString()} USDC</div>
-            </div>
+          <div className="stat-value-nft">{formatNumber(stats.totalValue)} USDC</div>
+        </div>
         <div className="stat-card-nft">
           <div className="stat-label-nft">Valeur disponible</div>
-          <div className="stat-value-nft">{stats.availableValue.toLocaleString()} USDC</div>
+          <div className="stat-value-nft">{formatNumber(stats.availableValue)} USDC</div>
             </div>
           </div>
 
@@ -489,7 +483,7 @@ export default function NFTAssets() {
 
               <div className="nft-card-value">
                 <div className="value-main">
-                  <span className="value-amount-premium">{formatCurrency(nft.value)}</span>
+                  <span className="value-amount-premium">{formatNumber(nft.value)}</span>
                   <span className="value-currency-premium">{nft.currency}</span>
                 </div>
               </div>
@@ -599,11 +593,11 @@ export default function NFTAssets() {
                   </div>
                   <div className="info-item">
                     <span className="info-label">Valeur actuelle</span>
-                    <span className="info-value">{selectedNFT.currentValue?.toLocaleString() || selectedNFT.value.toLocaleString()} {selectedNFT.currency}</span>
+                    <span className="info-value">{formatNumber(selectedNFT.currentValue || selectedNFT.value)} {selectedNFT.currency}</span>
                   </div>
                   <div className="info-item">
                     <span className="info-label">Valeur initiale</span>
-                    <span className="info-value">{selectedNFT.originalValue?.toLocaleString() || selectedNFT.value.toLocaleString()} {selectedNFT.currency}</span>
+                    <span className="info-value">{formatNumber(selectedNFT.originalValue || selectedNFT.value)} {selectedNFT.currency}</span>
                   </div>
                   <div className="info-item">
                     <span className="info-label">Token ID</span>
@@ -672,7 +666,7 @@ export default function NFTAssets() {
                     {selectedNFT.metadata.inspectionDate && (
                       <div className="metadata-item">
                         <span className="metadata-label">Date d'inspection</span>
-                        <span className="metadata-value">{new Date(selectedNFT.metadata.inspectionDate).toLocaleDateString('fr-FR')}</span>
+                        <span className="metadata-value">{formatDateShort(selectedNFT.metadata.inspectionDate)}</span>
                       </div>
                     )}
                     {selectedNFT.metadata.documentationHash && (
@@ -736,11 +730,11 @@ export default function NFTAssets() {
                   </div>
                   <div className="blockchain-item">
                     <span className="blockchain-label">Date de création</span>
-                    <span className="blockchain-value">{new Date(selectedNFT.createdAt).toLocaleDateString('fr-FR')}</span>
+                    <span className="blockchain-value">{formatDateShort(selectedNFT.createdAt)}</span>
                   </div>
                   <div className="blockchain-item">
                     <span className="blockchain-label">Dernière mise à jour</span>
-                    <span className="blockchain-value">{new Date(selectedNFT.updatedAt).toLocaleDateString('fr-FR')}</span>
+                    <span className="blockchain-value">{formatDateShort(selectedNFT.updatedAt)}</span>
                   </div>
                 </div>
               </div>

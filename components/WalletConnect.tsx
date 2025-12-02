@@ -33,20 +33,22 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
       const checkConnection = async () => {
         try {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' })
+          console.log('WalletConnect: Initial accounts check:', accounts)
           if (accounts.length > 0) {
             const account = accounts[0]
+            console.log('WalletConnect: Setting address and calling onConnect:', account)
             setAddress(account)
             if (onConnectRef.current) {
               onConnectRef.current(account)
             }
           } else {
+            console.log('WalletConnect: No accounts found, setting address to null')
             setAddress(null)
-            if (onDisconnectRef.current) {
-              onDisconnectRef.current()
-            }
+            // Ne pas appeler onDisconnect si on n'était pas connecté au départ
           }
         } catch (error) {
           console.error('Connection verification error:', error)
+          setAddress(null)
         }
       }
 
@@ -104,10 +106,22 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
         const connectedAddress = accounts[0]
         console.log('Setting address:', connectedAddress)
         setAddress(connectedAddress)
+        console.log('Calling onConnect callback with:', connectedAddress)
+        // Appeler le callback directement
         if (onConnectRef.current) {
-          onConnectRef.current(connectedAddress)
+          console.log('Executing onConnect callback')
+          try {
+            onConnectRef.current(connectedAddress)
+            console.log('onConnect callback executed successfully')
+          } catch (error) {
+            console.error('Error executing onConnect callback:', error)
+          }
+        } else {
+          console.warn('onConnectRef.current is null!')
         }
         console.log('Wallet connected successfully:', connectedAddress)
+      } else {
+        console.warn('No accounts returned from eth_requestAccounts')
       }
     } catch (error: any) {
       console.error('Connection error:', error)
@@ -159,17 +173,27 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
   }
 
   return (
-    <div className="wallet-connect">
+    <div className="wallet-connect" style={{ position: 'relative', zIndex: 1000 }}>
       <button
         onClick={(e) => {
+          console.log('Button clicked!', e)
           e.preventDefault()
           e.stopPropagation()
           connectWallet()
+        }}
+        onMouseDown={(e) => {
+          console.log('Button mouse down!', e)
         }}
         disabled={isConnecting}
         className="btn-connect-wallet"
         type="button"
         aria-label="Connect Wallet"
+        style={{ 
+          position: 'relative',
+          zIndex: 1001,
+          pointerEvents: isConnecting ? 'none' : 'auto',
+          cursor: isConnecting ? 'not-allowed' : 'pointer'
+        }}
       >
         {isConnecting ? (
           <span>

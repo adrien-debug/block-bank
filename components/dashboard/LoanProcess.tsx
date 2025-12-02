@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { formatNumber } from '@/lib/utils'
 import { NFTRWA, LoanProfileOption } from '@/types'
 
 interface LoanProcessProps {
@@ -83,13 +84,6 @@ export default function LoanProcess({ nft, profile, onComplete }: LoanProcessPro
     return descriptions[step]
   }
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('fr-FR', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value)
-  }
-
   return (
     <div className="loan-process-page">
       <div className="page-header">
@@ -154,19 +148,19 @@ export default function LoanProcess({ nft, profile, onComplete }: LoanProcessPro
             </div>
             <div className="summary-item">
               <span className="summary-label">Valeur NFT</span>
-              <span className="summary-value">{formatCurrency(nft.value)} {nft.valueCurrency}</span>
+              <span className="summary-value">{formatNumber(nft.value)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
               <span className="summary-label">Apport</span>
-              <span className="summary-value">{formatCurrency(profile.downPayment)} {nft.valueCurrency}</span>
+              <span className="summary-value">{formatNumber(profile.downPayment)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
               <span className="summary-label">Montant prêt</span>
-              <span className="summary-value">{formatCurrency(profile.loanAmount)} {nft.valueCurrency}</span>
+              <span className="summary-value">{formatNumber(profile.loanAmount)} {nft.valueCurrency}</span>
             </div>
             <div className="summary-item">
               <span className="summary-label">Mensualité</span>
-              <span className="summary-value">{formatCurrency(profile.monthlyPayment)} {nft.valueCurrency}</span>
+              <span className="summary-value">{formatNumber(profile.monthlyPayment)} {nft.valueCurrency}</span>
             </div>
           </div>
         </div>

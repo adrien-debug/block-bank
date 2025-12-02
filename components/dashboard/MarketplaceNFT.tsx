@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { formatNumber } from '@/lib/utils'
 import { NFTRWA, Marketplace, AssetType } from '@/types'
 import { fetchNFTsFromMarketplaces, getAvailableMarketplaces, getAvailableAssetTypes } from '@/lib/services/marketplaceAggregator'
 
@@ -13,6 +14,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
   const [loading, setLoading] = useState(true)
   const [selectedNFT, setSelectedNFT] = useState<NFTRWA | null>(null)
   const [hoveredNFT, setHoveredNFT] = useState<string | null>(null)
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
   
   // Filtres
   const [selectedMarketplace, setSelectedMarketplace] = useState<Marketplace | 'ALL'>('ALL')
@@ -125,32 +127,60 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
           ))}
         </select>
 
-        <input 
-          type="number" 
-          value={minValue}
-          onChange={(e) => setMinValue(e.target.value)}
-          placeholder="Min (USDC)"
-          className="filter-input-inline"
-        />
+        {/* Bouton pour afficher/masquer les filtres avancés */}
+        <div style={{ width: '100%', flexBasis: '100%', order: 998 }}>
+          <button 
+            className="btn-toggle-filters"
+            onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            aria-expanded={showAdvancedFilters}
+            type="button"
+          >
+            {showAdvancedFilters ? '▼ Moins de filtres' : '▶ Plus de filtres'}
+          </button>
+        </div>
 
-        <input 
-          type="number" 
-          value={maxValue}
-          onChange={(e) => setMaxValue(e.target.value)}
-          placeholder="Max (USDC)"
-          className="filter-input-inline"
-        />
+        {/* Filtres avancés dans un menu déroulant */}
+        {showAdvancedFilters && (
+          <div className="filters-dropdown" style={{ width: '100%', flexBasis: '100%', order: 999 }}>
+            <div className="filters-dropdown-content">
+              <div className="filter-group">
+                <label className="filter-label">Valeur min (USDC)</label>
+                <input 
+                  type="number" 
+                  value={minValue}
+                  onChange={(e) => setMinValue(e.target.value)}
+                  placeholder="Min"
+                  className="filter-input-inline"
+                />
+              </div>
 
-        <select 
-          value={selectedRiskClass} 
-          onChange={(e) => setSelectedRiskClass(e.target.value as any)}
-          className="filter-select-inline"
-        >
-          <option value="ALL">Tous les risques</option>
-          <option value="SAFE">Sûr</option>
-          <option value="MODERATE">Modéré</option>
-          <option value="RISKY">Risqué</option>
-        </select>
+              <div className="filter-group">
+                <label className="filter-label">Valeur max (USDC)</label>
+                <input 
+                  type="number" 
+                  value={maxValue}
+                  onChange={(e) => setMaxValue(e.target.value)}
+                  placeholder="Max"
+                  className="filter-input-inline"
+                />
+              </div>
+
+              <div className="filter-group">
+                <label className="filter-label">Niveau de risque</label>
+                <select 
+                  value={selectedRiskClass} 
+                  onChange={(e) => setSelectedRiskClass(e.target.value as any)}
+                  className="filter-select-inline"
+                >
+                  <option value="ALL">Tous les risques</option>
+                  <option value="SAFE">Sûr</option>
+                  <option value="MODERATE">Modéré</option>
+                  <option value="RISKY">Risqué</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
 
         {(selectedMarketplace !== 'ALL' || selectedAssetType !== 'ALL' || minValue || maxValue || selectedRiskClass !== 'ALL') && (
           <button 
@@ -227,7 +257,7 @@ export default function MarketplaceNFT({ onSelectNFT }: MarketplaceNFTProps) {
 
                 <div className="nft-card-value">
                   <div className="value-main">
-                    <span className="value-amount-premium">{nft.value.toLocaleString()}</span>
+                    <span className="value-amount-premium">{formatNumber(nft.value)}</span>
                     <span className="value-currency-premium">{nft.valueCurrency}</span>
                   </div>
                 </div>

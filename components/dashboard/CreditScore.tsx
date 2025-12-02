@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { formatDateShort } from '@/lib/utils'
 import ChartIcon from '../icons/ChartIcon'
 import DocumentIcon from '../icons/DocumentIcon'
 import LightBulbIcon from '../icons/LightBulbIcon'
@@ -627,7 +628,7 @@ export default function CreditScore() {
                 <li>Tranche : <strong>{tier}</strong></li>
                 <li>Détails synthétiques : sous-scores A/B/C/D</li>
                 <li>Version du modèle de scoring : <strong>v2.1</strong></li>
-                <li>Timestamp d'émission : <strong>{new Date().toLocaleDateString('fr-FR')}</strong></li>
+                <li>Timestamp d'émission : <strong>{formatDateShort(new Date())}</strong></li>
                 <li>Validité : <strong>30 jours</strong></li>
                 <li>Hash des données sources (off-chain) pour audit</li>
                 <li>Référence à la vérification KYC / AML</li>
