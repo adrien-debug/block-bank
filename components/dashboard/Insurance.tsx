@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { formatNumber, formatDateShort } from '@/lib/utils'
+import { CreditTier } from '@/types'
 import ShieldIcon from '../icons/ShieldIcon'
 import InfoIcon from '../icons/InfoIcon'
 import ChartIcon from '../icons/ChartIcon'
@@ -29,7 +30,7 @@ interface InsurancePolicy {
   totalCoverage: number // %
   annualPremium: number
   monthlyPremium: number
-  creditTier: 'A' | 'B' | 'C' | 'D'
+  creditTier: CreditTier
   nftRiskClass: 'SAFE' | 'MODERATE' | 'RISKY'
   impactOnLTV: number // +5% si assurance complète
   impactOnRate: number // -0.5% si assurance complète
@@ -171,14 +172,14 @@ export default function Insurance() {
 
   const calculatePremium = (
     loanAmount: number,
-    creditTier: 'A' | 'B' | 'C' | 'D',
+    creditTier: CreditTier,
     nftRiskClass: 'SAFE' | 'MODERATE' | 'RISKY',
     borrowerDefault: number,
     marketRisk: number,
     assetRisk: number
   ) => {
     // Base rate selon credit tier
-    const baseRates = { A: 0.0075, B: 0.015, C: 0.025, D: 0.04 }
+    const baseRates: Record<CreditTier, number> = { 'A+': 0.0075, A: 0.0075, B: 0.015, C: 0.025, D: 0.04 }
     const baseRate = baseRates[creditTier]
 
     // Ajustement selon risque NFT

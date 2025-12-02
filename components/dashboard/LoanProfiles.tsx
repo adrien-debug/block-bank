@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 import { formatNumber } from '@/lib/utils'
-import { NFTRWA, LoanConditions, LoanProfileOption } from '@/types'
+import { NFTRWA, LoanConditions, LoanProfileOption, CreditTier } from '@/types'
 import { calculateLoanProfiles } from '@/lib/services/riskEngine'
 import { calculateInsurancePremium } from '@/lib/services/insuranceCalculator'
 
 interface LoanProfilesProps {
   nft: NFTRWA
   conditions: LoanConditions
-  creditTier: 'A' | 'B' | 'C' | 'D'
+  creditTier: CreditTier
   onSelectProfile: (profile: LoanProfileOption) => void
   onContinue?: () => void
   onBack?: () => void

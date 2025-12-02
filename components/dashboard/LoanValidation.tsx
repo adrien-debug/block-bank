@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { formatNumber } from '@/lib/utils'
-import { NFTRWA, LoanProfileOption } from '@/types'
+import { NFTRWA, LoanProfileOption, CreditTier } from '@/types'
 import TermsAndConditions from '../TermsAndConditions'
 
 interface LoanValidationProps {
   nft: NFTRWA
   profile: LoanProfileOption
   creditScore: number
-  creditTier: 'A' | 'B' | 'C' | 'D'
+  creditTier: CreditTier
   walletBalance: number
   onConfirm: () => void
   onBack: () => void

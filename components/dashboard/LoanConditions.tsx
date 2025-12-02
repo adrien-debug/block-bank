@@ -7,10 +7,12 @@ import { calculateLoanConditions } from '@/lib/services/riskEngine'
 import { calculateInsuranceOptions, calculateInsurancePremium } from '@/lib/services/insuranceCalculator'
 import { calculateDiscountSummary } from '@/lib/services/nftDiscountCalculator'
 
+import { CreditTier } from '@/types'
+
 interface LoanConditionsProps {
   nft: NFTRWA
   creditScore: number
-  creditTier: 'A' | 'B' | 'C' | 'D'
+  creditTier: CreditTier
   onConditionsReady: (conditions: LoanConditionsType) => void
   onBack?: () => void
 }

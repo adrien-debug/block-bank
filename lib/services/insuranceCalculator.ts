@@ -7,6 +7,7 @@ import { CreditTier, NFTRiskClass, InsuranceOption } from '@/types'
  */
 export function getBaseInsuranceRate(tier: CreditTier): number {
   const rateMap: Record<CreditTier, number> = {
+    'A+': 0.75, // 0.75% / year
     A: 0.75, // 0.75% / year
     B: 1.5,  // 1.5% / year
     C: 2.5,  // 2.5% / year

@@ -17,6 +17,7 @@ export function calculateCreditTier(score: number): CreditTier {
  */
 export function getBaseLTV(tier: CreditTier): number {
   const ltvMap: Record<CreditTier, number> = {
+    'A+': 75,
     A: 70,
     B: 60,
     C: 50,
@@ -30,6 +31,7 @@ export function getBaseLTV(tier: CreditTier): number {
  */
 export function getBaseRate(tier: CreditTier): number {
   const rateMap: Record<CreditTier, number> = {
+    'A+': 6.5,
     A: 7.0,
     B: 9.0,
     C: 11.0,
