@@ -216,7 +216,9 @@ export async function POST(request: NextRequest) {
 
     // Sauvegarder la soumission dans Google Drive
     try {
+      console.log('[Asset Submission] Starting Google Drive upload...')
       const { submissionId, folderId } = await saveSubmission(submissionData, files)
+      console.log('[Asset Submission] Upload successful:', { submissionId, folderId })
 
       return NextResponse.json({
         success: true,
@@ -225,16 +227,34 @@ export async function POST(request: NextRequest) {
         message: 'Your request has been submitted successfully',
       })
     } catch (driveError) {
-      console.error('Google Drive error:', driveError)
-      // Si Google Drive n'est pas configuré, on peut quand même retourner un succès
-      // ou une erreur plus spécifique
-      if (driveError instanceof Error && driveError.message.includes('GOOGLE')) {
+      console.error('[Asset Submission] Google Drive error:', driveError)
+      
+      // Si Google Drive n'est pas configuré
+      if (driveError instanceof Error && driveError.message.includes('GOOGLE_DRIVE_CONFIG_MISSING')) {
         return NextResponse.json(
           { error: 'Google Drive is not configured. Please check your environment variables.' },
           { status: 500 }
         )
       }
-      throw driveError
+      
+      // Erreur OAuth invalid_grant
+      if (driveError instanceof Error && (driveError.message.includes('invalid_grant') || driveError.message.includes('Invalid grant'))) {
+        console.error('[Asset Submission] OAuth error detected, this should not happen with Service Account')
+        return NextResponse.json(
+          { error: 'Authentication error with Google Drive. Please contact support.' },
+          { status: 500 }
+        )
+      }
+      
+      // Autres erreurs Google Drive
+      const errorMessage = driveError instanceof Error 
+        ? driveError.message 
+        : 'An error occurred while uploading to Google Drive'
+      
+      return NextResponse.json(
+        { error: errorMessage },
+        { status: 500 }
+      )
     }
   } catch (error) {
     console.error('Submission error:', error)

@@ -270,16 +270,24 @@ export default function AssetTokenizationRequestPage() {
         formDataToSend.append('additionalInfo', formData.additionalInfo)
       }
 
+      // Créer un AbortController pour le timeout
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 120000) // 2 minutes timeout
+
       const response = await fetch('/api/asset-submissions', {
         method: 'POST',
         body: formDataToSend,
+        signal: controller.signal,
       })
 
-      const data = await response.json()
+      clearTimeout(timeoutId)
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error submitting request')
+        const data = await response.json().catch(() => ({ error: 'Unknown error' }))
+        throw new Error(data.error || `Error ${response.status}: ${response.statusText}`)
       }
+
+      const data = await response.json()
 
       setIsSubmitting(false)
       setSubmitSuccess(true)
@@ -317,7 +325,18 @@ export default function AssetTokenizationRequestPage() {
     } catch (error) {
       console.error('Submission error:', error)
       setIsSubmitting(false)
-      setSubmitError(error instanceof Error ? error.message : 'An error occurred')
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          setSubmitError('Request timeout: The upload is taking too long. Please try again with smaller files or check your connection.')
+        } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+          setSubmitError('Network error: Please check your internet connection and try again.')
+        } else {
+          setSubmitError(error.message || 'An error occurred while submitting your request')
+        }
+      } else {
+        setSubmitError('An unexpected error occurred. Please try again.')
+      }
     }
   }
 
