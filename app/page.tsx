@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import WalletConnect from '@/components/WalletConnect'
 import Landing from '@/components/Landing'
 import Logo from '@/components/icons/Logo'
-import ThemeToggle from '@/components/ui/ThemeToggle'
 
 declare global {
   interface Window {
@@ -288,7 +287,6 @@ export default function Home() {
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
-            <ThemeToggle />
             <WalletConnect 
               onConnect={handleWalletConnect}
               onDisconnect={handleWalletDisconnect}

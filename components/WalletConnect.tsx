@@ -249,39 +249,23 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
     <div className="wallet-connect" style={{ position: 'relative', zIndex: 1000 }}>
       <button
         onClick={(e) => {
-          console.log('Button clicked!', e)
           e.preventDefault()
           e.stopPropagation()
-          connectWallet()
         }}
-        onMouseDown={(e) => {
-          console.log('Button mouse down!', e)
-        }}
-        disabled={isConnecting}
+        disabled={true}
         className="btn-connect-wallet"
         type="button"
-        aria-label="Connect Wallet"
+        aria-label="Coming soon"
         style={{ 
           position: 'relative',
           zIndex: 1001,
-          pointerEvents: isConnecting ? 'none' : 'auto',
-          cursor: isConnecting ? 'not-allowed' : 'pointer'
+          pointerEvents: 'none',
+          cursor: 'not-allowed',
+          opacity: 0.6
         }}
       >
-        {isConnecting ? (
-          <span>
-            <span className="connecting-spinner"></span>
-            Connecting...
-          </span>
-        ) : (
-          'Connect Wallet'
-        )}
+        Coming soon
       </button>
-      {isConnecting && (
-        <div className="metamask-overlay-hint">
-          <p>Please approve the connection in the MetaMask popup</p>
-        </div>
-      )}
     </div>
   )
 }

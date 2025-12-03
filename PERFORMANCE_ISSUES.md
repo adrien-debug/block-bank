@@ -85,3 +85,4 @@ const CreditScore = dynamic(() => import('@/components/dashboard/CreditScore'), 
 4. Ajouter du monitoring de performance
 
 
+

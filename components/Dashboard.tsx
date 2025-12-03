@@ -117,7 +117,7 @@ export default function Dashboard() {
     { id: 'explore' as Tab, label: 'Explore', icon: ExploreIcon },
     { id: 'credit-score' as Tab, label: 'Credit Score', icon: StarIcon },
     { id: 'loans' as Tab, label: 'My Loans', icon: MoneyIcon },
-    { id: 'nft' as Tab, label: 'NFT RWA', icon: NFTIcon },
+    { id: 'nft' as Tab, label: 'RWA Tokens', icon: NFTIcon },
     { id: 'insurance' as Tab, label: 'Insurance', icon: ShieldIcon },
     { id: 'investor' as Tab, label: 'Investor', icon: InvestorIcon },
   ]
@@ -182,7 +182,7 @@ export default function Dashboard() {
               
               <StatCard
                 icon={<NFTIcon />}
-                label="NFT RWA"
+                label="RWA Tokens"
                 value={3}
                 subtitle="Total value: 950,000 USDC"
                 breakdown={['2 locked', '1 available']}

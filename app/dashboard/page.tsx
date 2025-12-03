@@ -63,7 +63,7 @@ export default function DashboardPage() {
         
         <StatCard
           icon={<NFTIcon />}
-          label="NFT RWA"
+          label="RWA Tokens"
           value={3}
           subtitle="Total value: 950,000 USDC"
           breakdown={['2 locked', '1 available']}

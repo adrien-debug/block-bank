@@ -11,6 +11,7 @@ import UserIcon from '@/components/icons/UserIcon'
 import ExploreIcon from '@/components/icons/ExploreIcon'
 import InvestorIcon from '@/components/icons/InvestorIcon'
 import DocumentIcon from '@/components/icons/DocumentIcon'
+import ChartUpIcon from '@/components/icons/ChartUpIcon'
 import WalletConnect from '@/components/WalletConnect'
 import Logo from '@/components/icons/Logo'
 
@@ -107,9 +108,10 @@ export default function DashboardLayout({
   const tabs: SidebarItem[] = [
     { id: 'dashboard', label: 'Dashboard', icon: DashboardIcon, href: '/dashboard' },
     { id: 'explore', label: 'Explore', icon: ExploreIcon, href: '/dashboard/explore' },
+    { id: 'legalblock-opportunity', label: 'Submit a Request', icon: ChartUpIcon, href: '/legalblock/opportunity' },
     { id: 'credit-score', label: 'Credit Score', icon: StarIcon, href: '/dashboard/credit-score' },
     { id: 'loans', label: 'My Loans', icon: MoneyIcon, href: '/dashboard/loans' },
-    { id: 'nft', label: 'NFT RWA', icon: NFTIcon, href: '/dashboard/nft' },
+    { id: 'nft', label: 'RWA Tokens', icon: NFTIcon, href: '/dashboard/nft' },
     { id: 'investor', label: 'Investor', icon: InvestorIcon, href: '/dashboard/investor' },
     { id: 'profile', label: 'Profile', icon: UserIcon, href: '/dashboard/profile' },
     { id: 'terms', label: 'Terms & Conditions', icon: DocumentIcon, href: '/dashboard/terms' },

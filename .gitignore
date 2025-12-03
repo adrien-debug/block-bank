@@ -26,6 +26,14 @@ yarn-error.log*
 .env*.local
 .env
 
+# Google Drive credentials
+credentials.json
+*-credentials.json
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
 # vercel
 .vercel
 

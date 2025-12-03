@@ -122,3 +122,4 @@ export function getUserFriendlyMessage(error: ApiError): string {
   return messages[error.code] || error.message
 }
 
+

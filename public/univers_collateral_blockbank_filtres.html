@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Univers de Collatéral – BlockBank (avec filtres)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bb-bg: #020617;
+      --bb-bg-soft: #020617;
+      --bb-card: rgba(15, 23, 42, 0.9);
+      --bb-border: rgba(148, 163, 184, 0.35);
+      --bb-accent: #2563eb;
+      --bb-accent-soft: rgba(37, 99, 235, 0.12);
+      --bb-accent-strong: #1d4ed8;
+      --bb-text-main: #e5e7eb;
+      --bb-text-soft: #9ca3af;
+      --bb-chip-bg: rgba(15, 23, 42, 0.85);
+      --bb-radius-xl: 24px;
+      --bb-radius-lg: 14px;
+      --bb-radius-pill: 999px;
+      --bb-shadow-soft: 0 32px 80px rgba(15, 23, 42, 0.8);
+      --bb-shadow-header: 0 24px 60px rgba(15, 23, 42, 0.9);
+      --bb-table-strip: rgba(15, 23, 42, 0.9);
+      --bb-table-strip-alt: rgba(15, 23, 42, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(59,130,246,0.25), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(8,47,73,0.35), transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(15,23,42,0.9), #020617);
+      color: var(--bb-text-main);
+      padding: 32px 16px 64px;
+    }
+
+    .page {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .bb-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      padding: 14px 18px;
+      border-radius: var(--bb-radius-pill);
+      background: linear-gradient(
+        120deg,
+        rgba(15,23,42,0.96),
+        rgba(15,23,42,0.85)
+      );
+      border: 1px solid rgba(148,163,184,0.4);
+      box-shadow: var(--bb-shadow-header);
+      backdrop-filter: blur(18px);
+    }
+
+    .bb-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bb-logo-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 220deg, #38bdf8, #2563eb, #0f172a, #38bdf8);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bb-logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #e5f0ff, #0b1120);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #dbeafe;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+    }
+
+    .bb-brand-text-main {
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 11px;
+      color: #e5e7eb;
+    }
+
+    .bb-brand-text-sub {
+      font-size: 11px;
+      color: var(--bb-text-soft);
+    }
+
+    .bb-chip {
+      padding: 6px 14px;
+      border-radius: var(--bb-radius-pill);
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.35);
+      font-size: 11px;
+      color: var(--bb-text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bb-chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
+    }
+
+    .hero {
+      margin-bottom: 28px;
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 4vw, 34px);
+      font-weight: 650;
+      letter-spacing: 0.02em;
+      margin-bottom: 10px;
+      color: #f9fafb;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--bb-text-soft);
+      max-width: 620px;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .bb-btn-primary {
+      border-radius: var(--bb-radius-pill);
+      padding: 10px 20px;
+      border: none;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      background: radial-gradient(circle at 0 0, #60a5fa, #1d4ed8);
+      color: #e5f0ff;
+      box-shadow: 0 18px 40px rgba(37,99,235,0.58);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .bb-btn-primary span.bb-key {
+      padding: 3px 7px;
+      border-radius: 8px;
+      background: rgba(15,23,42,0.7);
+      font-size: 11px;
+      border: 1px solid rgba(191,219,254,0.45);
+      color: #e5e7eb;
+    }
+
+    .hero-hint {
+      font-size: 12px;
+      color: var(--bb-text-soft);
+    }
+
+    .bb-card {
+      background: var(--bb-card);
+      border-radius: var(--bb-radius-xl);
+      border: 1px solid var(--bb-border);
+      padding: 18px 18px 8px;
+      box-shadow: var(--bb-shadow-soft);
+      backdrop-filter: blur(24px);
+    }
+
+    .bb-card-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .bb-card-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .bb-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .bb-card-subtitle {
+      font-size: 12px;
+      color: var(--bb-text-soft);
+      max-width: 520px;
+      line-height: 1.4;
+    }
+
+    .bb-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 260px;
+    }
+
+    .bb-filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .bb-filter-label {
+      font-size: 11px;
+      color: var(--bb-text-soft);
+      margin-bottom: 2px;
+    }
+
+    .bb-filter-select {
+      border-radius: 999px;
+      padding: 6px 10px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      font-size: 12px;
+      outline: none;
+      min-width: 120px;
+    }
+
+    .bb-filter-select:focus {
+      border-color: var(--bb-accent);
+      box-shadow: 0 0 0 1px rgba(37,99,235,0.6);
+    }
+
+    .bb-filter-pill {
+      border-radius: var(--bb-radius-pill);
+      padding: 6px 10px;
+      font-size: 11px;
+      border: 1px solid rgba(148,163,184,0.4);
+      background: rgba(15,23,42,0.8);
+      color: var(--bb-text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bb-filter-pill strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .bb-category-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 9px;
+      font-size: 11px;
+      border-radius: var(--bb-radius-pill);
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(15,23,42,0.8);
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    .bb-category-chip span {
+      opacity: 0.7;
+      margin-right: 3px;
+    }
+
+    .bb-rating-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 9px;
+      border-radius: var(--bb-radius-pill);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .rating-aaa {
+      background: rgba(22,163,74,0.16);
+      border: 1px solid rgba(22,163,74,0.7);
+      color: #bbf7d0;
+    }
+
+    .rating-aa {
+      background: rgba(56,189,248,0.12);
+      border: 1px solid rgba(56,189,248,0.7);
+      color: #bae6fd;
+    }
+
+    .rating-a {
+      background: rgba(234,179,8,0.12);
+      border: 1px solid rgba(234,179,8,0.7);
+      color: #facc15;
+    }
+
+    .rating-b {
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.7);
+      color: #fecaca;
+    }
+
+    .bb-table-wrapper {
+      margin-top: 10px;
+      border-radius: calc(var(--bb-radius-xl) - 4px);
+      overflow: auto;
+      border: 1px solid rgba(51,65,85,0.85);
+      max-height: 70vh;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      table-layout: fixed;
+      min-width: 960px;
+    }
+
+    thead {
+      background: radial-gradient(circle at 0 0, #1f2937, #020617);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    th, td {
+      padding: 10px 9px;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(30,41,59,0.9);
+    }
+
+    th {
+      text-align: left;
+      font-weight: 500;
+      color: #e5e7eb;
+      border-bottom: 1px solid rgba(148,163,184,0.7);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: radial-gradient(circle at 0 0, #1f2937, #020617);
+    }
+
+    tbody tr {
+      background: var(--bb-table-strip);
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--bb-table-strip-alt);
+    }
+
+    tbody tr:hover {
+      background: rgba(15,23,42,0.95);
+      transform: translateY(-1px);
+    }
+
+    td {
+      color: #d1d5db;
+    }
+
+    td.bb-soft {
+      color: var(--bb-text-soft);
+    }
+
+    a {
+      color: #bfdbfe;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .bb-scroll-hint {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--bb-text-soft);
+      text-align: right;
+    }
+
+    @media (max-width: 900px) {
+      .bb-card {
+        padding: 14px 12px 6px;
+      }
+      th, td {
+        padding: 8px 7px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .bb-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .hero {
+        margin-top: 14px;
+      }
+      .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .bb-card-header {
+        flex-direction: column;
+      }
+      .bb-filters {
+        width: 100%;
+      }
+      .bb-scroll-hint {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="bb-header">
+      <div class="bb-brand">
+        <div class="bb-logo-circle">
+          <div class="bb-logo-inner">BB</div>
+        </div>
+        <div>
+          <div class="bb-brand-text-main">BlockBank</div>
+          <div class="bb-brand-text-sub">On-chain Collateral Intelligence</div>
+        </div>
+      </div>
+      <div class="bb-chip">
+        <span class="bb-chip-dot"></span>
+        Univers de collatéral RWA – filtres interactifs
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1 class="hero-title">Univers de collatéral RWA – BlockBank</h1>
+      <p class="hero-subtitle">
+        Utilise les filtres (catégorie, rating, type de token) pour explorer les providers RWA.
+        Pour le télécharger, ouvre ce fichier dans ton navigateur puis fais
+        <strong>Fichier &gt; Enregistrer sous…</strong> en
+        <code>univers_collateral_blockbank_filtres.html</code>.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="bb-btn-primary">
+          <span>Enregistrer cette vue (Fichier &gt; Enregistrer sous…)</span>
+          <span class="bb-key">Ctrl / Cmd + S</span>
+        </a>
+        <span class="hero-hint">
+          Tu peux ensuite le partager à ton équipe produit, risk ou partenaires.
+        </span>
+      </div>
+    </section>
+
+    <section class="bb-card">
+      <div class="bb-card-header">
+        <div class="bb-card-title-block">
+          <div class="bb-card-title">Tableau des providers RWA &amp; collatéraux</div>
+          <div class="bb-card-subtitle">
+            Ratings internes BlockBank : AAA = coeur de bilan sécuritaire, AA = solide &amp; établi,
+            A = stratégique avec plus de risque marché / smart-contract, B = expérimental / niche.
+            Les filtres s’appliquent en temps réel sur le tableau.
+          </div>
+        </div>
+
+        <div class="bb-filters">
+          <div>
+            <div class="bb-filter-label">Filtres rapides</div>
+            <div class="bb-filter-row">
+              <select id="filter-category" class="bb-filter-select">
+                <option value="all">Catégorie : Toutes</option>
+                <option value="core">Core / Core+</option>
+                <option value="yield">Yield</option>
+                <option value="immo">Immo</option>
+                <option value="luxury">Luxury / Art</option>
+                <option value="mining">Mining</option>
+                <option value="nft">NFT / Buyback</option>
+              </select>
+
+              <select id="filter-rating" class="bb-filter-select">
+                <option value="all">Rating : Tous</option>
+                <option value="AAA">AAA</option>
+                <option value="AA">AA</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+              </select>
+
+              <select id="filter-token" class="bb-filter-select">
+                <option value="all">Token : FT &amp; NFT</option>
+                <option value="ft">FT</option>
+                <option value="nft">NFT</option>
+                <option value="other">Autre / Mixte</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bb-filter-row">
+            <div class="bb-filter-pill">
+              <strong>Scope :</strong> marché RWA existant (pas encore de tokenisation maison, sauf mining)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bb-table-wrapper">
+        <table id="collateral-table">
+          <thead>
+          <tr>
+            <th style="width: 11rem;">Catégorie</th>
+            <th style="width: 9rem;">Provider</th>
+            <th style="width: 16rem;">Type d’actif</th>
+            <th style="width: 6.5rem;">Token</th>
+            <th style="width: 13rem;">Régulation / Localisation</th>
+            <th style="width: 19rem;">Usage BlockBank</th>
+            <th style="width: 6rem;">Rating</th>
+            <th style="width: 10rem;">Site / Contact</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <!-- CORE – MONEY MARKET / T-BILLS -->
+          <tr data-category="core" data-rating="AAA" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Core</span> Money Market / Treasuries
+              </div>
+            </td>
+            <td>Ondo Finance</td>
+            <td>US Treasuries &amp; fonds monétaires tokenisés (ex.&nbsp;OUSG, OMMF) adossés à fonds BlackRock &amp; co.</td>
+            <td class="bb-soft">FT (ERC-20, L2, L1)</td>
+            <td class="bb-soft">Émetteur US / global, produits destinés à investisseurs qualifiés, composant clé RWA.</td>
+            <td>Base de <strong>collatéral ultra-safe</strong> pour trésorerie et pools de prêts en stablecoins (LTV élevée, haircut faible).</td>
+            <td><span class="bb-rating-chip rating-aaa">AAA Core</span></td>
+            <td><a href="https://ondo.finance" target="_blank">ondo.finance</a></td>
+          </tr>
+
+          <tr data-category="core" data-rating="AAA" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Core</span> Money Market / T-Bills
+              </div>
+            </td>
+            <td>Matrixdock (STBT)</td>
+            <td>Short-term US T-bills &amp; reverse repos (STBT), yield distribué quotidiennement, preuve de réserves on-chain.</td>
+            <td class="bb-soft">FT (rebasing)</td>
+            <td class="bb-soft">Asie / global, forte orientation institutionnelle, intégration oracles (Chainlink).</td>
+            <td>Pool de <strong>trésorerie tokenisée</strong> pour clients pro / corporate, collatéral de référence “cash-like”.</td>
+            <td><span class="bb-rating-chip rating-aaa">AAA Core</span></td>
+            <td><a href="https://www.matrixdock.com" target="_blank">matrixdock.com</a></td>
+          </tr>
+
+          <!-- OR TOKENISÉ -->
+          <tr data-category="core" data-rating="AAA" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Core</span> Or tokenisé
+              </div>
+            </td>
+            <td>PAX Gold (PAXG)</td>
+            <td>Or LBMA physique, 1 PAXG = 1 oz, stocké en coffres à Londres.</td>
+            <td class="bb-soft">FT</td>
+            <td class="bb-soft">Paxos, entité régulée (NYDFS), reporting régulier, convertibilité off-chain.</td>
+            <td><strong>Store of value clair pour le client</strong>, collatéral premium “or” avec LTV moyenne.</td>
+            <td><span class="bb-rating-chip rating-aaa">AAA Core</span></td>
+            <td><a href="https://paxos.com/pax-gold" target="_blank">paxos.com</a></td>
+          </tr>
+
+          <tr data-category="core" data-rating="AA" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Core</span> Or tokenisé
+              </div>
+            </td>
+            <td>Tether Gold (XAUT)</td>
+            <td>Or physique en coffre (Suisse principalement), 1 XAUT ≈ 1 oz.</td>
+            <td class="bb-soft">FT</td>
+            <td class="bb-soft">Émis par TG Commodities SA, transparence correcte mais dépendante de Tether.</td>
+            <td>Diversification des émetteurs d’or, collatéral or liquide coté sur plusieurs CEX/DEX.</td>
+            <td><span class="bb-rating-chip rating-aa">AA</span></td>
+            <td><a href="https://gold.tether.to" target="_blank">gold.tether.to</a></td>
+          </tr>
+
+          <!-- PRIVATE CREDIT / CREANCES -->
+          <tr data-category="yield" data-rating="AA" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Yield</span> Private Credit
+              </div>
+            </td>
+            <td>Centrifuge</td>
+            <td>Portefeuilles de créances (PME, immobilier, factures, etc.) tokenisés en pools RWA, exposés à cash-flows réels.</td>
+            <td class="bb-soft">FT (parts de pools)</td>
+            <td class="bb-soft">Juridictions multiples, historique solide RWA / DeFi, intégrations avec Maker, Aave, etc.</td>
+            <td>Source de <strong>collatéral yieldé</strong> pour des produits de prêt avec LTV ajustée au risque du pool.</td>
+            <td><span class="bb-rating-chip rating-aa">AA</span></td>
+            <td><a href="https://centrifuge.io" target="_blank">centrifuge.io</a></td>
+          </tr>
+
+          <tr data-category="yield" data-rating="A" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Yield</span> Private Credit
+              </div>
+            </td>
+            <td>Goldfinch</td>
+            <td>Crédit privé via prêteurs off-chain (PME, fintech, institutions), yield généralement supérieur à 8–10&nbsp;%.</td>
+            <td class="bb-soft">FT</td>
+            <td class="bb-soft">Forte dominante marchés émergents / crédit non coté, gouvernance DeFi.</td>
+            <td>Collatéral de <strong>yield différenciant</strong> pour produits à risque maîtrisé, LTV prudente.</td>
+            <td><span class="bb-rating-chip rating-a">A</span></td>
+            <td><a href="https://goldfinch.finance" target="_blank">goldfinch.finance</a></td>
+          </tr>
+
+          <tr data-category="yield" data-rating="A" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Yield</span> Credit Pro / Trésorerie
+              </div>
+            </td>
+            <td>Maple Finance</td>
+            <td>Crédits structurés pour institutions, desks de trading, acteurs crypto régulés.</td>
+            <td class="bb-soft">FT</td>
+            <td class="bb-soft">US / UK, segmentation KYC / whitelists, historique de défauts &amp; restructurations à suivre.</td>
+            <td>Source de collatéral yieldé pour clients pro / “credit strategy” avec analyse de risque renforcée.</td>
+            <td><span class="bb-rating-chip rating-a">A</span></td>
+            <td><a href="https://maple.finance" target="_blank">maple.finance</a></td>
+          </tr>
+
+          <!-- IMMOBILIER TOKENISÉ -->
+          <tr data-category="immo" data-rating="A" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Immo</span> Résidentiel US
+              </div>
+            </td>
+            <td>RealT</td>
+            <td>Biens résidentiels locatifs US, revenus distribués pro-rata sous forme de stablecoins.</td>
+            <td class="bb-soft">FT (ERC-20)</td>
+            <td class="bb-soft">SPV sous droit US, KYC requis, actif très lisible pour retail.</td>
+            <td>Collatéral immobilier fractionné, bon narratif “real estate on-chain”, LTV modérée.</td>
+            <td><span class="bb-rating-chip rating-a">A</span></td>
+            <td><a href="https://realt.co" target="_blank">realt.co</a></td>
+          </tr>
+
+          <tr data-category="immo" data-rating="A" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Immo</span> Fractional US
+              </div>
+            </td>
+            <td>Lofty</td>
+            <td>Immobilier US fractionné (résidentiel) avec flux locatifs, ticket d’entrée faible.</td>
+            <td class="bb-soft">FT</td>
+            <td class="bb-soft">SPV US, propriété fractionnée pour investisseurs qualifiés / KYC.</td>
+            <td>Collatéral immo pour profils retail / mass affluent, intégrable avec haircuts relativement conservateurs.</td>
+            <td><span class="bb-rating-chip rating-a">A</span></td>
+            <td><a href="https://www.lofty.ai" target="_blank">lofty.ai</a></td>
+          </tr>
+
+          <!-- COMMODITIES / VALEURS MOBILIÈRES -->
+          <tr data-category="core" data-rating="AA" data-token="ft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Core+</span> Titres &amp; Commodities
+              </div>
+            </td>
+            <td>Swarm</td>
+            <td>Tokenisation régulée d’actions, obligations, or, ETF, etc. sous cadre européen.</td>
+            <td class="bb-soft">FT</td>
+            <td class="bb-soft">Plateforme enregistrée (ex.&nbsp;BaFin), cadre MiFID-like.</td>
+            <td>Accès à un <strong>panier diversifié</strong> de titres RWA tokenisés pour collatéral institutionnel / wealth.</td>
+            <td><span class="bb-rating-chip rating-aa">AA</span></td>
+            <td><a href="https://swarm.com" target="_blank">swarm.com</a></td>
+          </tr>
+
+          <!-- LUXE / ART -->
+          <tr data-category="luxury" data-rating="A" data-token="nft">
+            <td>
+              <div class="bb-category-chip">
+                <span>Luxury</span> Objets de luxe vaultés
+              </div>
+            </td>
+            <td>4K</td>
+            <td>Montres, sacs, sneakers, collector, stockés en coffre et représentés par NFTs.</td>
+            <td class="bb-soft">NFT</td>
+            <td class="bb-soft">US, entrepôts sécurisés, logistique &amp; assurance intégrées.</td>
+            <td>Collatéral <strong>image / marketing</strong> : “pose ta montre en garantie”, LTV faible (spéculatif / illiquide).</td>
+            <td><span class="bb-rating-chip rating-a">A</span></td>
+            <td><a href="https://4k.com" target="_blank">4k.com</a></td>
+          </tr>
+
+          <tr data-category="luxury" data-rating="B" data-token="mixed">
+            <td>
+              <div class="bb-category-chip">
+                <span>Art</span> Œuvres fractionnées
+              </div>
+            </td>
+            <td>Particle</td>
+            <td>Œuvres d’art iconiques fractionnées en NFTs / tokens, droit économique mais pas totalité de la propriété.</td>
+            <td class="bb-soft">NFT / FT</td>
+            <td class="bb-soft">Structures US / internationales, marché encore de niche.</td>
+            <td>Collatéral <strong>très spéculatif</strong> pour clients HNWI, LTV très basse + haircuts élevés.</td>
+            <td><span class="bb-rating-chip rating-b">B</span></td>
+            <td><a href="https://particlecollection.com" target="_blank">particlecollection.com</a></td>
+          </tr>
+
+          <!-- BTC MINING / HASHRATE -->
+          <tr data-category="mining" data-rating="AA" data-token="other">
+            <td>
+              <div class="bb-category-chip">
+                <span>Mining</span> Hashrate / Machines
+              </div>
+            </td>
+            <td>Luxor</td>
+            <td>Solutions orientées hashrate (hashprice, outils de marché, marketplace ASIC), base pour structurer des tokens de hashrate.</td>
+            <td class="bb-soft">Contrats &amp; potentiels FT/NFT</td>
+            <td class="bb-soft">US, acteur de référence sur la data &amp; la liquidité mining.</td>
+            <td>Partenaire technique / marché pour <strong>tokeniser le hashrate et les rigs</strong> BlockBank (NFTs de rigs ou parts de hashrate).</td>
+            <td><span class="bb-rating-chip rating-aa">AA</span></td>
+            <td><a href="https://luxor.tech" target="_blank">luxor.tech</a></td>
+          </tr>
+
+          <tr data-category="mining" data-rating="A" data-token="other">
+            <td>
+              <div class="bb-category-chip">
+                <span>Mining</span> Infrastructures / Farms
+              </div>
+            </td>
+            <td>Giga Energy</td>
+            <td>Infra de mining (containers, farms), énergie flare gas – base potentielle pour structurer des NFTs “batchs de machines”.</td>
+            <td class="bb-soft">Contrats off-chain, tokenisation à structurer</td>
+            <td class="bb-soft">US (notamment Texas), deals sur mesure.</td>
+            <td>Partenaire potentiel pour <strong>sécuriser le sous-jacent réel</strong> de NFTs BlockBank (machines, sites, contrats d’énergie).</td>
+            <td><span class="bb-rating-chip rating-a">A</span></td>
+            <td><a href="https://giga.energy" target="_blank">giga.energy</a></td>
+          </tr>
+
+          <tr data-category="mining" data-rating="B" data-token="other">
+            <td>
+              <div class="bb-category-chip">
+                <span>Mining</span> Hashrate marketplace
+              </div>
+            </td>
+            <td>MiningRigRentals</td>
+            <td>Marketplace de hashrate “on-demand” (location). Sert de référence marché pour prix &amp; structure de produits.</td>
+            <td class="bb-soft">Contrats de location</td>
+            <td class="bb-soft">Global, environnement retail / semi-pro.</td>
+            <td>Source de prix &amp; inspiration produit pour <strong>design de NFTs hash-linked</strong> (mais à tokeniser toi-même).</td>
+            <td><span class="bb-rating-chip rating-b">B</span></td>
+            <td><a href="https://www.miningrigrentals.com" target="_blank">miningrigrentals.com</a></td>
+          </tr>
+
+          <!-- NFT AVEC BUYBACK / PREMIUM -->
+          <tr data-category="nft" data-rating="B" data-token="nft">
+            <td>
+              <div class="bb-category-chip">
+                <span>NFT</span> Buyback / Premium
+              </div>
+            </td>
+            <td>Slot partenaires NFT</td>
+            <td>
+              Collections de NFTs RWA (luxe, immobilier fractionné, IP, etc.) où un
+              <strong>contrat off-chain</strong>
+              prévoit un rachat (buyback) avec léger premium ou décote maîtrisée.
+            </td>
+            <td class="bb-soft">NFT (ERC-721 / 1155)</td>
+            <td class="bb-soft">Dépend du partenaire / de la juridiction – à négocier au cas par cas.</td>
+            <td>
+              Créer une gamme <strong>“NFT sécurisé avec option de rachat”</strong>.
+              Nécessite contrats juridiques spécifiques + due-diligence. Cette ligne est un
+              <em>slot</em> à remplir avec partenaires identifiés.
+            </td>
+            <td><span class="bb-rating-chip rating-b">B (structure à définir)</span></td>
+            <td class="bb-soft">À définir : family offices, maisons de luxe, galeries, etc.</td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bb-scroll-hint">
+        Sur mobile : défile horizontalement pour voir toutes les colonnes. Les filtres au-dessus s’appliquent instantanément.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (function() {
+      const categorySelect = document.getElementById('filter-category');
+      const ratingSelect = document.getElementById('filter-rating');
+      const tokenSelect = document.getElementById('filter-token');
+      const rows = Array.from(document.querySelectorAll('#collateral-table tbody tr'));
+
+      function normalizeToken(token) {
+        if (!token) return 'other';
+        token = token.toLowerCase();
+        if (token.includes('ft')) return 'ft';
+        if (token.includes('nft')) return 'nft';
+        return token;
+      }
+
+      function applyFilters() {
+        const cat = categorySelect.value;
+        const rating = ratingSelect.value;
+        const token = tokenSelect.value;
+
+        rows.forEach(row => {
+          const rowCat = (row.getAttribute('data-category') || '').toLowerCase();
+          const rowRating = (row.getAttribute('data-rating') || '').toUpperCase();
+          const rowToken = normalizeToken(row.getAttribute('data-token') || '');
+
+          const catOk = (cat === 'all') || (rowCat === cat);
+          const ratingOk = (rating === 'all') || (rowRating === rating);
+          const tokenOk = (token === 'all') || (rowToken === token);
+
+          if (catOk && ratingOk && tokenOk) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      }
+
+      categorySelect.addEventListener('change', applyFilters);
+      ratingSelect.addEventListener('change', applyFilters);
+      tokenSelect.addEventListener('change', applyFilters);
+    })();
+  </script>
+</body>
+</html>

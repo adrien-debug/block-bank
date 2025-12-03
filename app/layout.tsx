@@ -64,10 +64,10 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  }
+                  // Force light mode - remove any dark class
+                  document.documentElement.classList.remove('dark');
+                  // Remove dark theme from localStorage if present
+                  localStorage.removeItem('theme');
                 } catch (e) {}
               })();
             `,

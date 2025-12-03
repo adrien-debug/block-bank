@@ -3,7 +3,7 @@
  * Centralise toutes les URLs des endpoints
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.blockbank.com'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? window.location.origin : '')
 
 export const endpoints = {
   // Prêts
@@ -75,6 +75,23 @@ export const endpoints = {
       revoke: (platform: string) => `${API_BASE_URL}/credit-score/partners/${platform}/revoke`,
       generateApiKey: (platform: string) => `${API_BASE_URL}/credit-score/partners/${platform}/api-key`,
       stats: `${API_BASE_URL}/credit-score/partners/stats`,
+    },
+  },
+
+  // Asset Submissions
+  assetSubmissions: {
+    create: `${API_BASE_URL}/api/asset-submissions`,
+  },
+
+  // Admin
+  admin: {
+    auth: {
+      login: `${API_BASE_URL}/api/admin/auth/login`,
+      logout: `${API_BASE_URL}/api/admin/auth/logout`,
+    },
+    submissions: {
+      list: `${API_BASE_URL}/api/admin/submissions`,
+      get: (id: string) => `${API_BASE_URL}/api/admin/submissions/${id}`,
     },
   },
 } as const

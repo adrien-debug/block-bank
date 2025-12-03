@@ -205,8 +205,20 @@
   font-family: var(--font-ui);
 }
 
+.landing-opportunity-cta {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .landing-cta {
   margin-top: var(--space-12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
 }
 
 .cta-text {
@@ -214,5 +226,26 @@
   font-size: var(--text-body);
   font-weight: var(--font-medium);
   font-family: var(--font-ui);
+}
+
+.landing-cta-buttons {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.opportunity-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.opportunity-button .button-icon {
+  width: 20px;
+  height: 20px;
 }
 

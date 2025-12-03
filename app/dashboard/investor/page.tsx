@@ -4,3 +4,4 @@ export default function InvestorPage() {
   return <Investor />
 }
 
+
