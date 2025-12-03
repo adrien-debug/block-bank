@@ -215,7 +215,7 @@ export default function AdminDashboardPage() {
                   </div>
                 </div>
                 <Button variant="secondary" onClick={(e) => {
-                  e.stopPropagation()
+                  e?.stopPropagation()
                   router.push(`/admin/submissions/${submission.id}`)
                 }}>
                   View Details

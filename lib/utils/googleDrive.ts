@@ -77,7 +77,7 @@ export async function uploadFile(
   }
 
   const media = {
-    mimeType: mimeType || file instanceof File ? file.type : 'application/octet-stream',
+    mimeType: mimeType || (file instanceof File ? file.type : 'application/octet-stream'),
     body: Readable.from(fileBuffer),
   }
 

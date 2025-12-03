@@ -851,7 +851,7 @@ export default function AssetTokenizationRequestPage() {
                         rel="noopener noreferrer"
                         className="link-preview-button"
                       >
-                        <ChartUpIcon className="icon-svg" style={{ width: '16px', height: '16px' }} />
+                        <ChartUpIcon className="icon-svg icon-small" />
                         <span>View Link</span>
                       </a>
                     </div>
@@ -933,7 +933,7 @@ export default function AssetTokenizationRequestPage() {
               {/* Messages d'erreur */}
               {submitError && (
                 <div className="form-error-message">
-                  <WarningIcon className="icon-svg" style={{ width: '20px', height: '20px', marginRight: '8px', color: '#EF4444' }} />
+                  <WarningIcon className="icon-svg icon-inline" />
                   {submitError}
                 </div>
               )}
@@ -942,7 +942,7 @@ export default function AssetTokenizationRequestPage() {
               <div className="form-actions">
                 {submitSuccess && (
                   <div className="form-success-message">
-                    <CheckIcon className="icon-svg" style={{ width: '20px', height: '20px', marginRight: '8px', color: '#10B981' }} />
+                    <CheckIcon className="icon-svg icon-inline" />
                     Your request has been submitted successfully! We will review it and get back to you within 48 hours.
                   </div>
                 )}
@@ -1384,6 +1384,26 @@ export default function AssetTokenizationRequestPage() {
           font-size: var(--text-sm);
           display: flex;
           align-items: center;
+        }
+
+        .icon-inline {
+          width: 20px;
+          height: 20px;
+          margin-right: 8px;
+          flex-shrink: 0;
+        }
+
+        .icon-small {
+          width: 16px;
+          height: 16px;
+        }
+
+        .form-error-message .icon-svg {
+          color: #EF4444;
+        }
+
+        .form-success-message .icon-svg {
+          color: #10B981;
         }
 
         .form-submit-button {

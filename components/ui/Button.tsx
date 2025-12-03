@@ -4,10 +4,14 @@ import React from 'react'
 
 interface ButtonProps {
   children: React.ReactNode
-  variant?: 'primary' | 'ghost'
+  variant?: 'primary' | 'ghost' | 'secondary'
   href?: string
-  onClick?: () => void
+  onClick?: (e?: React.MouseEvent) => void
   className?: string
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
+  style?: React.CSSProperties
+  size?: 'small' | 'medium' | 'large'
 }
 
 export default function Button({ 
@@ -15,16 +19,22 @@ export default function Button({
   variant = 'primary', 
   href, 
   onClick,
-  className = '' 
+  className = '',
+  type = 'button',
+  disabled = false,
+  style,
+  size = 'medium'
 }: ButtonProps) {
   const baseClasses = 'btn'
-  const variantClasses = variant === 'primary' ? 'btn-primary' : 'btn-ghost'
+  const variantClasses = variant === 'primary' ? 'btn-primary' : variant === 'secondary' ? 'btn-secondary' : 'btn-ghost'
+  const sizeClasses = size === 'small' ? 'btn-small' : size === 'large' ? 'btn-large' : ''
   
   if (href) {
     return (
       <a 
         href={href} 
-        className={`${baseClasses} ${variantClasses} ${className}`}
+        className={`${baseClasses} ${variantClasses} ${sizeClasses} ${className}`.trim()}
+        style={style}
         onClick={(e) => {
           if (href.startsWith('#')) {
             e.preventDefault()
@@ -43,7 +53,10 @@ export default function Button({
   
   return (
     <button 
-      className={`${baseClasses} ${variantClasses} ${className}`}
+      type={type}
+      disabled={disabled}
+      className={`${baseClasses} ${variantClasses} ${sizeClasses} ${className}`.trim()}
+      style={style}
       onClick={onClick}
     >
       {children}
