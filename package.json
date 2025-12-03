@@ -9,7 +9,9 @@
     "lint": "next lint",
     "test:production": "node scripts/test-production.js",
     "test:production:blockbank": "TEST_URL=https://blockbank.com node scripts/test-production.js",
-    "vercel:env:setup": "node scripts/configure-vercel.js"
+    "vercel:env:setup": "node scripts/configure-vercel.js",
+    "setup:google-drive": "node scripts/setup-google-drive-complete.js",
+    "verify:production": "node scripts/verify-production-config.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -27,6 +29,7 @@
     "@types/react-dom": "^18.2.0",
     "@types/uuid": "^10.0.0",
     "dotenv": "^17.2.3",
+    "open": "^11.0.0",
     "typescript": "^5.0.0"
   }
 }

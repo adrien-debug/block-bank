@@ -4,28 +4,53 @@ import { Readable } from 'stream'
 let driveClient: any = null
 
 /**
- * Initialise le client Google Drive avec Service Account
+ * Initialise le client Google Drive avec Service Account ou OAuth
  */
 export function initGoogleDrive() {
   if (driveClient) {
     return driveClient
   }
 
+  // Méthode 1 : Service Account (prioritaire si configuré)
   const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL
 
-  if (!privateKey || !clientEmail) {
-    throw new Error('GOOGLE_DRIVE_CONFIG_MISSING: Google Drive environment variables are missing. Please configure GOOGLE_PRIVATE_KEY and GOOGLE_SERVICE_ACCOUNT_EMAIL in your .env.local file.')
+  if (privateKey && clientEmail) {
+    const auth = new google.auth.JWT({
+      email: clientEmail,
+      key: privateKey,
+      scopes: ['https://www.googleapis.com/auth/drive'],
+    })
+
+    driveClient = google.drive({ version: 'v3', auth })
+    return driveClient
   }
 
-  const auth = new google.auth.JWT({
-    email: clientEmail,
-    key: privateKey,
-    scopes: ['https://www.googleapis.com/auth/drive'],
-  })
+  // Méthode 2 : OAuth (si Service Account non configuré)
+  const clientId = process.env.GOOGLE_CLIENT_ID
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI || 
+    (process.env.NODE_ENV === 'production' 
+      ? process.env.NEXT_PUBLIC_APP_URL || 'https://your-domain.com'
+      : 'http://localhost:1001')
 
-  driveClient = google.drive({ version: 'v3', auth })
-  return driveClient
+  if (clientId && clientSecret && refreshToken) {
+    const oauth2Client = new google.auth.OAuth2(
+      clientId,
+      clientSecret,
+      redirectUri
+    )
+
+    oauth2Client.setCredentials({
+      refresh_token: refreshToken
+    })
+
+    driveClient = google.drive({ version: 'v3', auth: oauth2Client })
+    return driveClient
+  }
+
+  throw new Error('GOOGLE_DRIVE_CONFIG_MISSING: Google Drive environment variables are missing. Please configure either Service Account (GOOGLE_PRIVATE_KEY and GOOGLE_SERVICE_ACCOUNT_EMAIL) or OAuth (GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN, and optionally GOOGLE_REDIRECT_URI) in your environment variables.')
 }
 
 /**
