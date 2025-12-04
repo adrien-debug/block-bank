@@ -22,6 +22,7 @@ import '../styles/skeleton.css'
 import { Providers } from './providers'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://www.block-bank.com'),
   title: 'Block Bank - Credit Banking On-Chain',
   description: 'Infrastructure de crédit on-chain pour actifs réels & mining Bitcoin',
   openGraph: {
