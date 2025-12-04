@@ -41,8 +41,6 @@ scripts/get-oauth-token*.js
 scripts/get-refresh-token*.js
 scripts/*google*.js
 scripts/*Google*.js
-scripts/*google*.js
-scripts/*Google*.js
 
 # typescript
 *.tsbuildinfo
