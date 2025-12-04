@@ -366,15 +366,37 @@ export default function AssetTokenizationRequestPage() {
 
       if (!response.ok) {
         console.log('❌ Response not OK, parsing error...')
+        console.log('❌ Response status:', response.status, response.statusText)
+        console.log('❌ Response headers:', Object.fromEntries(response.headers.entries()))
+        
         let errorMessage = 'Unknown error'
         try {
-          const data = await response.json()
-          console.log('❌ Error response data:', data)
-          errorMessage = data.error || `Error ${response.status}: ${response.statusText}`
+          // Cloner la réponse pour pouvoir lire le texte même si on a déjà accédé au body
+          const clonedResponse = response.clone()
+          const responseText = await clonedResponse.text()
+          console.log('❌ Response text (raw):', responseText)
+          console.log('❌ Response text length:', responseText.length)
+          
+          if (responseText && responseText.trim().length > 0) {
+            // Essayer de parser comme JSON
+            try {
+              const data = JSON.parse(responseText)
+              console.log('❌ Error response data (JSON):', data)
+              errorMessage = data.error || data.message || `Error ${response.status}: ${response.statusText}`
+            } catch (jsonError) {
+              // Si ce n'est pas du JSON, utiliser le texte brut
+              console.log('❌ Response is not JSON, using raw text')
+              errorMessage = responseText.substring(0, 500) // Limiter à 500 caractères
+            }
+          } else {
+            console.log('❌ Response body is empty')
+            errorMessage = `Error ${response.status}: ${response.statusText || 'No response from server'}`
+          }
         } catch (e) {
-          console.log('❌ Failed to parse error JSON:', e)
+          console.log('❌ Failed to read response:', e)
           errorMessage = `Error ${response.status}: ${response.statusText || 'No response from server'}`
         }
+        console.log('❌ Final error message:', errorMessage)
         throw new Error(errorMessage)
       }
 
