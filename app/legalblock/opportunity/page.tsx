@@ -1503,11 +1503,261 @@ export default function AssetTokenizationRequestPage() {
         }
 
         @media (max-width: 768px) {
+          .dashboard-overview {
+            padding: var(--space-4) var(--margin-mobile);
+          }
+
+          .dashboard-header h1 {
+            font-size: 28px !important;
+          }
+
+          .dashboard-header p {
+            font-size: 14px !important;
+            margin-top: 6px !important;
+          }
+
+          .user-type-selection-card {
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+          }
+
+          .user-type-selection h2 {
+            font-size: 18px !important;
+            margin-bottom: 20px !important;
+          }
+
+          .user-type-buttons {
+            grid-template-columns: 1fr;
+            gap: var(--space-4);
+          }
+
+          .user-type-button {
+            padding: var(--space-5);
+            min-height: auto;
+          }
+
+          .user-type-icon .icon-svg {
+            width: 40px;
+            height: 40px;
+          }
+
+          .user-type-content h3 {
+            font-size: 16px;
+          }
+
+          .user-type-content p {
+            font-size: 13px;
+          }
+
+          .asset-form-card {
+            padding: var(--space-5);
+            margin-bottom: var(--space-5);
+          }
+
+          .asset-form-card h2 {
+            font-size: 16px !important;
+          }
+
+          .change-user-type-button {
+            padding: var(--space-1) var(--space-3);
+            font-size: 12px;
+          }
+
           .form-row {
             grid-template-columns: 1fr;
           }
+
           .asset-type-buttons {
             grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-2);
+          }
+
+          .asset-type-button {
+            padding: var(--space-2);
+            min-height: 80px;
+            font-size: 12px;
+          }
+
+          .asset-type-icon {
+            width: 40px;
+            height: 40px;
+          }
+
+          .asset-type-icon .icon-svg {
+            width: 24px;
+            height: 24px;
+          }
+
+          .asset-type-label {
+            font-size: 11px;
+          }
+
+          .form-label {
+            font-size: 13px;
+          }
+
+          .form-input,
+          .form-textarea {
+            padding: var(--space-2) var(--space-3);
+            font-size: 15px;
+          }
+
+          .form-textarea {
+            min-height: 80px;
+          }
+
+          .form-section-divider {
+            margin: var(--space-3) 0;
+            padding-top: var(--space-3);
+          }
+
+          .form-section-divider h3 {
+            font-size: 18px !important;
+            margin-bottom: 12px !important;
+          }
+
+          .form-section-divider p {
+            font-size: 13px !important;
+            margin-bottom: 10px !important;
+          }
+
+          .documents-section,
+          .asset-documents-section {
+            padding: var(--space-2);
+            gap: var(--space-2);
+          }
+
+          .file-upload-label {
+            padding: var(--space-3);
+            font-size: 13px;
+          }
+
+          .file-upload-icon .icon-svg {
+            width: 18px;
+            height: 18px;
+          }
+
+          .form-hint {
+            font-size: 11px;
+          }
+
+          .form-checkbox-label {
+            font-size: 13px;
+            gap: var(--space-2);
+          }
+
+          .form-checkbox {
+            width: 16px;
+            height: 16px;
+            margin-top: 1px;
+          }
+
+          .form-actions {
+            gap: var(--space-2);
+          }
+
+          .form-success-message,
+          .form-error-message {
+            padding: var(--space-3);
+            font-size: 13px;
+          }
+
+          .form-submit-button {
+            padding: var(--space-3) var(--space-5);
+            font-size: 15px;
+          }
+
+          .link-preview-button {
+            padding: var(--space-1) var(--space-3);
+            font-size: 12px;
+          }
+        }
+
+        @media (max-width: 375px) {
+          .dashboard-overview {
+            padding: var(--space-3) 16px;
+          }
+
+          .dashboard-header h1 {
+            font-size: 24px !important;
+          }
+
+          .dashboard-header p {
+            font-size: 13px !important;
+          }
+
+          .user-type-selection-card {
+            padding: var(--space-5);
+          }
+
+          .user-type-selection h2 {
+            font-size: 16px !important;
+            margin-bottom: 16px !important;
+          }
+
+          .user-type-button {
+            padding: var(--space-4);
+          }
+
+          .user-type-icon .icon-svg {
+            width: 36px;
+            height: 36px;
+          }
+
+          .user-type-content h3 {
+            font-size: 15px;
+          }
+
+          .user-type-content p {
+            font-size: 12px;
+          }
+
+          .asset-form-card {
+            padding: var(--space-4);
+          }
+
+          .asset-form-card h2 {
+            font-size: 15px !important;
+          }
+
+          .asset-type-buttons {
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-1);
+          }
+
+          .asset-type-button {
+            padding: var(--space-1);
+            min-height: 70px;
+            font-size: 11px;
+          }
+
+          .asset-type-icon {
+            width: 36px;
+            height: 36px;
+          }
+
+          .asset-type-icon .icon-svg {
+            width: 20px;
+            height: 20px;
+          }
+
+          .form-section-divider h3 {
+            font-size: 16px !important;
+          }
+
+          .form-input,
+          .form-textarea {
+            font-size: 14px;
+            padding: var(--space-2);
+          }
+
+          .form-label {
+            font-size: 12px;
+          }
+
+          .form-submit-button {
+            padding: var(--space-2) var(--space-4);
+            font-size: 14px;
           }
         }
 

@@ -258,6 +258,129 @@ section {
   padding: var(--space-1) var(--space-4);
 }
 
+/* ====================================
+   RESPONSIVE - MOBILE & IPHONE
+   ==================================== */
+
+@media (max-width: 768px) {
+  section {
+    padding: var(--space-12) var(--margin-mobile);
+  }
+
+  .section-kicker {
+    font-size: 11px;
+    margin-bottom: var(--space-1);
+  }
+
+  .section-title {
+    font-size: 28px;
+    line-height: 1.2;
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.01em;
+  }
+
+  .section-badge {
+    padding: var(--space-1) var(--space-3);
+    font-size: 11px;
+    margin-bottom: var(--space-6);
+  }
+
+  .card {
+    padding: var(--space-6);
+  }
+
+  .card h3 {
+    font-size: 18px;
+    margin-bottom: var(--space-3);
+  }
+
+  .card ul {
+    gap: var(--space-2);
+  }
+
+  .card li {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .highlight {
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .toc {
+    padding: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .toc-title {
+    font-size: 18px;
+    margin-bottom: var(--space-4);
+  }
+
+  .toc a {
+    padding: var(--space-2) var(--space-3);
+    font-size: 14px;
+  }
+
+  .toc-sub a {
+    font-size: 13px;
+    padding: var(--space-1) var(--space-3);
+  }
+}
+
+@media (max-width: 375px) {
+  section {
+    padding: var(--space-8) 16px;
+  }
+
+  .section-title {
+    font-size: 24px;
+    margin-bottom: var(--space-2);
+  }
+
+  .section-kicker {
+    font-size: 10px;
+  }
+
+  .card {
+    padding: var(--space-5);
+  }
+
+  .card h3 {
+    font-size: 16px;
+  }
+
+  .card li {
+    font-size: 13px;
+  }
+
+  .highlight {
+    padding: var(--space-2);
+    font-size: 13px;
+  }
+
+  .toc {
+    padding: var(--space-5);
+  }
+
+  .toc-title {
+    font-size: 16px;
+  }
+
+  .toc a {
+    font-size: 13px;
+  }
+}
+
 
 
 

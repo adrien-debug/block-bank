@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Button from './ui/Button'
 
 export default function Navigation() {
   const [isVisible, setIsVisible] = useState(false)
   const [activeSection, setActiveSection] = useState('')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +39,7 @@ export default function Navigation() {
     const element = document.querySelector(href)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      setIsMobileMenuOpen(false) // Fermer le menu mobile après clic
     }
   }
 
@@ -48,7 +49,16 @@ export default function Navigation() {
     <nav className="sticky-nav">
       <div className="sticky-nav-content">
         <div className="sticky-nav-logo">∞ MyBank Protocol</div>
-        <div className="sticky-nav-links">
+        <button 
+          className="sticky-nav-mobile-toggle"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span className={isMobileMenuOpen ? 'open' : ''}></span>
+          <span className={isMobileMenuOpen ? 'open' : ''}></span>
+          <span className={isMobileMenuOpen ? 'open' : ''}></span>
+        </button>
+        <div className={`sticky-nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
           <button
             onClick={() => handleClick('#vision')}
             className={activeSection === 'vision' ? 'active' : ''}

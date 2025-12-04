@@ -249,6 +249,188 @@
   line-height: var(--leading-relaxed);
 }
 
+/* ====================================
+   RESPONSIVE - MOBILE & IPHONE
+   ==================================== */
+
+@media (max-width: 768px) {
+  .hero {
+    padding: var(--space-12) var(--margin-mobile);
+  }
+
+  .hero-main {
+    max-width: 100%;
+  }
+
+  .hero-kicker {
+    font-size: 12px;
+    margin-bottom: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .hero-kicker-pill {
+    padding: 4px var(--space-2);
+    font-size: 11px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+    line-height: 1.2;
+    margin-bottom: var(--space-4);
+    letter-spacing: -0.01em;
+  }
+
+  .hero p {
+    font-size: 15px;
+    margin-bottom: var(--space-6);
+    line-height: 1.6;
+  }
+
+  .hero-tags {
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .tag {
+    padding: var(--space-1) var(--space-3);
+    font-size: 12px;
+    gap: var(--space-1);
+  }
+
+  .tag-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .hero-cta-row {
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-8);
+  }
+
+  .hero-metric-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .metric-card {
+    padding: var(--space-6);
+  }
+
+  .metric-label {
+    font-size: 11px;
+    margin-bottom: var(--space-1);
+  }
+
+  .metric-value {
+    font-size: 20px;
+    margin-bottom: var(--space-2);
+  }
+
+  .metric-caption {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .hero-side {
+    margin-top: var(--space-8);
+  }
+
+  .hero-side-box {
+    padding: var(--space-6);
+  }
+
+  .hero-side-title {
+    font-size: 18px;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-pill-row {
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-pill {
+    padding: var(--space-1) var(--space-3);
+    font-size: 12px;
+  }
+
+  .hero-step-list {
+    gap: var(--space-4);
+  }
+
+  .hero-step-badge {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .hero-step-list li {
+    gap: var(--space-3);
+  }
+
+  .hero-step-list li strong {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .hero-step-list li div {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 375px) {
+  .hero {
+    padding: var(--space-8) 16px;
+  }
+
+  .hero h1 {
+    font-size: 24px;
+    margin-bottom: var(--space-3);
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .hero-kicker {
+    font-size: 11px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 6px var(--space-2);
+  }
+
+  .metric-value {
+    font-size: 18px;
+  }
+
+  .hero-side-title {
+    font-size: 16px;
+  }
+
+  .hero-pill {
+    font-size: 11px;
+    padding: 6px var(--space-2);
+  }
+
+  .hero-step-badge {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  .hero-step-list li strong {
+    font-size: 13px;
+  }
+
+  .hero-step-list li div {
+    font-size: 12px;
+  }
+}
+
 
 
 

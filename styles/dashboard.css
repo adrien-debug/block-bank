@@ -1753,7 +1753,53 @@
   .page-container,
   .dashboard-overview,
   .terms-page {
-    padding: var(--space-6) var(--space-4);
+    padding: var(--space-6) var(--margin-mobile);
+  }
+
+  .dashboard-header h1,
+  .page-header h1,
+  .score-page-header h1,
+  .nft-page-header h1,
+  .explore-page-header h1,
+  .insurance-page h1,
+  .loans-page h1,
+  .investor-page h1,
+  .profile-page h1,
+  .terms-page h1,
+  .dashboard-overview h1 {
+    font-size: 28px;
+    letter-spacing: 0.08em;
+  }
+
+  .dashboard-header p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 375px) {
+  .page-container,
+  .dashboard-overview,
+  .terms-page {
+    padding: var(--space-4) 16px;
+  }
+
+  .dashboard-header h1,
+  .page-header h1,
+  .score-page-header h1,
+  .nft-page-header h1,
+  .explore-page-header h1,
+  .insurance-page h1,
+  .loans-page h1,
+  .investor-page h1,
+  .profile-page h1,
+  .terms-page h1,
+  .dashboard-overview h1 {
+    font-size: 24px;
+    letter-spacing: 0.06em;
+  }
+
+  .dashboard-header p {
+    font-size: 13px;
   }
 }
 
@@ -6435,11 +6481,39 @@
   }
 
   .score-value {
-    font-size: 80px;
+    font-size: 48px;
   }
 
   .score-tier {
+    font-size: 20px;
+  }
+
+  .profile-header-title h1 {
     font-size: 28px;
+  }
+
+  .nft-preview-icon {
+    font-size: 40px;
+  }
+
+  .empty-state-icon {
+    font-size: 40px;
+  }
+
+  .score-value-large {
+    font-size: 36px;
+  }
+
+  .nft-score-display {
+    font-size: 48px;
+  }
+
+  .nft-empty-state .empty-state-icon {
+    font-size: 40px;
+  }
+
+  .nft-detail-preview-icon-large {
+    font-size: 32px;
   }
 
   .chart-container-enhanced {
@@ -14226,6 +14300,59 @@
 
   .partner-actions {
     flex-wrap: wrap;
+  }
+
+  /* Réduction supplémentaire des gros titres pour petits écrans */
+  .score-value {
+    font-size: 40px;
+  }
+
+  .score-value-large {
+    font-size: 32px;
+  }
+
+  .nft-score-display {
+    font-size: 40px;
+  }
+
+  .profile-header-title h1 {
+    font-size: 24px;
+  }
+}
+
+/* ====================================
+   RESPONSIVE - TRÈS PETITS ÉCRANS (iPhone SE)
+   ==================================== */
+
+@media (max-width: 375px) {
+  .score-value {
+    font-size: 36px;
+  }
+
+  .score-value-large {
+    font-size: 28px;
+  }
+
+  .nft-score-display {
+    font-size: 36px;
+  }
+
+  .profile-header-title h1 {
+    font-size: 22px;
+  }
+
+  .nft-preview-icon,
+  .empty-state-icon,
+  .nft-empty-state .empty-state-icon {
+    font-size: 36px;
+  }
+
+  .nft-detail-preview-icon-large {
+    font-size: 28px;
+  }
+
+  .score-tier {
+    font-size: 18px;
   }
 }
 
