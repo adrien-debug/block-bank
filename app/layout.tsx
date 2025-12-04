@@ -24,10 +24,10 @@ import { Providers } from './providers'
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://www.block-bank.com'),
   title: 'Block Bank - Credit Banking On-Chain',
-  description: 'Infrastructure de crédit on-chain pour actifs réels & mining Bitcoin',
+  description: 'On-chain credit infrastructure for real assets',
   openGraph: {
     title: 'Block Bank - Credit Banking On-Chain',
-    description: 'Infrastructure de crédit on-chain pour actifs réels & mining Bitcoin',
+    description: 'On-chain credit infrastructure for real assets',
     url: 'https://blockbank.app',
     siteName: 'Block Bank',
     images: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Block Bank - Credit Banking On-Chain',
-    description: 'Infrastructure de crédit on-chain pour actifs réels & mining Bitcoin',
+    description: 'On-chain credit infrastructure for real assets',
     images: ['/og-image.svg'],
   },
 }

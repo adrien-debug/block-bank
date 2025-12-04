@@ -172,16 +172,16 @@ export default function DashboardLayout({
         <div className="header-content">
           <div className="header-left">
             {shouldShowSidebar && (
-              <button 
-                className="hamburger-menu"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label="Toggle menu"
-                aria-expanded={isMenuOpen}
-              >
-                <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
-                <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
-                <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
-              </button>
+            <button 
+              className="hamburger-menu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={isMenuOpen}
+            >
+              <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+              <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+              <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+            </button>
             )}
             <div className="logo">
               <Logo />
@@ -215,18 +215,18 @@ export default function DashboardLayout({
       <main className="app-main">
         <div className="dashboard">
           {shouldShowSidebar && (
-            <Sidebar
-              items={tabs.map(tab => ({
-                id: tab.id,
-                label: tab.label,
-                icon: tab.icon,
-                href: tab.href,
-              }))}
-              activeItem={getActiveTab()}
-              isOpen={isMenuOpen}
-              onToggle={() => setIsMenuOpen(!isMenuOpen)}
-              walletAddress={address}
-            />
+          <Sidebar
+            items={tabs.map(tab => ({
+              id: tab.id,
+              label: tab.label,
+              icon: tab.icon,
+              href: tab.href,
+            }))}
+            activeItem={getActiveTab()}
+            isOpen={isMenuOpen}
+            onToggle={() => setIsMenuOpen(!isMenuOpen)}
+            walletAddress={address}
+          />
           )}
           <div className={`dashboard-content ${isMenuOpen && shouldShowSidebar ? 'sidebar-open' : ''} ${isTermsPage ? 'terms-page-full-width' : ''}`}>
             {children}

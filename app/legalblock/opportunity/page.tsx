@@ -121,12 +121,40 @@ export default function AssetTokenizationRequestPage() {
     setSubmitError(null)
   }
 
+  const calculateTotalFileSize = (formDataToCheck: AssetSubmissionForm) => {
+    let total = 0
+    const fileFields = ['passport', 'identityDocument', 'companyStatutes', 'companyBalanceSheet', 'companyRegistrationDoc', 'assetDocuments', 'additionalDocuments'] as const
+    fileFields.forEach(field => {
+      const files = formDataToCheck[field] as FileList | null
+      if (files) {
+        Array.from(files).forEach(file => {
+          total += file.size
+        })
+      }
+    })
+    return total
+  }
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, docType: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [docType]: e.target.files
-    }))
+    const newFiles = e.target.files
+    const updatedFormData = {
+      ...formData,
+      [docType]: newFiles
+    }
+    
+    setFormData(updatedFormData)
     setSubmitError(null)
+
+    // Vérifier la taille totale après ajout
+    if (newFiles) {
+      const MAX_TOTAL_SIZE_VERCEL = 4 * 1024 * 1024 // 4 MB
+      const totalSize = calculateTotalFileSize(updatedFormData)
+      
+      if (totalSize > MAX_TOTAL_SIZE_VERCEL) {
+        const totalSizeMB = (totalSize / 1024 / 1024).toFixed(2)
+        setSubmitError(`Attention: La taille totale des fichiers (${totalSizeMB} MB) dépasse la limite de 4 MB. Veuillez réduire la taille ou le nombre de fichiers. Astuce: compressez les images avant de les télécharger.`)
+      }
+    }
   }
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -406,6 +434,17 @@ export default function AssetTokenizationRequestPage() {
         }
       }
       console.log('🌐 Total files size:', totalSize, 'bytes (', (totalSize / 1024 / 1024).toFixed(2), 'MB)')
+
+      // Validation de la taille totale (limite Vercel: 4.5 MB)
+      const MAX_TOTAL_SIZE_VERCEL = 4 * 1024 * 1024 // 4 MB pour être sûr de rester sous 4.5 MB
+      if (totalSize > MAX_TOTAL_SIZE_VERCEL) {
+        const totalSizeMB = (totalSize / 1024 / 1024).toFixed(2)
+        const maxSizeMB = (MAX_TOTAL_SIZE_VERCEL / 1024 / 1024).toFixed(0)
+        console.log('❌ VALIDATION FAILED: Total size exceeds Vercel limit')
+        setIsSubmitting(false)
+        setSubmitError(`La taille totale des fichiers (${totalSizeMB} MB) dépasse la limite de ${maxSizeMB} MB. Veuillez réduire la taille ou le nombre de fichiers. Astuce: compressez les images avant de les télécharger.`)
+        return
+      }
 
       // Créer un AbortController pour le timeout
       const controller = new AbortController()
@@ -1088,7 +1127,7 @@ export default function AssetTokenizationRequestPage() {
                       </span>
                     </label>
                   </div>
-                  <p className="form-hint">Accepted formats: PDF, JPG, PNG, WEBP (Max 10MB per file)</p>
+                  <p className="form-hint">Accepted formats: PDF, JPG, PNG, WEBP (Max 4 MB total for all files combined)</p>
                 </div>
 
                 <div className="or-separator">
@@ -1162,7 +1201,7 @@ export default function AssetTokenizationRequestPage() {
                     </span>
                   </label>
                 </div>
-                <p className="form-hint">You can add other useful documents (complete file, additional files, etc.)</p>
+                <p className="form-hint">You can add other useful documents (complete file, additional files, etc.). Total size limit: 4 MB for all files combined.</p>
               </div>
 
               {/* Informations complémentaires */}
