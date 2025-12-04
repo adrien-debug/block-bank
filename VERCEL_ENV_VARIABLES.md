@@ -56,6 +56,46 @@ GOOGLE_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----
 GOOGLE_DRIVE_FOLDER_ID=votre-folder-id
 ```
 
+### Email Configuration (Recommandé : Resend)
+
+**Domaine identifié :** `block-bank.com`
+
+#### Option 1 : Resend (Recommandé) ⭐
+
+```
+RESEND_API_KEY=re_xxxxxxxxxxxxx
+ADMIN_EMAIL=admin@block-bank.com
+SUPPORT_EMAIL=support@block-bank.com
+NO_REPLY_EMAIL=noreply@block-bank.com
+NEXT_PUBLIC_APP_URL=https://block-bank.com
+```
+
+#### Option 2 : SendGrid
+
+```
+SENDGRID_API_KEY=SG.xxxxxxxxxxxxx
+ADMIN_EMAIL=admin@block-bank.com
+SUPPORT_EMAIL=support@block-bank.com
+NO_REPLY_EMAIL=noreply@block-bank.com
+NEXT_PUBLIC_APP_URL=https://block-bank.com
+```
+
+#### Option 3 : SMTP personnalisé
+
+```
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=votre-email@gmail.com
+SMTP_PASSWORD=votre-mot-de-passe-application
+SMTP_SECURE=false
+ADMIN_EMAIL=admin@block-bank.com
+SUPPORT_EMAIL=support@block-bank.com
+NO_REPLY_EMAIL=noreply@block-bank.com
+NEXT_PUBLIC_APP_URL=https://block-bank.com
+```
+
+**📚 Voir CONFIGURATION_EMAIL_ADMIN_FINAL.md pour les instructions complètes**
+
 ---
 
 ## ⚠️ Important

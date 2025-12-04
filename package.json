@@ -18,7 +18,12 @@
     "test:marketing": "node scripts/test-marketing-api.js",
     "verify:marketing": "node scripts/verify-marketing-setup.js",
     "create:tables": "node scripts/execute-supabase-sql.js",
-    "setup:marketing": "node scripts/final-setup-and-test.js"
+    "create:marketing:tables": "node scripts/create-marketing-tables-direct.js",
+    "setup:marketing": "node scripts/final-setup-and-test.js",
+    "test:email": "node scripts/test-email-config.js",
+    "test:email:send": "node scripts/test-email-send.js",
+    "setup:email": "node scripts/setup-email-admin.js",
+    "check:all": "node scripts/check-all-open.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.86.0",
@@ -28,6 +33,7 @@
     "node-fetch": "^2.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "resend": "^6.5.2",
     "uuid": "^13.0.0"
   },
   "devDependencies": {

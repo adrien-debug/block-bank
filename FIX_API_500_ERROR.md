@@ -59,3 +59,5 @@ CREATE INDEX IF NOT EXISTS idx_marketing_posts_networks ON marketing_posts USING
 ✅ Returns empty array if table doesn't exist (UI won't crash)
 ⚠️ Table still needs to be created in Supabase for full functionality
 
+
+

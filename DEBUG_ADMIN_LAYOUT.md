@@ -245,3 +245,5 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 **Dernière mise à jour :** 4 décembre 2025
 **Statut :** ⚠️ Problème non résolu - Solutions proposées ci-dessus
 
+
+

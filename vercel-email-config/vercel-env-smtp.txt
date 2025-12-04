@@ -1,0 +1,21 @@
+# Configuration Email Admin - SMTP personnalisé
+# Domaine : block-bank.com
+# Généré le : 2025-12-04T15:18:22.570Z
+
+# Instructions :
+# 1. Pour Gmail : Activez l'authentification à 2 facteurs
+# 2. Créez un mot de passe d'application
+# 3. Remplacez les valeurs SMTP ci-dessous
+
+# Variables à ajouter dans Vercel :
+# Lien : https://vercel.com/adrien-nejkovics-projects/block-bank/settings/environment-variables
+
+ADMIN_EMAIL=admin@block-bank.com
+SUPPORT_EMAIL=support@block-bank.com
+NO_REPLY_EMAIL=noreply@block-bank.com
+NEXT_PUBLIC_APP_URL=https://block-bank.com
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=votre-email@gmail.com
+SMTP_PASSWORD=votre-mot-de-passe-application
+SMTP_SECURE=false

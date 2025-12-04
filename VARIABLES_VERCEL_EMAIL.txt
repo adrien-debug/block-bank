@@ -1,0 +1,86 @@
+# 📧 Variables d'Environnement Email Admin - Block Bank
+# Domaine : block-bank.com
+# Date : Décembre 2025
+
+# ============================================================================
+# OPTION 1 : RESEND (Recommandé) ⭐
+# ============================================================================
+
+# Instructions :
+# 1. Créez un compte sur https://resend.com
+# 2. Allez dans Domains → Add Domain
+# 3. Entrez : block-bank.com
+# 4. Suivez les instructions pour ajouter les enregistrements DNS
+# 5. Attendez la vérification (5-30 minutes)
+# 6. Créez une API Key : API Keys → Create API Key
+# 7. Remplacez RESEND_API_KEY ci-dessous par votre vraie clé
+
+# Variables à ajouter dans Vercel :
+# Lien : https://vercel.com/adrien-nejkovics-projects/block-bank/settings/environment-variables
+
+ADMIN_EMAIL=admin@block-bank.com
+SUPPORT_EMAIL=support@block-bank.com
+NO_REPLY_EMAIL=noreply@block-bank.com
+NEXT_PUBLIC_APP_URL=https://block-bank.com
+RESEND_API_KEY=re_xxxxxxxxxxxxx
+
+# ============================================================================
+# OPTION 2 : SENDGRID
+# ============================================================================
+
+# Instructions :
+# 1. Créez un compte sur https://sendgrid.com
+# 2. Allez dans Settings → Sender Authentication → Domain Authentication
+# 3. Ajoutez block-bank.com
+# 4. Suivez les instructions DNS
+# 5. Créez une API Key : Settings → API Keys → Create API Key
+# 6. Remplacez SENDGRID_API_KEY ci-dessous par votre vraie clé
+
+# Variables à ajouter dans Vercel :
+
+# ADMIN_EMAIL=admin@block-bank.com
+# SUPPORT_EMAIL=support@block-bank.com
+# NO_REPLY_EMAIL=noreply@block-bank.com
+# NEXT_PUBLIC_APP_URL=https://block-bank.com
+# SENDGRID_API_KEY=SG.xxxxxxxxxxxxx
+
+# ============================================================================
+# OPTION 3 : SMTP PERSONNALISÉ
+# ============================================================================
+
+# Instructions :
+# 1. Pour Gmail : Activez l'authentification à 2 facteurs
+# 2. Créez un mot de passe d'application
+# 3. Remplacez les valeurs SMTP ci-dessous
+
+# Variables à ajouter dans Vercel :
+
+# ADMIN_EMAIL=admin@block-bank.com
+# SUPPORT_EMAIL=support@block-bank.com
+# NO_REPLY_EMAIL=noreply@block-bank.com
+# NEXT_PUBLIC_APP_URL=https://block-bank.com
+# SMTP_HOST=smtp.gmail.com
+# SMTP_PORT=587
+# SMTP_USER=votre-email@gmail.com
+# SMTP_PASSWORD=votre-mot-de-passe-application
+# SMTP_SECURE=false
+
+# ============================================================================
+# INSTRUCTIONS VERCEL
+# ============================================================================
+
+# 1. Allez sur : https://vercel.com/adrien-nejkovics-projects/block-bank/settings/environment-variables
+# 2. Cliquez sur "Add New" pour chaque variable
+# 3. Collez le nom et la valeur
+# 4. Sélectionnez les environnements : Production, Preview, Development
+# 5. Cliquez sur "Save"
+# 6. Répétez pour toutes les variables
+# 7. Redéployez l'application
+
+# ============================================================================
+# TEST
+# ============================================================================
+
+# Après configuration, testez avec :
+# npm run test:email
+

@@ -1,0 +1,19 @@
+# Variables Vercel - Resend Configuration
+# Domaine : block-bank.com
+# Date : 2025-12-04T15:22:01.988Z
+
+# ⚠️  IMPORTANT : Remplacez re_VOTRE_CLE_ICI par votre vraie clé Resend
+
+ADMIN_EMAIL=admin@block-bank.com
+SUPPORT_EMAIL=support@block-bank.com
+NO_REPLY_EMAIL=noreply@block-bank.com
+NEXT_PUBLIC_APP_URL=https://block-bank.com
+RESEND_API_KEY=re_VOTRE_CLE_ICI
+
+# Instructions :
+# 1. Copiez ces variables
+# 2. Allez sur : https://vercel.com/adrien-nejkovics-projects/block-bank/settings/environment-variables
+# 3. Ajoutez chaque variable (remplacez re_VOTRE_CLE_ICI par votre vraie clé)
+# 4. Sélectionnez : Production, Preview, Development
+# 5. Redéployez l'application
+
