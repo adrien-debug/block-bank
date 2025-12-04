@@ -82,6 +82,11 @@
   text-transform: uppercase;
 }
 
+.landing-title .title-emphasis {
+  font-size: 1.3em;
+  display: inline-block;
+}
+
 .landing-description {
   font-size: var(--text-body-large);
   color: var(--color-text-secondary);
@@ -266,6 +271,10 @@
     letter-spacing: 0.08em;
   }
 
+  .landing-title .title-emphasis {
+    font-size: 1.3em;
+  }
+
   .landing-description {
     font-size: 15px;
     line-height: 1.6;
@@ -277,31 +286,39 @@
     grid-template-columns: 1fr;
     gap: var(--space-6);
     margin-bottom: var(--space-8);
+    max-width: 100%;
+    padding: 0;
   }
 
   .feature-card {
     padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .feature-icon {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     margin-bottom: var(--space-4);
+    border-radius: var(--radius-md);
   }
 
   .feature-icon svg {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
 
   .feature-card h3 {
     font-size: 18px;
     margin-bottom: var(--space-2);
+    line-height: 1.3;
   }
 
   .feature-card p {
     font-size: 14px;
     line-height: 1.5;
+    margin: 0;
   }
 
   .landing-opportunity-cta {
@@ -331,31 +348,47 @@
     margin-bottom: var(--space-4);
   }
 
+  .landing-title .title-emphasis {
+    font-size: 1.3em;
+  }
+
   .landing-description {
     font-size: 14px;
     margin-bottom: var(--space-6);
   }
 
+  .landing-features {
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
   .feature-card {
     padding: var(--space-5);
+    border-radius: var(--radius-md);
   }
 
   .feature-icon {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
+    margin-bottom: var(--space-3);
+    border-radius: var(--radius-md);
   }
 
   .feature-icon svg {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
   }
 
   .feature-card h3 {
     font-size: 16px;
+    margin-bottom: var(--space-1);
+    line-height: 1.3;
   }
 
   .feature-card p {
     font-size: 13px;
+    line-height: 1.4;
+    margin: 0;
   }
 
   .opportunity-button {

@@ -42,6 +42,11 @@
   letter-spacing: -0.02em;
 }
 
+.hero h1 .title-emphasis {
+  font-size: 1.3em;
+  display: inline-block;
+}
+
 .hero p {
   font-size: var(--text-body-large);
   line-height: var(--leading-relaxed);
@@ -280,6 +285,10 @@
     letter-spacing: -0.01em;
   }
 
+  .hero h1 .title-emphasis {
+    font-size: 1.3em;
+  }
+
   .hero p {
     font-size: 15px;
     margin-bottom: var(--space-6);
@@ -388,6 +397,10 @@
   .hero h1 {
     font-size: 24px;
     margin-bottom: var(--space-3);
+  }
+
+  .hero h1 .title-emphasis {
+    font-size: 1.3em;
   }
 
   .hero p {

@@ -710,6 +710,11 @@
   width: calc(100% - var(--sidebar-width));
 }
 
+.dashboard-content.terms-page-full-width {
+  margin-left: 0 !important;
+  width: 100% !important;
+}
+
 @media (max-width: 768px) {
   .dashboard-content {
     padding: var(--space-6) var(--space-4);
@@ -718,6 +723,11 @@
   .dashboard-content.sidebar-open {
     margin-left: 0;
     width: 100%;
+  }
+
+  .dashboard-content.terms-page-full-width {
+    margin-left: 0 !important;
+    width: 100% !important;
   }
 }
 

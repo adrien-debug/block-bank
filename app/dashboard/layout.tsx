@@ -153,6 +153,10 @@ export default function DashboardLayout({
     router.push('/')
   }, [router])
 
+  // Cacher le sidebar sur la page des conditions générales
+  const isTermsPage = pathname === '/dashboard/terms'
+  const shouldShowSidebar = !isTermsPage
+
   return (
     <div className="app">
       <header className="app-header">
@@ -167,16 +171,18 @@ export default function DashboardLayout({
         )}
         <div className="header-content">
           <div className="header-left">
-            <button 
-              className="hamburger-menu"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-              aria-expanded={isMenuOpen}
-            >
-              <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
-              <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
-              <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
-            </button>
+            {shouldShowSidebar && (
+              <button 
+                className="hamburger-menu"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
+                aria-expanded={isMenuOpen}
+              >
+                <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+                <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+                <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+              </button>
+            )}
             <div className="logo">
               <Logo />
               <span className="logo-text">
@@ -208,19 +214,21 @@ export default function DashboardLayout({
 
       <main className="app-main">
         <div className="dashboard">
-          <Sidebar
-            items={tabs.map(tab => ({
-              id: tab.id,
-              label: tab.label,
-              icon: tab.icon,
-              href: tab.href,
-            }))}
-            activeItem={getActiveTab()}
-            isOpen={isMenuOpen}
-            onToggle={() => setIsMenuOpen(!isMenuOpen)}
-            walletAddress={address}
-          />
-          <div className={`dashboard-content ${isMenuOpen ? 'sidebar-open' : ''}`}>
+          {shouldShowSidebar && (
+            <Sidebar
+              items={tabs.map(tab => ({
+                id: tab.id,
+                label: tab.label,
+                icon: tab.icon,
+                href: tab.href,
+              }))}
+              activeItem={getActiveTab()}
+              isOpen={isMenuOpen}
+              onToggle={() => setIsMenuOpen(!isMenuOpen)}
+              walletAddress={address}
+            />
+          )}
+          <div className={`dashboard-content ${isMenuOpen && shouldShowSidebar ? 'sidebar-open' : ''} ${isTermsPage ? 'terms-page-full-width' : ''}`}>
             {children}
           </div>
         </div>

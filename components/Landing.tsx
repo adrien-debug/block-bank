@@ -15,9 +15,9 @@ export default function Landing() {
     <div className="landing">
       <div className="landing-hero">
         <h1 className="landing-title">
-          On-chain credit infrastructure
+          <span className="title-emphasis">On-chain credit</span> infrastructure
           <br />
-          for real assets & Bitcoin mining
+          for real assets
         </h1>
         <p className="landing-description">
           Complete design of an under-collateralized on-chain credit bank,

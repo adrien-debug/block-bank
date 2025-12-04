@@ -17,7 +17,11 @@ export default function Hero() {
           <div className="hero-kicker-pill">∞</div>
           <span>On-Chain Credit Banking Protocol • Adrien × Qatar</span>
         </div>
-        <h1>On-chain credit infrastructure<br />for real assets & Bitcoin mining</h1>
+        <h1>
+          <span className="title-emphasis">On-chain credit</span> infrastructure
+          <br />
+          for real assets
+        </h1>
         <p>
           Complete design of an under-collateralized on-chain credit bank,
           built around three pillars: a hybrid on-chain/off-chain credit score
