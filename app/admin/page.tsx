@@ -146,20 +146,6 @@ export default function AdminDashboardPage() {
     }
   }
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/admin/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ action: 'logout' }),
-      })
-      router.push('/admin/login')
-    } catch (error) {
-      console.error('Logout error:', error)
-    }
-  }
 
   const handleDelete = async (submissionId: string, e: React.MouseEvent) => {
     e.stopPropagation()
@@ -277,7 +263,7 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="dashboard-overview">
+    <div className="dashboard-overview" style={{ width: '100%' }}>
       <div className="dashboard-header" style={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
@@ -295,24 +281,19 @@ export default function AdminDashboardPage() {
             )}
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-          <Button 
-            variant="secondary" 
-            onClick={() => {
-              // Invalider le cache et recharger
-              if (typeof window !== 'undefined') {
-                sessionStorage.clear()
-              }
-              loadSubmissions(true)
-            }}
-            style={{ minWidth: 'auto' }}
-          >
-            🔄 Refresh
-          </Button>
-          <Button variant="secondary" onClick={handleLogout}>
-            Logout
-          </Button>
-        </div>
+        <Button 
+          variant="secondary" 
+          onClick={() => {
+            // Invalider le cache et recharger
+            if (typeof window !== 'undefined') {
+              sessionStorage.clear()
+            }
+            loadSubmissions(true)
+          }}
+          style={{ minWidth: 'auto' }}
+        >
+          🔄 Refresh
+        </Button>
       </div>
 
       {/* Filtres */}

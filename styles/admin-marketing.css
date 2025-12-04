@@ -1,0 +1,234 @@
+/* Styles pour le module marketing admin */
+
+.marketing-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.marketing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.marketing-nav {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 2px solid var(--color-border-default);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.marketing-nav-item {
+  padding: var(--space-3) var(--space-5);
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.marketing-nav-item:hover {
+  color: var(--color-text-primary);
+}
+
+.marketing-nav-item.active {
+  border-bottom-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Filtres */
+.marketing-filters {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+
+/* Liste des items */
+.marketing-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.marketing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+
+/* Cartes d'items */
+.marketing-item-card {
+  padding: var(--space-4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.marketing-item-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Badges de statut */
+.marketing-status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.marketing-network-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3B82F6;
+}
+
+/* Calendrier */
+.marketing-calendar {
+  padding: var(--space-4);
+}
+
+.calendar-header {
+  text-align: center;
+  margin-bottom: var(--space-4);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--space-2);
+}
+
+.calendar-day {
+  min-height: 100px;
+  border: 1px solid var(--color-border-default);
+  padding: var(--space-2);
+  background: var(--color-bg-primary);
+}
+
+.calendar-day.other-month {
+  opacity: 0.5;
+  background: var(--color-bg-secondary);
+}
+
+.calendar-day.today {
+  border: 2px solid #3B82F6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.calendar-event {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.calendar-event:hover {
+  opacity: 0.8;
+}
+
+/* Éditeurs modaux */
+.marketing-editor-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-4);
+}
+
+.marketing-editor-content {
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  padding: var(--space-6);
+}
+
+.marketing-form-group {
+  margin-bottom: var(--space-4);
+}
+
+.marketing-form-label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.marketing-form-input {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.marketing-form-textarea {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.marketing-form-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  margin-top: var(--space-6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .marketing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-grid {
+    gap: var(--space-1);
+  }
+
+  .calendar-day {
+    min-height: 60px;
+    padding: var(--space-1);
+  }
+
+  .marketing-filters {
+    flex-direction: column;
+  }
+
+  .marketing-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+}
+

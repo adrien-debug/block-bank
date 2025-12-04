@@ -56,3 +56,4 @@ npm run dev
 
 **Status :** ✅ **RÉSOLU** - Cache nettoyé, serveur redémarré
 
+

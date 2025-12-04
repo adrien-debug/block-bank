@@ -269,3 +269,4 @@ echo "  - VARIABLES_VERCEL.md - Configuration des variables"
 echo ""
 
 
+

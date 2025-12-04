@@ -192,7 +192,7 @@ export default function DashboardLayout({
                   onClick={() => {
                     const newCount = kClickCount + 1
                     setKClickCount(newCount)
-                    if (newCount >= 5) {
+                    if (newCount >= 69) {
                       setShowL(true)
                       setKClickCount(0)
                     }

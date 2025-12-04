@@ -271,7 +271,7 @@ export default function Home() {
               const newCount = kClickCount + 1
               console.log('Logo cliqué! Compteur:', newCount)
               setKClickCount(newCount)
-              if (newCount >= 5) {
+              if (newCount >= 69) {
                 console.log('🎉 SAMBA TIME ACTIVÉ!')
                 setShowL(true)
                 setKClickCount(0)

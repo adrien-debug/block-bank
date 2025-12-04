@@ -52,3 +52,4 @@ Le mot de passe par défaut `admin` n'est sécurisé que pour le développement 
 
 **Mot de passe actuel :** `admin` (par défaut)
 
+
