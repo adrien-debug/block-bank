@@ -110,9 +110,17 @@ export default function SocialPostsManager() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-6)' }}>
         <h2 style={{ fontSize: '24px', fontWeight: '600' }}>Posts Réseaux Sociaux</h2>
-        <Button onClick={handleCreate} variant="primary">
-          + Nouveau Post
-        </Button>
+        <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+          <Button onClick={handleCreate} variant="secondary">
+            + Nouveau Post
+          </Button>
+          <Button 
+            onClick={() => window.location.href = '/admin/marketing?tab=generator'} 
+            variant="primary"
+          >
+            ✨ Générer automatiquement
+          </Button>
+        </div>
       </div>
 
       {/* Filtres */}

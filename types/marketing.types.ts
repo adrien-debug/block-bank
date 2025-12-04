@@ -78,3 +78,60 @@ export interface CalendarEvent {
   createdBy?: string | null
 }
 
+// Types pour le moteur de génération de contenu
+export type ContentCategory = 
+  | 'product-features' 
+  | 'educational' 
+  | 'institutional' 
+  | 'use-cases' 
+  | 'partnerships' 
+  | 'industry-news' 
+  | 'success-stories'
+  | 'credit-score'
+  | 'nft-rwa'
+  | 'insurance'
+
+export type ContentTone = 'professional' | 'educational' | 'technical' | 'institutional'
+
+export type PostTemplateType = 
+  | 'product-announcement'
+  | 'educational-thread'
+  | 'partnership-announcement'
+  | 'use-case-story'
+  | 'industry-insight'
+  | 'call-to-action'
+  | 'success-story'
+
+export interface GeneratedContent {
+  id: string
+  baseContent: string
+  category: ContentCategory
+  tone: ContentTone
+  template: PostTemplateType
+  networks: SocialNetwork[]
+  hashtags: string[]
+  mediaSuggestions: string[]
+  cta?: string
+  metadata?: Record<string, any>
+}
+
+export interface NetworkAdaptedContent {
+  network: SocialNetwork
+  content: string
+  hashtags: string[]
+  maxLength: number
+  format: 'text' | 'carousel' | 'video' | 'story' | 'thread'
+  mediaSuggestions: string[]
+  optimalPostTime?: string
+}
+
+export interface ContentGenerationOptions {
+  category?: ContentCategory
+  tone?: ContentTone
+  template?: PostTemplateType
+  networks?: SocialNetwork[]
+  keywords?: string[]
+  excludeRecent?: boolean
+  count?: number
+}
+

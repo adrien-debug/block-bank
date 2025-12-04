@@ -1,2 +1,2 @@
-export type MarketingTab = 'posts' | 'promotions' | 'adwords' | 'calendar' | 'sections'
+export type MarketingTab = 'posts' | 'promotions' | 'adwords' | 'calendar' | 'sections' | 'generator'
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { CalendarEvent, SocialNetwork } from '@/types/marketing.types'
+import { generateNext30DaysCalendar } from '@/lib/services/editorialCalendarGenerator'
 
 const NETWORK_LABELS: Record<SocialNetwork, string> = {
   facebook: 'Facebook',
@@ -28,6 +29,7 @@ export default function ContentCalendar() {
   const [isLoading, setIsLoading] = useState(true)
   const [view, setView] = useState<'month' | 'week'>('month')
   const [currentDate, setCurrentDate] = useState(new Date())
+  const [isGenerating, setIsGenerating] = useState(false)
 
   useEffect(() => {
     loadEvents()
@@ -74,6 +76,27 @@ export default function ContentCalendar() {
     const newDate = new Date(currentDate)
     newDate.setDate(currentDate.getDate() + (direction * 7))
     setCurrentDate(newDate)
+  }
+
+  const handleGenerateCalendar = async () => {
+    setIsGenerating(true)
+    try {
+      const result = generateNext30DaysCalendar(['linkedin', 'twitter', 'facebook', 'instagram'])
+      
+      // Sauvegarder les événements générés (pour l'instant on les affiche juste)
+      // TODO: Implémenter la sauvegarde via API
+      setEvents(result.events)
+      
+      // Recharger les événements depuis l'API pour avoir les IDs
+      await loadEvents()
+      
+      alert(`Calendrier généré avec succès ! ${result.events.length} événements créés.`)
+    } catch (error) {
+      console.error('Error generating calendar:', error)
+      alert('Erreur lors de la génération du calendrier')
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   const getDaysInMonth = () => {
@@ -144,7 +167,16 @@ export default function ContentCalendar() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-6)' }}>
         <h2 style={{ fontSize: '24px', fontWeight: '600' }}>Calendrier Éditorial</h2>
-        <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
+          <Button
+            variant="primary"
+            size="small"
+            onClick={handleGenerateCalendar}
+            disabled={isGenerating}
+          >
+            {isGenerating ? 'Génération...' : '✨ Générer calendrier (30 jours)'}
+          </Button>
+          <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
           <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
             <Button
               variant={view === 'month' ? 'primary' : 'secondary'}
@@ -183,6 +215,7 @@ export default function ContentCalendar() {
             >
               →
             </Button>
+          </div>
           </div>
         </div>
       </div>
