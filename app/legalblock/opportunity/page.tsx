@@ -137,29 +137,45 @@ export default function AssetTokenizationRequestPage() {
   }
 
   const validateDocuments = (): boolean => {
+    console.log('🔍 validateDocuments called')
+    console.log('🔍 userType:', userType)
+    console.log('🔍 formData.passport:', formData.passport?.length || 0)
+    console.log('🔍 formData.companyStatutes:', formData.companyStatutes?.length || 0)
+    console.log('🔍 formData.companyBalanceSheet:', formData.companyBalanceSheet?.length || 0)
+    
     if (userType === 'individual') {
       if (!formData.passport || formData.passport.length === 0) {
+        console.log('❌ validateDocuments: Passport missing for individual')
         setSubmitError('Passport is required for individuals')
         return false
       }
+      console.log('✅ validateDocuments: Individual documents OK')
     } else if (userType === 'company') {
       if (!formData.companyStatutes || formData.companyStatutes.length === 0) {
+        console.log('❌ validateDocuments: Company statutes missing')
         setSubmitError('Company statutes are required')
         return false
       }
       if (!formData.companyBalanceSheet || formData.companyBalanceSheet.length === 0) {
+        console.log('❌ validateDocuments: Balance sheet missing')
         setSubmitError('Balance sheet is required for companies')
         return false
       }
+      console.log('✅ validateDocuments: Company documents OK')
     }
     return true
   }
 
   const validateAssetDocuments = (): boolean => {
+    console.log('🔍 validateAssetDocuments called')
     const hasFiles = formData.assetDocuments && formData.assetDocuments.length > 0
     const hasLink = formData.assetLink && formData.assetLink.trim().length > 0
     
+    console.log('🔍 hasFiles:', hasFiles, 'hasLink:', hasLink)
+    console.log('🔍 assetLink value:', formData.assetLink)
+    
     if (!hasFiles && !hasLink) {
+      console.log('❌ validateAssetDocuments: No files or link provided')
       setSubmitError('Please provide at least one asset document (file or link)')
       return false
     }
@@ -167,39 +183,65 @@ export default function AssetTokenizationRequestPage() {
     if (hasLink) {
       try {
         new URL(formData.assetLink!)
+        console.log('✅ validateAssetDocuments: Link is valid URL')
       } catch {
+        console.log('❌ validateAssetDocuments: Link is not valid URL')
         setSubmitError('The provided link is not a valid URL')
         return false
       }
     }
 
+    console.log('✅ validateAssetDocuments: Validation passed')
     return true
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log('🚀 ========== FORM SUBMIT CALLED ==========')
+    console.log('🚀 Event:', e)
+    console.log('🚀 Current state:', { userType, isSubmitting })
+    
     e.preventDefault()
-    if (!userType) return
+    console.log('✅ Prevent default executed')
+    
+    if (!userType) {
+      console.log('❌ VALIDATION FAILED: No userType selected')
+      return
+    }
+    console.log('✅ UserType validated:', userType)
     
     if (formData.assetType === 'other' && !formData.customAssetType?.trim()) {
+      console.log('❌ VALIDATION FAILED: customAssetType missing')
       setSubmitError('Please specify the asset type in the "Other" field')
       return
     }
+    console.log('✅ Asset type validated:', formData.assetType)
 
+    console.log('🔍 Validating documents...')
     if (!validateDocuments()) {
+      console.log('❌ VALIDATION FAILED: Documents validation failed')
       return
     }
+    console.log('✅ Documents validated')
 
+    console.log('🔍 Validating asset documents...')
     if (!validateAssetDocuments()) {
+      console.log('❌ VALIDATION FAILED: Asset documents validation failed')
       return
     }
+    console.log('✅ Asset documents validated')
     
+    console.log('🔄 Setting isSubmitting to true...')
     setIsSubmitting(true)
     setSubmitError(null)
+    console.log('✅ State updated, starting FormData creation...')
     
     try {
+      console.log('📦 Creating FormData object...')
       const formDataToSend = new FormData()
       formDataToSend.append('userType', userType)
       formDataToSend.append('assetType', formData.assetType)
+      console.log('📦 Added basic fields to FormData')
+      
       if (formData.assetType === 'other' && formData.customAssetType) {
         formDataToSend.append('customAssetType', formData.customAssetType)
       }
@@ -207,6 +249,7 @@ export default function AssetTokenizationRequestPage() {
       formDataToSend.append('estimatedValue', formData.estimatedValue)
       formDataToSend.append('location', formData.location)
       
+      console.log('📦 Adding user-specific fields...')
       if (userType === 'individual') {
         formDataToSend.append('ownerName', formData.ownerName)
         formDataToSend.append('ownerEmail', formData.ownerEmail)
@@ -214,11 +257,14 @@ export default function AssetTokenizationRequestPage() {
           formDataToSend.append('ownerPhone', formData.ownerPhone)
         }
         if (formData.passport) {
-          Array.from(formData.passport).forEach((file) => {
+          console.log('📦 Adding passport files:', formData.passport.length)
+          Array.from(formData.passport).forEach((file, index) => {
+            console.log(`📦 Adding passport file ${index + 1}:`, file.name, file.size, 'bytes')
             formDataToSend.append('passport', file)
           })
         }
         if (formData.identityDocument) {
+          console.log('📦 Adding identity documents:', formData.identityDocument.length)
           Array.from(formData.identityDocument).forEach((file) => {
             formDataToSend.append('identityDocument', file)
           })
@@ -234,11 +280,13 @@ export default function AssetTokenizationRequestPage() {
           formDataToSend.append('companyRegistration', formData.companyRegistration)
         }
         if (formData.companyStatutes) {
+          console.log('📦 Adding company statutes:', formData.companyStatutes.length)
           Array.from(formData.companyStatutes).forEach((file) => {
             formDataToSend.append('companyStatutes', file)
           })
         }
         if (formData.companyBalanceSheet) {
+          console.log('📦 Adding balance sheet:', formData.companyBalanceSheet.length)
           Array.from(formData.companyBalanceSheet).forEach((file) => {
             formDataToSend.append('companyBalanceSheet', file)
           })
@@ -251,7 +299,9 @@ export default function AssetTokenizationRequestPage() {
       }
       
       if (formData.assetDocuments) {
-        Array.from(formData.assetDocuments).forEach((file) => {
+        console.log('📦 Adding asset documents:', formData.assetDocuments.length)
+        Array.from(formData.assetDocuments).forEach((file, index) => {
+          console.log(`📦 Adding asset doc ${index + 1}:`, file.name, file.size, 'bytes')
           formDataToSend.append('assetDocuments', file)
         })
       }
@@ -261,6 +311,7 @@ export default function AssetTokenizationRequestPage() {
       }
       
       if (formData.additionalDocuments) {
+        console.log('📦 Adding additional documents:', formData.additionalDocuments.length)
         Array.from(formData.additionalDocuments).forEach((file) => {
           formDataToSend.append('additionalDocuments', file)
         })
@@ -270,29 +321,73 @@ export default function AssetTokenizationRequestPage() {
         formDataToSend.append('additionalInfo', formData.additionalInfo)
       }
 
+      console.log('🌐 FormData created. Preparing fetch request...')
+      console.log('🌐 FormData size estimation:')
+      let totalSize = 0
+      for (const pair of formDataToSend.entries()) {
+        if (pair[1] instanceof File) {
+          totalSize += pair[1].size
+        }
+      }
+      console.log('🌐 Total files size:', totalSize, 'bytes (', (totalSize / 1024 / 1024).toFixed(2), 'MB)')
+
       // Créer un AbortController pour le timeout
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 120000) // 2 minutes timeout
+      const timeoutId = setTimeout(() => {
+        console.log('⏰ TIMEOUT REACHED: 120 seconds elapsed')
+        controller.abort()
+      }, 120000) // 2 minutes timeout
 
+      console.log('🌐 Sending fetch request to /api/asset-submissions...')
+      console.log('🌐 Request details:', {
+        method: 'POST',
+        url: '/api/asset-submissions',
+        hasSignal: !!controller.signal,
+        timestamp: new Date().toISOString()
+      })
+
+      const fetchStartTime = Date.now()
       const response = await fetch('/api/asset-submissions', {
         method: 'POST',
         body: formDataToSend,
         signal: controller.signal,
       })
+      const fetchDuration = Date.now() - fetchStartTime
+
+      console.log('✅ Fetch completed!', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok,
+        duration: fetchDuration + 'ms',
+        headers: Object.fromEntries(response.headers.entries())
+      })
 
       clearTimeout(timeoutId)
 
       if (!response.ok) {
-        const data = await response.json().catch(() => ({ error: 'Unknown error' }))
-        throw new Error(data.error || `Error ${response.status}: ${response.statusText}`)
+        console.log('❌ Response not OK, parsing error...')
+        let errorMessage = 'Unknown error'
+        try {
+          const data = await response.json()
+          console.log('❌ Error response data:', data)
+          errorMessage = data.error || `Error ${response.status}: ${response.statusText}`
+        } catch (e) {
+          console.log('❌ Failed to parse error JSON:', e)
+          errorMessage = `Error ${response.status}: ${response.statusText || 'No response from server'}`
+        }
+        throw new Error(errorMessage)
       }
 
+      console.log('✅ Response OK, parsing JSON...')
       const data = await response.json()
+      console.log('✅ Success! Response data:', data)
 
       setIsSubmitting(false)
       setSubmitSuccess(true)
+      console.log('✅ State updated: isSubmitting=false, submitSuccess=true')
       
       setTimeout(() => {
+        console.log('🔄 Resetting form...')
         setUserType(null)
         setFormData({
           userType: null,
@@ -323,20 +418,35 @@ export default function AssetTokenizationRequestPage() {
         setSubmitSuccess(false)
       }, 5000)
     } catch (error) {
-      console.error('Submission error:', error)
-      setIsSubmitting(false)
+      console.error('❌ ========== ERROR CAUGHT ==========')
+      console.error('❌ Error object:', error)
+      console.error('❌ Error type:', typeof error)
+      console.error('❌ Error instanceof Error:', error instanceof Error)
       
       if (error instanceof Error) {
+        console.error('❌ Error name:', error.name)
+        console.error('❌ Error message:', error.message)
+        console.error('❌ Error stack:', error.stack)
+        
         if (error.name === 'AbortError') {
+          console.error('❌ Error is AbortError - Request was aborted')
           setSubmitError('Request timeout: The upload is taking too long. Please try again with smaller files or check your connection.')
         } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+          console.error('❌ Error is NetworkError')
           setSubmitError('Network error: Please check your internet connection and try again.')
         } else {
+          console.error('❌ Error is other type')
           setSubmitError(error.message || 'An error occurred while submitting your request')
         }
       } else {
+        console.error('❌ Error is not an Error instance:', error)
         setSubmitError('An unexpected error occurred. Please try again.')
       }
+      
+      setIsSubmitting(false)
+      console.error('✅ State updated: isSubmitting=false')
+    } finally {
+      console.log('🏁 ========== HANDLE SUBMIT END ==========')
     }
   }
 
@@ -410,7 +520,14 @@ export default function AssetTokenizationRequestPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="asset-form">
+            <form 
+              onSubmit={(e) => {
+                console.log('📝 FORM ONSUBMIT EVENT FIRED')
+                console.log('📝 Event details:', e)
+                handleSubmit(e)
+              }} 
+              className="asset-form"
+            >
               {/* Type d'actif - Boutons sélectionnables */}
               <div className="form-group">
                 <label className="form-label">

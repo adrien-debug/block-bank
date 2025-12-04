@@ -4,12 +4,20 @@ import { AssetType, UserType } from '@/types/submission.types'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+export const maxDuration = 300
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now()
+  console.log('[Asset Submission API] ========== START REQUEST ==========')
+  console.log('[Asset Submission API] Timestamp:', new Date().toISOString())
+  
   try {
+    console.log('[Asset Submission API] Step 1: Parsing formData...')
     const formData = await request.formData()
+    console.log('[Asset Submission API] Step 1: FormData parsed successfully')
 
     // Récupérer les données du formulaire
+    console.log('[Asset Submission API] Step 2: Extracting form fields...')
     const userType = formData.get('userType') as UserType
     const assetType = formData.get('assetType') as AssetType
     const customAssetType = formData.get('customAssetType') as string | null
@@ -18,14 +26,25 @@ export async function POST(request: NextRequest) {
     const location = formData.get('location') as string
     const assetLink = formData.get('assetLink') as string | null
     const additionalInfo = formData.get('additionalInfo') as string | null
+    
+    console.log('[Asset Submission API] Step 2: Fields extracted', {
+      userType,
+      assetType,
+      hasAssetDescription: !!assetDescription,
+      hasEstimatedValue: !!estimatedValue,
+      hasLocation: !!location
+    })
 
     // Validation des champs obligatoires
+    console.log('[Asset Submission API] Step 3: Validating required fields...')
     if (!userType || !assetType || !assetDescription || !estimatedValue || !location) {
+      console.log('[Asset Submission API] Step 3: Validation FAILED - missing required fields')
       return NextResponse.json(
         { error: 'Champs obligatoires manquants' },
         { status: 400 }
       )
     }
+    console.log('[Asset Submission API] Step 3: Validation passed')
 
     // Validation pour "Autre" type d'actif
     if (assetType === 'other' && !customAssetType?.trim()) {
@@ -72,6 +91,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Récupérer les fichiers
+    console.log('[Asset Submission API] Step 4: Processing files...')
     const files: {
       passport?: File[]
       identityDocument?: File[]
@@ -120,6 +140,28 @@ export async function POST(request: NextRequest) {
     if (additionalFiles.length > 0 && additionalFiles[0] instanceof File && additionalFiles[0].size > 0) {
       files.additionalDocuments = additionalFiles.filter(f => f instanceof File && f.size > 0)
     }
+    
+    const allFiles = [
+      ...(files.passport || []),
+      ...(files.identityDocument || []),
+      ...(files.companyStatutes || []),
+      ...(files.companyBalanceSheet || []),
+      ...(files.companyRegistrationDoc || []),
+      ...(files.assetDocuments || []),
+      ...(files.additionalDocuments || [])
+    ]
+    const totalFileSize = allFiles.reduce((sum, file) => sum + (file.size || 0), 0)
+    
+    console.log('[Asset Submission API] Step 4: Files processed', {
+      passportCount: files.passport?.length || 0,
+      identityDocCount: files.identityDocument?.length || 0,
+      companyStatutesCount: files.companyStatutes?.length || 0,
+      balanceSheetCount: files.companyBalanceSheet?.length || 0,
+      assetDocsCount: files.assetDocuments?.length || 0,
+      additionalDocsCount: files.additionalDocuments?.length || 0,
+      totalFileSize: totalFileSize,
+      totalFileSizeMB: (totalFileSize / 1024 / 1024).toFixed(2)
+    })
 
     // Validation des documents obligatoires
     if (userType === 'individual') {
@@ -216,10 +258,35 @@ export async function POST(request: NextRequest) {
     }
 
     // Sauvegarder la soumission dans Google Drive
+    console.log('[Asset Submission API] Step 5: Preparing submission data...')
+    console.log('[Asset Submission API] Step 5: Submission data prepared', {
+      userType: submissionData.userType,
+      assetType: submissionData.assetType,
+      hasOwnerName: !!submissionData.ownerName,
+      hasCompanyName: !!submissionData.companyName,
+      estimatedValue: submissionData.estimatedValue
+    })
+    
     try {
-      console.log('[Asset Submission] Starting Google Drive upload...')
+      console.log('[Asset Submission API] Step 6: Starting Google Drive upload...')
+      console.log('[Asset Submission API] Environment check:', {
+        hasPrivateKey: !!process.env.GOOGLE_PRIVATE_KEY,
+        hasClientEmail: !!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        hasFolderId: !!process.env.GOOGLE_DRIVE_FOLDER_ID,
+        privateKeyLength: process.env.GOOGLE_PRIVATE_KEY?.length || 0,
+        nodeEnv: process.env.NODE_ENV
+      })
+      
+      const uploadStartTime = Date.now()
       const { submissionId, folderId } = await saveSubmission(submissionData, files)
-      console.log('[Asset Submission] Upload successful:', { submissionId, folderId })
+      const uploadDuration = Date.now() - uploadStartTime
+      
+      console.log('[Asset Submission API] Step 6: Upload successful!', { 
+        submissionId, 
+        folderId,
+        uploadDurationMs: uploadDuration,
+        totalDurationMs: Date.now() - startTime
+      })
 
       return NextResponse.json({
         success: true,
@@ -228,7 +295,14 @@ export async function POST(request: NextRequest) {
         message: 'Your request has been submitted successfully',
       })
     } catch (driveError) {
-      console.error('[Asset Submission] Google Drive error:', driveError)
+      console.error('[Asset Submission API] Step 6: Google Drive error occurred', {
+        error: driveError instanceof Error ? {
+          message: driveError.message,
+          stack: driveError.stack,
+          name: driveError.name
+        } : driveError,
+        duration: Date.now() - startTime
+      })
       
       // Si Google Drive n'est pas configuré
       if (driveError instanceof Error && driveError.message.includes('GOOGLE_DRIVE_CONFIG_MISSING')) {
@@ -258,7 +332,14 @@ export async function POST(request: NextRequest) {
       )
     }
   } catch (error) {
-    console.error('Submission error:', error)
+    console.error('[Asset Submission API] ========== FATAL ERROR ==========', {
+      error: error instanceof Error ? {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      } : error,
+      duration: Date.now() - startTime
+    })
     const errorMessage = error instanceof Error ? error.message : 'An error occurred while submitting your request'
     return NextResponse.json(
       { error: errorMessage },
