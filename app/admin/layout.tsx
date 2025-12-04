@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import Button from '@/components/ui/Button'
 import Sidebar from '@/components/ui/Sidebar'
+import HelpButton from '@/components/ui/HelpButton'
+import { useHeader } from '@/contexts/HeaderContext'
 import DashboardIcon from '@/components/icons/DashboardIcon'
 import DocumentIcon from '@/components/icons/DocumentIcon'
 import ChartIcon from '@/components/icons/ChartIcon'
@@ -18,10 +20,18 @@ export default function AdminLayout({
 }) {
   const pathname = usePathname()
   const router = useRouter()
+  const { setShowHamburger, setIsMenuOpen, setOnMenuToggle, isMenuOpen } = useHeader()
   const [isAuthenticatedState, setIsAuthenticatedState] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [isMenuOpen, setIsMenuOpen] = useState(true)
   const { isMobile, isMounted } = useWindowSize()
+
+  useEffect(() => {
+    setShowHamburger(true)
+    setOnMenuToggle(() => () => setIsMenuOpen(!isMenuOpen))
+    if (!isMobile) {
+      setIsMenuOpen(true)
+    }
+  }, [isMobile, isMenuOpen, setShowHamburger, setIsMenuOpen, setOnMenuToggle])
 
   useEffect(() => {
     // Vérifier l'authentification
@@ -55,12 +65,6 @@ export default function AdminLayout({
     }
   }, [pathname, router])
 
-  // Sur desktop, le menu est toujours ouvert
-  useEffect(() => {
-    if (!isMobile) {
-      setIsMenuOpen(true)
-    }
-  }, [isMobile])
 
   const handleLogout = async () => {
     try {
@@ -115,45 +119,51 @@ export default function AdminLayout({
   ]
 
   return (
-    <div className="dashboard admin-dashboard" style={{
-      minHeight: '100vh',
-      display: 'flex',
-      background: 'var(--color-bg-primary)',
-    }}>
-      {/* Sidebar */}
-      <Sidebar
-        items={navItems.map(item => ({
-          id: item.id,
-          label: item.label,
-          icon: item.icon,
-          href: item.href,
-        }))}
-        activeItem={getActiveItem()}
-        isOpen={isMenuOpen}
-        onToggle={() => setIsMenuOpen(!isMenuOpen)}
-        className="admin-sidebar"
-      />
-
-      {/* Main Content Area */}
-      <div className="dashboard-content" style={{
-        flex: 1,
-        marginLeft: isMounted && !isMobile && isMenuOpen ? 'var(--sidebar-width)' : '0',
+    <div className="app">
+      <div className="dashboard admin-dashboard" style={{
+        minHeight: 'calc(100vh - var(--header-height))',
         display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
-        transition: 'margin-left 0.3s ease',
+        background: 'var(--color-bg-primary)',
+        marginTop: 'var(--header-height)',
       }}>
-        {/* Main Content */}
-        <main style={{
+        {/* Sidebar */}
+        <Sidebar
+          items={navItems.map(item => ({
+            id: item.id,
+            label: item.label,
+            icon: item.icon,
+            href: item.href,
+          }))}
+          activeItem={getActiveItem()}
+          isOpen={isMenuOpen}
+          onToggle={() => setIsMenuOpen(!isMenuOpen)}
+          className="admin-sidebar"
+        />
+
+        {/* Main Content Area */}
+        <div className="dashboard-content" style={{
           flex: 1,
-          padding: 'var(--space-6)',
-          maxWidth: '1400px',
-          margin: '0 auto',
-          width: '100%',
-          background: 'var(--color-bg-primary)',
+          marginLeft: isMounted && !isMobile && isMenuOpen ? 'var(--sidebar-width)' : '0',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+          transition: 'margin-left 0.3s ease',
         }}>
-          {children}
-        </main>
+          {/* Main Content */}
+          <main style={{
+            flex: 1,
+            padding: 'var(--space-6)',
+            maxWidth: '1400px',
+            margin: '0 auto',
+            width: '100%',
+            background: 'var(--color-bg-primary)',
+          }}>
+            {children}
+          </main>
+        </div>
+        
+        {/* Help Button - Floating */}
+        <HelpButton email="admin@block-bank.com" />
       </div>
     </div>
   )

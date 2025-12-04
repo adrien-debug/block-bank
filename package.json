@@ -23,6 +23,7 @@
     "test:email": "node scripts/test-email-config.js",
     "test:email:send": "node scripts/test-email-send.js",
     "setup:email": "node scripts/setup-email-admin.js",
+    "setup:resend": "node scripts/setup-resend-domain.js",
     "check:all": "node scripts/check-all-open.js"
   },
   "dependencies": {

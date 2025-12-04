@@ -13,6 +13,7 @@ import '../styles/components/navigation.css'
 import '../styles/components/sections.css'
 import '../styles/components/wallet-connect.css'
 import '../styles/components/toast.css'
+import '../styles/components/help-button.css'
 // Pages CSS
 import '../styles/pages/landing.css'
 // Dashboard styles
@@ -20,6 +21,7 @@ import '../styles/dashboard.css'
 // Skeleton styles
 import '../styles/skeleton.css'
 import { Providers } from './providers'
+import HeaderWrapper from '@/components/HeaderWrapper'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://www.block-bank.com'),
@@ -78,6 +80,7 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
+          <HeaderWrapper />
           {children}
         </Providers>
       </body>

@@ -16,16 +16,39 @@ export default function MarketingPage() {
 
   return (
     <div className="admin-page-container">
-      <div className="admin-page-header dashboard-header admin-dashboard-header">
-        <div>
-          <h1 className="admin-page-title">
+      <div className="admin-page-header dashboard-header admin-dashboard-header" style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: 'var(--space-6)',
+        padding: '0',
+        width: '100%',
+      }}>
+        <div style={{ flex: 1 }}>
+          <h1 className="admin-page-title" style={{
+            fontSize: '32px',
+            fontWeight: '700',
+            lineHeight: '1.2',
+            letterSpacing: '0.05em',
+            color: 'var(--color-text-primary)',
+            margin: '0 0 var(--space-2) 0',
+          }}>
             Marketing Management
           </h1>
-          <p className="admin-page-description">
+          <p className="admin-page-description" style={{
+            color: 'var(--color-text-secondary)',
+            fontSize: '16px',
+            lineHeight: '1.5',
+            margin: '0',
+          }}>
             Gérer tous vos réseaux sociaux, promotions, campagnes Google AdWords et calendrier éditorial
           </p>
         </div>
-        <div className="admin-header-controls">
+        <div className="admin-header-controls" style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--space-4)',
+        }}>
           {/* Contrôles optionnels pour le menu Marketing */}
         </div>
       </div>
