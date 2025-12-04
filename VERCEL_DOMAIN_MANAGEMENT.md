@@ -1,48 +1,80 @@
 # Gestion Manuelle des Domaines Vercel
 
-## Configuration : Domaines gérés manuellement
+## ⚠️ Important : Domaines gérés manuellement
 
-Les domaines sont **gérés manuellement** via le dashboard Vercel, pas automatiquement lors des déploiements.
+**Les domaines personnalisés doivent être assignés manuellement via le dashboard Vercel.**
 
-## Comment désactiver l'assignation automatique de domaine
+Ce projet est configuré pour ne pas assigner automatiquement de domaines personnalisés lors des déploiements.
 
-### Option 1 : Via le Dashboard Vercel
+## 📋 Configuration actuelle
+
+- ✅ Domaines personnalisés : **Gestion manuelle uniquement**
+- ⚠️ Domaine `.vercel.app` : Créé automatiquement par Vercel (non désactivable)
+- ✅ Déploiements de production : Activés pour la branche `Stable`
+
+## 🔧 Comment gérer les domaines manuellement
+
+### 1. Accéder au Dashboard Vercel
 
 1. Allez sur https://vercel.com/dashboard
-2. Sélectionnez votre projet
+2. Sélectionnez votre projet **Block Bank**
 3. Allez dans **Settings** → **Domains**
-4. Pour chaque domaine automatique assigné :
-   - Cliquez sur les **3 points** à côté du domaine
-   - Sélectionnez **Remove** ou **Unassign**
-   - Confirmez la suppression
 
-### Option 2 : Désactiver les domaines de prévisualisation
+### 2. Supprimer un domaine existant
+
+Pour retirer un domaine déjà assigné :
+
+1. Dans **Settings** → **Domains**
+2. Trouvez le domaine à supprimer
+3. Cliquez sur les **3 points** (⋯) à côté du domaine
+4. Sélectionnez **Remove**
+5. Confirmez la suppression
+
+### 3. Ajouter un domaine personnalisé
+
+Pour ajouter votre propre domaine (ex: `blockbank.com`) :
+
+1. Dans **Settings** → **Domains**
+2. Cliquez sur **Add Domain**
+3. Entrez votre domaine (ex: `blockbank.com` ou `www.blockbank.com`)
+4. Suivez les instructions pour configurer les DNS :
+   - Ajoutez les enregistrements DNS indiqués
+   - Attendez la propagation DNS (peut prendre quelques minutes à 24h)
+5. Vérifiez que le statut devient **Valid**
+
+### 4. Domaine de production
+
+Le domaine de production doit être :
+- ✅ Assigné **manuellement** via le dashboard
+- ✅ Configuré pour pointer vers la branche `Stable` (production)
+- ✅ Vérifié et validé avant utilisation
+
+## 📝 Notes importantes
+
+### Domaines `.vercel.app`
+
+Vercel crée **toujours automatiquement** un domaine `.vercel.app` pour chaque projet. 
+- Ce domaine **ne peut pas être désactivé**
+- Il est utile pour les tests et prévisualisations
+- Vous pouvez simplement **l'ignorer** si vous ne l'utilisez pas
+
+### Domaines de prévisualisation
+
+Si vous voulez désactiver les domaines de prévisualisation automatiques pour chaque PR :
 
 1. Allez dans **Settings** → **Git**
-2. Désactivez **"Automatic Preview Deployments"** si vous ne voulez pas de domaines de prévisualisation automatiques
+2. Désactivez **"Automatic Preview Deployments"**
 
-### Option 3 : Configuration du projet
+## ✅ Vérification
 
-1. Allez dans **Settings** → **General**
-2. Décochez les options d'assignation automatique de domaine si disponibles
+Après avoir configuré vos domaines :
 
-## Assigner un domaine manuellement
+1. Vérifiez que seul votre domaine personnalisé est assigné (si souhaité)
+2. Testez que votre domaine fonctionne correctement
+3. Vérifiez les certificats SSL (automatiques avec Vercel)
 
-1. Allez dans **Settings** → **Domains**
-2. Cliquez sur **Add Domain**
-3. Entrez votre domaine personnalisé (ex: `blockbank.com`)
-4. Suivez les instructions pour configurer les DNS
-5. Vérifiez la configuration
+## 🔗 Ressources
 
-## Domaine de production
-
-Le domaine de production principal doit être assigné manuellement et ne sera pas créé automatiquement lors des déploiements.
-
-## Note
-
-Les domaines `.vercel.app` sont toujours créés automatiquement par Vercel pour chaque projet. Pour les supprimer :
-- Vous devez supprimer le projet et le recréer, OU
-- Les laisser en place mais ne pas les utiliser
-
-Les domaines personnalisés doivent toujours être ajoutés manuellement via le dashboard.
+- [Documentation Vercel - Domaines](https://vercel.com/docs/concepts/projects/domains)
+- [Configuration DNS Vercel](https://vercel.com/docs/concepts/projects/domains/domain-configuration)
 
