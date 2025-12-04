@@ -199,6 +199,13 @@ export default function AssetTokenizationRequestPage() {
     console.log('🚀 ========== FORM SUBMIT CALLED ==========')
     console.log('🚀 Event:', e)
     console.log('🚀 Current state:', { userType, isSubmitting })
+    console.log('🚀 Form data preview:', {
+      assetType: formData.assetType,
+      hasDescription: !!formData.assetDescription,
+      hasValue: !!formData.estimatedValue,
+      hasLocation: !!formData.location,
+      termsAccepted: formData.termsAccepted
+    })
     
     e.preventDefault()
     console.log('✅ Prevent default executed')
@@ -231,9 +238,14 @@ export default function AssetTokenizationRequestPage() {
     console.log('✅ Asset documents validated')
     
     console.log('🔄 Setting isSubmitting to true...')
-    setIsSubmitting(true)
-    setSubmitError(null)
-    console.log('✅ State updated, starting FormData creation...')
+    try {
+      setIsSubmitting(true)
+      setSubmitError(null)
+      console.log('✅ State updated, starting FormData creation...')
+    } catch (stateError) {
+      console.error('❌ Error setting state:', stateError)
+      throw stateError
+    }
     
     try {
       console.log('📦 Creating FormData object...')
@@ -333,25 +345,56 @@ export default function AssetTokenizationRequestPage() {
 
       // Créer un AbortController pour le timeout
       const controller = new AbortController()
+      const timeoutMs = 120000 // 2 minutes
+      const fetchStartTime = Date.now()
+      let timeoutReason = 'unknown'
+      
       const timeoutId = setTimeout(() => {
-        console.log('⏰ TIMEOUT REACHED: 120 seconds elapsed')
+        const elapsed = Date.now() - fetchStartTime
+        timeoutReason = `Timeout after ${elapsed}ms (${(elapsed / 1000).toFixed(1)}s)`
+        console.log('⏰ TIMEOUT REACHED:', timeoutReason)
         controller.abort()
-      }, 120000) // 2 minutes timeout
+      }, timeoutMs)
 
       console.log('🌐 Sending fetch request to /api/asset-submissions...')
       console.log('🌐 Request details:', {
         method: 'POST',
         url: '/api/asset-submissions',
         hasSignal: !!controller.signal,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        timeoutSeconds: timeoutMs / 1000
       })
-
-      const fetchStartTime = Date.now()
-      const response = await fetch('/api/asset-submissions', {
-        method: 'POST',
-        body: formDataToSend,
-        signal: controller.signal,
-      })
+      console.log('🌐 Fetch call starting at:', fetchStartTime)
+      console.log('🌐 Waiting for server response (timeout:', timeoutMs / 1000, 'seconds)...')
+      
+      let response
+      try {
+        response = await fetch('/api/asset-submissions', {
+          method: 'POST',
+          body: formDataToSend,
+          signal: controller.signal,
+        })
+        clearTimeout(timeoutId)
+        const fetchDuration = Date.now() - fetchStartTime
+        console.log('🌐 Fetch call completed in:', fetchDuration, 'ms')
+      } catch (fetchError) {
+        clearTimeout(timeoutId)
+        const fetchDuration = Date.now() - fetchStartTime
+        console.error('❌ Fetch error after', fetchDuration, 'ms:', fetchError)
+        
+        if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+          console.error('❌ Request was aborted. Reason:', timeoutReason)
+          console.error('❌ Elapsed time:', fetchDuration, 'ms (', (fetchDuration / 1000).toFixed(1), 's)')
+          if (fetchDuration >= timeoutMs - 1000) {
+            // Le timeout s'est déclenché
+            const abortError = new Error(`Request timeout after ${(fetchDuration / 1000).toFixed(1)} seconds. The upload is taking too long. Please try again with smaller files or check your connection.`)
+            abortError.name = 'AbortError'
+            throw abortError
+          }
+        }
+        throw fetchError
+      }
+      
       const fetchDuration = Date.now() - fetchStartTime
 
       console.log('✅ Fetch completed!', {
@@ -361,8 +404,6 @@ export default function AssetTokenizationRequestPage() {
         duration: fetchDuration + 'ms',
         headers: Object.fromEntries(response.headers.entries())
       })
-
-      clearTimeout(timeoutId)
 
       if (!response.ok) {
         console.log('❌ Response not OK, parsing error...')
@@ -544,11 +585,16 @@ export default function AssetTokenizationRequestPage() {
 
             <form 
               onSubmit={(e) => {
-                console.log('📝 FORM ONSUBMIT EVENT FIRED')
+                console.log('📝 ========== FORM ONSUBMIT EVENT FIRED ==========')
+                console.log('📝 Timestamp:', new Date().toISOString())
                 console.log('📝 Event details:', e)
-                handleSubmit(e)
+                console.log('📝 Calling handleSubmit...')
+                const result = handleSubmit(e)
+                console.log('📝 handleSubmit returned:', result)
+                return false // Empêcher le submit par défaut
               }} 
               className="asset-form"
+              noValidate
             >
               {/* Type d'actif - Boutons sélectionnables */}
               <div className="form-group">
@@ -1109,6 +1155,12 @@ export default function AssetTokenizationRequestPage() {
                   className="form-submit-button"
                   type="submit"
                   disabled={isSubmitting}
+                  onClick={(e) => {
+                    console.log('🔘 SUBMIT BUTTON CLICKED')
+                    console.log('🔘 isSubmitting:', isSubmitting)
+                    console.log('🔘 Event:', e)
+                    // Ne pas empêcher le submit, juste logger
+                  }}
                 >
                   {isSubmitting ? (
                     <>
