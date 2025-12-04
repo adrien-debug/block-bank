@@ -152,7 +152,6 @@ export default function AdminDashboardPage() {
               loadSubmissions()
             }}
             style={{ minWidth: 'auto' }}
-            title="Refresh"
           >
             🔄 Refresh
           </Button>
