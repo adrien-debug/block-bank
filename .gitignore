@@ -26,28 +26,23 @@ yarn-error.log*
 .env*.local
 .env
 
-# Google Drive credentials
+# Credentials (gardées génériques)
 credentials.json
 *-credentials.json
-*.json
-!package.json
-!package-lock.json
-!tsconfig.json
 
 # vercel
 .vercel
 
-# Scripts with secrets (should not be committed)
-scripts/create-service-account-api-direct.js
-scripts/create-service-account-now.js
-scripts/get-oauth-token-auto.js
-scripts/quick-setup-google-drive.js
-scripts/update-google-credentials.js
-scripts/create-service-account-api.js
-scripts/create-service-account-auto.js
-scripts/final-setup-google-drive.js
-scripts/get-refresh-token.js
-scripts/auto-configure-google-drive.js
+# Scripts avec secrets (ne pas commiter)
+scripts/*-credentials*.js
+scripts/*-secret*.js
+scripts/create-service-account*.js
+scripts/get-oauth-token*.js
+scripts/get-refresh-token*.js
+scripts/*google*.js
+scripts/*Google*.js
+scripts/*google*.js
+scripts/*Google*.js
 
 # typescript
 *.tsbuildinfo
