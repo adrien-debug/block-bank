@@ -6,6 +6,10 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 300
 
+// Limites de taille des fichiers
+const MAX_FILE_SIZE = 50 * 1024 * 1024 // 50 MB par fichier
+const MAX_TOTAL_SIZE = 200 * 1024 * 1024 // 200 MB total par soumission (pour permettre plusieurs fichiers de 50 MB)
+
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
   console.log('[Asset Submission API] ========== START REQUEST ==========')
@@ -177,6 +181,57 @@ export async function POST(request: NextRequest) {
       totalFileSize: totalFileSize,
       totalFileSizeMB: (totalFileSize / 1024 / 1024).toFixed(2)
     })
+
+    // Validation de la taille des fichiers individuels
+    console.log('[Asset Submission API] Step 4.5: Validating file sizes...')
+    const oversizedFiles: Array<{ name: string; size: number }> = []
+    
+    allFiles.forEach((file) => {
+      if (file.size > MAX_FILE_SIZE) {
+        oversizedFiles.push({
+          name: file.name,
+          size: file.size
+        })
+      }
+    })
+
+    if (oversizedFiles.length > 0) {
+      const oversizedList = oversizedFiles
+        .map(f => `${f.name} (${(f.size / 1024 / 1024).toFixed(2)} MB)`)
+        .join(', ')
+      
+      console.log('[Asset Submission API] Step 4.5: Validation FAILED - oversized files:', oversizedFiles)
+      
+      return NextResponse.json(
+        { 
+          error: `Un ou plusieurs fichiers dépassent la limite de 50 MB par fichier: ${oversizedList}. Veuillez réduire la taille des fichiers ou les compresser.`,
+          oversizedFiles: oversizedFiles.map(f => ({
+            name: f.name,
+            size: f.size,
+            sizeMB: (f.size / 1024 / 1024).toFixed(2)
+          }))
+        },
+        { status: 400 }
+      )
+    }
+
+    // Validation de la taille totale
+    if (totalFileSize > MAX_TOTAL_SIZE) {
+      const totalSizeMB = (totalFileSize / 1024 / 1024).toFixed(2)
+      console.log('[Asset Submission API] Step 4.5: Validation FAILED - total size too large:', totalSizeMB, 'MB')
+      
+      return NextResponse.json(
+        { 
+          error: `La taille totale des fichiers (${totalSizeMB} MB) dépasse la limite de 200 MB par soumission. Veuillez réduire le nombre ou la taille des fichiers.`,
+          totalSize: totalFileSize,
+          totalSizeMB: totalSizeMB,
+          maxSizeMB: (MAX_TOTAL_SIZE / 1024 / 1024).toFixed(0)
+        },
+        { status: 400 }
+      )
+    }
+
+    console.log('[Asset Submission API] Step 4.5: File size validation passed')
 
     // Validation des documents obligatoires
     if (userType === 'individual') {

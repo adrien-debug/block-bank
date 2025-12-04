@@ -62,7 +62,6 @@ async function deleteAllSubmissions() {
           .from(BUCKET_NAME)
           .list(submission.id, {
             limit: 1000,
-            recursive: true,
           })
 
         if (!listError && files && files.length > 0) {
