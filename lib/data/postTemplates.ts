@@ -14,8 +14,8 @@ export interface PostTemplate {
 export const POST_TEMPLATES: Record<PostTemplateType, PostTemplate> = {
   'product-announcement': {
     type: 'product-announcement',
-    name: 'Annonce Produit',
-    description: 'Template pour annoncer une nouvelle fonctionnalité ou un produit',
+    name: 'Product Announcement',
+    description: 'Template to announce a new feature or product',
     structure: [
       '{hook}',
       '{feature_description}',
@@ -29,8 +29,8 @@ export const POST_TEMPLATES: Record<PostTemplateType, PostTemplate> = {
   },
   'educational-thread': {
     type: 'educational-thread',
-    name: 'Thread Éducatif',
-    description: 'Template pour créer un thread éducatif (surtout Twitter)',
+    name: 'Educational Thread',
+    description: 'Template to create an educational thread (especially Twitter)',
     structure: [
       '{title_hook}',
       '{point_1}',
@@ -45,8 +45,8 @@ export const POST_TEMPLATES: Record<PostTemplateType, PostTemplate> = {
   },
   'partnership-announcement': {
     type: 'partnership-announcement',
-    name: 'Annonce Partenariat',
-    description: 'Template pour annoncer un partenariat',
+    name: 'Partnership Announcement',
+    description: 'Template to announce a partnership',
     structure: [
       '{partnership_intro}',
       '{partner_details}',
@@ -61,8 +61,8 @@ export const POST_TEMPLATES: Record<PostTemplateType, PostTemplate> = {
   },
   'use-case-story': {
     type: 'use-case-story',
-    name: 'Histoire de Cas d\'Usage',
-    description: 'Template pour raconter un cas d\'usage concret',
+    name: 'Use Case Story',
+    description: 'Template to tell a concrete use case',
     structure: [
       '{scenario_intro}',
       '{problem}',
@@ -77,8 +77,8 @@ export const POST_TEMPLATES: Record<PostTemplateType, PostTemplate> = {
   },
   'industry-insight': {
     type: 'industry-insight',
-    name: 'Insight Industrie',
-    description: 'Template pour partager une analyse ou une tendance',
+    name: 'Industry Insight',
+    description: 'Template to share an analysis or trend',
     structure: [
       '{insight_hook}',
       '{data_fact}',
@@ -93,8 +93,8 @@ export const POST_TEMPLATES: Record<PostTemplateType, PostTemplate> = {
   },
   'call-to-action': {
     type: 'call-to-action',
-    name: 'Appel à l\'Action',
-    description: 'Template pour inciter à l\'action',
+    name: 'Call to Action',
+    description: 'Template to encourage action',
     structure: [
       '{value_proposition}',
       '{urgency_reason}',
@@ -108,8 +108,8 @@ export const POST_TEMPLATES: Record<PostTemplateType, PostTemplate> = {
   },
   'success-story': {
     type: 'success-story',
-    name: 'Histoire de Succès',
-    description: 'Template pour partager un succès ou témoignage',
+    name: 'Success Story',
+    description: 'Template to share a success or testimonial',
     structure: [
       '{achievement_hook}',
       '{context}',

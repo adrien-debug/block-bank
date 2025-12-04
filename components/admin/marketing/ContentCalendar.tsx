@@ -90,10 +90,10 @@ export default function ContentCalendar() {
       // Recharger les événements depuis l'API pour avoir les IDs
       await loadEvents()
       
-      alert(`Calendrier généré avec succès ! ${result.events.length} événements créés.`)
+      alert(`Calendar generated successfully! ${result.events.length} events created.`)
     } catch (error) {
       console.error('Error generating calendar:', error)
-      alert('Erreur lors de la génération du calendrier')
+      alert('Error generating calendar')
     } finally {
       setIsGenerating(false)
     }
@@ -148,7 +148,7 @@ export default function ContentCalendar() {
   }
 
   const formatMonthYear = () => {
-    return currentDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+    return currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
   }
 
   const getWeekDays = () => {
@@ -166,7 +166,7 @@ export default function ContentCalendar() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-6)' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '600' }}>Calendrier Éditorial</h2>
+        <h2 style={{ fontSize: '24px', fontWeight: '600' }}>Editorial Calendar</h2>
         <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
           <Button
             variant="primary"
@@ -174,7 +174,7 @@ export default function ContentCalendar() {
             onClick={handleGenerateCalendar}
             disabled={isGenerating}
           >
-            {isGenerating ? 'Génération...' : '✨ Générer calendrier (30 jours)'}
+            {isGenerating ? 'Generating...' : '✨ Generate calendar (30 days)'}
           </Button>
           <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
           <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
@@ -183,14 +183,14 @@ export default function ContentCalendar() {
               size="small"
               onClick={() => setView('month')}
             >
-              Mois
+              Month
             </Button>
             <Button
               variant={view === 'week' ? 'primary' : 'secondary'}
               size="small"
               onClick={() => setView('week')}
             >
-              Semaine
+              Week
             </Button>
           </div>
           <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
@@ -206,7 +206,7 @@ export default function ContentCalendar() {
               size="small"
               onClick={() => setCurrentDate(new Date())}
             >
-              Aujourd'hui
+              Today
             </Button>
             <Button
               variant="secondary"
@@ -291,7 +291,7 @@ export default function ContentCalendar() {
       ) : (
         <Card variant="elevated" style={{ padding: 'var(--space-4)' }}>
           <div style={{ textAlign: 'center', marginBottom: 'var(--space-4)', fontSize: '20px', fontWeight: '600' }}>
-            Semaine du {getWeekDays()[0].toLocaleDateString('fr-FR')}
+            Week of {getWeekDays()[0].toLocaleDateString('en-US')}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 'var(--space-2)' }}>
             {getWeekDays().map((day, index) => {
@@ -301,7 +301,7 @@ export default function ContentCalendar() {
               return (
                 <div key={index} style={{ border: '1px solid var(--color-border-default)', padding: 'var(--space-3)' }}>
                   <div style={{ fontSize: '16px', fontWeight: isToday ? '600' : '400', marginBottom: 'var(--space-3)' }}>
-                    {day.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric' })}
+                    {day.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' })}
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
                     {dayEvents.map((event) => (
@@ -320,7 +320,7 @@ export default function ContentCalendar() {
                           <div style={{ fontSize: '11px', opacity: 0.9 }}>{event.description}</div>
                         )}
                         <div style={{ fontSize: '11px', opacity: 0.8, marginTop: '4px' }}>
-                          {new Date(event.startDate).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                          {new Date(event.startDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                         </div>
                       </div>
                     ))}

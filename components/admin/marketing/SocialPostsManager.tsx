@@ -15,10 +15,10 @@ const NETWORK_LABELS: Record<SocialNetwork, string> = {
 }
 
 const STATUS_LABELS: Record<PostStatus, string> = {
-  draft: 'Brouillon',
-  scheduled: 'Planifié',
-  published: 'Publié',
-  archived: 'Archivé',
+  draft: 'Draft',
+  scheduled: 'Scheduled',
+  published: 'Published',
+  archived: 'Archived',
 }
 
 const STATUS_COLORS: Record<PostStatus, string> = {
@@ -71,7 +71,7 @@ export default function SocialPostsManager() {
   }
 
   const handleDelete = async (postId: string) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce post ?')) {
+    if (!confirm('Are you sure you want to delete this post?')) {
       return
     }
 
@@ -85,7 +85,7 @@ export default function SocialPostsManager() {
       }
     } catch (error) {
       console.error('Error deleting post:', error)
-      alert('Erreur lors de la suppression')
+      alert('Error deleting post')
     }
   }
 
@@ -96,8 +96,8 @@ export default function SocialPostsManager() {
   }
 
   const formatDate = (dateString: string | null | undefined) => {
-    if (!dateString) return 'Non planifié'
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    if (!dateString) return 'Not scheduled'
+    return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -109,16 +109,16 @@ export default function SocialPostsManager() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-6)' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '600' }}>Posts Réseaux Sociaux</h2>
+        <h2 style={{ fontSize: '24px', fontWeight: '600' }}>Social Media Posts</h2>
         <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
           <Button onClick={handleCreate} variant="secondary">
-            + Nouveau Post
+            + New Post
           </Button>
           <Button 
             onClick={() => window.location.href = '/admin/marketing?tab=generator'} 
             variant="primary"
           >
-            ✨ Générer automatiquement
+            ✨ Generate automatically
           </Button>
         </div>
       </div>
@@ -128,7 +128,7 @@ export default function SocialPostsManager() {
         <div style={{ display: 'flex', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
           <div>
             <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-              Réseau
+              Network
             </label>
             <select
               value={filterNetwork}
@@ -141,7 +141,7 @@ export default function SocialPostsManager() {
                 minWidth: '150px',
               }}
             >
-              <option value="">Tous</option>
+              <option value="">All</option>
               {Object.entries(NETWORK_LABELS).map(([value, label]) => (
                 <option key={value} value={value}>{label}</option>
               ))}
@@ -149,7 +149,7 @@ export default function SocialPostsManager() {
           </div>
           <div>
             <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-              Statut
+              Status
             </label>
             <select
               value={filterStatus}
@@ -162,7 +162,7 @@ export default function SocialPostsManager() {
                 minWidth: '150px',
               }}
             >
-              <option value="">Tous</option>
+              <option value="">All</option>
               {Object.entries(STATUS_LABELS).map(([value, label]) => (
                 <option key={value} value={value}>{label}</option>
               ))}
@@ -174,11 +174,11 @@ export default function SocialPostsManager() {
       {/* Liste des posts */}
       {isLoading ? (
         <div style={{ textAlign: 'center', padding: 'var(--space-8)' }}>
-          <p>Chargement...</p>
+          <p>Loading...</p>
         </div>
       ) : posts.length === 0 ? (
         <div className="chart-card-premium admin-card" style={{ textAlign: 'center', padding: 'var(--space-8)' }}>
-          <p className="admin-card-text">Aucun post trouvé</p>
+          <p className="admin-card-text">No posts found</p>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
@@ -221,17 +221,17 @@ export default function SocialPostsManager() {
                     {post.content.substring(0, 200)}{post.content.length > 200 ? '...' : ''}
                   </p>
                   <div style={{ display: 'flex', gap: 'var(--space-4)', fontSize: '14px', color: 'var(--color-text-secondary)' }}>
-                    <span>Planifié: {formatDate(post.scheduledAt || null)}</span>
-                    {post.publishedAt && <span>Publié: {formatDate(post.publishedAt || null)}</span>}
+                    <span>Scheduled: {formatDate(post.scheduledAt || null)}</span>
+                    {post.publishedAt && <span>Published: {formatDate(post.publishedAt || null)}</span>}
                     {post.mediaUrls.length > 0 && <span>{post.mediaUrls.length} média(s)</span>}
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
                   <Button variant="secondary" size="small" onClick={() => handleEdit(post)}>
-                    Modifier
+                    Edit
                   </Button>
                   <Button variant="secondary" size="small" onClick={() => handleDelete(post.id)}>
-                    Supprimer
+                    Delete
                   </Button>
                 </div>
               </div>

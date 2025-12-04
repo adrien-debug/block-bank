@@ -8,23 +8,23 @@ import Card from '@/components/ui/Card'
 import ContentPreview from './ContentPreview'
 
 const CATEGORY_LABELS: Record<ContentCategory, string> = {
-  'product-features': 'Fonctionnalités Produit',
-  'educational': 'Éducatif',
-  'institutional': 'Institutionnel',
-  'use-cases': 'Cas d\'Usage',
-  'partnerships': 'Partenariats',
-  'industry-news': 'Actualités Industrie',
-  'success-stories': 'Histoires de Succès',
+  'product-features': 'Product Features',
+  'educational': 'Educational',
+  'institutional': 'Institutional',
+  'use-cases': 'Use Cases',
+  'partnerships': 'Partnerships',
+  'industry-news': 'Industry News',
+  'success-stories': 'Success Stories',
   'credit-score': 'Credit Score',
   'nft-rwa': 'NFT RWA',
-  'insurance': 'Assurance'
+  'insurance': 'Insurance'
 }
 
 const TONE_LABELS: Record<ContentTone, string> = {
-  'professional': 'Professionnel',
-  'educational': 'Éducatif',
-  'technical': 'Technique',
-  'institutional': 'Institutionnel'
+  'professional': 'Professional',
+  'educational': 'Educational',
+  'technical': 'Technical',
+  'institutional': 'Institutional'
 }
 
 const NETWORK_LABELS: Record<SocialNetwork, string> = {
@@ -37,13 +37,13 @@ const NETWORK_LABELS: Record<SocialNetwork, string> = {
 }
 
 const TEMPLATE_LABELS: Record<PostTemplateType, string> = {
-  'product-announcement': 'Annonce Produit',
-  'educational-thread': 'Thread Éducatif',
-  'partnership-announcement': 'Annonce Partenariat',
-  'use-case-story': 'Histoire de Cas d\'Usage',
-  'industry-insight': 'Insight Industrie',
-  'call-to-action': 'Appel à l\'Action',
-  'success-story': 'Histoire de Succès'
+  'product-announcement': 'Product Announcement',
+  'educational-thread': 'Educational Thread',
+  'partnership-announcement': 'Partnership Announcement',
+  'use-case-story': 'Use Case Story',
+  'industry-insight': 'Industry Insight',
+  'call-to-action': 'Call to Action',
+  'success-story': 'Success Story'
 }
 
 export default function ContentGenerator() {
@@ -82,7 +82,7 @@ export default function ContentGenerator() {
       }
     } catch (error) {
       console.error('Error generating content:', error)
-      alert('Erreur lors de la génération du contenu')
+      alert('Error generating content')
     } finally {
       setIsGenerating(false)
     }
@@ -97,28 +97,28 @@ export default function ContentGenerator() {
   }
 
   const handleSavePost = async (result: { baseContent: GeneratedContent, adaptedContent: NetworkAdaptedContent[] }) => {
-    // TODO: Implémenter la sauvegarde via API
-    alert('Fonctionnalité de sauvegarde à implémenter')
+    // TODO: Implement save via API
+    alert('Save functionality to be implemented')
   }
 
   return (
     <div>
       <div style={{ marginBottom: 'var(--space-6)' }}>
         <h2 style={{ fontSize: '24px', fontWeight: '600', marginBottom: 'var(--space-2)' }}>
-          Générateur de Contenu Marketing
+          Marketing Content Generator
         </h2>
         <p style={{ color: 'var(--color-text-secondary)' }}>
-          Générez automatiquement du contenu adapté pour tous vos réseaux sociaux
+          Automatically generate content adapted for all your social networks
         </p>
       </div>
 
       {/* Formulaire de génération */}
       <Card variant="elevated" style={{ padding: 'var(--space-6)', marginBottom: 'var(--space-6)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-4)', marginBottom: 'var(--space-4)' }}>
-          {/* Catégorie */}
+          {/* Category */}
           <div>
             <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-              Catégorie
+              Category
             </label>
             <select
               value={category}
@@ -132,17 +132,17 @@ export default function ContentGenerator() {
                 background: 'var(--color-bg-primary)'
               }}
             >
-              <option value="">Toutes les catégories</option>
+              <option value="">All categories</option>
               {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
                 <option key={value} value={value}>{label}</option>
               ))}
             </select>
           </div>
 
-          {/* Ton */}
+          {/* Tone */}
           <div>
             <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-              Ton
+              Tone
             </label>
             <select
               value={tone}
@@ -156,7 +156,7 @@ export default function ContentGenerator() {
                 background: 'var(--color-bg-primary)'
               }}
             >
-              <option value="">Tous les tons</option>
+              <option value="">All tones</option>
               {Object.entries(TONE_LABELS).map(([value, label]) => (
                 <option key={value} value={value}>{label}</option>
               ))}
@@ -180,17 +180,17 @@ export default function ContentGenerator() {
                 background: 'var(--color-bg-primary)'
               }}
             >
-              <option value="">Aucun template spécifique</option>
+              <option value="">No specific template</option>
               {Object.entries(TEMPLATE_LABELS).map(([value, label]) => (
                 <option key={value} value={value}>{label}</option>
               ))}
             </select>
           </div>
 
-          {/* Nombre de posts */}
+          {/* Number of posts */}
           <div>
             <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-              Nombre de posts
+              Number of posts
             </label>
             <input
               type="number"
@@ -210,10 +210,10 @@ export default function ContentGenerator() {
           </div>
         </div>
 
-        {/* Mots-clés */}
+        {/* Keywords */}
         <div style={{ marginBottom: 'var(--space-4)' }}>
           <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-            Mots-clés (séparés par des virgules)
+            Keywords (comma-separated)
           </label>
           <input
             type="text"
@@ -231,10 +231,10 @@ export default function ContentGenerator() {
           />
         </div>
 
-        {/* Réseaux sociaux */}
+        {/* Social networks */}
         <div style={{ marginBottom: 'var(--space-6)' }}>
           <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-            Réseaux sociaux
+            Social networks
           </label>
           <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
             {(Object.keys(NETWORK_LABELS) as SocialNetwork[]).map(network => (
@@ -266,7 +266,7 @@ export default function ContentGenerator() {
           disabled={isGenerating || networks.length === 0}
           style={{ width: '100%' }}
         >
-          {isGenerating ? 'Génération en cours...' : 'Générer du contenu'}
+          {isGenerating ? 'Generating...' : 'Generate content'}
         </Button>
       </Card>
 
@@ -275,7 +275,7 @@ export default function ContentGenerator() {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
             <h3 style={{ fontSize: '20px', fontWeight: '600' }}>
-              Résultats générés ({generatedResults.length})
+              Generated Results ({generatedResults.length})
             </h3>
             {generatedResults.length > 1 && (
               <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
@@ -312,13 +312,13 @@ export default function ContentGenerator() {
                   variant="primary"
                   onClick={() => handleSavePost(generatedResults[selectedResult])}
                 >
-                  Sauvegarder les posts
+                  Save posts
                 </Button>
                 <Button
                   variant="secondary"
                   onClick={() => setGeneratedResults([])}
                 >
-                  Générer à nouveau
+                  Generate again
                 </Button>
               </div>
             </div>

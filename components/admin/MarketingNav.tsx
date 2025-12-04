@@ -15,11 +15,11 @@ interface MarketingNavProps {
 
 export default function MarketingNav({ activeTab, onTabChange }: MarketingNavProps) {
   const tabs = [
-    { id: 'posts' as MarketingTab, label: 'Posts Réseaux Sociaux', icon: SocialIcon },
-    { id: 'generator' as MarketingTab, label: 'Générateur', icon: LightningIcon },
+    { id: 'posts' as MarketingTab, label: 'Social Media Posts', icon: SocialIcon },
+    { id: 'generator' as MarketingTab, label: 'Generator', icon: LightningIcon },
     { id: 'promotions' as MarketingTab, label: 'Promotions', icon: TargetIcon },
     { id: 'adwords' as MarketingTab, label: 'Google AdWords', icon: SearchIcon },
-    { id: 'calendar' as MarketingTab, label: 'Calendrier', icon: CalendarIcon },
+    { id: 'calendar' as MarketingTab, label: 'Calendar', icon: CalendarIcon },
     { id: 'sections' as MarketingTab, label: 'Sections', icon: DocumentIcon },
   ]
 

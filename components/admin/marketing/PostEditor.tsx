@@ -54,7 +54,7 @@ export default function PostEditor({ post, onClose }: PostEditorProps) {
 
   const handleSave = async () => {
     if (!content.trim() || networks.length === 0) {
-      alert('Le contenu et au moins un réseau sont requis')
+      alert('Content and at least one network are required')
       return
     }
 
@@ -82,11 +82,11 @@ export default function PostEditor({ post, onClose }: PostEditorProps) {
       if (data.success) {
         onClose()
       } else {
-        alert(data.error || 'Erreur lors de la sauvegarde')
+        alert(data.error || 'Error saving')
       }
     } catch (error) {
       console.error('Error saving post:', error)
-      alert('Erreur lors de la sauvegarde')
+      alert('Error saving')
     } finally {
       setIsSaving(false)
     }
@@ -123,7 +123,7 @@ export default function PostEditor({ post, onClose }: PostEditorProps) {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-6)' }}>
           <h3 style={{ fontSize: '20px', fontWeight: '600' }}>
-            {post ? 'Modifier le post' : 'Nouveau post'}
+            {post ? 'Edit post' : 'New post'}
           </h3>
           <button
             onClick={onClose}
@@ -142,7 +142,7 @@ export default function PostEditor({ post, onClose }: PostEditorProps) {
         {/* Sélection des réseaux */}
         <div style={{ marginBottom: 'var(--space-4)' }}>
           <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-            Réseaux sociaux *
+            Social networks *
           </label>
           <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
             {(Object.keys(NETWORK_LABELS) as SocialNetwork[]).map((network) => (
@@ -169,10 +169,10 @@ export default function PostEditor({ post, onClose }: PostEditorProps) {
         {/* Contenu */}
         <div style={{ marginBottom: 'var(--space-4)' }}>
           <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-            Contenu *
+            Content *
             {networks.length > 0 && (
               <span style={{ marginLeft: 'var(--space-2)', color: 'var(--color-text-secondary)', fontWeight: '400' }}>
-                (Max {maxChars} caractères)
+                (Max {maxChars} characters)
               </span>
             )}
           </label>
@@ -200,7 +200,7 @@ export default function PostEditor({ post, onClose }: PostEditorProps) {
         {/* Date de planification */}
         <div style={{ marginBottom: 'var(--space-4)' }}>
           <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-            Date de publication planifiée
+            Scheduled publication date
           </label>
           <input
             type="datetime-local"
@@ -219,7 +219,7 @@ export default function PostEditor({ post, onClose }: PostEditorProps) {
         {/* Statut */}
         <div style={{ marginBottom: 'var(--space-4)' }}>
           <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-            Statut
+            Status
           </label>
           <select
             value={status}
@@ -232,17 +232,17 @@ export default function PostEditor({ post, onClose }: PostEditorProps) {
               fontSize: '14px',
             }}
           >
-            <option value="draft">Brouillon</option>
-            <option value="scheduled">Planifié</option>
-            <option value="published">Publié</option>
-            <option value="archived">Archivé</option>
+            <option value="draft">Draft</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="published">Published</option>
+            <option value="archived">Archived</option>
           </select>
         </div>
 
         {/* Médias (simplifié pour l'instant) */}
         <div style={{ marginBottom: 'var(--space-6)' }}>
           <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
-            URLs des médias (une par ligne)
+            Media URLs (one per line)
           </label>
           <textarea
             value={mediaUrls.join('\n')}
@@ -263,10 +263,10 @@ export default function PostEditor({ post, onClose }: PostEditorProps) {
         {/* Actions */}
         <div style={{ display: 'flex', gap: 'var(--space-3)', justifyContent: 'flex-end' }}>
           <Button variant="secondary" onClick={onClose} disabled={isSaving}>
-            Annuler
+            Cancel
           </Button>
           <Button variant="primary" onClick={handleSave} disabled={isSaving || charCount > maxChars}>
-            {isSaving ? 'Enregistrement...' : 'Enregistrer'}
+            {isSaving ? 'Saving...' : 'Save'}
           </Button>
         </div>
       </Card>

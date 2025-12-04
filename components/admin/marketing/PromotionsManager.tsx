@@ -81,7 +81,7 @@ export default function PromotionsManager() {
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -89,7 +89,7 @@ export default function PromotionsManager() {
   }
 
   const formatCurrency = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('fr-FR', { style: 'currency', currency }).format(amount)
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount)
   }
 
   return (

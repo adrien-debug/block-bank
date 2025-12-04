@@ -82,7 +82,7 @@ export default function AdWordsManager() {
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return 'Non défini'
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -91,7 +91,7 @@ export default function AdWordsManager() {
 
   const formatCurrency = (amount: number | null | undefined, currency: string) => {
     if (amount === null || amount === undefined) return 'Non défini'
-    return new Intl.NumberFormat('fr-FR', { style: 'currency', currency }).format(amount)
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount)
   }
 
   return (

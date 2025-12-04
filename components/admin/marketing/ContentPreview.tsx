@@ -64,7 +64,7 @@ export default function ContentPreview({ adaptedContent, baseContent }: ContentP
             fontSize: '14px'
           }}
         >
-          Tous
+          All
         </button>
         {adaptedContent.map(item => (
           <button
@@ -93,7 +93,7 @@ export default function ContentPreview({ adaptedContent, baseContent }: ContentP
       {baseContent && selectedNetwork === 'all' && (
         <Card variant="elevated" style={{ marginBottom: 'var(--space-4)', padding: 'var(--space-4)' }}>
           <h3 style={{ marginBottom: 'var(--space-2)', fontSize: '16px', fontWeight: '600' }}>
-            Contenu de base
+            Base Content
           </h3>
           <p style={{ color: 'var(--color-text-primary)', whiteSpace: 'pre-wrap' }}>
             {baseContent}
@@ -127,7 +127,7 @@ export default function ContentPreview({ adaptedContent, baseContent }: ContentP
                   background: 'var(--color-bg-secondary)',
                   borderRadius: 'var(--radius-sm)'
                 }}>
-                  {item.content.length} / {item.maxLength} caractères
+                  {item.content.length} / {item.maxLength} characters
                 </span>
                 {item.format !== 'text' && (
                   <span style={{
@@ -195,10 +195,10 @@ export default function ContentPreview({ adaptedContent, baseContent }: ContentP
               borderTop: '1px solid var(--color-border-default)'
             }}>
               {item.optimalPostTime && (
-                <span>🕐 Meilleur moment: {item.optimalPostTime}</span>
+                <span>🕐 Optimal time: {item.optimalPostTime}</span>
               )}
               {item.mediaSuggestions.length > 0 && (
-                <span>📎 {item.mediaSuggestions.length} média(s) suggéré(s)</span>
+                <span>📎 {item.mediaSuggestions.length} suggested media</span>
               )}
             </div>
           </Card>
