@@ -272,7 +272,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Sauvegarder la soumission dans Google Drive
+      // Sauvegarder la soumission
     console.log('[Asset Submission API] Step 5: Preparing submission data...')
     console.log('[Asset Submission API] Step 5: Submission data prepared', {
       userType: submissionData.userType,
@@ -283,20 +283,13 @@ export async function POST(request: NextRequest) {
     })
     
     try {
-      console.log('[Asset Submission API] Step 6: Starting Google Drive upload...')
-      console.log('[Asset Submission API] Environment check:', {
-        hasPrivateKey: !!process.env.GOOGLE_PRIVATE_KEY,
-        hasClientEmail: !!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        hasFolderId: !!process.env.GOOGLE_DRIVE_FOLDER_ID,
-        privateKeyLength: process.env.GOOGLE_PRIVATE_KEY?.length || 0,
-        nodeEnv: process.env.NODE_ENV
-      })
+      console.log('[Asset Submission API] Step 6: Starting file storage...')
       
       const uploadStartTime = Date.now()
       const { submissionId, folderId } = await saveSubmission(submissionData, files)
       const uploadDuration = Date.now() - uploadStartTime
       
-      console.log('[Asset Submission API] Step 6: Upload successful!', { 
+      console.log('[Asset Submission API] Step 6: Storage successful!', { 
         submissionId, 
         folderId,
         uploadDurationMs: uploadDuration,
@@ -309,37 +302,19 @@ export async function POST(request: NextRequest) {
         folderId,
         message: 'Your request has been submitted successfully',
       })
-    } catch (driveError) {
-      console.error('[Asset Submission API] Step 6: Google Drive error occurred', {
-        error: driveError instanceof Error ? {
-          message: driveError.message,
-          stack: driveError.stack,
-          name: driveError.name
-        } : driveError,
+    } catch (storageError) {
+      console.error('[Asset Submission API] Step 6: Storage error occurred', {
+        error: storageError instanceof Error ? {
+          message: storageError.message,
+          stack: storageError.stack,
+          name: storageError.name
+        } : storageError,
         duration: Date.now() - startTime
       })
       
-      // Si Google Drive n'est pas configuré
-      if (driveError instanceof Error && driveError.message.includes('GOOGLE_DRIVE_CONFIG_MISSING')) {
-        return NextResponse.json(
-          { error: 'Google Drive is not configured. Please check your environment variables.' },
-          { status: 500 }
-        )
-      }
-      
-      // Erreur OAuth invalid_grant
-      if (driveError instanceof Error && (driveError.message.includes('invalid_grant') || driveError.message.includes('Invalid grant'))) {
-        console.error('[Asset Submission] OAuth error detected, this should not happen with Service Account')
-        return NextResponse.json(
-          { error: 'Authentication error with Google Drive. Please contact support.' },
-          { status: 500 }
-        )
-      }
-      
-      // Autres erreurs Google Drive
-      const errorMessage = driveError instanceof Error 
-        ? driveError.message 
-        : 'An error occurred while uploading to Google Drive'
+      const errorMessage = storageError instanceof Error 
+        ? storageError.message 
+        : 'An error occurred while saving your submission'
       
       return NextResponse.json(
         { error: errorMessage },

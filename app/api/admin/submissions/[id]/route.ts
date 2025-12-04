@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/utils/adminAuth'
 import { getSubmission } from '@/lib/utils/submissionStorage'
-import { getFileDownloadUrl, listFiles } from '@/lib/utils/googleDrive'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,8 +29,7 @@ export async function GET(
       )
     }
 
-    // Pour l'instant, on retourne les métadonnées de base
-    // Dans une version complète, on téléchargerait le metadata.json depuis Google Drive
+    // Retourner les métadonnées de la soumission
     return NextResponse.json({
       success: true,
       submission,

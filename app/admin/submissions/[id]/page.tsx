@@ -6,6 +6,130 @@ import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import { AssetSubmission } from '@/types/submission.types'
 
+function SubmissionDocuments({ submissionId, documents }: { submissionId: string; documents: AssetSubmission['documents'] }) {
+  const [files, setFiles] = useState<Array<{ name: string; path: string; type: string; size: number }>>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    loadFiles()
+  }, [submissionId])
+
+  const loadFiles = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/admin/submissions/${submissionId}/files`)
+      const data = await response.json()
+
+      if (response.ok && data.files) {
+        setFiles(data.files)
+      }
+    } catch (error) {
+      console.error('Error loading files:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
+  }
+
+  const getFileUrl = (filePath: string) => {
+    // Encoder chaque segment du chemin séparément pour les sous-dossiers
+    const segments = filePath.split('/').map(seg => encodeURIComponent(seg))
+    return `/api/admin/submissions/${submissionId}/files/${segments.join('/')}`
+  }
+
+  if (isLoading) {
+    return <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)' }}>Loading documents...</p>
+  }
+
+  if (files.length === 0) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+        <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)' }}>
+          No documents found for this submission.
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+      {files.length > 0 && (
+        <div style={{ 
+          padding: 'var(--space-3)', 
+          background: 'var(--color-bg-secondary, rgba(59, 130, 246, 0.1))', 
+          borderRadius: 'var(--radius-md)',
+          marginBottom: 'var(--space-2)'
+        }}>
+          <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', margin: 0 }}>
+            📄 {files.length} document{files.length > 1 ? 's' : ''} disponible{files.length > 1 ? 's' : ''}
+          </p>
+        </div>
+      )}
+      <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
+        {files.map((file, index) => (
+          <div
+            key={index}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: 'var(--space-3)',
+              border: '1px solid var(--color-border-default)',
+              borderRadius: 'var(--radius-md)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--color-bg-secondary, rgba(0, 0, 0, 0.02))'
+              e.currentTarget.style.borderColor = 'var(--color-primary-500, #3B82F6)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent'
+              e.currentTarget.style.borderColor = 'var(--color-border-default)'
+            }}
+          >
+            <div style={{ flex: 1 }}>
+              <p style={{ fontWeight: '500', marginBottom: '4px', fontSize: '14px' }}>{file.name}</p>
+              <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+                {file.type.toUpperCase()} • {formatFileSize(file.size)}
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  window.open(getFileUrl(file.path), '_blank')
+                }}
+              >
+                View
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  const link = document.createElement('a')
+                  link.href = getFileUrl(file.path)
+                  link.download = file.name
+                  document.body.appendChild(link)
+                  link.click()
+                  document.body.removeChild(link)
+                }}
+              >
+                Download
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function SubmissionDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const [submission, setSubmission] = useState<AssetSubmission | null>(null)
@@ -210,15 +334,12 @@ export default function SubmissionDetailPage({ params }: { params: { id: string 
 
         {/* Documents */}
         <Card variant="elevated" style={{ padding: 'var(--space-6)' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: '600', marginBottom: 'var(--space-4)' }}>
-            Documents
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-            <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)' }}>
-              Documents are stored in Google Drive. Access them via the submission folder.
-            </p>
-            {/* Dans une version complète, on listerait tous les documents avec des liens de téléchargement */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
+            <h2 style={{ fontSize: '18px', fontWeight: '600' }}>
+              Documents
+            </h2>
           </div>
+          <SubmissionDocuments submissionId={submission.id} documents={submission.documents} />
         </Card>
       </div>
     </div>

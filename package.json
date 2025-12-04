@@ -12,7 +12,8 @@
     "vercel:env:setup": "node scripts/configure-vercel.js",
     "setup:google-drive": "node scripts/setup-google-drive-complete.js",
     "setup:shared-drive": "node scripts/setup-shared-drive.js",
-    "verify:production": "node scripts/verify-production-config.js"
+    "verify:production": "node scripts/verify-production-config.js",
+    "test:all": "node scripts/test-all.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

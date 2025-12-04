@@ -73,3 +73,10 @@ logs
 *.temp
 .cache/
 
+# Local storage (submissions)
+/storage/
+
+# Backup files
+*.bak
+.env*.bak
+

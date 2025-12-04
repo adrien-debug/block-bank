@@ -85,6 +85,12 @@ export async function verifyAdminPassword(password: string): Promise<boolean> {
     return await verifyPassword(password, defaultHash)
   }
 
-  return await verifyPassword(password, adminPasswordHash)
+  // Debug: log pour vérifier
+  console.log('[Admin Auth] Verifying password, hash present:', !!adminPasswordHash, 'hash length:', adminPasswordHash?.length)
+  
+  const result = await verifyPassword(password, adminPasswordHash)
+  console.log('[Admin Auth] Password verification result:', result)
+  
+  return result
 }
 
