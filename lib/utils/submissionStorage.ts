@@ -5,6 +5,21 @@ import { randomUUID } from 'crypto'
 const ROOT_FOLDER_NAME = 'BlockBank Submissions'
 let rootFolderId: string | null = null
 
+async function uploadDocumentGroup(
+  fileList: File[] | undefined,
+  targetFolderId: string
+): Promise<string[] | undefined> {
+  if (!fileList || fileList.length === 0) {
+    return undefined
+  }
+
+  const uploadedIds = await Promise.all(
+    fileList.map(file => uploadFile(file, file.name, targetFolderId))
+  )
+
+  return uploadedIds
+}
+
 /**
  * Obtient ou crée le dossier racine dans Google Drive
  */
@@ -47,68 +62,51 @@ export async function saveSubmission(
   const submissionFolder = await createFolder(submissionId, rootFolder)
 
   // Créer les sous-dossiers
-  const assetDocumentsFolder = await createFolder('asset-documents', submissionFolder)
-  const additionalDocumentsFolder = await createFolder('additional-documents', submissionFolder)
+  const [assetDocumentsFolder, additionalDocumentsFolder] = await Promise.all([
+    createFolder('asset-documents', submissionFolder),
+    createFolder('additional-documents', submissionFolder),
+  ])
 
   const documentIds: AssetSubmission['documents'] = {}
 
-  // Upload des documents obligatoires
-  if (files.passport && files.passport.length > 0) {
-    documentIds.passport = []
-    for (const file of files.passport) {
-      const fileId = await uploadFile(file, file.name, submissionFolder)
-      documentIds.passport.push(fileId)
-    }
-  }
+  const [
+    passportIds,
+    identityDocumentIds,
+    companyStatutesIds,
+    companyBalanceSheetIds,
+    companyRegistrationDocIds,
+    assetDocumentIds,
+    additionalDocumentIds,
+  ] = await Promise.all([
+    uploadDocumentGroup(files.passport, submissionFolder),
+    uploadDocumentGroup(files.identityDocument, submissionFolder),
+    uploadDocumentGroup(files.companyStatutes, submissionFolder),
+    uploadDocumentGroup(files.companyBalanceSheet, submissionFolder),
+    uploadDocumentGroup(files.companyRegistrationDoc, submissionFolder),
+    uploadDocumentGroup(files.assetDocuments, assetDocumentsFolder),
+    uploadDocumentGroup(files.additionalDocuments, additionalDocumentsFolder),
+  ])
 
-  if (files.identityDocument && files.identityDocument.length > 0) {
-    documentIds.identityDocument = []
-    for (const file of files.identityDocument) {
-      const fileId = await uploadFile(file, file.name, submissionFolder)
-      documentIds.identityDocument.push(fileId)
-    }
+  if (passportIds) {
+    documentIds.passport = passportIds
   }
-
-  if (files.companyStatutes && files.companyStatutes.length > 0) {
-    documentIds.companyStatutes = []
-    for (const file of files.companyStatutes) {
-      const fileId = await uploadFile(file, file.name, submissionFolder)
-      documentIds.companyStatutes.push(fileId)
-    }
+  if (identityDocumentIds) {
+    documentIds.identityDocument = identityDocumentIds
   }
-
-  if (files.companyBalanceSheet && files.companyBalanceSheet.length > 0) {
-    documentIds.companyBalanceSheet = []
-    for (const file of files.companyBalanceSheet) {
-      const fileId = await uploadFile(file, file.name, submissionFolder)
-      documentIds.companyBalanceSheet.push(fileId)
-    }
+  if (companyStatutesIds) {
+    documentIds.companyStatutes = companyStatutesIds
   }
-
-  if (files.companyRegistrationDoc && files.companyRegistrationDoc.length > 0) {
-    documentIds.companyRegistrationDoc = []
-    for (const file of files.companyRegistrationDoc) {
-      const fileId = await uploadFile(file, file.name, submissionFolder)
-      documentIds.companyRegistrationDoc.push(fileId)
-    }
+  if (companyBalanceSheetIds) {
+    documentIds.companyBalanceSheet = companyBalanceSheetIds
   }
-
-  // Upload des documents de l'actif
-  if (files.assetDocuments && files.assetDocuments.length > 0) {
-    documentIds.assetDocuments = []
-    for (const file of files.assetDocuments) {
-      const fileId = await uploadFile(file, file.name, assetDocumentsFolder)
-      documentIds.assetDocuments.push(fileId)
-    }
+  if (companyRegistrationDocIds) {
+    documentIds.companyRegistrationDoc = companyRegistrationDocIds
   }
-
-  // Upload des documents supplémentaires
-  if (files.additionalDocuments && files.additionalDocuments.length > 0) {
-    documentIds.additionalDocuments = []
-    for (const file of files.additionalDocuments) {
-      const fileId = await uploadFile(file, file.name, additionalDocumentsFolder)
-      documentIds.additionalDocuments.push(fileId)
-    }
+  if (assetDocumentIds) {
+    documentIds.assetDocuments = assetDocumentIds
+  }
+  if (additionalDocumentIds) {
+    documentIds.additionalDocuments = additionalDocumentIds
   }
 
   // Créer l'objet de soumission complet
