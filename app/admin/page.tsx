@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import { SubmissionMetadata } from '@/types/submission.types'
+import CloseIcon from '@/components/icons/CloseIcon'
+import CheckIcon from '@/components/icons/CheckIcon'
 
 export default function AdminDashboardPage() {
   const router = useRouter()
@@ -13,6 +15,8 @@ export default function AdminDashboardPage() {
   const [error, setError] = useState<string | null>(null)
   const [filterStatus, setFilterStatus] = useState<string>('')
   const [filterAssetType, setFilterAssetType] = useState<string>('')
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [approvingId, setApprovingId] = useState<string | null>(null)
   const refreshIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
@@ -154,6 +158,80 @@ export default function AdminDashboardPage() {
       router.push('/admin/login')
     } catch (error) {
       console.error('Logout error:', error)
+    }
+  }
+
+  const handleDelete = async (submissionId: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    
+    // Confirmation avant suppression
+    const confirmed = window.confirm(
+      'Êtes-vous sûr de vouloir supprimer cette soumission ? Cette action est irréversible et supprimera tous les fichiers associés.'
+    )
+
+    if (!confirmed) {
+      return
+    }
+
+    setDeletingId(submissionId)
+    console.log('[Admin Page] Suppression de la soumission:', submissionId)
+
+    try {
+      const response = await fetch(`/api/admin/submissions/${submissionId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors de la suppression')
+      }
+
+      console.log('[Admin Page] ✅ Soumission supprimée avec succès')
+      
+      // Recharger la liste des soumissions
+      loadSubmissions(true)
+    } catch (error) {
+      console.error('[Admin Page] ❌ Erreur lors de la suppression:', error)
+      alert(`Erreur lors de la suppression: ${error instanceof Error ? error.message : 'Erreur inconnue'}`)
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
+  const handleApprove = async (submissionId: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    
+    setApprovingId(submissionId)
+    console.log('[Admin Page] Approbation de la soumission:', submissionId)
+
+    try {
+      const response = await fetch(`/api/admin/submissions/${submissionId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'approved' }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors de l\'approbation')
+      }
+
+      console.log('[Admin Page] ✅ Soumission approuvée avec succès')
+      
+      // Recharger la liste des soumissions
+      loadSubmissions(true)
+    } catch (error) {
+      console.error('[Admin Page] ❌ Erreur lors de l\'approbation:', error)
+      alert(`Erreur lors de l'approbation: ${error instanceof Error ? error.message : 'Erreur inconnue'}`)
+    } finally {
+      setApprovingId(null)
     }
   }
 
@@ -329,12 +407,64 @@ export default function AdminDashboardPage() {
                     <span>{formatDate(submission.submittedAt)}</span>
                   </div>
                 </div>
-                <Button variant="secondary" onClick={(e) => {
-                  e?.stopPropagation()
-                  router.push(`/admin/submissions/${submission.id}`)
-                }}>
-                  View Details
-                </Button>
+                <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
+                  {submission.status === 'new' && (
+                    <button
+                      onClick={(e) => handleApprove(submission.id, e)}
+                      disabled={approvingId === submission.id}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '28px',
+                        height: '28px',
+                        padding: 0,
+                        border: 'none',
+                        background: approvingId === submission.id ? '#9CA3AF' : 'rgba(16, 185, 129, 0.1)',
+                        borderRadius: '6px',
+                        cursor: approvingId === submission.id ? 'not-allowed' : 'pointer',
+                        transition: 'all 0.2s',
+                        opacity: approvingId === submission.id ? 0.6 : 1,
+                      }}
+                      title="Approuver"
+                    >
+                      <CheckIcon 
+                        size={16}
+                        color={approvingId === submission.id ? '#6B7280' : '#10B981'}
+                      />
+                    </button>
+                  )}
+                  <button
+                    onClick={(e) => handleDelete(submission.id, e)}
+                    disabled={deletingId === submission.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '28px',
+                      height: '28px',
+                      padding: 0,
+                      border: 'none',
+                      background: deletingId === submission.id ? '#9CA3AF' : 'rgba(239, 68, 68, 0.1)',
+                      borderRadius: '6px',
+                      cursor: deletingId === submission.id ? 'not-allowed' : 'pointer',
+                      transition: 'all 0.2s',
+                      opacity: deletingId === submission.id ? 0.6 : 1,
+                    }}
+                    title="Supprimer"
+                  >
+                    <CloseIcon 
+                      size={14}
+                      color={deletingId === submission.id ? '#6B7280' : '#EF4444'}
+                    />
+                  </button>
+                  <Button variant="secondary" onClick={(e) => {
+                    e?.stopPropagation()
+                    router.push(`/admin/submissions/${submission.id}`)
+                  }}>
+                    View Details
+                  </Button>
+                </div>
               </div>
             </Card>
           ))}

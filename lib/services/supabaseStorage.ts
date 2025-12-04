@@ -457,6 +457,136 @@ export async function getFileUrl(filePath: string, expiresIn: number = 3600): Pr
 }
 
 /**
+ * Supprime une soumission complète avec tous ses fichiers
+ */
+export async function deleteSubmissionFromSupabase(submissionId: string): Promise<boolean> {
+  const startTime = Date.now()
+  console.log('[Supabase Storage] ========== DELETE SUBMISSION ==========')
+  console.log('[Supabase Storage] Submission ID:', submissionId)
+  
+  try {
+    // 1. Récupérer tous les documents associés pour obtenir les chemins des fichiers
+    console.log('[Supabase Storage] Step 1: Récupération des documents...')
+    const { data: documents, error: documentsError } = await supabaseAdmin
+      .from('documents')
+      .select('file_path')
+      .eq('submission_id', submissionId)
+
+    if (documentsError) {
+      console.error('[Supabase Storage] Erreur récupération documents:', documentsError)
+      // Continuer même si on ne peut pas récupérer les documents
+    } else {
+      console.log(`[Supabase Storage] ${documents?.length || 0} document(s) trouvé(s)`)
+    }
+
+    // 2. Supprimer tous les fichiers du storage
+    if (documents && documents.length > 0) {
+      console.log('[Supabase Storage] Step 2: Suppression des fichiers du storage...')
+      const filePaths = documents.map(doc => doc.file_path).filter(Boolean)
+      
+      // Supprimer tous les fichiers en une seule opération
+      const { error: storageError } = await supabaseAdmin.storage
+        .from(BUCKET_NAME)
+        .remove(filePaths)
+
+      if (storageError) {
+        console.error('[Supabase Storage] Erreur suppression fichiers:', storageError)
+        // Continuer même si certains fichiers ne peuvent pas être supprimés
+      } else {
+        console.log(`[Supabase Storage] ✅ ${filePaths.length} fichier(s) supprimé(s) du storage`)
+      }
+    } else {
+      // Essayer de supprimer le dossier entier si aucun document n'est trouvé
+      console.log('[Supabase Storage] Step 2: Suppression du dossier entier...')
+      const folderPath = `${submissionId}/`
+      const { data: filesInFolder, error: listError } = await supabaseAdmin.storage
+        .from(BUCKET_NAME)
+        .list(submissionId, {
+          limit: 1000,
+          offset: 0,
+        })
+
+      if (!listError && filesInFolder && filesInFolder.length > 0) {
+        // Récupérer récursivement tous les fichiers
+        const allFiles: string[] = []
+        const processFolder = async (prefix: string) => {
+          const { data: items } = await supabaseAdmin.storage
+            .from(BUCKET_NAME)
+            .list(prefix, { limit: 1000 })
+          
+          if (items) {
+            for (const item of items) {
+              const fullPath = prefix ? `${prefix}/${item.name}` : item.name
+              // Si l'item n'a pas de metadata, c'est un dossier (explorer récursivement)
+              // Sinon, c'est un fichier
+              if (item.metadata) {
+                // C'est un fichier
+                allFiles.push(fullPath)
+              } else if (item.name) {
+                // C'est probablement un dossier, explorer récursivement
+                await processFolder(fullPath)
+              }
+            }
+          }
+        }
+        
+        await processFolder(submissionId)
+        
+        if (allFiles.length > 0) {
+          const { error: removeError } = await supabaseAdmin.storage
+            .from(BUCKET_NAME)
+            .remove(allFiles)
+          
+          if (removeError) {
+            console.error('[Supabase Storage] Erreur suppression fichiers récursifs:', removeError)
+          } else {
+            console.log(`[Supabase Storage] ✅ ${allFiles.length} fichier(s) supprimé(s) récursivement`)
+          }
+        }
+      }
+    }
+
+    // 3. Supprimer tous les documents de la base de données (CASCADE devrait le faire automatiquement, mais on le fait explicitement)
+    console.log('[Supabase Storage] Step 3: Suppression des documents de la base de données...')
+    const { error: deleteDocsError } = await supabaseAdmin
+      .from('documents')
+      .delete()
+      .eq('submission_id', submissionId)
+
+    if (deleteDocsError) {
+      console.error('[Supabase Storage] Erreur suppression documents:', deleteDocsError)
+      // Continuer même si les documents ne peuvent pas être supprimés
+    } else {
+      console.log('[Supabase Storage] ✅ Documents supprimés de la base de données')
+    }
+
+    // 4. Supprimer la soumission de la base de données
+    console.log('[Supabase Storage] Step 4: Suppression de la soumission...')
+    const { error: deleteSubmissionError } = await supabaseAdmin
+      .from('submissions')
+      .delete()
+      .eq('id', submissionId)
+
+    if (deleteSubmissionError) {
+      console.error('[Supabase Storage] Erreur suppression soumission:', deleteSubmissionError)
+      throw new Error(`Erreur lors de la suppression de la soumission: ${deleteSubmissionError.message}`)
+    }
+
+    const duration = Date.now() - startTime
+    console.log(`[Supabase Storage] ✅ Soumission supprimée avec succès en ${duration}ms`)
+    return true
+  } catch (error) {
+    const duration = Date.now() - startTime
+    console.error(`[Supabase Storage] ❌ Erreur après ${duration}ms:`, error)
+    console.error('[Supabase Storage] Détails:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    })
+    return false
+  }
+}
+
+/**
  * Nettoie le nom de fichier pour éviter les problèmes
  */
 function sanitizeFileName(fileName: string): string {
