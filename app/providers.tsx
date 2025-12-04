@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import ToastProvider from '@/components/ui/ToastProvider'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 

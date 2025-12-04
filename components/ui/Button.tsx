@@ -14,7 +14,7 @@ interface ButtonProps {
   size?: 'small' | 'medium' | 'large'
 }
 
-export default function Button({ 
+function Button({ 
   children, 
   variant = 'primary', 
   href, 
@@ -63,4 +63,7 @@ export default function Button({
     </button>
   )
 }
+
+export default Button
+export { Button }
 

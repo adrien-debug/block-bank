@@ -12,7 +12,7 @@ interface CardProps {
   onClick?: () => void
 }
 
-export default function Card({
+function Card({
   children,
   muted = false,
   variant = 'default',
@@ -36,5 +36,8 @@ export default function Card({
     </div>
   )
 }
+
+export default Card
+export { Card }
 
 
