@@ -56,3 +56,4 @@ echo "✅ All environment variables configured in Vercel!"
 echo ""
 echo "📝 To verify, run: vercel env ls"
 
+

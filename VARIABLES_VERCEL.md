@@ -175,3 +175,4 @@ Vous devriez voir :
 2. **Supprimez les variables OAuth** : Elles causent l'erreur `invalid_grant`
 3. **Redéployez** après avoir modifié les variables : `vercel --prod`
 
+

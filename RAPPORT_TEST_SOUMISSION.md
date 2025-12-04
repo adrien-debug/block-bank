@@ -110,3 +110,4 @@ Solution : Passer au plan Pro ou réduire le timeout client à 55 secondes
 - ⏳ Déploiement Vercel en cours
 - ⏳ Tests à effectuer après déploiement
 
+

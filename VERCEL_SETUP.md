@@ -70,3 +70,4 @@ Pour configurer toutes les variables rapidement, utilisez le script bash :
 ./scripts/quick-vercel-setup.sh
 ```
 
+

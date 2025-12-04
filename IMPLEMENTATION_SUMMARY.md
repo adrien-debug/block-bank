@@ -161,3 +161,4 @@ BlockBank Submissions/
 - `googleapis` : Pour l'intégration Google Drive
 - `uuid` : Pour générer les IDs uniques (remplacé par `crypto.randomUUID`)
 
+

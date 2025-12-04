@@ -95,3 +95,4 @@ Une fois configuré, testez en :
 - ⚠️ Utilisez un mot de passe fort pour l'admin
 - ⚠️ En production, utilisez les secrets de votre plateforme de déploiement (Vercel, etc.)
 
+

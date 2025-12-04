@@ -24,3 +24,4 @@ TEST_URL=$BASE_URL_PRODUCTION npm run test:production
 echo ""
 echo "✅ All tests completed!"
 
+

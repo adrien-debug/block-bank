@@ -290,3 +290,4 @@ Avant de déployer en production, vérifiez :
 - [GUIDE_GOOGLE_DRIVE.md](./GUIDE_GOOGLE_DRIVE.md) - Guide de configuration initiale
 - [PRODUCTION_SETUP.md](./PRODUCTION_SETUP.md) - Guide de setup production
 
+

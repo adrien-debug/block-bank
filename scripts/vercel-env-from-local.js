@@ -98,3 +98,4 @@ for (const env of environments) {
 console.log('\n✅ All environment variables configured in Vercel!')
 console.log('\n📝 To verify, run: vercel env ls')
 
+
