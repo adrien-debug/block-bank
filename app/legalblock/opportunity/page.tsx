@@ -212,12 +212,15 @@ export default function AssetTokenizationRequestPage() {
     
     if (!userType) {
       console.log('❌ VALIDATION FAILED: No userType selected')
+      setIsSubmitting(false)
+      setSubmitError('Please select a user type')
       return
     }
     console.log('✅ UserType validated:', userType)
     
     if (formData.assetType === 'other' && !formData.customAssetType?.trim()) {
       console.log('❌ VALIDATION FAILED: customAssetType missing')
+      setIsSubmitting(false)
       setSubmitError('Please specify the asset type in the "Other" field')
       return
     }
@@ -226,6 +229,7 @@ export default function AssetTokenizationRequestPage() {
     console.log('🔍 Validating documents...')
     if (!validateDocuments()) {
       console.log('❌ VALIDATION FAILED: Documents validation failed')
+      setIsSubmitting(false)
       return
     }
     console.log('✅ Documents validated')
@@ -233,6 +237,7 @@ export default function AssetTokenizationRequestPage() {
     console.log('🔍 Validating asset documents...')
     if (!validateAssetDocuments()) {
       console.log('❌ VALIDATION FAILED: Asset documents validation failed')
+      setIsSubmitting(false)
       return
     }
     console.log('✅ Asset documents validated')
@@ -244,6 +249,7 @@ export default function AssetTokenizationRequestPage() {
       console.log('✅ State updated, starting FormData creation...')
     } catch (stateError) {
       console.error('❌ Error setting state:', stateError)
+      setIsSubmitting(false)
       throw stateError
     }
     
