@@ -1,11 +1,10 @@
 /**
- * Route API pour télécharger un fichier d'une soumission
+ * Route API pour télécharger un fichier d'une soumission depuis Supabase Storage
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/utils/adminAuth'
-import { getSubmission } from '@/lib/utils/submissionStorage'
-import { promises as fs } from 'fs'
+import { getSubmissionFromSupabase, getFileUrl } from '@/lib/services/supabaseStorage'
 import path from 'path'
 
 export const runtime = 'nodejs'
@@ -31,7 +30,7 @@ export async function GET(
       : decodeURIComponent(params.filename)
 
     // Vérifier que la soumission existe
-    const submission = await getSubmission(submissionId)
+    const submission = await getSubmissionFromSupabase(submissionId)
 
     if (!submission) {
       return NextResponse.json(
@@ -40,87 +39,64 @@ export async function GET(
       )
     }
 
-    // Construire le chemin du fichier
-    // Le filename peut contenir un chemin relatif comme "asset-documents/file.png"
-    const STORAGE_ROOT = path.join(process.cwd(), 'storage', 'submissions')
-    const filePath = path.join(STORAGE_ROOT, submissionId, filename)
+    // Construire le chemin complet du fichier dans Supabase Storage
+    // Format: {submissionId}/{documentType}/{index}-{filename}
+    const filePath = `${submissionId}/${filename}`
 
-    // Sécurité : s'assurer que le fichier est dans le dossier de la soumission
-    const normalizedFilePath = path.normalize(filePath)
-    const normalizedSubmissionFolder = path.normalize(path.join(STORAGE_ROOT, submissionId))
+    // Récupérer l'URL signée du fichier (valide 1 heure)
+    const fileUrl = await getFileUrl(filePath, 3600)
 
-    if (!normalizedFilePath.startsWith(normalizedSubmissionFolder)) {
-      return NextResponse.json(
-        { error: 'Invalid file path' },
-        { status: 403 }
-      )
-    }
-
-    // Vérifier que le fichier existe
-    try {
-      await fs.access(filePath)
-    } catch {
+    if (!fileUrl) {
       return NextResponse.json(
         { error: 'File not found' },
         { status: 404 }
       )
     }
 
-    // Lire le fichier
-    const fileBuffer = await fs.readFile(filePath)
-    const stats = await fs.stat(filePath)
+    // Rediriger vers l'URL signée Supabase
+    // Alternative: télécharger le fichier et le servir (pour plus de contrôle)
+    try {
+      const response = await fetch(fileUrl)
+      if (!response.ok) {
+        return NextResponse.json(
+          { error: 'Failed to fetch file' },
+          { status: 500 }
+        )
+      }
 
-    // Déterminer le type MIME
-    const ext = path.extname(filename).toLowerCase()
-    const mimeTypes: Record<string, string> = {
-      '.pdf': 'application/pdf',
-      '.jpg': 'image/jpeg',
-      '.jpeg': 'image/jpeg',
-      '.png': 'image/png',
-      '.gif': 'image/gif',
-      '.doc': 'application/msword',
-      '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      '.xls': 'application/vnd.ms-excel',
-      '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    }
-
-    const contentType = mimeTypes[ext] || 'application/octet-stream'
-
-    // Extraire le nom du fichier pour l'en-tête (sans le chemin)
-    const baseFileName = path.basename(filename)
-    
-    // Normaliser le nom de fichier pour les headers HTTP (ASCII seulement)
-    // Les headers HTTP ne supportent que les caractères ASCII (0-255)
-    // Le caractère Unicode 8217 (apostrophe courbe ') cause des erreurs
-    let safeFileName = baseFileName
-      // Remplacer les apostrophes Unicode par apostrophe ASCII
-      .replace(/[''\u2018\u2019\u201B\u2032]/g, "'")
-      // Remplacer les guillemets Unicode
-      .replace(/[""\u201C\u201D\u201E\u2033]/g, '"')
-      // Remplacer les tirets Unicode
-      .replace(/[–—\u2013\u2014]/g, '-')
-      // Normaliser et supprimer les accents (é → e, à → a, etc.)
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      // Filtrer tous les caractères non-ASCII (code > 126)
-      .split('')
-      .map(char => {
-        const code = char.charCodeAt(0)
-        // Garder uniquement les caractères ASCII imprimables (32-126)
-        return (code >= 32 && code <= 126) ? char : '_'
+      const fileBuffer = await response.arrayBuffer()
+      const contentType = response.headers.get('content-type') || 'application/octet-stream'
+      
+      // Extraire le nom du fichier pour l'en-tête
+      const baseFileName = path.basename(filename)
+      
+      // Normaliser le nom de fichier pour les headers HTTP
+      let safeFileName = baseFileName
+        .replace(/[''\u2018\u2019\u201B\u2032]/g, "'")
+        .replace(/[""\u201C\u201D\u201E\u2033]/g, '"')
+        .replace(/[–—\u2013\u2014]/g, '-')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .split('')
+        .map(char => {
+          const code = char.charCodeAt(0)
+          return (code >= 32 && code <= 126) ? char : '_'
+        })
+        .join('')
+        .replace(/_{2,}/g, '_')
+      
+      return new NextResponse(fileBuffer, {
+        headers: {
+          'Content-Type': contentType,
+          'Content-Disposition': `inline; filename="${safeFileName}"`,
+          'Content-Length': fileBuffer.byteLength.toString(),
+        },
       })
-      .join('')
-      // Nettoyer les underscores multiples
-      .replace(/_{2,}/g, '_')
-    
-    // Retourner le fichier
-    return new NextResponse(fileBuffer, {
-      headers: {
-        'Content-Type': contentType,
-        'Content-Disposition': `inline; filename="${safeFileName}"`,
-        'Content-Length': stats.size.toString(),
-      },
-    })
+    } catch (error) {
+      console.error('[File Download] Error fetching file from Supabase:', error)
+      // Fallback: redirection directe vers l'URL
+      return NextResponse.redirect(fileUrl)
+    }
   } catch (error) {
     const filenameForLog = Array.isArray(params.filename)
       ? params.filename.map(seg => decodeURIComponent(seg)).join('/')

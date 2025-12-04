@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/utils/adminAuth'
-import { listSubmissions } from '@/lib/utils/submissionStorage'
+import { listSubmissionsFromSupabase } from '@/lib/services/supabaseStorage'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -21,19 +21,9 @@ export async function GET(request: NextRequest) {
     const assetType = searchParams.get('assetType')
     const userType = searchParams.get('userType')
 
-    // Lister toutes les soumissions
-    let submissions = await listSubmissions()
-
-    // Appliquer les filtres
-    if (status) {
-      submissions = submissions.filter(s => s.status === status)
-    }
-    if (assetType) {
-      submissions = submissions.filter(s => s.assetType === assetType)
-    }
-    if (userType) {
-      submissions = submissions.filter(s => s.userType === userType)
-    }
+    // Optimisation: Appliquer les filtres directement dans la requête SQL au lieu de filtrer après
+    // Lister les soumissions depuis Supabase avec filtres optimisés
+    let submissions = await listSubmissionsFromSupabase(status || undefined, assetType || undefined, userType || undefined)
 
     return NextResponse.json({
       success: true,

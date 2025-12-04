@@ -7,7 +7,7 @@ import Card from '@/components/ui/Card'
 import { AssetSubmission } from '@/types/submission.types'
 
 function SubmissionDocuments({ submissionId, documents }: { submissionId: string; documents: AssetSubmission['documents'] }) {
-  const [files, setFiles] = useState<Array<{ name: string; path: string; type: string; size: number }>>([])
+  const [files, setFiles] = useState<Array<{ name: string; path: string; type: string; size: number; documentType: string; url: string | null }>>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -17,11 +17,36 @@ function SubmissionDocuments({ submissionId, documents }: { submissionId: string
   const loadFiles = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/admin/submissions/${submissionId}/files`)
+      // Utiliser cache pour éviter les requêtes répétées
+      const cacheKey = `files-${submissionId}`
+      const cached = sessionStorage.getItem(cacheKey)
+      
+      if (cached) {
+        const cachedData = JSON.parse(cached)
+        // Utiliser le cache si moins de 5 minutes
+        if (Date.now() - cachedData.timestamp < 5 * 60 * 1000) {
+          setFiles(cachedData.files)
+          setIsLoading(false)
+          return
+        }
+      }
+
+      const response = await fetch(`/api/admin/submissions/${submissionId}/files`, {
+        // Ajouter cache HTTP
+        cache: 'default',
+        headers: {
+          'Cache-Control': 'max-age=300' // 5 minutes
+        }
+      })
       const data = await response.json()
 
       if (response.ok && data.files) {
         setFiles(data.files)
+        // Mettre en cache
+        sessionStorage.setItem(cacheKey, JSON.stringify({
+          files: data.files,
+          timestamp: Date.now()
+        }))
       }
     } catch (error) {
       console.error('Error loading files:', error)
@@ -38,9 +63,13 @@ function SubmissionDocuments({ submissionId, documents }: { submissionId: string
     return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
   }
 
-  const getFileUrl = (filePath: string) => {
-    // Encoder chaque segment du chemin séparément pour les sous-dossiers
-    const segments = filePath.split('/').map(seg => encodeURIComponent(seg))
+  const getFileUrl = (file: { path: string; url: string | null }) => {
+    // Si on a une URL directe depuis Supabase, l'utiliser
+    if (file.url) {
+      return file.url
+    }
+    // Sinon, utiliser l'API route
+    const segments = file.path.split('/').map(seg => encodeURIComponent(seg))
     return `/api/admin/submissions/${submissionId}/files/${segments.join('/')}`
   }
 
@@ -104,7 +133,7 @@ function SubmissionDocuments({ submissionId, documents }: { submissionId: string
               <Button
                 variant="secondary"
                 onClick={() => {
-                  window.open(getFileUrl(file.path), '_blank')
+                  window.open(getFileUrl(file), '_blank')
                 }}
               >
                 View
@@ -113,7 +142,7 @@ function SubmissionDocuments({ submissionId, documents }: { submissionId: string
                 variant="secondary"
                 onClick={() => {
                   const link = document.createElement('a')
-                  link.href = getFileUrl(file.path)
+                  link.href = getFileUrl(file)
                   link.download = file.name
                   document.body.appendChild(link)
                   link.click()
@@ -145,7 +174,26 @@ export default function SubmissionDetailPage({ params }: { params: { id: string 
     setError(null)
 
     try {
-      const response = await fetch(`/api/admin/submissions/${params.id}`)
+      // Utiliser cache pour éviter les requêtes répétées
+      const cacheKey = `submission-${params.id}`
+      const cached = sessionStorage.getItem(cacheKey)
+      
+      if (cached) {
+        const cachedData = JSON.parse(cached)
+        // Utiliser le cache si moins de 2 minutes
+        if (Date.now() - cachedData.timestamp < 2 * 60 * 1000) {
+          setSubmission(cachedData.submission)
+          setIsLoading(false)
+          return
+        }
+      }
+
+      const response = await fetch(`/api/admin/submissions/${params.id}`, {
+        cache: 'default',
+        headers: {
+          'Cache-Control': 'max-age=120' // 2 minutes
+        }
+      })
       const data = await response.json()
 
       if (!response.ok) {
@@ -157,6 +205,11 @@ export default function SubmissionDetailPage({ params }: { params: { id: string 
       }
 
       setSubmission(data.submission)
+      // Mettre en cache
+      sessionStorage.setItem(cacheKey, JSON.stringify({
+        submission: data.submission,
+        timestamp: Date.now()
+      }))
     } catch (error) {
       console.error('Error:', error)
       setError(error instanceof Error ? error.message : 'An error occurred')

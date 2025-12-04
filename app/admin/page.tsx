@@ -27,7 +27,26 @@ export default function AdminDashboardPage() {
       if (filterStatus) params.append('status', filterStatus)
       if (filterAssetType) params.append('assetType', filterAssetType)
 
-      const response = await fetch(`/api/admin/submissions?${params.toString()}`)
+      // Utiliser cache pour éviter les requêtes répétées
+      const cacheKey = `submissions-${params.toString()}`
+      const cached = sessionStorage.getItem(cacheKey)
+      
+      if (cached) {
+        const cachedData = JSON.parse(cached)
+        // Utiliser le cache si moins de 1 minute
+        if (Date.now() - cachedData.timestamp < 60 * 1000) {
+          setSubmissions(cachedData.submissions)
+          setIsLoading(false)
+          return
+        }
+      }
+
+      const response = await fetch(`/api/admin/submissions?${params.toString()}`, {
+        cache: 'default',
+        headers: {
+          'Cache-Control': 'max-age=60' // 1 minute
+        }
+      })
       const data = await response.json()
 
       if (!response.ok) {
@@ -38,7 +57,14 @@ export default function AdminDashboardPage() {
         throw new Error(data.error || 'Error loading data')
       }
 
-      setSubmissions(data.submissions || [])
+      const submissions = data.submissions || []
+      setSubmissions(submissions)
+      
+      // Mettre en cache
+      sessionStorage.setItem(cacheKey, JSON.stringify({
+        submissions,
+        timestamp: Date.now()
+      }))
     } catch (error) {
       console.error('Error:', error)
       setError(error instanceof Error ? error.message : 'An error occurred')

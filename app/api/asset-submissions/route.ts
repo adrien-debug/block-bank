@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { saveSubmission } from '@/lib/utils/submissionStorage'
+import { saveSubmissionToSupabase } from '@/lib/services/supabaseStorage'
 import { AssetType, UserType } from '@/types/submission.types'
 
 export const runtime = 'nodejs'
@@ -283,10 +283,10 @@ export async function POST(request: NextRequest) {
     })
     
     try {
-      console.log('[Asset Submission API] Step 6: Starting file storage...')
+      console.log('[Asset Submission API] Step 6: Starting file storage to Supabase...')
       
       const uploadStartTime = Date.now()
-      const { submissionId, folderId } = await saveSubmission(submissionData, files)
+      const { submissionId, folderId } = await saveSubmissionToSupabase(submissionData, files)
       const uploadDuration = Date.now() - uploadStartTime
       
       console.log('[Asset Submission API] Step 6: Storage successful!', { 

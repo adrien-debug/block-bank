@@ -1,12 +1,11 @@
 /**
- * Route API pour lister les fichiers d'une soumission
+ * Route API pour lister les fichiers d'une soumission depuis Supabase
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/utils/adminAuth'
-import { getSubmission } from '@/lib/utils/submissionStorage'
-import { promises as fs } from 'fs'
-import path from 'path'
+import { getSubmissionFromSupabase } from '@/lib/services/supabaseStorage'
+import { supabaseAdmin } from '@/lib/supabase/server'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -26,73 +25,74 @@ export async function GET(
 
     const submissionId = params.id
 
-    // Récupérer la soumission
-    const submission = await getSubmission(submissionId)
+    // Vérifier rapidement que la soumission existe (sans charger tous les détails)
+    const { data: submissionCheck, error: checkError } = await supabaseAdmin
+      .from('submissions')
+      .select('id')
+      .eq('id', submissionId)
+      .single()
 
-    if (!submission) {
+    if (checkError || !submissionCheck) {
       return NextResponse.json(
         { error: 'Submission not found' },
         { status: 404 }
       )
     }
 
-    // Lister tous les fichiers dans le dossier de la soumission
-    const STORAGE_ROOT = path.join(process.cwd(), 'storage', 'submissions')
-    const submissionFolder = path.join(STORAGE_ROOT, submissionId)
+    // Récupérer les documents depuis la table documents
+    const { data: documents, error: documentsError } = await supabaseAdmin
+      .from('documents')
+      .select('file_name, file_path, mime_type, file_size, document_type')
+      .eq('submission_id', submissionId)
+      .order('uploaded_at', { ascending: true })
 
-    try {
-      await fs.access(submissionFolder)
-    } catch {
+    if (documentsError) {
+      console.error('[Files List] Error fetching documents:', documentsError)
+      return NextResponse.json(
+        { error: 'Error fetching documents' },
+        { status: 500 }
+      )
+    }
+
+    if (!documents || documents.length === 0) {
       return NextResponse.json({
         success: true,
         files: [],
-        documents: submission.documents || {},
       })
     }
 
-    const files: Array<{
-      name: string
-      path: string
-      type: string
-      size: number
-    }> = []
+    // Générer toutes les URLs en parallèle (optimisation majeure)
+    // Utiliser les URLs publiques directement si le bucket est public (plus rapide)
+    const files = await Promise.all(
+      documents.map(async (doc) => {
+        // Utiliser l'URL publique directement (plus rapide que signée)
+        const { data: publicUrlData } = supabaseAdmin.storage
+          .from('submissions')
+          .getPublicUrl(doc.file_path)
 
-    // Fonction récursive pour lister les fichiers
-    async function listFilesRecursive(dir: string, baseDir: string) {
-      const entries = await fs.readdir(dir, { withFileTypes: true })
-
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name)
-        const relativePath = path.relative(baseDir, fullPath)
-
-        if (entry.isDirectory()) {
-          await listFilesRecursive(fullPath, baseDir)
-        } else if (entry.name !== 'metadata.json') {
-          // Ignorer metadata.json, on veut juste les fichiers uploadés
-          const stats = await fs.stat(fullPath)
-          files.push({
-            name: entry.name,
-            path: relativePath,
-            type: path.extname(entry.name).slice(1) || 'unknown',
-            size: stats.size,
-          })
+        return {
+          name: doc.file_name,
+          path: doc.file_path,
+          type: doc.mime_type || 'application/octet-stream',
+          size: doc.file_size || 0,
+          documentType: doc.document_type,
+          url: publicUrlData.publicUrl, // URL publique (instantanée, pas de génération)
         }
-      }
-    }
-
-    await listFilesRecursive(submissionFolder, submissionFolder)
+      })
+    )
 
     return NextResponse.json({
       success: true,
       files,
-      documents: submission.documents || {},
     })
   } catch (error) {
-    console.error('Error listing files:', error)
+    console.error('[Files List] Error:', error)
     return NextResponse.json(
-      { error: 'An error occurred' },
+      { 
+        error: 'An error occurred',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     )
   }
 }
-
