@@ -1,6 +1,6 @@
 /**
  * Système de stockage local simple
- * Remplace Google Drive avec un stockage de fichiers sur le système de fichiers
+ * Stockage de fichiers sur le système de fichiers
  * 
  * IMPORTANT: Ce module utilise des APIs Node.js (fs, path) et doit uniquement
  * être utilisé côté serveur (dans les API routes).

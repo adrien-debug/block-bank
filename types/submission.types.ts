@@ -30,7 +30,7 @@ export interface AssetSubmission {
   location: string
   assetLink?: string
   
-  // Documents (IDs dans Google Drive)
+  // Documents (chemins de fichiers locaux)
   documents: {
     passport?: string[]
     identityDocument?: string[]
@@ -67,6 +67,6 @@ export interface SubmissionMetadata {
   location: string
   ownerName?: string
   companyName?: string
-  folderId: string // ID du dossier Google Drive
+  folderId: string // Chemin du dossier local
 }
 
