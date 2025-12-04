@@ -18,6 +18,7 @@
     "test:marketing": "node scripts/test-marketing-api.js",
     "verify:marketing": "node scripts/verify-marketing-setup.js",
     "create:tables": "node scripts/execute-supabase-sql.js",
+    "setup:users": "node scripts/setup-users-table.js",
     "create:marketing:tables": "node scripts/create-marketing-tables-direct.js",
     "setup:marketing": "node scripts/final-setup-and-test.js",
     "test:email": "node scripts/test-email-config.js",

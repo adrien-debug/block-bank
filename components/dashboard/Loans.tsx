@@ -6,6 +6,8 @@ import ShieldIcon from '../icons/ShieldIcon'
 import InfoIcon from '../icons/InfoIcon'
 import WarningIcon from '../icons/WarningIcon'
 import ChartIcon from '../icons/ChartIcon'
+import RegistrationModal from '../ui/RegistrationModal'
+import { useAuth } from '@/contexts/AuthContext'
 
 type LoanStatus = 'active' | 'repaid' | 'default' | 'liquidated' | 'closed'
 type FilterStatus = 'all' | 'active' | 'repaid' | 'default'
@@ -99,7 +101,9 @@ interface HistoryEntry {
 }
 
 export default function Loans() {
+  const { isAuthenticated } = useAuth()
   const [showNewLoan, setShowNewLoan] = useState(false)
+  const [showRegistrationModal, setShowRegistrationModal] = useState(false)
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null)
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all')
   const [showEarlyRepayment, setShowEarlyRepayment] = useState(false)
@@ -1023,7 +1027,17 @@ export default function Loans() {
             </div>
             <form className="loan-form" onSubmit={(e) => {
               e.preventDefault()
+              
+              // Vérifier si l'utilisateur est connecté
+              if (!isAuthenticated) {
+                setShowNewLoan(false)
+                setShowRegistrationModal(true)
+                return
+              }
+              
+              // Si connecté, procéder avec la soumission normale
               setShowNewLoan(false)
+              // TODO: Implémenter la soumission réelle du prêt
             }}>
               <div className="form-group">
                 <label>Montant demandé</label>
@@ -1214,6 +1228,17 @@ export default function Loans() {
           </div>
         </div>
       )}
+
+      {/* Modal d'inscription */}
+      <RegistrationModal
+        isOpen={showRegistrationModal}
+        onClose={() => setShowRegistrationModal(false)}
+        onSuccess={() => {
+          setShowRegistrationModal(false)
+          // Après inscription réussie, rouvrir le formulaire de prêt
+          setShowNewLoan(true)
+        }}
+      />
     </div>
   )
 }

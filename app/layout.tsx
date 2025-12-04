@@ -14,6 +14,7 @@ import '../styles/components/sections.css'
 import '../styles/components/wallet-connect.css'
 import '../styles/components/toast.css'
 import '../styles/components/help-button.css'
+import '../styles/components/modals.css'
 // Pages CSS
 import '../styles/pages/landing.css'
 // Dashboard styles

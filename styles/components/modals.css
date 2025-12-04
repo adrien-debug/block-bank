@@ -1,0 +1,297 @@
+/* ====================================
+   MODALS - Registration & Login
+   ==================================== */
+
+/* Amélioration des modals existants pour responsive et scroll */
+.new-loan-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 99999 !important; /* Au-dessus de tous les éléments, y compris le header (9999) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  isolation: isolate; /* Crée un nouveau contexte d'empilement */
+}
+
+.modal-content {
+  background: var(--bb-white);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  max-width: 600px;
+  width: calc(100% - var(--space-8));
+  max-height: 95vh;
+  overflow: visible; /* Pas de scroll, tout doit être visible */
+  box-shadow: var(--shadow-card-hover);
+  position: relative;
+  margin: var(--space-4) auto;
+  z-index: 1; /* Au-dessus du backdrop de la modale */
+}
+
+/* Masquer la barre de scroll pour WebKit (Chrome, Safari, Edge) */
+.modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Barre de scroll masquée - le scroll reste fonctionnel */
+/* Les règles précédentes sont remplacées par la règle dans .modal-content */
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border-default);
+  position: relative;
+  background: var(--bb-white);
+  z-index: 10;
+  padding-top: 0;
+}
+
+.modal-header h2 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  font-family: var(--font-brand);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.modal-close-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-size: 18px;
+  font-weight: var(--font-semibold);
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.modal-close-button:hover {
+  background: var(--color-bg-tertiary);
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-500);
+  transform: scale(1.1);
+}
+
+.modal-close-button:active {
+  transform: scale(0.95);
+}
+
+.loan-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+.form-group label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  font-family: var(--font-ui);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  transition: all var(--transition-normal);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group input:hover,
+.form-group textarea:hover {
+  border-color: var(--color-border-hover);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  margin-top: var(--space-2);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+/* Boutons compacts dans les modales */
+.loan-form .btn-primary,
+.loan-form .btn-secondary {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  min-height: auto;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .new-loan-modal {
+    padding: var(--space-2);
+    align-items: flex-start;
+    padding-top: var(--space-4);
+  }
+
+  .modal-content {
+    max-width: 100%;
+    width: calc(100% - var(--space-4));
+    max-height: calc(100vh - var(--space-4));
+    padding: var(--space-3);
+    margin: var(--space-2);
+    border-radius: var(--radius-lg);
+    overflow: visible;
+  }
+
+  .modal-header {
+    margin-bottom: var(--space-2);
+    padding-bottom: var(--space-2);
+  }
+
+  .modal-header h2 {
+    font-size: var(--text-lg);
+  }
+
+  .modal-close-button {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .loan-form {
+    gap: var(--space-2);
+  }
+
+  .form-group {
+    gap: var(--space-1);
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: var(--space-2);
+    font-size: var(--text-xs);
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}
+
+/* Responsive - Très petit écran */
+@media (max-width: 375px) {
+  .modal-content {
+    padding: var(--space-3);
+    max-height: calc(100vh - var(--space-4));
+  }
+
+  .modal-header h2 {
+    font-size: var(--text-lg);
+  }
+
+  .modal-close-button {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+
+  .form-group label {
+    font-size: var(--text-xs);
+  }
+}
+
+/* Prévention des chevauchements avec le header */
+@media (max-width: 768px) {
+  .new-loan-modal {
+    z-index: 99999 !important; /* Au-dessus de tous les éléments */
+  }
+}
+
+/* Amélioration pour les onglets dans LoginModal */
+.modal-tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border-default);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-tab {
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  white-space: nowrap;
+  transition: all var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.modal-tab:hover {
+  color: var(--color-text-primary);
+}
+
+.modal-tab.active {
+  border-bottom-color: var(--bb-blue-medium);
+  color: var(--color-text-primary);
+  font-weight: var(--font-semibold);
+}
+
+@media (max-width: 768px) {
+  .modal-tabs {
+    margin-bottom: var(--space-4);
+  }
+
+  .modal-tab {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+  }
+}
+

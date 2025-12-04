@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { formatAddress } from '@/lib/utils'
 import WalletIcon from './icons/WalletIcon'
+import { useAuth } from '@/contexts/AuthContext'
+import { useModal } from '@/contexts/ModalContext'
 
 declare global {
   interface Window {
@@ -22,6 +24,8 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
   const onDisconnectRef = useRef(onDisconnect)
   const manuallyDisconnectedRef = useRef(false)
   const isInitialMountRef = useRef(true)
+  const { user, isAuthenticated, logout: authLogout, connectWallet: authConnectWallet } = useAuth()
+  const { openLoginModal } = useModal()
 
   // Mettre à jour les refs quand les callbacks changent
   useEffect(() => {
@@ -42,10 +46,17 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
           console.log('WalletConnect: Initial accounts check:', accounts, 'Manually disconnected:', wasManuallyDisconnected)
           if (accounts.length > 0 && !wasManuallyDisconnected) {
             const account = accounts[0]
-            console.log('WalletConnect: Setting address and calling onConnect:', account)
+            console.log('WalletConnect: Setting address and connecting via auth:', account)
             setAddress(account)
-            if (onConnectRef.current) {
-              onConnectRef.current(account)
+            // Utiliser authConnectWallet pour gérer l'authentification et la redirection
+            const result = await authConnectWallet(account)
+            if (result.success) {
+              // Appeler le callback si fourni
+              if (onConnectRef.current) {
+                onConnectRef.current(account)
+              }
+            } else {
+              console.error('Auth connectWallet error on initial check:', result.error)
             }
           } else {
             console.log('WalletConnect: No accounts found or manually disconnected, setting address to null')
@@ -88,11 +99,17 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
           setAddress((prevAddress) => {
             if (newAddress !== prevAddress) {
               console.log('Account changed from', prevAddress, 'to', newAddress)
-              setTimeout(() => {
-                if (onConnectRef.current) {
-                  onConnectRef.current(newAddress)
+              // Utiliser authConnectWallet pour gérer l'authentification et la redirection
+              authConnectWallet(newAddress).then((result) => {
+                if (result.success) {
+                  // Appeler le callback si fourni
+                  if (onConnectRef.current) {
+                    onConnectRef.current(newAddress)
+                  }
+                } else {
+                  console.error('Auth connectWallet error on account change:', result.error)
                 }
-              }, 100)
+              })
               return newAddress
             }
             return prevAddress
@@ -138,20 +155,29 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
         // Mettre à jour l'état local
         setAddress(connectedAddress)
         
-        // Appeler le callback avec un petit délai pour s'assurer que l'état est mis à jour
-        setTimeout(() => {
-          if (onConnectRef.current) {
-            console.log('Executing onConnect callback with:', connectedAddress)
-            try {
-              onConnectRef.current(connectedAddress)
-              console.log('onConnect callback executed successfully')
-            } catch (error) {
-              console.error('Error executing onConnect callback:', error)
-            }
-          }
-        }, 100)
+        // Utiliser connectWallet du contexte AuthContext pour gérer l'authentification et la redirection
+        const result = await authConnectWallet(connectedAddress)
         
-        console.log('Wallet connected successfully:', connectedAddress)
+        if (result.success) {
+          // Appeler le callback si fourni
+          setTimeout(() => {
+            if (onConnectRef.current) {
+              console.log('Executing onConnect callback with:', connectedAddress)
+              try {
+                onConnectRef.current(connectedAddress)
+                console.log('onConnect callback executed successfully')
+              } catch (error) {
+                console.error('Error executing onConnect callback:', error)
+              }
+            }
+          }, 100)
+          
+          console.log('Wallet connected successfully:', connectedAddress)
+        } else {
+          console.error('Auth connectWallet error:', result.error)
+          setAddress(null)
+          alert(result.error || 'Erreur de connexion wallet')
+        }
       } else {
         console.warn('No accounts returned from eth_requestAccounts')
         setAddress(null)
@@ -231,40 +257,74 @@ export default function WalletConnect({ onConnect, onDisconnect }: WalletConnect
     }
   }, [])
 
-  if (address) {
-    return (
-      <div className="wallet-connected">
-        <div className="wallet-address">
-          <WalletIcon />
-          <span>{formatAddress(address)}</span>
+  // Si l'utilisateur est connecté (email ou wallet)
+  if (isAuthenticated && user) {
+    // Si le wallet est connecté aussi
+    if (address) {
+      return (
+        <div className="wallet-connected">
+          <div className="wallet-address">
+            <WalletIcon />
+            <span>{formatAddress(address)}</span>
+          </div>
+          <button onClick={disconnect} className="btn-disconnect">
+            Disconnect
+          </button>
         </div>
-        <button onClick={disconnect} className="btn-disconnect">
-          Disconnect
-        </button>
+      )
+    }
+    
+    // Si seulement email connecté
+    return (
+      <div className="wallet-connect">
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--space-3)',
+          padding: 'var(--space-2) var(--space-4)',
+          background: 'rgba(37, 99, 235, 0.1)',
+          borderRadius: 'var(--radius-md)',
+          fontSize: 'var(--text-sm)',
+          flexWrap: 'wrap',
+          maxWidth: '100%',
+        }}>
+          <span style={{ 
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            maxWidth: '200px'
+          }}>
+            {user.email}
+          </span>
+          <button
+            onClick={async () => {
+              await authLogout()
+              setAddress(null)
+            }}
+            className="btn-secondary btn-small"
+            style={{ flexShrink: 0 }}
+          >
+            Déconnexion
+          </button>
+        </div>
       </div>
     )
   }
 
+  // Si pas connecté, afficher le bouton Login
   return (
     <div className="wallet-connect" style={{ position: 'relative', zIndex: 1000 }}>
       <button
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
+          openLoginModal()
         }}
-        disabled={true}
         className="btn-connect-wallet"
         type="button"
-        aria-label="Coming soon"
-        style={{ 
-          position: 'relative',
-          zIndex: 1001,
-          pointerEvents: 'none',
-          cursor: 'not-allowed',
-          opacity: 0.6
-        }}
+        aria-label="Login"
       >
-        Coming soon
+        Login
       </button>
     </div>
   )

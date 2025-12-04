@@ -9,6 +9,7 @@ import UserIcon from '../icons/UserIcon'
 import CreditCardIcon from '../icons/CreditCardIcon'
 import StarIcon from '../icons/StarIcon'
 import ChartIcon from '../icons/ChartIcon'
+import { useAuth } from '@/contexts/AuthContext'
 
 declare global {
   interface Window {
@@ -17,7 +18,9 @@ declare global {
 }
 
 export default function Profile() {
+  const { user, isAuthenticated, connectWallet, checkAuth } = useAuth()
   const [address, setAddress] = useState<string | null>(null)
+  const [isConnectingWallet, setIsConnectingWallet] = useState(false)
   const [emailNotifications, setEmailNotifications] = useState(true)
   const [pushNotifications, setPushNotifications] = useState(false)
   const [darkMode, setDarkMode] = useState(true)
@@ -32,7 +35,53 @@ export default function Profile() {
         // Ignore errors silently
       })
     }
-  }, [])
+    
+    // Si l'utilisateur a déjà un wallet connecté dans son profil
+    if (user?.wallet_address) {
+      setAddress(user.wallet_address)
+    }
+  }, [user])
+  
+  const handleConnectWallet = async () => {
+    if (typeof window === 'undefined' || !window.ethereum) {
+      alert('Veuillez installer MetaMask ou un autre wallet Web3')
+      return
+    }
+
+    if (!isAuthenticated) {
+      alert('Veuillez vous connecter d\'abord')
+      return
+    }
+
+    setIsConnectingWallet(true)
+
+    try {
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      })
+
+      if (accounts && accounts.length > 0) {
+        const walletAddress = accounts[0]
+        const result = await connectWallet(walletAddress)
+
+        if (result.success) {
+          setAddress(walletAddress)
+          await checkAuth() // Rafraîchir les données utilisateur
+        } else {
+          alert(result.error || 'Erreur de connexion wallet')
+        }
+      }
+    } catch (error: any) {
+      console.error('Erreur connexion wallet:', error)
+      if (error.code === 4001) {
+        alert('Connexion refusée')
+      } else {
+        alert('Erreur de connexion wallet')
+      }
+    } finally {
+      setIsConnectingWallet(false)
+    }
+  }
 
   return (
     <div className="profile-page-container">
@@ -74,10 +123,69 @@ export default function Profile() {
                   <span className="profile-detail-label">Statut</span>
                   <span className="profile-detail-value status-connected">
                     <span className="status-indicator"></span>
-                    Connecté
+                    {address ? 'Connecté' : 'Non connecté'}
                   </span>
                 </div>
               </div>
+              
+              {/* Bouton de connexion wallet si non connecté */}
+              {!address && isAuthenticated && (
+                <div style={{ marginTop: 'var(--space-4)' }}>
+                  <button
+                    onClick={handleConnectWallet}
+                    className="btn-primary"
+                    disabled={isConnectingWallet}
+                    style={{ width: '100%' }}
+                  >
+                    {isConnectingWallet ? 'Connexion...' : 'Connecter Wallet'}
+                  </button>
+                </div>
+              )}
+              
+              {/* Informations utilisateur si connecté par email */}
+              {isAuthenticated && user && (
+                <div style={{ 
+                  marginTop: 'var(--space-4)', 
+                  padding: 'var(--space-4)', 
+                  background: 'rgba(37, 99, 235, 0.05)', 
+                  borderRadius: 'var(--radius-md)',
+                  wordBreak: 'break-word',
+                  overflowWrap: 'break-word'
+                }}>
+                  <div className="profile-detail-row">
+                    <div className="profile-detail-item" style={{ width: '100%' }}>
+                      <span className="profile-detail-label">Email</span>
+                      <span className="profile-detail-value" style={{ 
+                        wordBreak: 'break-all',
+                        overflowWrap: 'break-word'
+                      }}>
+                        {user.email}
+                      </span>
+                    </div>
+                  </div>
+                  {user.first_name && user.last_name && (
+                    <div className="profile-detail-row">
+                      <div className="profile-detail-item" style={{ width: '100%' }}>
+                        <span className="profile-detail-label">Nom</span>
+                        <span className="profile-detail-value">{user.first_name} {user.last_name}</span>
+                      </div>
+                    </div>
+                  )}
+                  {user.address && (
+                    <div className="profile-detail-row">
+                      <div className="profile-detail-item" style={{ width: '100%' }}>
+                        <span className="profile-detail-label">Adresse</span>
+                        <span className="profile-detail-value" style={{ 
+                          wordBreak: 'break-word',
+                          overflowWrap: 'break-word'
+                        }}>
+                          {user.address}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* KYC Information */}

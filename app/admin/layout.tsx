@@ -10,6 +10,7 @@ import DashboardIcon from '@/components/icons/DashboardIcon'
 import DocumentIcon from '@/components/icons/DocumentIcon'
 import ChartIcon from '@/components/icons/ChartIcon'
 import { useWindowSize } from '@/hooks/useWindowSize'
+import { useAuth } from '@/contexts/AuthContext'
 import '../../styles/admin-marketing.css'
 import '../../styles/dashboard.css'
 
@@ -21,9 +22,18 @@ export default function AdminLayout({
   const pathname = usePathname()
   const router = useRouter()
   const { setShowHamburger, setIsMenuOpen, setOnMenuToggle, isMenuOpen } = useHeader()
+  const { user, isLoading: authLoading } = useAuth()
   const [isAuthenticatedState, setIsAuthenticatedState] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const { isMobile, isMounted } = useWindowSize()
+
+  // Vérifier le rôle et rediriger les non-admin vers /dashboard
+  useEffect(() => {
+    if (!authLoading && user && user.role !== 'admin') {
+      // Si l'utilisateur est connecté mais n'est pas admin, rediriger
+      router.push('/dashboard')
+    }
+  }, [user, authLoading, router])
 
   useEffect(() => {
     setShowHamburger(true)
@@ -85,7 +95,7 @@ export default function AdminLayout({
     return <>{children}</>
   }
 
-  if (isLoading) {
+  if (isLoading || authLoading) {
     return (
       <div style={{ 
         minHeight: '100vh', 
@@ -96,6 +106,11 @@ export default function AdminLayout({
         <p>Chargement...</p>
       </div>
     )
+  }
+
+  // Si l'utilisateur n'est pas admin, ne rien afficher (redirection en cours)
+  if (!authLoading && user && user.role !== 'admin' && !isAuthenticatedState) {
+    return null
   }
 
   // Déterminer l'item actif basé sur le pathname

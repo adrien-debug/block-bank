@@ -14,6 +14,7 @@ import DocumentIcon from '@/components/icons/DocumentIcon'
 import ChartUpIcon from '@/components/icons/ChartUpIcon'
 import HelpButton from '@/components/ui/HelpButton'
 import { useHeader } from '@/contexts/HeaderContext'
+import { useAuth } from '@/contexts/AuthContext'
 
 declare global {
   interface Window {
@@ -36,8 +37,16 @@ export default function DashboardLayout({
   const pathname = usePathname()
   const router = useRouter()
   const { setShowHamburger, setIsMenuOpen, setOnMenuToggle, isMenuOpen } = useHeader()
+  const { user, isLoading } = useAuth()
   const [address, setAddress] = useState<string | null>(null)
   const manuallyDisconnectedRef = useRef(false)
+
+  // Vérifier le rôle et rediriger les admin vers /admin/dashboard
+  useEffect(() => {
+    if (!isLoading && user && user.role === 'admin') {
+      router.push('/admin/dashboard')
+    }
+  }, [user, isLoading, router])
 
   useEffect(() => {
     // Vérifier si on a déconnecté manuellement

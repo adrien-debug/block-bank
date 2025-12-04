@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import ChartUpIcon from '@/components/icons/ChartUpIcon'
@@ -18,6 +18,8 @@ import WarningIcon from '@/components/icons/WarningIcon'
 import CheckIcon from '@/components/icons/CheckIcon'
 import PackageIcon from '@/components/icons/PackageIcon'
 import { AssetType, UserType } from '@/types/submission.types'
+import { useAuth } from '@/contexts/AuthContext'
+import { useModal } from '@/contexts/ModalContext'
 
 const ASSET_TYPES: { value: AssetType; label: string; Icon: React.ComponentType<{ className?: string }> }[] = [
   { value: 'real-estate', label: 'Real Estate', Icon: RealEstateIcon },
@@ -62,6 +64,8 @@ interface AssetSubmissionForm {
 }
 
 export default function AssetTokenizationRequestPage() {
+  const { isAuthenticated, isLoading: authLoading } = useAuth()
+  const { openRegistrationModal, isRegistrationModalOpen } = useModal()
   const [userType, setUserType] = useState<UserType | null>(null)
   const [formData, setFormData] = useState<AssetSubmissionForm>({
     userType: null,
@@ -93,6 +97,24 @@ export default function AssetTokenizationRequestPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const modalOpenedRef = useRef(false)
+
+  // Vérifier l'authentification au chargement (seulement une fois)
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated && !modalOpenedRef.current) {
+      openRegistrationModal()
+      modalOpenedRef.current = true
+    }
+  }, [authLoading, isAuthenticated, openRegistrationModal])
+
+  // Détecter quand la modale est fermée manuellement
+  useEffect(() => {
+    if (modalOpenedRef.current && !isRegistrationModalOpen) {
+      // La modale était ouverte et maintenant elle est fermée
+      // On marque qu'elle a été fermée manuellement
+      modalOpenedRef.current = true // Empêche la réouverture automatique
+    }
+  }, [isRegistrationModalOpen])
 
   const handleUserTypeSelect = (type: UserType) => {
     setUserType(type)
@@ -616,8 +638,53 @@ export default function AssetTokenizationRequestPage() {
     }
   }
 
+  // Afficher la pop-up d'inscription si non authentifié
+  if (!authLoading && !isAuthenticated) {
+    return (
+      <div className="dashboard-overview" style={{ 
+        minHeight: '100vh', 
+        overflow: 'hidden',
+        paddingTop: 'calc(var(--header-height) + var(--space-8))'
+      }}>
+        <div className="dashboard-header" style={{ textAlign: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+          <div style={{ width: '100%' }}>
+            <h1 style={{ textAlign: 'center' }}>Submit a Request</h1>
+            <p style={{ marginTop: '8px', color: 'var(--color-text-secondary)', fontSize: '16px', textAlign: 'center' }}>
+              Submit your asset (luxury, vehicle, real estate)
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Afficher un loader pendant la vérification de l'authentification
+  if (authLoading) {
+    return (
+      <div className="dashboard-overview" style={{ 
+        minHeight: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        paddingTop: 'calc(var(--header-height) + var(--space-8))'
+      }}>
+        <div style={{ textAlign: 'center', padding: 'var(--space-8)' }}>
+          <div className="spinner" style={{ 
+            display: 'inline-block', 
+            width: '40px', 
+            height: '40px',
+            border: '4px solid rgba(37, 99, 235, 0.1)',
+            borderTopColor: 'var(--color-primary-500)',
+            borderRadius: '50%',
+            animation: 'spin 0.6s linear infinite'
+          }}></div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="dashboard-overview">
+    <div className="dashboard-overview" style={{ paddingTop: 'calc(var(--header-height) + var(--space-8))' }}>
       <div className="dashboard-header" style={{ textAlign: 'center', justifyContent: 'center', flexDirection: 'column' }}>
         <div style={{ width: '100%' }}>
           <h1 style={{ textAlign: 'center' }}>Submit a Request</h1>
@@ -1543,7 +1610,7 @@ export default function AssetTokenizationRequestPage() {
 
         @media (max-width: 768px) {
           .dashboard-overview {
-            padding: var(--space-4) var(--margin-mobile);
+            padding: calc(var(--header-height) + var(--space-4)) var(--margin-mobile) var(--space-4);
           }
 
           .dashboard-header h1 {
@@ -1714,7 +1781,7 @@ export default function AssetTokenizationRequestPage() {
 
         @media (max-width: 375px) {
           .dashboard-overview {
-            padding: var(--space-3) 16px;
+            padding: calc(var(--header-height) + var(--space-3)) 16px var(--space-3);
           }
 
           .dashboard-header h1 {
