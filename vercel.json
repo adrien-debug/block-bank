@@ -29,6 +29,5 @@
     "deploymentEnabled": {
       "main": true
     }
-  },
-  "_comment": "Domaines gérés manuellement via le dashboard Vercel. Voir VERCEL_DOMAIN_MANAGEMENT.md"
+  }
 }
