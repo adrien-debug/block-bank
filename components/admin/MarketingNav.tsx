@@ -1,6 +1,11 @@
 'use client'
 
-import type { MarketingTab } from './marketing/types'
+import type { MarketingTab } from '@/components/admin/marketing/types'
+import SocialIcon from '@/components/icons/SocialIcon'
+import TargetIcon from '@/components/icons/TargetIcon'
+import SearchIcon from '@/components/icons/SearchIcon'
+import CalendarIcon from '@/components/icons/CalendarIcon'
+import DocumentIcon from '@/components/icons/DocumentIcon'
 
 interface MarketingNavProps {
   activeTab: MarketingTab
@@ -9,43 +14,25 @@ interface MarketingNavProps {
 
 export default function MarketingNav({ activeTab, onTabChange }: MarketingNavProps) {
   const tabs = [
-    { id: 'posts' as MarketingTab, label: 'Posts Réseaux Sociaux', icon: '📱' },
-    { id: 'promotions' as MarketingTab, label: 'Promotions', icon: '🎯' },
-    { id: 'adwords' as MarketingTab, label: 'Google AdWords', icon: '🔍' },
-    { id: 'calendar' as MarketingTab, label: 'Calendrier', icon: '📅' },
-    { id: 'sections' as MarketingTab, label: 'Sections', icon: '📝' },
+    { id: 'posts' as MarketingTab, label: 'Posts Réseaux Sociaux', icon: SocialIcon },
+    { id: 'promotions' as MarketingTab, label: 'Promotions', icon: TargetIcon },
+    { id: 'adwords' as MarketingTab, label: 'Google AdWords', icon: SearchIcon },
+    { id: 'calendar' as MarketingTab, label: 'Calendrier', icon: CalendarIcon },
+    { id: 'sections' as MarketingTab, label: 'Sections', icon: DocumentIcon },
   ]
 
   return (
-    <div style={{
-      display: 'flex',
-      gap: 'var(--space-2)',
-      borderBottom: '2px solid var(--color-border-default)',
-      paddingBottom: 'var(--space-2)',
-    }}>
+    <div className="marketing-nav admin-submenu">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id
+        const IconComponent = tab.icon
         return (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            style={{
-              padding: 'var(--space-3) var(--space-5)',
-              border: 'none',
-              background: 'transparent',
-              borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
-              color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-              fontWeight: isActive ? '600' : '400',
-              fontSize: '14px',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              marginBottom: '-2px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--space-2)',
-            }}
+            className={`marketing-nav-item ${isActive ? 'active' : ''}`}
           >
-            <span>{tab.icon}</span>
+            <IconComponent size={16} />
             {tab.label}
           </button>
         )

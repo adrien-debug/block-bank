@@ -2,10 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import Link from 'next/link'
 import Button from '@/components/ui/Button'
-import { isAuthenticated } from '@/lib/utils/adminAuth'
+import Sidebar from '@/components/ui/Sidebar'
+import DashboardIcon from '@/components/icons/DashboardIcon'
+import DocumentIcon from '@/components/icons/DocumentIcon'
+import ChartIcon from '@/components/icons/ChartIcon'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import '../../styles/admin-marketing.css'
+import '../../styles/dashboard.css'
 
 export default function AdminLayout({
   children,
@@ -16,6 +20,8 @@ export default function AdminLayout({
   const router = useRouter()
   const [isAuthenticatedState, setIsAuthenticatedState] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [isMenuOpen, setIsMenuOpen] = useState(true)
+  const { isMobile, isMounted } = useWindowSize()
 
   useEffect(() => {
     // Vérifier l'authentification
@@ -49,6 +55,13 @@ export default function AdminLayout({
     }
   }, [pathname, router])
 
+  // Sur desktop, le menu est toujours ouvert
+  useEffect(() => {
+    if (!isMobile) {
+      setIsMenuOpen(true)
+    }
+  }, [isMobile])
+
   const handleLogout = async () => {
     try {
       await fetch('/api/admin/auth', {
@@ -81,80 +94,67 @@ export default function AdminLayout({
     )
   }
 
+  // Déterminer l'item actif basé sur le pathname
+  const getActiveItem = () => {
+    if (pathname === '/admin/dashboard' || pathname.startsWith('/admin/dashboard')) {
+      return 'dashboard'
+    }
+    if (pathname === '/admin/submissions' || pathname.startsWith('/admin/submissions')) {
+      return 'submissions'
+    }
+    if (pathname === '/admin/marketing' || pathname.startsWith('/admin/marketing')) {
+      return 'marketing'
+    }
+    return 'dashboard'
+  }
+
   const navItems = [
-    { href: '/admin', label: 'Dashboard', icon: '📊' },
-    { href: '/admin/submissions', label: 'Submissions', icon: '📝' },
-    { href: '/admin/marketing', label: 'Marketing', icon: '📱' },
+    { id: 'dashboard', href: '/admin/dashboard', label: 'Dashboard', icon: DashboardIcon },
+    { id: 'submissions', href: '/admin/submissions', label: 'Submissions', icon: DocumentIcon },
+    { id: 'marketing', href: '/admin/marketing', label: 'Marketing', icon: ChartIcon },
   ]
 
   return (
-    <div style={{
+    <div className="dashboard admin-dashboard" style={{
       minHeight: '100vh',
       display: 'flex',
-      flexDirection: 'column',
       background: 'var(--color-bg-primary)',
     }}>
-      {/* Header */}
-      <header style={{
-        borderBottom: '1px solid var(--color-border-default)',
-        background: 'var(--color-bg-secondary)',
-        padding: 'var(--space-4) var(--space-6)',
+      {/* Sidebar */}
+      <Sidebar
+        items={navItems.map(item => ({
+          id: item.id,
+          label: item.label,
+          icon: item.icon,
+          href: item.href,
+        }))}
+        activeItem={getActiveItem()}
+        isOpen={isMenuOpen}
+        onToggle={() => setIsMenuOpen(!isMenuOpen)}
+        className="admin-sidebar"
+      />
+
+      {/* Main Content Area */}
+      <div className="dashboard-content" style={{
+        flex: 1,
+        marginLeft: isMounted && !isMobile && isMenuOpen ? 'var(--sidebar-width)' : '0',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        transition: 'margin-left 0.3s ease',
       }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+        {/* Main Content */}
+        <main style={{
+          flex: 1,
+          padding: 'var(--space-6)',
           maxWidth: '1400px',
           margin: '0 auto',
           width: '100%',
+          background: 'var(--color-bg-primary)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
-            <h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>
-              BlockBank Admin
-            </h1>
-            <nav style={{ display: 'flex', gap: 'var(--space-2)' }}>
-              {navItems.map((item) => {
-                const isActive = pathname === item.href || 
-                  (item.href !== '/admin' && pathname.startsWith(item.href))
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    style={{
-                      padding: 'var(--space-2) var(--space-4)',
-                      borderRadius: 'var(--radius-md)',
-                      textDecoration: 'none',
-                      fontSize: '14px',
-                      fontWeight: isActive ? '600' : '400',
-                      color: isActive ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
-                      background: isActive ? 'var(--color-bg-primary)' : 'transparent',
-                      border: isActive ? '1px solid var(--color-border-default)' : '1px solid transparent',
-                      transition: 'all 0.2s',
-                    }}
-                  >
-                    <span style={{ marginRight: 'var(--space-2)' }}>{item.icon}</span>
-                    {item.label}
-                  </Link>
-                )
-              })}
-            </nav>
-          </div>
-          <Button variant="secondary" onClick={handleLogout} size="small">
-            Logout
-          </Button>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main style={{
-        flex: 1,
-        padding: 'var(--space-6)',
-        maxWidth: '1400px',
-        margin: '0 auto',
-        width: '100%',
-      }}>
-        {children}
-      </main>
+          {children}
+        </main>
+      </div>
     </div>
   )
 }

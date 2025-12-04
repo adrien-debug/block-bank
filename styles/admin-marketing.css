@@ -1,5 +1,305 @@
 /* Styles pour le module marketing admin */
 
+/* ====================================
+   ADMIN PAGES - STYLES UNIFIÉS
+   ==================================== */
+
+/* Container principal - UNIFIÉ pour toutes les pages admin */
+.admin-page-container,
+.admin-dashboard .dashboard-overview {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header unifié - MÊME STYLE pour Dashboard, Submissions, Marketing */
+.admin-page-header {
+  margin-bottom: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+/* Titre principal - UNIFIÉ */
+.admin-page-title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary) !important;
+  margin: 0 0 var(--space-2) 0;
+}
+
+/* Description sous-titre - UNIFIÉ */
+.admin-page-description,
+.admin-page-header p {
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Dashboard Header - Utilise les mêmes classes */
+.dashboard-header.admin-dashboard-header,
+.admin-page-header.dashboard-header.admin-dashboard-header {
+  margin-bottom: var(--space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.dashboard-header.admin-dashboard-header h1,
+.dashboard-header.admin-dashboard-header .admin-page-title,
+.admin-page-header.dashboard-header.admin-dashboard-header h1,
+.admin-page-header.dashboard-header.admin-dashboard-header .admin-page-title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary) !important;
+  margin: 0;
+}
+
+/* Cards - UNIFIÉES avec chart-card-premium */
+.admin-page-container .card,
+.dashboard-overview .card,
+.admin-card,
+.admin-page-container .chart-card-premium,
+.dashboard-overview .chart-card-premium {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
+}
+
+/* Appliquer les styles chart-card-premium aux cards admin */
+.admin-page-container .card,
+.admin-card {
+  background: var(--bb-white);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-page-container .card::before,
+.admin-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--bb-gradient-primary);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  transform: scaleX(0);
+}
+
+.admin-page-container .card:hover,
+.admin-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+.admin-page-container .card:hover::before,
+.admin-card:hover::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Textes dans les cards - UNIFIÉS */
+.admin-page-container .card h3,
+.dashboard-overview .card h3,
+.admin-card h3,
+.admin-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-3) 0;
+}
+
+.admin-page-container .card h4,
+.dashboard-overview .card h4,
+.admin-card h4 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.admin-page-container .card p,
+.dashboard-overview .card p,
+.admin-card p,
+.admin-card-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.admin-page-container .card label,
+.dashboard-overview .card label,
+.admin-card label,
+.admin-card-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+/* Badges de statut - UNIFIÉS */
+.admin-status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* Responsive - UNIFIÉ pour toutes les pages */
+@media (max-width: 768px) {
+  .admin-page-container,
+  .admin-dashboard .dashboard-overview {
+    width: 100%;
+    padding: 0;
+  }
+
+  .admin-page-header,
+  .dashboard-header.admin-dashboard-header,
+  .admin-page-header.dashboard-header.admin-dashboard-header {
+    margin-bottom: var(--space-4);
+    padding: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .admin-page-title,
+  .dashboard-header.admin-dashboard-header h1,
+  .dashboard-header.admin-dashboard-header .admin-page-title,
+  .admin-page-header.dashboard-header.admin-dashboard-header h1,
+  .admin-page-header.dashboard-header.admin-dashboard-header .admin-page-title {
+    font-size: 28px !important;
+    letter-spacing: 0.08em !important;
+    line-height: 1.2 !important;
+  }
+
+  .admin-page-description,
+  .admin-page-header p {
+    font-size: 14px !important;
+  }
+
+  .admin-page-container .card,
+  .dashboard-overview .card,
+  .admin-card {
+    padding: var(--space-4) !important;
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  .admin-page-container .card h3,
+  .dashboard-overview .card h3,
+  .admin-card h3,
+  .admin-card-title {
+    font-size: 16px !important;
+  }
+
+  .admin-page-container .card h4,
+  .dashboard-overview .card h4,
+  .admin-card h4 {
+    font-size: 15px !important;
+  }
+
+  .admin-page-container .card p,
+  .dashboard-overview .card p,
+  .admin-card p,
+  .admin-card-text {
+    font-size: 14px !important;
+  }
+
+  .admin-page-container .card label,
+  .dashboard-overview .card label,
+  .admin-card label,
+  .admin-card-label {
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .admin-page-container,
+  .admin-dashboard .dashboard-overview {
+    padding: 0;
+  }
+
+  .admin-page-header,
+  .dashboard-header.admin-dashboard-header,
+  .admin-page-header.dashboard-header.admin-dashboard-header {
+    padding: 0;
+    margin: 0 0 var(--space-3) 0;
+  }
+
+  .admin-page-title,
+  .dashboard-header.admin-dashboard-header h1,
+  .dashboard-header.admin-dashboard-header .admin-page-title,
+  .admin-page-header.dashboard-header.admin-dashboard-header h1,
+  .admin-page-header.dashboard-header.admin-dashboard-header .admin-page-title {
+    font-size: 24px !important;
+    letter-spacing: 0.06em !important;
+    line-height: 1.2 !important;
+  }
+
+  .admin-page-description,
+  .admin-page-header p {
+    font-size: 13px !important;
+  }
+
+  .admin-page-container .card,
+  .dashboard-overview .card,
+  .admin-card {
+    padding: var(--space-3) !important;
+  }
+
+  .admin-page-container .card h3,
+  .dashboard-overview .card h3,
+  .admin-card h3,
+  .admin-card-title {
+    font-size: 15px !important;
+  }
+
+  .admin-page-container .card h4,
+  .dashboard-overview .card h4,
+  .admin-card h4 {
+    font-size: 14px !important;
+  }
+
+  .admin-page-container .card p,
+  .dashboard-overview .card p,
+  .admin-card p,
+  .admin-card-text {
+    font-size: 13px !important;
+  }
+
+  .admin-page-container .card label,
+  .dashboard-overview .card label,
+  .admin-card label,
+  .admin-card-label {
+    font-size: 12px !important;
+  }
+}
+
 .marketing-container {
   width: 100%;
   max-width: 1400px;
@@ -13,7 +313,9 @@
   margin-bottom: var(--space-6);
 }
 
-.marketing-nav {
+/* Sous-menu unifié - MÊME STYLE pour tous les sous-menus admin */
+.marketing-nav,
+.admin-submenu {
   display: flex;
   gap: var(--space-2);
   border-bottom: 2px solid var(--color-border-default);
@@ -21,7 +323,55 @@
   margin-bottom: var(--space-6);
 }
 
-.marketing-nav-item {
+/* Admin Sidebar - Positionnement sans header global */
+.admin-dashboard .dashboard-sidebar {
+  top: 0;
+  height: 100vh;
+}
+
+.admin-dashboard .sidebar-backdrop {
+  top: 0;
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard .dashboard-content {
+    margin-left: 0;
+  }
+
+  .admin-dashboard .dashboard-content > main {
+    padding: var(--space-6) var(--margin-mobile) !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .admin-dashboard .dashboard-content > main {
+    padding: var(--space-4) 16px !important;
+  }
+}
+
+/* Admin Dashboard - Base Styles */
+/* .admin-dashboard-header est maintenant géré par .dashboard-header.admin-dashboard-header dans les règles unifiées */
+
+.admin-header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.admin-period-buttons {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.admin-charts-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-6);
+}
+
+/* Items de sous-menu unifiés */
+.marketing-nav-item,
+.admin-submenu-item {
   padding: var(--space-3) var(--space-5);
   border: none;
   background: transparent;
@@ -37,11 +387,13 @@
   gap: var(--space-2);
 }
 
-.marketing-nav-item:hover {
+.marketing-nav-item:hover,
+.admin-submenu-item:hover {
   color: var(--color-text-primary);
 }
 
-.marketing-nav-item.active {
+.marketing-nav-item.active,
+.admin-submenu-item.active {
   border-bottom-color: var(--color-primary);
   color: var(--color-primary);
   font-weight: 600;
@@ -230,5 +582,402 @@
     align-items: flex-start;
     gap: var(--space-4);
   }
+
+  /* Sous-menu responsive */
+  .marketing-nav,
+  .admin-submenu {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .marketing-nav-item,
+  .admin-submenu-item {
+    padding: var(--space-2) var(--space-3);
+    font-size: 13px;
+  }
+
+  /* Admin Dashboard Responsive - Mobile/Tablet (comme homepage) */
+  .admin-dashboard .dashboard-overview {
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .admin-dashboard-header,
+  .admin-page-header,
+  .dashboard-header.admin-dashboard-header,
+  .admin-page-header.dashboard-header.admin-dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: 0;
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  /* Titres responsive - Règles maintenant gérées par les règles unifiées */
+  /* Les règles pour .admin-dashboard-header h1 sont dans les règles unifiées au début du fichier */
+
+  /* StatCard responsive - Labels, Values, Subtitles */
+  .admin-dashboard .stat-card {
+    padding: var(--space-6) !important;
+  }
+
+  .admin-dashboard .stat-label {
+    font-size: 12px !important;
+  }
+
+  .admin-dashboard .stat-value {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+
+  .admin-dashboard .stat-subtitle {
+    font-size: 13px !important;
+  }
+
+  /* Chart Card responsive - Titres h3 */
+  .admin-dashboard .chart-card-premium h3,
+  .admin-dashboard .chart-header-premium h3 {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Card responsive - Titres et contenu */
+  .admin-dashboard .card h3,
+  .admin-dashboard .card h4 {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+
+  .admin-dashboard .card p {
+    font-size: 14px !important;
+  }
+
+  /* Submissions page responsive */
+  .admin-dashboard [style*="fontSize: '16px'"] {
+    font-size: 15px !important;
+  }
+
+  .admin-dashboard .card[style*="padding"] {
+    padding: var(--space-4) !important;
+  }
+
+  /* Marketing page responsive */
+  .admin-dashboard [style*="marginBottom: 'var(--space-6)'"] {
+    margin-bottom: var(--space-4) !important;
+  }
+
+  /* Filtres responsive */
+  .admin-dashboard .card > div[style*="flexWrap"] {
+    flex-direction: column !important;
+    gap: var(--space-3) !important;
+  }
+
+  .admin-dashboard .card > div[style*="flexWrap"] > div {
+    width: 100% !important;
+  }
+
+  .admin-dashboard .card select {
+    width: 100% !important;
+    min-width: auto !important;
+  }
+
+  /* Stats grid responsive */
+  .admin-dashboard .stats-grid.admin-main-stats {
+    padding: 0 var(--margin-mobile) var(--space-6);
+    grid-template-columns: 1fr !important;
+    gap: var(--space-4) !important;
+  }
+
+  /* Charts responsive */
+  .admin-dashboard .dashboard-charts-premium {
+    padding: 0 var(--margin-mobile) var(--space-6);
+  }
+
+  /* Marketing stats responsive */
+  .admin-dashboard .stats-grid.admin-marketing-stats {
+    padding: 0 var(--margin-mobile) var(--space-6) !important;
+  }
+
+  /* Recent activity responsive */
+  .admin-dashboard .dashboard-overview > .chart-card-premium:last-child {
+    margin: 0 var(--margin-mobile) var(--space-6);
+  }
+
+  .admin-header-controls {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-3);
+  }
+
+  .admin-header-controls .dashboard-date {
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .admin-period-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    gap: var(--space-2);
+  }
+
+  .admin-charts-container {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-4) !important;
+  }
+
+  .admin-charts-grid .chart-card-premium {
+    margin-bottom: var(--space-4);
+  }
+
+  .admin-charts-grid .chart-header-premium {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .admin-charts-grid .chart-header-premium h3 {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+
+  .admin-dashboard .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-4) !important;
+  }
+
+  /* Recent Activity responsive */
+  .admin-dashboard .chart-card-premium .chart-header-premium {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .admin-dashboard .chart-card-premium .chart-header-premium h3 {
+    margin-bottom: 0;
+    font-size: 18px;
+  }
+
+  /* Recent Activity cards responsive */
+  .admin-recent-submissions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .admin-submission-card {
+    padding: var(--space-4);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .admin-submission-card:hover {
+    background: var(--color-bg-secondary);
+    border-color: #3B82F6;
+  }
+
+  .admin-submission-header {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    margin-bottom: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .admin-submission-header h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .admin-submission-status {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .admin-submission-details {
+    display: flex;
+    gap: var(--space-4);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    flex-wrap: wrap;
+  }
 }
+
+/* Responsive iPhone - Comme homepage (375px) */
+@media (max-width: 375px) {
+  .admin-dashboard .dashboard-overview {
+    padding: 0 !important;
+  }
+
+  /* Titres responsive iPhone - Règles maintenant gérées par les règles unifiées */
+  /* Les règles pour .admin-dashboard-header et .admin-page-header sont dans les règles unifiées */
+  /* Les règles pour .admin-dashboard-header h1 sont dans les règles unifiées au début du fichier */
+
+  /* StatCard responsive iPhone */
+  .admin-dashboard .stat-card {
+    padding: var(--space-4) !important;
+  }
+
+  .admin-dashboard .stat-icon-wrapper {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .admin-dashboard .stat-icon {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .admin-dashboard .stat-label {
+    font-size: 11px !important;
+  }
+
+  .admin-dashboard .stat-value {
+    font-size: 24px !important;
+    line-height: 1.2 !important;
+  }
+
+  .admin-dashboard .stat-subtitle {
+    font-size: 12px !important;
+  }
+
+  .admin-dashboard .stat-badge {
+    font-size: 10px !important;
+    padding: 2px 8px !important;
+  }
+
+  /* Chart Card responsive iPhone */
+  .admin-dashboard .chart-card-premium h3,
+  .admin-dashboard .chart-header-premium h3 {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Card responsive iPhone */
+  .admin-dashboard .card h3 {
+    font-size: 15px !important;
+  }
+
+  .admin-dashboard .card h4 {
+    font-size: 14px !important;
+  }
+
+  .admin-dashboard .card p {
+    font-size: 13px !important;
+  }
+
+  .admin-dashboard .card label {
+    font-size: 12px !important;
+  }
+
+  /* Submissions page responsive iPhone */
+  .admin-dashboard .card[style*="padding"] {
+    padding: var(--space-3) !important;
+  }
+
+  .admin-dashboard .card > div[style*="flex"] > div[style*="flex"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: var(--space-2) !important;
+  }
+
+  .admin-dashboard .card > div[style*="flex"] > div[style*="flex"] > div[style*="fontSize: '14px'"] {
+    font-size: 12px !important;
+    flex-direction: column !important;
+    gap: var(--space-1) !important;
+  }
+
+  /* Marketing page responsive iPhone */
+  .admin-dashboard [style*="fontSize: '16px'"] {
+    font-size: 13px !important;
+  }
+
+  /* Header responsive pour submissions et marketing - Règles maintenant gérées par les règles unifiées au début du fichier */
+
+  .admin-header-controls .dashboard-date {
+    font-size: 13px;
+  }
+
+  .admin-period-buttons {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  /* Stats grid iPhone */
+  .admin-dashboard .stats-grid.admin-main-stats {
+    padding: 0 16px var(--space-4) !important;
+    gap: var(--space-3) !important;
+  }
+
+  /* Charts iPhone */
+  .admin-dashboard .dashboard-charts-premium {
+    padding: 0 16px var(--space-4);
+  }
+
+  .admin-charts-grid .chart-card-premium {
+    padding: var(--space-4);
+  }
+
+  .admin-charts-grid .chart-header-premium h3 {
+    font-size: 16px;
+  }
+
+  /* Marketing stats iPhone */
+  .admin-dashboard .stats-grid.admin-marketing-stats {
+    padding: 0 16px var(--space-4) !important;
+  }
+
+  /* Recent activity iPhone */
+  .admin-dashboard .dashboard-overview > .chart-card-premium:last-child {
+    margin: 0 16px var(--space-4);
+  }
+
+  .admin-submission-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .admin-submission-header h4 {
+    font-size: 15px;
+  }
+
+  .admin-submission-details {
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: 13px;
+  }
+
+  .admin-submission-card {
+    padding: var(--space-3);
+  }
+
+  .admin-submission-status {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  /* Sous-menu responsive iPhone */
+  .marketing-nav,
+  .admin-submenu {
+    margin-bottom: var(--space-3);
+  }
+
+  .marketing-nav-item,
+  .admin-submenu-item {
+    padding: var(--space-2) var(--space-2);
+    font-size: 12px;
+  }
+}
+
 

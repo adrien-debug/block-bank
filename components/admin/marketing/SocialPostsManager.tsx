@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { SocialPost, SocialNetwork, PostStatus } from '@/types/marketing.types'
 import PostEditor from './PostEditor'
@@ -117,7 +116,7 @@ export default function SocialPostsManager() {
       </div>
 
       {/* Filtres */}
-      <Card variant="elevated" style={{ padding: 'var(--space-4)', marginBottom: 'var(--space-4)' }}>
+      <div className="chart-card-premium admin-card" style={{ marginBottom: 'var(--space-4)' }}>
         <div style={{ display: 'flex', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
           <div>
             <label style={{ display: 'block', marginBottom: 'var(--space-2)', fontSize: '14px', fontWeight: '500' }}>
@@ -162,7 +161,7 @@ export default function SocialPostsManager() {
             </select>
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Liste des posts */}
       {isLoading ? (
@@ -170,13 +169,13 @@ export default function SocialPostsManager() {
           <p>Chargement...</p>
         </div>
       ) : posts.length === 0 ? (
-        <Card variant="elevated" style={{ padding: 'var(--space-8)', textAlign: 'center' }}>
-          <p style={{ color: 'var(--color-text-secondary)' }}>Aucun post trouvé</p>
-        </Card>
+        <div className="chart-card-premium admin-card" style={{ textAlign: 'center', padding: 'var(--space-8)' }}>
+          <p className="admin-card-text">Aucun post trouvé</p>
+        </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
           {posts.map((post) => (
-            <Card key={post.id} variant="elevated" style={{ padding: 'var(--space-4)' }}>
+            <div key={post.id} className="chart-card-premium admin-card">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
@@ -228,7 +227,7 @@ export default function SocialPostsManager() {
                   </Button>
                 </div>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       )}

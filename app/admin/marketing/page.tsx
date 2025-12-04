@@ -14,14 +14,19 @@ export default function MarketingPage() {
   const [activeTab, setActiveTab] = useState<MarketingTab>('posts')
 
   return (
-    <div style={{ width: '100%' }}>
-      <div style={{ marginBottom: 'var(--space-6)' }}>
-        <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: 'var(--space-2)' }}>
-          Marketing Management
-        </h1>
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: '16px' }}>
-          Gérer tous vos réseaux sociaux, promotions, campagnes Google AdWords et calendrier éditorial
-        </p>
+    <div className="admin-page-container">
+      <div className="admin-page-header dashboard-header admin-dashboard-header">
+        <div>
+          <h1 className="admin-page-title">
+            Marketing Management
+          </h1>
+          <p className="admin-page-description">
+            Gérer tous vos réseaux sociaux, promotions, campagnes Google AdWords et calendrier éditorial
+          </p>
+        </div>
+        <div className="admin-header-controls">
+          {/* Contrôles optionnels pour le menu Marketing */}
+        </div>
       </div>
 
       <MarketingNav activeTab={activeTab} onTabChange={setActiveTab} />
