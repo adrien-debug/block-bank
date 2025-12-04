@@ -17,14 +17,14 @@ function SubmissionDocuments({ submissionId, documents }: { submissionId: string
   const loadFiles = async () => {
     setIsLoading(true)
     try {
-      // Utiliser cache pour éviter les requêtes répétées
+      // Cache réduit pour les fichiers
       const cacheKey = `files-${submissionId}`
       const cached = sessionStorage.getItem(cacheKey)
       
       if (cached) {
         const cachedData = JSON.parse(cached)
-        // Utiliser le cache si moins de 5 minutes
-        if (Date.now() - cachedData.timestamp < 5 * 60 * 1000) {
+        // Utiliser le cache si moins de 30 secondes
+        if (Date.now() - cachedData.timestamp < 30 * 1000) {
           setFiles(cachedData.files)
           setIsLoading(false)
           return
@@ -32,10 +32,9 @@ function SubmissionDocuments({ submissionId, documents }: { submissionId: string
       }
 
       const response = await fetch(`/api/admin/submissions/${submissionId}/files`, {
-        // Ajouter cache HTTP
-        cache: 'default',
+        cache: 'no-store', // Pas de cache HTTP
         headers: {
-          'Cache-Control': 'max-age=300' // 5 minutes
+          'Cache-Control': 'no-cache'
         }
       })
       const data = await response.json()
@@ -174,14 +173,14 @@ export default function SubmissionDetailPage({ params }: { params: { id: string 
     setError(null)
 
     try {
-      // Utiliser cache pour éviter les requêtes répétées
+      // Cache réduit pour voir les mises à jour rapidement
       const cacheKey = `submission-${params.id}`
       const cached = sessionStorage.getItem(cacheKey)
       
       if (cached) {
         const cachedData = JSON.parse(cached)
-        // Utiliser le cache si moins de 2 minutes
-        if (Date.now() - cachedData.timestamp < 2 * 60 * 1000) {
+        // Utiliser le cache si moins de 10 secondes
+        if (Date.now() - cachedData.timestamp < 10 * 1000) {
           setSubmission(cachedData.submission)
           setIsLoading(false)
           return
@@ -189,9 +188,9 @@ export default function SubmissionDetailPage({ params }: { params: { id: string 
       }
 
       const response = await fetch(`/api/admin/submissions/${params.id}`, {
-        cache: 'default',
+        cache: 'no-store', // Pas de cache HTTP
         headers: {
-          'Cache-Control': 'max-age=120' // 2 minutes
+          'Cache-Control': 'no-cache'
         }
       })
       const data = await response.json()

@@ -27,14 +27,14 @@ export default function AdminDashboardPage() {
       if (filterStatus) params.append('status', filterStatus)
       if (filterAssetType) params.append('assetType', filterAssetType)
 
-      // Utiliser cache pour éviter les requêtes répétées
+      // Cache réduit pour l'admin (10 secondes seulement pour voir les nouvelles soumissions rapidement)
       const cacheKey = `submissions-${params.toString()}`
       const cached = sessionStorage.getItem(cacheKey)
       
       if (cached) {
         const cachedData = JSON.parse(cached)
-        // Utiliser le cache si moins de 1 minute
-        if (Date.now() - cachedData.timestamp < 60 * 1000) {
+        // Utiliser le cache si moins de 10 secondes (au lieu de 1 minute)
+        if (Date.now() - cachedData.timestamp < 10 * 1000) {
           setSubmissions(cachedData.submissions)
           setIsLoading(false)
           return
@@ -42,9 +42,9 @@ export default function AdminDashboardPage() {
       }
 
       const response = await fetch(`/api/admin/submissions?${params.toString()}`, {
-        cache: 'default',
+        cache: 'no-store', // Pas de cache HTTP pour toujours avoir les dernières données
         headers: {
-          'Cache-Control': 'max-age=60' // 1 minute
+          'Cache-Control': 'no-cache'
         }
       })
       const data = await response.json()
@@ -143,9 +143,23 @@ export default function AdminDashboardPage() {
             Tokenization request management
           </p>
         </div>
-        <Button variant="secondary" onClick={handleLogout}>
-          Logout
-        </Button>
+        <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+          <Button 
+            variant="secondary" 
+            onClick={() => {
+              // Invalider le cache et recharger
+              sessionStorage.clear()
+              loadSubmissions()
+            }}
+            style={{ minWidth: 'auto' }}
+            title="Refresh"
+          >
+            🔄 Refresh
+          </Button>
+          <Button variant="secondary" onClick={handleLogout}>
+            Logout
+          </Button>
+        </div>
       </div>
 
       {/* Filtres */}
