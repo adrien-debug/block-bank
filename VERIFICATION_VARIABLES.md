@@ -33,8 +33,10 @@ L'erreur "Google Drive is not configured" persiste même après la mise à jour 
 La clé doit être sur **UNE SEULE LIGNE** dans Vercel, avec `\n` pour les retours à la ligne :
 
 ```
------BEGIN PRIVATE KEY-----\nVOTRE_CLE_PRIVEE_COMPLETE_ICI\nREMPLACEZ_CECI_PAR_VOTRE_VRAIE_CLE\n...\n-----END PRIVATE KEY-----
+-----BEGIN PRIVATE KEY-----\nVOTRE_CLE_PRIVEE_ICI\nAVEC_LES_RETOURS_A_LA_LIGNE\n...\n-----END PRIVATE KEY-----
 ```
+
+**⚠️ REMPLACEZ** `VOTRE_CLE_PRIVEE_ICI` par votre vraie clé privée obtenue depuis Google Cloud Console.
 
 **OU** sur plusieurs lignes (selon comment Vercel les gère) :
 
@@ -42,9 +44,12 @@ La clé doit être sur **UNE SEULE LIGNE** dans Vercel, avec `\n` pour les retou
 -----BEGIN PRIVATE KEY-----
 VOTRE_CLE_PRIVEE_COMPLETE_ICI
 REMPLACEZ_CECI_PAR_VOTRE_VRAIE_CLE
+OBTENUE_DEPUIS_GOOGLE_CLOUD_CONSOLE
 ...
 -----END PRIVATE KEY-----
 ```
+
+**⚠️ REMPLACEZ** le contenu ci-dessus par votre vraie clé privée complète.
 
 ### 4. Variables Requises
 

@@ -6,13 +6,13 @@ La variable `GOOGLE_PRIVATE_KEY` dans Vercel **n'a pas les en-têtes** `-----BEG
 
 **État actuel dans Vercel :**
 ```
-VOTRE_CLE_PRIVEE_COMPLETE_ICI
+[Votre clé privée sans les en-têtes BEGIN/END]
 ```
 
 **Ce qui est requis :**
 ```
 -----BEGIN PRIVATE KEY-----
-VOTRE_CLE_PRIVEE_COMPLETE_ICI
+[Votre clé privée complète avec toutes les lignes]
 -----END PRIVATE KEY-----
 ```
 
@@ -33,31 +33,13 @@ VOTRE_CLE_PRIVEE_COMPLETE_ICI
 
 ```
 -----BEGIN PRIVATE KEY-----
-VOTRE_CLE_PRIVEE_COMPLETE_ICI
-REMPLACEZ_CECI_PAR_VOTRE_VRAIE_CLE
-+tWiGSkKBpfu7x/ussw3O7oHriNgBGsxsTDy3q6tyHbygKJ9KzyElP3YQeziktq3
-[Fragment de clé privée - remplacé]n94sbV+DR9DA3Bn
-rmUB+6xLWls2FeY/JXPZOCVQQN1FxzHrGrsH7cw6B8Ac6WL/QUqYtknmJVwCFPNj
-[Fragment de clé privée - remplacé]n81pv1KZ5GlSzHpCICVAp
-JFv29y3+WssDs5gBS13Xz+YWypDpsBUh6PvXw5UoErBimW88zTfTsVsDGizWnEum
-LUuXRJhZdFNjuAJ8e1W98sbzeOh5W6gYqbqF6iOpXdtK1bv19cscMzGTGVN+59lB
-rkEoJGO038KgW3J9UWropLC+iybKkp7tpfAiczaqEQKBgQDrUJFNwGr6S57H3qod
-dSqcIABQ3303QUXeFf5tKRo8jhnyHp9ZIJpJwrkDK1kDl5jU4ddFQzo/pmspsZZd
-7grzt2QBdrjVa1ckDb5Zw/IzYadR/F7gXeNEBGt0LaGKM6xWR0+0cm+B/5RPPyaW
-lTp6/Eyieg1C2KvpnnFEK6lrYwKBgQC4PiWBNpHuyLuGcZ7aZ6UvSScCK7a0hsIO
-4MgwRDL0whyhwKMmR1eV2cBwpiA4Pm2e7YrJVGO+Gx4UXwiFqr+byp/Q4DnMTXRK
-RTAbcxpX9R84Tntn5mmm+2gFV5OD/Z9EofG6+pfsgCBYEHDU/HU4dx8IW1pzMuXi
-3WkgmNX66wKBgQDfHELIz5oeuzhPFWWCDKdb5FOoWl5k13ShP4U+huwjYjBjinlX
-jjv7l67HvH/nkgMMRR1QxI8j7mxI2eJSKPMlZUpiwOg7Ik07F/TVM54e7YYxi/GB
-FkP3J6GiQ+mYGapbG74MvzvOrD84bA3wVIlgNnuKyeJs8Pb+yIVoN2WpNQKBgQCs
-jyBHXhneIElqiR40BqDyobwUT2bmu9QjZSp58lYbYXa5lJf5sRX6NqEDoMRKiUXY
-dTjoic6FbhaFE+ECeELPoj5+vpPDosOJEDYXb3275cvgy7jPPkGz8IGjhzuVgsRZ
-3qdt7Wi/S91/PZ7ADNepFACPrigP/xrKmX7t1deMEwKBgF9+caw2H0f/+hx+m1fA
-jEPPgQ+FGa7dO422KcRAalX75EHTuxrDGPshzN5Mlple5ASHuAXVbxaP/wFOutGQ
-oVZWUiu4/5sx4AlUQK/zvBA0Jq5kq87+hB1wCOc9l0lBT6IDSPFqjNIParepnX4q
-Zexy6/4vxKMFhyTd93qHBUVQ
+VOTRE_CLE_PRIVEE_COMPLETE_ICI_AVEC_TOUTES_LES_LIGNES
+REMPLACEZ_CECI_PAR_VOTRE_VRAIE_CLE_PRIVEE_DU_SERVICE_ACCOUNT
+LA_CLE_DOIT_FAIRE_ENVIRON_1600_CARACTERES_ET_CONTENIR_MULTIPLES_LIGNES
 -----END PRIVATE KEY-----
 ```
+
+**⚠️ IMPORTANT :** Remplacez le contenu ci-dessus par votre vraie clé privée complète obtenue depuis Google Cloud Console. La clé doit inclure toutes les lignes entre `-----BEGIN PRIVATE KEY-----` et `-----END PRIVATE KEY-----`.
 
 4. **Environnements :** Cochez **Production** (et Preview/Development si nécessaire)
 5. Cliquez sur **"Save"**
