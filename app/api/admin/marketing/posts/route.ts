@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/utils/adminAuth'
 import { supabaseAdmin } from '@/lib/supabase/server'
-import { SocialPost } from '@/types/marketing.types'
+import { SocialPost, SocialNetwork } from '@/types/marketing.types'
 import { mapArrayToCamelCase } from '@/lib/utils/marketingMapper'
 
 export const runtime = 'nodejs'
@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 export async function GET(request: NextRequest) {
   try {
     if (!isAuthenticated(request)) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const { searchParams } = new URL(request.url)
@@ -24,9 +24,8 @@ export async function GET(request: NextRequest) {
       .select('*')
       .order('created_at', { ascending: false })
 
-    if (network) {
-      query = query.contains('networks', [network])
-    }
+    // Note: Array filtering is done client-side after fetching
+    // This avoids issues with Postgres array operators
     if (status) {
       query = query.eq('status', status)
     }
@@ -41,15 +40,53 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching posts:', error)
-      return NextResponse.json({ error: 'Erreur lors de la récupération des posts' }, { status: 500 })
+      // If table doesn't exist or schema cache not ready, return empty array
+      const errorMsg = error.message?.toLowerCase() || ''
+      if (error.code === '42P01' || 
+          error.code === 'PGRST205' ||
+          errorMsg.includes('does not exist') || 
+          errorMsg.includes('relation') ||
+          errorMsg.includes('schema cache') ||
+          errorMsg.includes('could not find the table')) {
+        console.warn('Table marketing_posts not accessible yet (schema cache may need refresh). Returning empty array.')
+        return NextResponse.json({ success: true, posts: [] })
+      }
+      return NextResponse.json(
+        { 
+          error: 'Error fetching posts', 
+          details: error.message,
+          code: error.code,
+          hint: error.hint
+        }, 
+        { status: 500 }
+      )
     }
 
-    const posts = mapArrayToCamelCase<SocialPost>(data || [])
+    let posts = mapArrayToCamelCase<SocialPost>(data || [])
+    
+    // Filter by network client-side if needed (since array filtering in Supabase can be complex)
+    if (network) {
+      const validNetworks: SocialNetwork[] = ['facebook', 'twitter', 'instagram', 'linkedin', 'tiktok', 'youtube']
+      const networkParam = network as SocialNetwork
+      if (validNetworks.includes(networkParam)) {
+        posts = posts.filter(post => 
+          post.networks && Array.isArray(post.networks) && post.networks.includes(networkParam)
+        )
+      }
+    }
+    
     return NextResponse.json({ success: true, posts })
   } catch (error) {
     console.error('Error in GET /api/admin/marketing/posts:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    const errorStack = error instanceof Error ? error.stack : undefined
+    console.error('Full error details:', { errorMessage, errorStack, error })
     return NextResponse.json(
-      { error: 'An error occurred', details: error instanceof Error ? error.message : 'Unknown error' },
+      { 
+        error: 'An error occurred', 
+        details: errorMessage,
+        stack: process.env.NODE_ENV === 'development' ? errorStack : undefined
+      },
       { status: 500 }
     )
   }
@@ -58,7 +95,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     if (!isAuthenticated(request)) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await request.json()
@@ -72,7 +109,7 @@ export async function POST(request: NextRequest) {
     } = body
 
     if (!content || !networks || !Array.isArray(networks) || networks.length === 0) {
-      return NextResponse.json({ error: 'Content et networks sont requis' }, { status: 400 })
+      return NextResponse.json({ error: 'Content and networks are required' }, { status: 400 })
     }
 
     const { data, error } = await supabaseAdmin
@@ -90,7 +127,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Error creating post:', error)
-      return NextResponse.json({ error: 'Erreur lors de la création du post' }, { status: 500 })
+      return NextResponse.json({ error: 'Error creating post' }, { status: 500 })
     }
 
     const post = mapArrayToCamelCase<SocialPost>([data])[0]

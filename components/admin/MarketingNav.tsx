@@ -7,6 +7,7 @@ import SearchIcon from '@/components/icons/SearchIcon'
 import CalendarIcon from '@/components/icons/CalendarIcon'
 import DocumentIcon from '@/components/icons/DocumentIcon'
 import LightningIcon from '@/components/icons/LightningIcon'
+import ChartIcon from '@/components/icons/ChartIcon'
 
 interface MarketingNavProps {
   activeTab: MarketingTab
@@ -15,6 +16,7 @@ interface MarketingNavProps {
 
 export default function MarketingNav({ activeTab, onTabChange }: MarketingNavProps) {
   const tabs = [
+    { id: 'overview' as MarketingTab, label: 'Overview', icon: ChartIcon },
     { id: 'posts' as MarketingTab, label: 'Social Media Posts', icon: SocialIcon },
     { id: 'generator' as MarketingTab, label: 'Generator', icon: LightningIcon },
     { id: 'promotions' as MarketingTab, label: 'Promotions', icon: TargetIcon },

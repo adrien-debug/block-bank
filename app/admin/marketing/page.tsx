@@ -2,17 +2,17 @@
 
 import { useState } from 'react'
 import MarketingNav from '@/components/admin/MarketingNav'
+import SocialNetworksOverview from '@/components/admin/marketing/SocialNetworksOverview'
 import SocialPostsManager from '@/components/admin/marketing/SocialPostsManager'
 import ContentGenerator from '@/components/admin/marketing/ContentGenerator'
 import PromotionsManager from '@/components/admin/marketing/PromotionsManager'
 import AdWordsManager from '@/components/admin/marketing/AdWordsManager'
 import ContentCalendar from '@/components/admin/marketing/ContentCalendar'
 import ContentSections from '@/components/admin/marketing/ContentSections'
-
-type MarketingTab = 'posts' | 'promotions' | 'adwords' | 'calendar' | 'sections' | 'generator'
+import type { MarketingTab } from '@/components/admin/marketing/types'
 
 export default function MarketingPage() {
-  const [activeTab, setActiveTab] = useState<MarketingTab>('posts')
+  const [activeTab, setActiveTab] = useState<MarketingTab>('overview')
 
   return (
     <div className="admin-page-container">
@@ -33,6 +33,7 @@ export default function MarketingPage() {
       <MarketingNav activeTab={activeTab} onTabChange={setActiveTab} />
 
       <div style={{ marginTop: 'var(--space-6)' }}>
+        {activeTab === 'overview' && <SocialNetworksOverview />}
         {activeTab === 'posts' && <SocialPostsManager />}
         {activeTab === 'generator' && <ContentGenerator />}
         {activeTab === 'promotions' && <PromotionsManager />}
