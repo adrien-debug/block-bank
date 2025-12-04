@@ -96,7 +96,7 @@ export default function SocialPostsManager() {
     loadPosts()
   }
 
-  const formatDate = (dateString: string | null) => {
+  const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) return 'Non planifié'
     return new Date(dateString).toLocaleDateString('fr-FR', {
       year: 'numeric',
@@ -214,8 +214,8 @@ export default function SocialPostsManager() {
                     {post.content.substring(0, 200)}{post.content.length > 200 ? '...' : ''}
                   </p>
                   <div style={{ display: 'flex', gap: 'var(--space-4)', fontSize: '14px', color: 'var(--color-text-secondary)' }}>
-                    <span>Planifié: {formatDate(post.scheduledAt)}</span>
-                    {post.publishedAt && <span>Publié: {formatDate(post.publishedAt)}</span>}
+                    <span>Planifié: {formatDate(post.scheduledAt || null)}</span>
+                    {post.publishedAt && <span>Publié: {formatDate(post.publishedAt || null)}</span>}
                     {post.mediaUrls.length > 0 && <span>{post.mediaUrls.length} média(s)</span>}
                   </div>
                 </div>
