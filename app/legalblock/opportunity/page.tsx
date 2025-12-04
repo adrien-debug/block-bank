@@ -226,6 +226,64 @@ export default function AssetTokenizationRequestPage() {
     }
     console.log('✅ Asset type validated:', formData.assetType)
 
+    // Validation des champs obligatoires
+    console.log('🔍 Validating required fields...')
+    if (!formData.assetDescription || !formData.assetDescription.trim()) {
+      console.log('❌ VALIDATION FAILED: assetDescription is empty')
+      setIsSubmitting(false)
+      setSubmitError('Asset description is required')
+      return
+    }
+    if (!formData.estimatedValue || !formData.estimatedValue.trim()) {
+      console.log('❌ VALIDATION FAILED: estimatedValue is empty')
+      setIsSubmitting(false)
+      setSubmitError('Estimated value is required')
+      return
+    }
+    if (!formData.location || !formData.location.trim()) {
+      console.log('❌ VALIDATION FAILED: location is empty')
+      setIsSubmitting(false)
+      setSubmitError('Location is required')
+      return
+    }
+    console.log('✅ Required fields validated')
+
+    // Validation des champs spécifiques au type d'utilisateur
+    if (userType === 'individual') {
+      if (!formData.ownerName || !formData.ownerName.trim()) {
+        console.log('❌ VALIDATION FAILED: ownerName is empty')
+        setIsSubmitting(false)
+        setSubmitError('Full name is required')
+        return
+      }
+      if (!formData.ownerEmail || !formData.ownerEmail.trim()) {
+        console.log('❌ VALIDATION FAILED: ownerEmail is empty')
+        setIsSubmitting(false)
+        setSubmitError('Email is required')
+        return
+      }
+    } else {
+      if (!formData.companyName || !formData.companyName.trim()) {
+        console.log('❌ VALIDATION FAILED: companyName is empty')
+        setIsSubmitting(false)
+        setSubmitError('Company name is required')
+        return
+      }
+      if (!formData.companyEmail || !formData.companyEmail.trim()) {
+        console.log('❌ VALIDATION FAILED: companyEmail is empty')
+        setIsSubmitting(false)
+        setSubmitError('Company email is required')
+        return
+      }
+      if (!formData.contactPersonName || !formData.contactPersonName.trim()) {
+        console.log('❌ VALIDATION FAILED: contactPersonName is empty')
+        setIsSubmitting(false)
+        setSubmitError('Contact person name is required')
+        return
+      }
+    }
+    console.log('✅ User-specific fields validated')
+
     console.log('🔍 Validating documents...')
     if (!validateDocuments()) {
       console.log('❌ VALIDATION FAILED: Documents validation failed')
@@ -261,18 +319,18 @@ export default function AssetTokenizationRequestPage() {
       console.log('📦 Added basic fields to FormData')
       
       if (formData.assetType === 'other' && formData.customAssetType) {
-        formDataToSend.append('customAssetType', formData.customAssetType)
+        formDataToSend.append('customAssetType', formData.customAssetType.trim())
       }
-      formDataToSend.append('assetDescription', formData.assetDescription)
-      formDataToSend.append('estimatedValue', formData.estimatedValue)
-      formDataToSend.append('location', formData.location)
+      formDataToSend.append('assetDescription', formData.assetDescription.trim())
+      formDataToSend.append('estimatedValue', formData.estimatedValue.trim())
+      formDataToSend.append('location', formData.location.trim())
       
       console.log('📦 Adding user-specific fields...')
       if (userType === 'individual') {
-        formDataToSend.append('ownerName', formData.ownerName)
-        formDataToSend.append('ownerEmail', formData.ownerEmail)
-        if (formData.ownerPhone) {
-          formDataToSend.append('ownerPhone', formData.ownerPhone)
+        formDataToSend.append('ownerName', formData.ownerName.trim())
+        formDataToSend.append('ownerEmail', formData.ownerEmail.trim())
+        if (formData.ownerPhone && formData.ownerPhone.trim()) {
+          formDataToSend.append('ownerPhone', formData.ownerPhone.trim())
         }
         if (formData.passport) {
           console.log('📦 Adding passport files:', formData.passport.length)
@@ -288,14 +346,14 @@ export default function AssetTokenizationRequestPage() {
           })
         }
       } else {
-        formDataToSend.append('companyName', formData.companyName)
-        formDataToSend.append('companyEmail', formData.companyEmail)
-        formDataToSend.append('contactPersonName', formData.contactPersonName)
-        if (formData.companyPhone) {
-          formDataToSend.append('companyPhone', formData.companyPhone)
+        formDataToSend.append('companyName', formData.companyName.trim())
+        formDataToSend.append('companyEmail', formData.companyEmail.trim())
+        formDataToSend.append('contactPersonName', formData.contactPersonName.trim())
+        if (formData.companyPhone && formData.companyPhone.trim()) {
+          formDataToSend.append('companyPhone', formData.companyPhone.trim())
         }
-        if (formData.companyRegistration) {
-          formDataToSend.append('companyRegistration', formData.companyRegistration)
+        if (formData.companyRegistration && formData.companyRegistration.trim()) {
+          formDataToSend.append('companyRegistration', formData.companyRegistration.trim())
         }
         if (formData.companyStatutes) {
           console.log('📦 Adding company statutes:', formData.companyStatutes.length)
@@ -335,8 +393,8 @@ export default function AssetTokenizationRequestPage() {
         })
       }
       
-      if (formData.additionalInfo) {
-        formDataToSend.append('additionalInfo', formData.additionalInfo)
+      if (formData.additionalInfo && formData.additionalInfo.trim()) {
+        formDataToSend.append('additionalInfo', formData.additionalInfo.trim())
       }
 
       console.log('🌐 FormData created. Preparing fetch request...')

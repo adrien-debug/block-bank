@@ -37,10 +37,25 @@ export async function POST(request: NextRequest) {
 
     // Validation des champs obligatoires
     console.log('[Asset Submission API] Step 3: Validating required fields...')
-    if (!userType || !assetType || !assetDescription || !estimatedValue || !location) {
-      console.log('[Asset Submission API] Step 3: Validation FAILED - missing required fields')
+    console.log('[Asset Submission API] Step 3: Field values:', {
+      userType: userType || 'MISSING',
+      assetType: assetType || 'MISSING',
+      assetDescription: assetDescription ? (assetDescription.trim().length > 0 ? 'PRESENT' : 'EMPTY') : 'MISSING',
+      estimatedValue: estimatedValue ? (estimatedValue.trim().length > 0 ? 'PRESENT' : 'EMPTY') : 'MISSING',
+      location: location ? (location.trim().length > 0 ? 'PRESENT' : 'EMPTY') : 'MISSING'
+    })
+    
+    const missingFields: string[] = []
+    if (!userType) missingFields.push('userType')
+    if (!assetType) missingFields.push('assetType')
+    if (!assetDescription || !assetDescription.trim()) missingFields.push('assetDescription')
+    if (!estimatedValue || !estimatedValue.trim()) missingFields.push('estimatedValue')
+    if (!location || !location.trim()) missingFields.push('location')
+    
+    if (missingFields.length > 0) {
+      console.log('[Asset Submission API] Step 3: Validation FAILED - missing required fields:', missingFields)
       return NextResponse.json(
-        { error: 'Champs obligatoires manquants' },
+        { error: `Champs obligatoires manquants: ${missingFields.join(', ')}` },
         { status: 400 }
       )
     }
