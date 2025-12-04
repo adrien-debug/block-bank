@@ -111,12 +111,12 @@ export default function AdminDashboardPage() {
       // Log détaillé pour debug
       if (submissions.length > 0) {
         console.log('[Admin Page] Détails des soumissions chargées:')
-        submissions.slice(0, 5).forEach((sub, index) => {
+        submissions.slice(0, 5).forEach((sub: SubmissionMetadata, index: number) => {
           console.log(`  [${index + 1}] ID: ${sub.id}, Status: ${sub.status}, Type: ${sub.assetType}, Date: ${sub.submittedAt}`)
         })
         
         // Vérifier les statuts
-        const statusCounts = submissions.reduce((acc: Record<string, number>, sub) => {
+        const statusCounts = submissions.reduce((acc: Record<string, number>, sub: SubmissionMetadata) => {
           acc[sub.status] = (acc[sub.status] || 0) + 1
           return acc
         }, {})
