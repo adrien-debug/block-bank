@@ -66,7 +66,9 @@ export interface SubmissionMetadata {
   estimatedValue: string
   location: string
   ownerName?: string
+  ownerEmail?: string
   companyName?: string
+  companyEmail?: string
   folderId: string // Chemin du dossier local
 }
 
