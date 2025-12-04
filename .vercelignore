@@ -1,16 +1,3 @@
-node_modules
-.next
-.vercel
-*.log
-.DS_Store
-*.tsbuildinfo
-protocole_credit_banking_qatar_premium*.html
-Capture*.png
-
-
-
-
-
-
-
-# Force rebuild
+# Fichiers à ignorer lors du déploiement Vercel
+# Les domaines sont gérés manuellement via le dashboard Vercel
+# Voir VERCEL_DOMAIN_MANAGEMENT.md pour plus d'informations
