@@ -11,6 +11,7 @@
     "test:production:blockbank": "TEST_URL=https://blockbank.com node scripts/test-production.js",
     "vercel:env:setup": "node scripts/configure-vercel.js",
     "setup:google-drive": "node scripts/setup-google-drive-complete.js",
+    "setup:shared-drive": "node scripts/setup-shared-drive.js",
     "verify:production": "node scripts/verify-production-config.js"
   },
   "dependencies": {
