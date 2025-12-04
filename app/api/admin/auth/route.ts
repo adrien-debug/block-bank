@@ -1,8 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyAdminPassword, createAdminSession, setAdminSessionCookie, clearAdminSessionCookie } from '@/lib/utils/adminAuth'
+import { verifyAdminPassword, createAdminSession, setAdminSessionCookie, clearAdminSessionCookie, isAuthenticated } from '@/lib/utils/adminAuth'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+
+export async function GET(request: NextRequest) {
+  try {
+    // Vérifier si l'utilisateur est authentifié
+    const authenticated = isAuthenticated(request)
+    if (authenticated) {
+      return NextResponse.json({ success: true, authenticated: true })
+    }
+    return NextResponse.json({ success: false, authenticated: false }, { status: 401 })
+  } catch (error) {
+    console.error('Admin auth check error:', error)
+    return NextResponse.json(
+      { error: 'An error occurred' },
+      { status: 500 }
+    )
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
