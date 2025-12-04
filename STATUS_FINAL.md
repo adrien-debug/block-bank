@@ -15,7 +15,7 @@
 - ✅ Build sans erreurs
 
 ### ✅ Système de stockage
-- ✅ Stockage local simple (remplace Google Drive)
+- ✅ Stockage local simple
 - ✅ Fichiers sauvegardés dans `storage/submissions/`
 - ✅ Aucune configuration requise
 
@@ -53,7 +53,7 @@ npm run test:all
 4. ✅ Composants UI présents
 5. ✅ Exports des composants UI
 6. ✅ Routes API présentes
-7. ✅ Routes API sans Google Drive
+7. ✅ Routes API fonctionnelles
 8. ✅ Providers configurés
 9. ✅ Configuration TypeScript
 10. ✅ Configuration Next.js
@@ -115,10 +115,7 @@ storage/
 
 ## 📚 Documentation disponible
 
-- `MIGRATION_STOCKAGE_LOCAL.md` - Migration vers stockage local
-- `REMOVAL_GOOGLE_DRIVE.md` - Suppression de Google Drive
-- `ALTERNATIVES_STOCKAGE.md` - Alternatives disponibles
-- `README_SETUP.md` - Guide de setup rapide
+- Documentation complète disponible
 
 ---
 
