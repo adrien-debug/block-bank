@@ -3,6 +3,8 @@ import { isAuthenticated } from '@/lib/utils/adminAuth'
 import { getSubmission } from '@/lib/utils/submissionStorage'
 import { getFileDownloadUrl, listFiles } from '@/lib/utils/googleDrive'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
