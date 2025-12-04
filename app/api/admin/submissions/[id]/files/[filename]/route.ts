@@ -8,6 +8,7 @@ import { getSubmission } from '@/lib/utils/submissionStorage'
 import { promises as fs } from 'fs'
 import path from 'path'
 
+export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function GET(

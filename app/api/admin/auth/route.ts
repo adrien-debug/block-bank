@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAdminPassword, createAdminSession, setAdminSessionCookie, clearAdminSessionCookie } from '@/lib/utils/adminAuth'
 
+export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {

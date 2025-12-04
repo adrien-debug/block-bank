@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/utils/adminAuth'
 import { listSubmissions } from '@/lib/utils/submissionStorage'
 
+export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
