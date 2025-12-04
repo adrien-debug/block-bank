@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
+  // output: 'standalone' - seulement pour la production Vercel
+  // Désactivé en développement pour éviter les erreurs 500
+  ...(process.env.NODE_ENV === 'production' && { output: 'standalone' }),
   images: {
     unoptimized: false,
   },

@@ -14,7 +14,7 @@ npm install
 npm run dev
 ```
 
-Ouvrez [http://localhost:1111](http://localhost:1111) dans votre navigateur.
+Ouvrez [http://localhost:1001](http://localhost:1001) dans votre navigateur.
 
 ## Build
 

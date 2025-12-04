@@ -1,11 +1,35 @@
 # Solution pour Google Drive Upload
 
-## Problème
+## 🚨 Problème
+
 Les Service Accounts n'ont **pas de quota de stockage** dans Google Drive, même dans des dossiers partagés. C'est une limitation de Google.
 
-## Solutions
+**Erreur typique :**
+```
+Service Accounts do not have storage quota. Leverage shared drives 
+(https://developers.google.com/workspace/drive/api/guides/about-shareddrives), 
+or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+```
 
-### Solution 1 : Utiliser OAuth (Recommandé)
+---
+
+## ✅ Solutions disponibles
+
+### ⚡ Solution Rapide : Shared Drives (Recommandée si vous avez Google Workspace)
+
+1. **Créer un Shared Drive** dans Google Drive
+2. **Partager** le Shared Drive avec votre Service Account
+3. **Configurer** les variables d'environnement :
+   ```bash
+   GOOGLE_USE_SHARED_DRIVE=true
+   GOOGLE_SHARED_DRIVE_ID=XXXXXXXXXXXXXXXXX
+   ```
+
+👉 **Guide complet :** Voir [SOLUTION_SHARED_DRIVES.md](./SOLUTION_SHARED_DRIVES.md)
+
+---
+
+### 🔧 Solution Alternative : OAuth
 
 1. **Obtenir un Refresh Token OAuth** :
    ```bash
@@ -18,37 +42,21 @@ Les Service Accounts n'ont **pas de quota de stockage** dans Google Drive, même
 
 2. **Le code utilisera automatiquement OAuth** si `GOOGLE_REFRESH_TOKEN` est configuré
 
-3. **Tester** :
-   ```bash
-   node scripts/test-upload-file.js
-   ```
+---
 
-### Solution 2 : Utiliser un Shared Drive (Google Workspace)
+## 📋 Documentation Complète
 
-Si vous avez Google Workspace :
-1. Créez un Shared Drive
-2. Partagez-le avec le Service Account
-3. Utilisez l'ID du Shared Drive comme `GOOGLE_DRIVE_FOLDER_ID`
+Pour une documentation détaillée avec toutes les options (Shared Drives, OAuth Delegation, OAuth Standard), consultez :
 
-### Solution 3 : Utiliser OAuth Delegation
+👉 **[SOLUTION_SHARED_DRIVES.md](./SOLUTION_SHARED_DRIVES.md)** - Guide complet avec toutes les solutions
 
-Pour les comptes Google Workspace, vous pouvez utiliser OAuth delegation avec domain-wide delegation.
+---
 
-## Configuration Actuelle
+## 🎯 Prochaines Actions
 
-- ✅ Service Account créé et configuré
-- ✅ Dossier Google Drive créé et partagé
-- ✅ Variables d'environnement configurées
-- ⚠️ Uploads bloqués par limitation Google (Service Account sans quota)
+1. **Si vous avez Google Workspace** : Configurez un Shared Drive (voir [SOLUTION_SHARED_DRIVES.md](./SOLUTION_SHARED_DRIVES.md))
+2. **Sinon** : Utilisez OAuth standard (voir ci-dessus)
 
-## Prochaines Étapes
-
-Pour activer les uploads, obtenez un refresh token OAuth :
-
-```bash
-node scripts/get-oauth-token-auto.js
-```
-
-Une fois le refresh token obtenu, le code utilisera automatiquement OAuth au lieu du Service Account pour les uploads.
+Une fois configuré, les uploads fonctionneront automatiquement !
 
 
