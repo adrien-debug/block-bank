@@ -10,4 +10,5 @@ export { default as StatCard } from './StatCard'
 export { default as ThemeToggle } from './ThemeToggle'
 export { default as Toast } from './Toast'
 export { default as ToastProvider } from './ToastProvider'
+export { useToast, type ToastType, type ToastMessage } from './ToastProvider'
 
