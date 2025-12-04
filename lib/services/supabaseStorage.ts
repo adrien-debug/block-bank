@@ -292,52 +292,116 @@ export async function listSubmissionsFromSupabase(
   assetType?: string,
   userType?: string
 ): Promise<SubmissionMetadata[]> {
+  const startTime = Date.now()
   try {
+    console.log('[Supabase Storage] ========== LIST SUBMISSIONS ==========')
+    console.log('[Supabase Storage] Filtres:', { status, assetType, userType })
+    console.log('[Supabase Storage] Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? '✅ Configuré' : '❌ Manquant')
+    console.log('[Supabase Storage] Service Key:', process.env.SUPABASE_SERVICE_ROLE_KEY ? '✅ Configuré' : '❌ Manquant')
+    
     // Construire la requête avec filtres optimisés
+    // IMPORTANT: Utiliser .select() avec toutes les colonnes nécessaires
+    // et s'assurer que l'ordre est correct (plus récent en premier)
     let query = supabaseAdmin
       .from('submissions')
-      .select('id, submitted_at, status, user_type, asset_type, estimated_value, location, owner_name, owner_email, company_name, company_email')
+      .select('id, submitted_at, created_at, status, user_type, asset_type, estimated_value, location, owner_name, owner_email, company_name, company_email')
       .order('submitted_at', { ascending: false })
 
     // Appliquer les filtres directement dans la requête SQL (plus rapide)
     if (status) {
       query = query.eq('status', status)
+      console.log('[Supabase Storage] Filtre status appliqué:', status)
     }
     if (assetType) {
       query = query.eq('asset_type', assetType)
+      console.log('[Supabase Storage] Filtre assetType appliqué:', assetType)
     }
     if (userType) {
       query = query.eq('user_type', userType)
+      console.log('[Supabase Storage] Filtre userType appliqué:', userType)
     }
 
+    console.log('[Supabase Storage] Exécution de la requête Supabase...')
     const { data: submissions, error } = await query
 
     if (error) {
-      console.error('[Supabase Storage] Erreur liste soumissions:', error)
+      console.error('[Supabase Storage] ❌ Erreur Supabase:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      })
       return []
     }
 
     if (!submissions) {
+      console.log('[Supabase Storage] ⚠️ Aucune soumission trouvée (data est null)')
       return []
     }
 
+    if (submissions.length === 0) {
+      console.log('[Supabase Storage] ⚠️ Aucune soumission trouvée (tableau vide)')
+      return []
+    }
+
+    console.log(`[Supabase Storage] ✅ ${submissions.length} soumission(s) récupérée(s)`)
+    
+    // Log détaillé des premières soumissions pour debug
+    console.log('[Supabase Storage] Détails des soumissions récupérées:')
+    submissions.slice(0, 5).forEach((sub, index) => {
+      console.log(`  [${index + 1}] ID: ${sub.id}, Status: ${sub.status}, Date: ${sub.submitted_at || sub.created_at}`)
+    })
+    
+    console.log('[Supabase Storage] Première soumission (la plus récente):', {
+      id: submissions[0]?.id,
+      status: submissions[0]?.status,
+      userType: submissions[0]?.user_type,
+      assetType: submissions[0]?.asset_type,
+      submittedAt: submissions[0]?.submitted_at,
+      createdAt: submissions[0]?.created_at,
+      hasLocation: !!submissions[0]?.location
+    })
+    
+    // Vérifier si la soumission la plus récente a le statut 'new'
+    const newestSubmission = submissions[0]
+    if (newestSubmission) {
+      console.log(`[Supabase Storage] ⚠️ Statut de la soumission la plus récente: "${newestSubmission.status}"`)
+      if (newestSubmission.status !== 'new') {
+        console.log(`[Supabase Storage] ⚠️ ATTENTION: La soumission la plus récente n'a pas le statut 'new'`)
+      }
+    }
+
     // Convertir au format SubmissionMetadata
-    return submissions.map((submission) => ({
-      id: submission.id,
-      submittedAt: submission.submitted_at,
-      status: submission.status,
-      userType: submission.user_type,
-      assetType: submission.asset_type,
-      estimatedValue: submission.estimated_value?.toString() || '0',
-      location: submission.location,
-      ownerName: submission.user_type === 'individual' ? submission.owner_name : undefined,
-      ownerEmail: submission.user_type === 'individual' ? submission.owner_email : undefined,
-      companyName: submission.user_type === 'company' ? submission.company_name : undefined,
-      companyEmail: submission.user_type === 'company' ? submission.company_email : undefined,
-      folderId: `${BUCKET_NAME}/${submission.id}`, // Chemin virtuel pour compatibilité
-    }))
+    const result = submissions.map((submission) => {
+      const mapped = {
+        id: submission.id,
+        submittedAt: submission.submitted_at,
+        status: submission.status,
+        userType: submission.user_type,
+        assetType: submission.asset_type,
+        estimatedValue: submission.estimated_value?.toString() || '0',
+        location: submission.location || 'N/A',
+        ownerName: submission.user_type === 'individual' ? submission.owner_name : undefined,
+        ownerEmail: submission.user_type === 'individual' ? submission.owner_email : undefined,
+        companyName: submission.user_type === 'company' ? submission.company_name : undefined,
+        companyEmail: submission.user_type === 'company' ? submission.company_email : undefined,
+        folderId: `${BUCKET_NAME}/${submission.id}`, // Chemin virtuel pour compatibilité
+      }
+      return mapped
+    })
+    
+    const duration = Date.now() - startTime
+    console.log(`[Supabase Storage] ✅ Conversion terminée en ${duration}ms`)
+    console.log(`[Supabase Storage] Résultat final: ${result.length} soumission(s)`)
+    
+    return result
   } catch (error) {
-    console.error('[Supabase Storage] Erreur listSubmissions:', error)
+    const duration = Date.now() - startTime
+    console.error(`[Supabase Storage] ❌ Erreur après ${duration}ms:`, error)
+    console.error('[Supabase Storage] Détails:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    })
     return []
   }
 }

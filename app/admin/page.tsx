@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
@@ -13,12 +13,24 @@ export default function AdminDashboardPage() {
   const [error, setError] = useState<string | null>(null)
   const [filterStatus, setFilterStatus] = useState<string>('')
   const [filterAssetType, setFilterAssetType] = useState<string>('')
+  const refreshIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     loadSubmissions()
+    
+    // Rafraîchissement automatique toutes les 30 secondes pour voir les nouvelles soumissions
+    refreshIntervalRef.current = setInterval(() => {
+      loadSubmissions(true) // Force le rafraîchissement
+    }, 30000)
+
+    return () => {
+      if (refreshIntervalRef.current) {
+        clearInterval(refreshIntervalRef.current)
+      }
+    }
   }, [filterStatus, filterAssetType])
 
-  const loadSubmissions = async () => {
+  const loadSubmissions = async (forceRefresh: boolean = false) => {
     setIsLoading(true)
     setError(null)
 
@@ -26,31 +38,67 @@ export default function AdminDashboardPage() {
       const params = new URLSearchParams()
       if (filterStatus) params.append('status', filterStatus)
       if (filterAssetType) params.append('assetType', filterAssetType)
-
-      // Cache réduit pour l'admin (10 secondes seulement pour voir les nouvelles soumissions rapidement)
-      const cacheKey = `submissions-${params.toString()}`
-      const cached = sessionStorage.getItem(cacheKey)
       
-      if (cached) {
-        const cachedData = JSON.parse(cached)
-        // Utiliser le cache si moins de 10 secondes (au lieu de 1 minute)
-        if (Date.now() - cachedData.timestamp < 10 * 1000) {
-          setSubmissions(cachedData.submissions)
-          setIsLoading(false)
-          return
+      // Ajouter un timestamp unique pour éviter tout cache HTTP
+      params.append('_t', Date.now().toString())
+
+      // En production, désactiver complètement le cache sessionStorage
+      const cacheKey = `submissions-${params.toString()}`
+      
+      // Ne pas utiliser le cache si forceRefresh est activé
+      // En production, on désactive toujours le cache pour voir les nouvelles soumissions immédiatement
+      const isProduction = typeof window !== 'undefined' && window.location.hostname !== 'localhost'
+      
+      if (!forceRefresh && !isProduction && typeof window !== 'undefined') {
+        const cached = sessionStorage.getItem(cacheKey)
+        if (cached) {
+          const cachedData = JSON.parse(cached)
+          // Cache réduit à 5 secondes seulement en développement
+          if (Date.now() - cachedData.timestamp < 5 * 1000) {
+            setSubmissions(cachedData.submissions)
+            setIsLoading(false)
+            return
+          }
         }
       }
 
+      // Supprimer le cache avant la requête pour forcer le rafraîchissement
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem(cacheKey)
+      }
+
+      console.log('[Admin Page] Chargement des soumissions depuis:', `/api/admin/submissions?${params.toString()}`)
       const response = await fetch(`/api/admin/submissions?${params.toString()}`, {
-        cache: 'no-store', // Pas de cache HTTP pour toujours avoir les dernières données
+        cache: 'no-store', // Pas de cache HTTP
         headers: {
-          'Cache-Control': 'no-cache'
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
         }
       })
+      
+      console.log('[Admin Page] Réponse reçue:', {
+        status: response.status,
+        ok: response.ok,
+        headers: Object.fromEntries(response.headers.entries())
+      })
+      
       const data = await response.json()
+      console.log('[Admin Page] Données reçues:', {
+        success: data.success,
+        total: data.total,
+        submissionsCount: data.submissions?.length || 0,
+        timestamp: data.timestamp,
+        firstSubmission: data.submissions?.[0] ? {
+          id: data.submissions[0].id,
+          status: data.submissions[0].status,
+          userType: data.submissions[0].userType
+        } : null
+      })
 
       if (!response.ok) {
         if (response.status === 401) {
+          console.log('[Admin Page] ❌ Non autorisé, redirection vers login')
           router.push('/admin/login')
           return
         }
@@ -58,13 +106,34 @@ export default function AdminDashboardPage() {
       }
 
       const submissions = data.submissions || []
+      console.log(`[Admin Page] ✅ ${submissions.length} soumission(s) chargée(s)`)
+      
+      // Log détaillé pour debug
+      if (submissions.length > 0) {
+        console.log('[Admin Page] Détails des soumissions chargées:')
+        submissions.slice(0, 5).forEach((sub, index) => {
+          console.log(`  [${index + 1}] ID: ${sub.id}, Status: ${sub.status}, Type: ${sub.assetType}, Date: ${sub.submittedAt}`)
+        })
+        
+        // Vérifier les statuts
+        const statusCounts = submissions.reduce((acc: Record<string, number>, sub) => {
+          acc[sub.status] = (acc[sub.status] || 0) + 1
+          return acc
+        }, {})
+        console.log('[Admin Page] Répartition par statut:', statusCounts)
+      } else {
+        console.warn('[Admin Page] ⚠️ Aucune soumission chargée - vérifier les logs serveur')
+      }
+      
       setSubmissions(submissions)
       
-      // Mettre en cache
-      sessionStorage.setItem(cacheKey, JSON.stringify({
-        submissions,
-        timestamp: Date.now()
-      }))
+      // Mettre en cache uniquement en développement (pas en production)
+      if (typeof window !== 'undefined' && !isProduction) {
+        sessionStorage.setItem(cacheKey, JSON.stringify({
+          submissions,
+          timestamp: Date.now()
+        }))
+      }
     } catch (error) {
       console.error('Error:', error)
       setError(error instanceof Error ? error.message : 'An error occurred')
@@ -141,6 +210,11 @@ export default function AdminDashboardPage() {
           <h1>Admin Dashboard</h1>
           <p style={{ marginTop: '8px', color: 'var(--color-text-secondary)', fontSize: '16px' }}>
             Tokenization request management
+            {submissions.length > 0 && (
+              <span style={{ marginLeft: '12px', fontWeight: '600', color: 'var(--color-text-primary)' }}>
+                ({submissions.length} {submissions.length === 1 ? 'request' : 'requests'})
+              </span>
+            )}
           </p>
         </div>
         <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
@@ -148,8 +222,10 @@ export default function AdminDashboardPage() {
             variant="secondary" 
             onClick={() => {
               // Invalider le cache et recharger
-              sessionStorage.clear()
-              loadSubmissions()
+              if (typeof window !== 'undefined') {
+                sessionStorage.clear()
+              }
+              loadSubmissions(true)
             }}
             style={{ minWidth: 'auto' }}
           >
