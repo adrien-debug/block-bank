@@ -65,9 +65,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ email, password }),
       })
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Erreur de connexion' }))
+        console.error('Erreur API login:', response.status, errorData)
+        return { success: false, error: errorData.error || `Erreur ${response.status}: ${response.statusText}` }
+      }
+
       const data = await response.json()
 
-      if (response.ok && data.user) {
+      if (data.user) {
         setUser(data.user)
         
         // Redirection automatique selon le rôle
@@ -79,11 +85,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
         return { success: true }
       } else {
+        console.error('Pas d\'utilisateur dans la réponse:', data)
         return { success: false, error: data.error || 'Erreur de connexion' }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur login:', error)
-      return { success: false, error: 'Erreur de connexion' }
+      return { success: false, error: error.message || 'Erreur de connexion' }
     }
   }
 
@@ -99,13 +106,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (response.ok && data.user) {
         setUser(data.user)
+        
+        // Redirection automatique selon le rôle
+        if (data.user.role === 'admin') {
+          router.push('/admin/dashboard')
+        } else {
+          router.push('/dashboard')
+        }
+        
         return { success: true }
       } else {
-        return { success: false, error: data.error || "Erreur d'inscription" }
+        console.error('Erreur register API:', data)
+        return { success: false, error: data.error || "Erreur lors de l'inscription" }
       }
     } catch (error) {
       console.error('Erreur register:', error)
-      return { success: false, error: "Erreur d'inscription" }
+      return { success: false, error: "Erreur de connexion" }
     }
   }
 
@@ -127,9 +143,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ walletAddress: address }),
       })
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Erreur de connexion' }))
+        console.error('Erreur API connect-wallet:', response.status, errorData)
+        return { success: false, error: errorData.error || `Erreur ${response.status}: ${response.statusText}` }
+      }
+
       const data = await response.json()
 
-      if (response.ok && data.user) {
+      if (data.user) {
         setUser(data.user)
         
         // Redirection automatique selon le rôle
@@ -141,11 +163,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
         return { success: true }
       } else {
+        console.error('Pas d\'utilisateur dans la réponse:', data)
         return { success: false, error: data.error || 'Erreur de connexion wallet' }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur connectWallet:', error)
-      return { success: false, error: 'Erreur de connexion wallet' }
+      return { success: false, error: error.message || 'Erreur de connexion wallet' }
     }
   }
 

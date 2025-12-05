@@ -17,6 +17,16 @@ declare global {
   }
 }
 
+interface UserDocument {
+  id: string
+  document_type: string
+  file_name: string
+  file_size: number
+  mime_type: string
+  created_at: string
+  downloadUrl?: string | null
+}
+
 export default function Profile() {
   const { user, isAuthenticated, connectWallet, checkAuth } = useAuth()
   const [address, setAddress] = useState<string | null>(null)
@@ -24,6 +34,27 @@ export default function Profile() {
   const [emailNotifications, setEmailNotifications] = useState(true)
   const [pushNotifications, setPushNotifications] = useState(false)
   const [darkMode, setDarkMode] = useState(true)
+  const [documents, setDocuments] = useState<UserDocument[]>([])
+  const [isUploading, setIsUploading] = useState(false)
+  const [showUploadModal, setShowUploadModal] = useState(false)
+  const [selectedDocumentType, setSelectedDocumentType] = useState<string>('passport')
+
+  // Charger les documents au montage
+  useEffect(() => {
+    const loadDocuments = async () => {
+      if (!isAuthenticated) return
+      try {
+        const response = await fetch('/api/profile/documents')
+        if (response.ok) {
+          const data = await response.json()
+          setDocuments(data.documents || [])
+        }
+      } catch (error) {
+        console.error('Erreur chargement documents:', error)
+      }
+    }
+    loadDocuments()
+  }, [isAuthenticated])
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -81,6 +112,53 @@ export default function Profile() {
     } finally {
       setIsConnectingWallet(false)
     }
+  }
+
+  const handleUploadDocument = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('documentType', selectedDocumentType)
+
+      const response = await fetch('/api/profile/documents', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        // Recharger les documents
+        const docsResponse = await fetch('/api/profile/documents')
+        if (docsResponse.ok) {
+          const docsData = await docsResponse.json()
+          setDocuments(docsData.documents || [])
+        }
+        setShowUploadModal(false)
+        alert('Document uploadé avec succès!')
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Erreur lors de l\'upload')
+      }
+    } catch (error) {
+      console.error('Erreur upload document:', error)
+      alert('Erreur lors de l\'upload du document')
+    } finally {
+      setIsUploading(false)
+      // Réinitialiser l'input
+      e.target.value = ''
+    }
+  }
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
   }
 
   return (
@@ -203,10 +281,66 @@ export default function Profile() {
                   </div>
                 </div>
                 <p className="profile-kyc-description">
-                  Votre identité a été vérifiée et validée. Vous pouvez accéder à tous les services de la plateforme.
+                  {user?.kyc_verified 
+                    ? 'Votre identité a été vérifiée et validée. Vous pouvez accéder à tous les services de la plateforme.'
+                    : 'Téléchargez vos documents pour compléter votre vérification KYC.'}
                 </p>
-                <button className="profile-btn-secondary">Mettre à jour les documents</button>
+                <button 
+                  className="profile-btn-secondary"
+                  onClick={() => setShowUploadModal(true)}
+                >
+                  {user?.kyc_verified ? 'Mettre à jour les documents' : 'Télécharger des documents'}
+                </button>
               </div>
+
+              {/* Liste des documents */}
+              {documents.length > 0 && (
+                <div style={{ marginTop: 'var(--space-4)' }}>
+                  <h4 style={{ 
+                    fontSize: 'var(--text-sm)', 
+                    fontWeight: 'var(--font-semibold)',
+                    marginBottom: 'var(--space-2)'
+                  }}>
+                    Documents téléchargés ({documents.length})
+                  </h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+                    {documents.map((doc) => (
+                      <div key={doc.id} style={{
+                        padding: 'var(--space-3)',
+                        background: 'rgba(37, 99, 235, 0.05)',
+                        borderRadius: 'var(--radius-md)',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}>
+                        <div>
+                          <div style={{ fontWeight: 'var(--font-medium)' }}>
+                            {doc.file_name}
+                          </div>
+                          <div style={{ 
+                            fontSize: 'var(--text-xs)', 
+                            color: 'var(--color-text-secondary)',
+                            marginTop: 'var(--space-1)'
+                          }}>
+                            {doc.document_type} • {formatFileSize(doc.file_size)}
+                          </div>
+                        </div>
+                        {doc.downloadUrl && (
+                          <a
+                            href={doc.downloadUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-secondary btn-small"
+                            style={{ textDecoration: 'none' }}
+                          >
+                            Télécharger
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Account Info */}
@@ -306,6 +440,82 @@ export default function Profile() {
           </div>
         </div>
       </div>
+
+      {/* Modal d'upload de documents */}
+      {showUploadModal && (
+        <div className="new-loan-modal" onClick={() => setShowUploadModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Télécharger un document</h2>
+              <button 
+                type="button" 
+                className="modal-close-button" 
+                onClick={() => setShowUploadModal(false)}
+                aria-label="Fermer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="loan-form">
+              <div className="form-group">
+                <label>Type de document</label>
+                <select
+                  value={selectedDocumentType}
+                  onChange={(e) => setSelectedDocumentType(e.target.value)}
+                  className="form-select"
+                >
+                  <option value="passport">Passeport</option>
+                  <option value="identity">Carte d'identité</option>
+                  <option value="proof_of_address">Justificatif de domicile</option>
+                  <option value="bank_statement">Relevé bancaire</option>
+                  <option value="tax_document">Document fiscal</option>
+                  <option value="company_registration">Enregistrement entreprise</option>
+                  <option value="other">Autre</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Fichier</label>
+                <input
+                  type="file"
+                  onChange={handleUploadDocument}
+                  disabled={isUploading}
+                  accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                  className="form-input"
+                />
+                <small style={{ 
+                  display: 'block', 
+                  marginTop: 'var(--space-2)',
+                  color: 'var(--color-text-secondary)'
+                }}>
+                  Formats acceptés: PDF, JPG, PNG, DOC, DOCX (max 10MB)
+                </small>
+              </div>
+
+              <div className="form-actions">
+                <button
+                  type="button"
+                  onClick={() => setShowUploadModal(false)}
+                  className="btn-secondary"
+                  disabled={isUploading}
+                >
+                  Annuler
+                </button>
+                <div style={{ 
+                  padding: 'var(--space-3)',
+                  background: 'rgba(37, 99, 235, 0.05)',
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--color-text-secondary)'
+                }}>
+                  {isUploading ? 'Upload en cours...' : 'Sélectionnez un fichier ci-dessus pour commencer'}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

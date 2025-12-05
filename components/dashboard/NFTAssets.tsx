@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { formatNumber, formatDateShort } from '@/lib/utils'
 import { AssetType, NFTRiskClass, Marketplace } from '@/types'
 import NFTIcon from '../icons/NFTIcon'
 import NFTAssetIcon from '../icons/NFTAssetIcon'
 import ChartIcon from '../icons/ChartIcon'
 import PackageIcon from '../icons/PackageIcon'
+import { useAuth } from '@/contexts/AuthContext'
 
 type NFTTab = 'my-nfts' | 'marketplace' | 'tokenization' | 'analytics'
 
@@ -58,6 +59,7 @@ type FilterStatus = 'all' | 'available' | 'locked'
 type FilterRisk = 'all' | NFTRiskClass
 
 export default function NFTAssets() {
+  const { user } = useAuth()
   const [activeTab, setActiveTab] = useState<NFTTab>('my-nfts')
   const [hoveredNFT, setHoveredNFT] = useState<string | null>(null)
   const [selectedNFT, setSelectedNFT] = useState<NFTAsset | null>(null)
@@ -65,159 +67,95 @@ export default function NFTAssets() {
   const [filterType, setFilterType] = useState<FilterType>('all')
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all')
   const [filterRisk, setFilterRisk] = useState<FilterRisk>('all')
+  const [nftAssets, setNftAssets] = useState<NFTAsset[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
-  const nftAssets: NFTAsset[] = [
-    {
-      id: '1',
-      tokenId: '1234',
-      contractAddress: '0x1234567890abcdef1234567890abcdef12345678',
-      type: 'Immobilier',
-      name: 'Villa Paris',
-      description: 'Appartement de luxe de 150m² dans le 16ème arrondissement de Paris',
-      value: 300000,
-      currency: 'USDC',
-      status: 'locked',
-      lockedIn: 'LOAN-2024-001',
-      assetType: 'REAL_ESTATE',
-      riskClass: 'SAFE',
-      riskScore: 25,
-      marketplace: 'REALT',
-      spv: {
-        name: 'SPV Paris Real Estate I',
-        jurisdiction: 'France',
-        registrationNumber: 'FR-123456789',
-        legalForm: 'Société Civile Immobilière',
-      },
-      metadata: {
-        location: 'Paris 16ème, France',
-        size: '150 m²',
-        yearBuilt: 2010,
-        condition: 'Excellent',
-        documentationHash: 'QmXxxx...',
-        inspectionDate: '2024-01-10',
-        maintenanceHistory: ['Inspection annuelle 2024', 'Rénovation 2020'],
-      },
-      createdAt: '2023-06-15',
-      updatedAt: '2024-01-15',
-      currentValue: 310000,
-      originalValue: 300000,
-      metadataURI: 'ipfs://QmXxxx...',
-      imageURI: '/Villa-paris.jpeg',
-      ownerAddress: '0xabc...def',
-    },
-    {
-      id: '2',
-      tokenId: '5678',
-      contractAddress: '0x567890abcdef1234567890abcdef1234567890ab',
-      type: 'Mining',
-      name: 'Mining Farm',
-      description: 'Installation de mining Bitcoin de 10MW avec 5000 ASICs',
-      value: 150000,
-      currency: 'USDC',
-      status: 'locked',
-      lockedIn: 'LOAN-2024-002',
-      assetType: 'MINING',
-      riskClass: 'MODERATE',
-      riskScore: 45,
-      marketplace: '4K',
-      spv: {
-        name: 'SPV Mining Operations I',
-        jurisdiction: 'Qatar',
-        registrationNumber: 'QA-987654321',
-        legalForm: 'Limited Liability Company',
-      },
-      metadata: {
-        location: 'Doha, Qatar',
-        size: '10 MW',
-        yearBuilt: 2022,
-        condition: 'Bon',
-        documentationHash: 'QmYyyy...',
-        inspectionDate: '2024-01-05',
-        maintenanceHistory: ['Maintenance trimestrielle', 'Mise à jour firmware'],
-      },
-      createdAt: '2023-08-20',
-      updatedAt: '2024-01-20',
-      currentValue: 145000,
-      originalValue: 150000,
-      metadataURI: 'ipfs://QmYyyy...',
-      imageURI: '/Mining1.webp',
-      ownerAddress: '0xabc...def',
-    },
-    {
-      id: '3',
-      tokenId: '9012',
-      contractAddress: '0x9012abcdef34567890abcdef34567890abcdef34',
-      type: 'Infrastructure',
-      name: 'Data Center',
-      description: 'Data center de 5000m² avec certification Tier III',
-      value: 500000,
-      currency: 'USDC',
-      status: 'available',
-      assetType: 'INFRASTRUCTURE',
-      riskClass: 'SAFE',
-      riskScore: 20,
-      marketplace: '4K',
-      spv: {
-        name: 'SPV Infrastructure I',
-        jurisdiction: 'Luxembourg',
-        registrationNumber: 'LU-456789123',
-        legalForm: 'Société à Responsabilité Limitée',
-      },
-      metadata: {
-        location: 'Luxembourg',
-        size: '5000 m²',
-        yearBuilt: 2021,
-        condition: 'Excellent',
-        documentationHash: 'QmZzzz...',
-        inspectionDate: '2024-01-15',
-        maintenanceHistory: ['Audit sécurité 2024', 'Mise à niveau équipements'],
-      },
-      createdAt: '2023-11-01',
-      updatedAt: '2024-01-15',
-      currentValue: 520000,
-      originalValue: 500000,
-      metadataURI: 'ipfs://QmZzzz...',
-      imageURI: '/Data-Center.avif',
-      ownerAddress: '0xabc...def',
-    },
-    {
-      id: '4',
-      tokenId: '3456',
-      contractAddress: '0x3456cdef78901234cdef78901234cdef78901234',
-      type: 'Commodities',
-      name: 'Gold Reserve',
-      description: 'Réserve d\'or physique de 100 kg stockée en Suisse',
-      value: 8000000,
-      currency: 'USDC',
-      status: 'available',
-      assetType: 'COMMODITIES',
-      riskClass: 'SAFE',
-      riskScore: 15,
-      marketplace: 'COURTYARD',
-      spv: {
-        name: 'SPV Precious Metals I',
-        jurisdiction: 'Switzerland',
-        registrationNumber: 'CH-789123456',
-        legalForm: 'Aktiengesellschaft',
-      },
-      metadata: {
-        location: 'Zurich, Switzerland',
-        size: '100 kg',
-        yearBuilt: 2023,
-        condition: 'Excellent',
-        documentationHash: 'QmWwww...',
-        inspectionDate: '2024-01-20',
-        maintenanceHistory: ['Audit annuel', 'Vérification pureté'],
-      },
-      createdAt: '2023-12-10',
-      updatedAt: '2024-01-20',
-      currentValue: 8200000,
-      originalValue: 8000000,
-      metadataURI: 'ipfs://QmWwww...',
-      imageURI: '/Gold1.jpg',
-      ownerAddress: '0xabc...def',
-    },
-  ]
+  // Charger les NFT assets depuis l'API
+  useEffect(() => {
+    const loadNFTAssets = async () => {
+      if (!user) return
+
+      setIsLoading(true)
+      try {
+        const response = await fetch('/api/nft-assets')
+        if (response.ok) {
+          const data = await response.json()
+          // Transformer les données de l'API en format NFTAsset
+          const transformed: NFTAsset[] = (data.nftAssets || []).map((nft: any) => ({
+            id: nft.id,
+            tokenId: nft.token_id,
+            contractAddress: nft.contract_address,
+            type: nft.type,
+            name: nft.name,
+            description: nft.description || '',
+            value: parseFloat(nft.value),
+            currency: nft.currency || 'USDC',
+            currentValue: parseFloat(nft.current_value || nft.value),
+            originalValue: parseFloat(nft.original_value || nft.value),
+            status: nft.status as 'available' | 'locked',
+            lockedIn: nft.locked_in_loan_id ? `LOAN-${nft.locked_in_loan_id.slice(0, 8)}` : undefined,
+            assetType: nft.asset_type as AssetType,
+            riskClass: nft.risk_class as NFTRiskClass,
+            riskScore: parseInt(nft.risk_score || 50),
+            marketplace: nft.marketplace as Marketplace,
+            spv: nft.spv_name ? {
+              name: nft.spv_name,
+              jurisdiction: nft.spv_jurisdiction || '',
+              registrationNumber: nft.spv_registration_number || '',
+              legalForm: nft.spv_legal_form || ''
+            } : undefined,
+            metadata: {
+              location: nft.metadata_location,
+              size: nft.metadata_size,
+              yearBuilt: nft.metadata_year_built,
+              condition: nft.metadata_condition,
+              documentationHash: nft.metadata_documentation_hash,
+              inspectionDate: nft.metadata_inspection_date,
+              maintenanceHistory: nft.metadata_maintenance_history || []
+            },
+            createdAt: nft.created_at,
+            updatedAt: nft.updated_at,
+            metadataURI: nft.metadata_uri,
+            imageURI: nft.image_uri,
+            ownerAddress: nft.owner_address
+          }))
+          setNftAssets(transformed)
+        }
+      } catch (error) {
+        console.error('Erreur chargement NFT assets:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadNFTAssets()
+  }, [user])
+
+  if (isLoading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Chargement des NFT assets...</p>
+      </div>
+    )
+  }
+
+  if (nftAssets.length === 0) {
+    return (
+      <div className="page-container">
+        <div className="page-header">
+          <div>
+            <h1>Mes NFT RWA</h1>
+            <p className="page-subtitle">Gérez vos actifs réels tokenisés</p>
+          </div>
+        </div>
+        <div style={{ padding: '3rem', textAlign: 'center' }}>
+          <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>
+            Aucun NFT asset trouvé. Créez votre premier NFT asset pour commencer.
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   const filteredNFTs = nftAssets.filter(nft => {
     if (filterType !== 'all' && nft.assetType !== filterType) return false

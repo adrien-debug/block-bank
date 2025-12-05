@@ -1141,10 +1141,10 @@ interface CreditScoreEntry {
   userId: string
   score: number
   components: {
-    onChainBehavioral: number // 0-300
+    onChainBehavioral: number // 0-350
     offChainFinancial: number // 0-300
     assetBased: number // 0-200
-    reputationTrust: number // 0-100
+    reputationTrust: number // 0-150
   }
   calculatedAt: Date
   factors: string[] // Raisons changement score
@@ -1318,13 +1318,13 @@ interface MarketplaceIntegration {
 
 **Formule Base** :
 ```
-Credit Score = (On-Chain Behavioral × 0.30) + 
+Credit Score = (On-Chain Behavioral × 0.35) + 
                (Off-Chain Financial × 0.30) + 
                (Asset-Based × 0.20) + 
-               (Reputation & Trust × 0.20)
+               (Reputation & Trust × 0.15)
 ```
 
-**On-Chain Behavioral (0-300)** :
+**On-Chain Behavioral (0-350)** :
 - Historique transactions (0-100)
   - Volume total transactions
   - Fréquence transactions
@@ -1361,7 +1361,7 @@ Credit Score = (On-Chain Behavioral × 0.30) +
   - RWA possédés
   - Valeur totale
 
-**Reputation & Trust (0-100)** :
+**Reputation & Trust (0-150)** :
 - Réputation on-chain (0-50)
   - Score via protocoles réputation
   - Historique interactions

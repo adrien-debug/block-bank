@@ -9,25 +9,113 @@ import ChartIcon from '@/components/icons/ChartIcon'
 import MoneyIcon from '@/components/icons/MoneyIcon'
 import NFTIcon from '@/components/icons/NFTIcon'
 import ShieldIcon from '@/components/icons/ShieldIcon'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function DashboardPage() {
+  const { user } = useAuth()
   const [chartTimeRange, setChartTimeRange] = useState<'1M' | '6M' | '12M' | 'All'>('All')
   const [hoveredBarIndex, setHoveredBarIndex] = useState<number | null>(null)
   const [hoveredSegmentIndex, setHoveredSegmentIndex] = useState<number | null>(null)
   const [chartLoaded, setChartLoaded] = useState(false)
+  
+  // Données réelles
+  const [creditScore, setCreditScore] = useState<number | null>(null)
+  const [creditTier, setCreditTier] = useState<string>('C')
+  const [activeLoans, setActiveLoans] = useState<any[]>([])
+  const [nftAssets, setNftAssets] = useState<any[]>([])
+  const [insurancePolicies, setInsurancePolicies] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [scoreHistory, setScoreHistory] = useState<number[]>([])
+
+  // Charger les données réelles
+  useEffect(() => {
+    const loadData = async () => {
+      if (!user) return
+
+      setIsLoading(true)
+      try {
+        // Charger le credit score
+        const scoreRes = await fetch('/api/credit-score')
+        if (scoreRes.ok) {
+          const scoreData = await scoreRes.json()
+          if (scoreData.creditScore) {
+            setCreditScore(scoreData.creditScore.score)
+            setCreditTier(scoreData.creditScore.tier)
+            
+            // Charger l'historique des scores pour le graphique
+            const historyRes = await fetch('/api/credit-score/history')
+            if (historyRes.ok) {
+              const historyData = await historyRes.json()
+              setScoreHistory(historyData.history?.map((h: any) => h.score) || [])
+            }
+          }
+        }
+
+        // Charger les prêts actifs
+        const loansRes = await fetch('/api/loans')
+        if (loansRes.ok) {
+          const loansData = await loansRes.json()
+          const active = (loansData.loans || []).filter((l: any) => l.status === 'active')
+          setActiveLoans(active)
+        }
+
+        // Charger les NFT assets
+        const nftRes = await fetch('/api/nft-assets')
+        if (nftRes.ok) {
+          const nftData = await nftRes.json()
+          setNftAssets(nftData.nftAssets || [])
+        }
+
+        // Charger les polices d'assurance
+        const insuranceRes = await fetch('/api/insurance')
+        if (insuranceRes.ok) {
+          const insuranceData = await insuranceRes.json()
+          const active = (insuranceData.policies || []).filter((p: any) => p.status === 'active')
+          setInsurancePolicies(active)
+        }
+      } catch (error) {
+        console.error('Erreur chargement données:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadData()
+  }, [user])
 
   useEffect(() => {
     setChartLoaded(false)
     const timer = setTimeout(() => setChartLoaded(true), 100)
     return () => clearTimeout(timer)
-  }, [])
+  }, [scoreHistory])
 
-  // Données pour différents périodes
+  // Calculer les statistiques
+  const totalLoansAmount = activeLoans.reduce((sum, loan) => sum + parseFloat(loan.amount || 0), 0)
+  const avgLTV = activeLoans.length > 0 
+    ? activeLoans.reduce((sum, loan) => sum + parseFloat(loan.ltv || 0), 0) / activeLoans.length 
+    : 0
+  const totalNftValue = nftAssets.reduce((sum, nft) => sum + parseFloat(nft.current_value || nft.value || 0), 0)
+  const lockedNfts = nftAssets.filter(nft => nft.status === 'locked').length
+  const availableNfts = nftAssets.filter(nft => nft.status === 'available').length
+  const totalInsuranceCoverage = insurancePolicies.length > 0
+    ? insurancePolicies.reduce((sum, p) => sum + parseFloat(p.total_coverage || 0), 0) / insurancePolicies.length
+    : 0
+  const monthlyInsurancePremium = insurancePolicies.reduce((sum, p) => sum + parseFloat(p.monthly_premium || 0), 0)
+
+  // Données pour différents périodes (basées sur l'historique réel ou données par défaut)
   const scoreDataByPeriod = {
-    '1M': [745, 748, 750],
-    '6M': [680, 690, 700, 710, 720, 730, 738, 745, 750],
-    '12M': [650, 665, 680, 690, 700, 710, 720, 730, 738, 745, 750],
-    'All': [600, 620, 640, 660, 680, 700, 720, 735, 745, 748, 750]
+    '1M': scoreHistory.slice(-3).length >= 3 ? scoreHistory.slice(-3) : [scoreHistory[scoreHistory.length - 1] || creditScore || 600, creditScore || 600, creditScore || 600],
+    '6M': scoreHistory.slice(-9).length >= 9 ? scoreHistory.slice(-9) : Array(9).fill(creditScore || 600),
+    '12M': scoreHistory.slice(-11).length >= 11 ? scoreHistory.slice(-11) : Array(11).fill(creditScore || 600),
+    'All': scoreHistory.length > 0 ? scoreHistory : [creditScore || 600]
+  }
+
+  if (isLoading) {
+    return (
+      <div className="dashboard-overview" style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Chargement des données...</p>
+      </div>
+    )
   }
 
   return (
@@ -46,36 +134,40 @@ export default function DashboardPage() {
         <StatCard
           icon={<ChartIcon />}
           label="Credit Score"
-          value={750}
-          trend={{ value: '+12', isPositive: true, period: 'vs last month' }}
-          badge={{ text: 'Tier A • Excellent', variant: 'primary' }}
+          value={creditScore || 600}
+          trend={creditScore ? { 
+            value: creditScore > 600 ? `+${creditScore - 600}` : `${creditScore - 600}`, 
+            isPositive: creditScore >= 600, 
+            period: 'current score' 
+          } : undefined}
+          badge={{ text: `Tier ${creditTier} • ${creditTier === 'A+' || creditTier === 'A' ? 'Excellent' : creditTier === 'B' ? 'Bon' : creditTier === 'C' ? 'Moyen' : 'Faible'}`, variant: 'primary' }}
           variant="primary"
         />
         
         <StatCard
           icon={<MoneyIcon />}
           label="Active Loans"
-          value={2}
-          subtitle="150,000 USDC"
-          progress={{ value: 65, label: '65% avg LTV' }}
+          value={activeLoans.length}
+          subtitle={totalLoansAmount > 0 ? `${formatNumber(totalLoansAmount)} USDC` : 'Aucun prêt actif'}
+          progress={avgLTV > 0 ? { value: Math.round(avgLTV), label: `${Math.round(avgLTV)}% avg LTV` } : undefined}
           variant="success"
         />
         
         <StatCard
           icon={<NFTIcon />}
           label="RWA Tokens"
-          value={3}
-          subtitle="Total value: 950,000 USDC"
-          breakdown={['2 locked', '1 available']}
+          value={nftAssets.length}
+          subtitle={totalNftValue > 0 ? `Total value: ${formatNumber(totalNftValue)} USDC` : 'Aucun NFT'}
+          breakdown={lockedNfts > 0 || availableNfts > 0 ? [`${lockedNfts} locked`, `${availableNfts} available`] : undefined}
           variant="info"
         />
         
         <StatCard
           icon={<ShieldIcon />}
           label="Insurance"
-          value="Active"
-          subtitle="Coverage: 80%"
-          extraInfo="Premium: 1,200 USDC/month"
+          value={insurancePolicies.length > 0 ? "Active" : "Inactive"}
+          subtitle={totalInsuranceCoverage > 0 ? `Coverage: ${Math.round(totalInsuranceCoverage)}%` : 'Aucune police active'}
+          extraInfo={monthlyInsurancePremium > 0 ? `Premium: ${formatNumber(monthlyInsurancePremium)} USDC/month` : undefined}
           variant="warning"
         />
       </div>

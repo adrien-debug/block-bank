@@ -84,3 +84,4 @@ RESEND_API_KEY=re_xxxxxxxxxxxxx
 # Après configuration, testez avec :
 # npm run test:email
 
+

@@ -68,7 +68,13 @@ export default function LoginModal({ isOpen, onClose, onSuccess }: LoginModalPro
         onSuccess()
       }
     } else {
-      setError(result.error || 'Erreur de connexion')
+      const errorMessage = result.error || 'Erreur de connexion'
+      // Message plus clair si l'utilisateur n'existe pas
+      if (errorMessage.includes('Email ou mot de passe incorrect')) {
+        setError('Email ou mot de passe incorrect. Si vous n\'avez pas de compte, cliquez sur "S\'inscrire" ci-dessous.')
+      } else {
+        setError(errorMessage)
+      }
     }
   }
 
@@ -233,14 +239,21 @@ export default function LoginModal({ isOpen, onClose, onSuccess }: LoginModalPro
                   openRegistrationModal()
                 }}
                 style={{
-                  background: 'transparent',
+                  background: 'var(--color-primary-500)',
                   border: 'none',
-                  color: 'var(--color-primary-500)',
+                  color: '#FFFFFF',
                   cursor: 'pointer',
                   fontSize: 'var(--text-sm)',
                   fontWeight: 'var(--font-semibold)',
-                  textDecoration: 'underline',
-                  padding: 0,
+                  padding: 'var(--space-2) var(--space-4)',
+                  borderRadius: 'var(--radius-md)',
+                  transition: 'background 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--color-primary-600)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--color-primary-500)'
                 }}
               >
                 S'inscrire

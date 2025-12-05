@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { formatNumber, formatDateShort } from '@/lib/utils'
 import ShieldIcon from '../icons/ShieldIcon'
 import InfoIcon from '../icons/InfoIcon'
@@ -101,7 +101,7 @@ interface HistoryEntry {
 }
 
 export default function Loans() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   const [showNewLoan, setShowNewLoan] = useState(false)
   const [showRegistrationModal, setShowRegistrationModal] = useState(false)
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null)
@@ -111,148 +111,132 @@ export default function Loans() {
   const [insuranceTab, setInsuranceTab] = useState<InsuranceTab>('policies')
   const [showNewPolicyModal, setShowNewPolicyModal] = useState(false)
   const [showClaimModal, setShowClaimModal] = useState(false)
+  const [loans, setLoans] = useState<Loan[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
-  const loans: Loan[] = [
-    {
-      id: 1,
-      loanNumber: 'LOAN-2024-001',
-      amount: 100000,
-      currency: 'USDC',
-      asset: {
-        name: 'Villa Paris',
-        type: 'Immobilier',
-        tokenId: '#1234',
-        contractAddress: '0x1234...5678',
-        currentValue: 300000,
-        image: '/Villa-paris.jpeg',
-      },
-      ltv: 65,
-      rate: 8.5,
-      term: 36,
-      status: 'active',
-      startDate: '2024-01-15',
-      endDate: '2027-01-15',
-      nextPaymentDate: '2024-02-15',
-      nextPaymentAmount: 15000,
-      remainingBalance: 85000,
-      totalPaid: 15000,
-      monthlyPayment: 15000,
-      downPayment: 50000,
-      profile: 'BALANCED',
-      insurance: {
-        active: true,
-        coverage: 80,
-        premium: 2400,
-        expirationDate: '2025-01-15',
-        policyId: 'POL-2024-001',
-        status: 'active',
-        startDate: '2024-01-15',
-        renewalDate: '2025-01-15',
-        borrowerDefaultCoverage: 100,
-        marketRiskCoverage: 75,
-        assetRiskCoverage: 0,
-        monthlyPremium: 200,
-        creditTier: 'A',
-        nftRiskClass: 'SAFE',
-        impactOnLTV: 5,
-        impactOnRate: -0.5,
-        coveredRisks: ['BORROWER_DEFAULT', 'MARKET_RISK'],
-        txHash: '0xabc123...',
-      },
-      payments: [
-        { id: '1', date: '2024-01-15', amount: 15000, status: 'paid', txHash: '0xabc...123' },
-        { id: '2', date: '2024-02-15', amount: 15000, status: 'pending' },
-      ],
-      daysUntilDue: 5,
-    },
-    {
-      id: 2,
-      loanNumber: 'LOAN-2024-002',
-      amount: 50000,
-      currency: 'USDC',
-      asset: {
-        name: 'Mining Farm',
-        type: 'Mining',
-        tokenId: '#5678',
-        contractAddress: '0x5678...9012',
-        currentValue: 150000,
-        image: '/Mining1.webp',
-      },
-      ltv: 55,
-      rate: 9.2,
-      term: 24,
-      status: 'active',
-      startDate: '2024-01-20',
-      endDate: '2026-01-20',
-      nextPaymentDate: '2024-02-20',
-      nextPaymentAmount: 7500,
-      remainingBalance: 42500,
-      totalPaid: 7500,
-      monthlyPayment: 7500,
-      downPayment: 30000,
-      profile: 'SAFE',
-      insurance: {
-        active: true,
-        coverage: 75,
-        premium: 1200,
-        expirationDate: '2025-01-20',
-        policyId: 'POL-2024-002',
-        status: 'active',
-        startDate: '2024-01-20',
-        renewalDate: '2025-01-20',
-        borrowerDefaultCoverage: 75,
-        marketRiskCoverage: 0,
-        assetRiskCoverage: 0,
-        monthlyPremium: 100,
-        creditTier: 'A',
-        nftRiskClass: 'MODERATE',
-        impactOnLTV: 0,
-        impactOnRate: 0,
-        coveredRisks: ['BORROWER_DEFAULT'],
-        txHash: '0xdef456...',
-      },
-      payments: [
-        { id: '1', date: '2024-01-20', amount: 7500, status: 'paid', txHash: '0xdef...456' },
-        { id: '2', date: '2024-02-20', amount: 7500, status: 'pending' },
-      ],
-      daysUntilDue: 10,
-    },
-    {
-      id: 3,
-      loanNumber: 'LOAN-2023-045',
-      amount: 75000,
-      currency: 'USDC',
-      asset: {
-        name: 'Data Center',
-        type: 'Infrastructure',
-        tokenId: '#9012',
-        contractAddress: '0x9012...3456',
-        currentValue: 200000,
-        image: '/Data-Center.avif',
-      },
-      ltv: 60,
-      rate: 7.8,
-      term: 36,
-      status: 'repaid',
-      startDate: '2023-06-01',
-      endDate: '2026-06-01',
-      nextPaymentDate: '2023-12-01',
-      nextPaymentAmount: 0,
-      remainingBalance: 0,
-      totalPaid: 75000,
-      monthlyPayment: 12500,
-      downPayment: 50000,
-      profile: 'BALANCED',
-      payments: [
-        { id: '1', date: '2023-07-01', amount: 12500, status: 'paid', txHash: '0x111...222' },
-        { id: '2', date: '2023-08-01', amount: 12500, status: 'paid', txHash: '0x333...444' },
-        { id: '3', date: '2023-09-01', amount: 12500, status: 'paid', txHash: '0x555...666' },
-        { id: '4', date: '2023-10-01', amount: 12500, status: 'paid', txHash: '0x777...888' },
-        { id: '5', date: '2023-11-01', amount: 12500, status: 'paid', txHash: '0x999...000' },
-        { id: '6', date: '2023-12-01', amount: 12500, status: 'paid', txHash: '0xaaa...bbb' },
-      ],
-    },
-  ]
+  // Charger les prêts depuis l'API
+  useEffect(() => {
+    const loadLoans = async () => {
+      if (!isAuthenticated || !user) return
+
+      setIsLoading(true)
+      try {
+        const response = await fetch('/api/loans')
+        if (response.ok) {
+          const data = await response.json()
+          // Transformer les données de l'API en format Loan
+          const transformedLoans: Loan[] = (data.loans || []).map((loan: any) => ({
+            id: parseInt(loan.id?.slice(0, 8) || '0', 16) || Math.random(),
+            loanNumber: loan.loan_number,
+            amount: parseFloat(loan.amount),
+            currency: loan.currency || 'USDC',
+            asset: loan.nft_assets ? {
+              name: loan.nft_assets.name,
+              type: loan.nft_assets.type,
+              tokenId: loan.nft_assets.token_id,
+              contractAddress: loan.nft_assets.contract_address,
+              currentValue: parseFloat(loan.nft_assets.current_value || loan.nft_assets.value),
+              image: loan.nft_assets.image_uri
+            } : {
+              name: 'Asset non spécifié',
+              type: 'Unknown',
+              tokenId: 'N/A',
+              contractAddress: 'N/A',
+              currentValue: 0
+            },
+            ltv: parseFloat(loan.ltv),
+            rate: parseFloat(loan.rate),
+            term: loan.term_months,
+            status: loan.status as LoanStatus,
+            startDate: loan.start_date,
+            endDate: loan.end_date,
+            nextPaymentDate: loan.next_payment_date,
+            nextPaymentAmount: parseFloat(loan.next_payment_amount || 0),
+            remainingBalance: parseFloat(loan.remaining_balance),
+            totalPaid: parseFloat(loan.total_paid || 0),
+            monthlyPayment: parseFloat(loan.monthly_payment),
+            downPayment: parseFloat(loan.down_payment || 0),
+            profile: loan.profile as 'SAFE' | 'BALANCED' | 'MAX_LEVERAGE',
+            payments: (loan.payments || []).map((p: any) => ({
+              id: p.id,
+              date: p.payment_date,
+              amount: parseFloat(p.amount),
+              status: p.status as 'paid' | 'pending' | 'overdue',
+              txHash: p.tx_hash
+            }))
+          }))
+          setLoans(transformedLoans)
+        }
+      } catch (error) {
+        console.error('Erreur chargement loans:', error)
+        setLoans([]) // S'assurer que loans est un tableau vide en cas d'erreur
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadLoans()
+  }, [isAuthenticated, user])
+
+  // Charger les données d'assurance pour chaque prêt
+  useEffect(() => {
+    const loadInsurance = async () => {
+      if (loans.length === 0) return
+
+      try {
+        const insuranceRes = await fetch('/api/insurance')
+        if (insuranceRes.ok) {
+          const insuranceData = await insuranceRes.json()
+          const policies = insuranceData.policies || []
+          
+          // Associer les polices aux prêts
+          setLoans(prevLoans => prevLoans.map(loan => {
+            const policy = policies.find((p: any) => p.loan_id === loan.id)
+            if (policy) {
+              return {
+                ...loan,
+                insurance: {
+                  active: policy.status === 'active',
+                  coverage: policy.total_coverage,
+                  premium: policy.annual_premium,
+                  expirationDate: policy.end_date,
+                  policyId: policy.policy_number,
+                  status: policy.status,
+                  startDate: policy.start_date,
+                  renewalDate: policy.renewal_date,
+                  borrowerDefaultCoverage: policy.borrower_default_coverage,
+                  marketRiskCoverage: policy.market_risk_coverage,
+                  assetRiskCoverage: policy.asset_risk_coverage,
+                  operationalRiskCoverage: policy.operational_risk_coverage,
+                  legalRiskCoverage: policy.legal_risk_coverage,
+                  monthlyPremium: policy.monthly_premium,
+                  creditTier: policy.credit_tier,
+                  nftRiskClass: policy.nft_risk_class,
+                  impactOnLTV: policy.impact_on_ltv,
+                  impactOnRate: policy.impact_on_rate,
+                  coveredRisks: policy.covered_risks || [],
+                  txHash: policy.tx_hash
+                }
+              }
+            }
+            return loan
+          }))
+        }
+      } catch (error) {
+        console.error('Erreur chargement insurance:', error)
+      }
+    }
+
+    loadInsurance()
+  }, [loans.length])
+
+  if (isLoading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Chargement des prêts...</p>
+      </div>
+    )
+  }
 
   const filteredLoans = loans.filter(loan => {
     if (filterStatus === 'all') return true

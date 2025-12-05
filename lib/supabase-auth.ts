@@ -20,11 +20,17 @@ export interface LoginData {
 export async function createUser(userData: UserData) {
   try {
     // Vérifier si l'utilisateur existe déjà
-    const { data: existingUser } = await supabaseAdmin
+    const { data: existingUser, error: checkError } = await supabaseAdmin
       .from('users')
       .select('id')
       .eq('email', userData.email)
-      .single()
+      .maybeSingle()
+
+    // Si erreur autre que "not found", c'est un vrai problème
+    if (checkError && checkError.code !== 'PGRST116') {
+      console.error('Erreur vérification utilisateur existant:', checkError)
+      return { error: 'Erreur lors de la vérification de l\'email' }
+    }
 
     if (existingUser) {
       return { error: 'Cet email est déjà utilisé' }

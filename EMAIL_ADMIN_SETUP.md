@@ -90,3 +90,4 @@ Pour plus de détails, consultez **GUIDE_EMAIL_ADMIN.md**
 
 **Date :** Décembre 2025
 
+

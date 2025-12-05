@@ -37,10 +37,10 @@ export interface CreditScoreEntry {
   userId: string
   score: number
   components: {
-    onChainBehavioral: number // 0-300
+    onChainBehavioral: number // 0-350
     offChainFinancial: number // 0-300
     assetBased: number // 0-200
-    reputationTrust: number // 0-100
+    reputationTrust: number // 0-150
   }
   calculatedAt: Date
   factors: string[] // Raisons changement score

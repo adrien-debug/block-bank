@@ -5,12 +5,28 @@ import { cookies } from 'next/headers'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+    console.log('📥 Données reçues:', { 
+      email: body.email ? 'présent' : 'manquant',
+      password: body.password ? 'présent' : 'manquant',
+      firstName: body.firstName ? 'présent' : 'manquant',
+      lastName: body.lastName ? 'présent' : 'manquant',
+      address: body.address ? 'présent' : 'manquant'
+    })
+    
     const { email, password, firstName, lastName, address } = body
 
     // Validation
     if (!email || !password || !firstName || !lastName || !address) {
+      const missing = []
+      if (!email) missing.push('email')
+      if (!password) missing.push('password')
+      if (!firstName) missing.push('firstName')
+      if (!lastName) missing.push('lastName')
+      if (!address) missing.push('address')
+      
+      console.error('❌ Champs manquants:', missing)
       return NextResponse.json(
-        { error: 'Tous les champs sont requis' },
+        { error: `Champs manquants: ${missing.join(', ')}` },
         { status: 400 }
       )
     }
@@ -32,9 +48,18 @@ export async function POST(request: NextRequest) {
     })
 
     if (result.error) {
+      console.error('Erreur création utilisateur:', result.error)
       return NextResponse.json(
         { error: result.error },
         { status: 400 }
+      )
+    }
+
+    if (!result.user) {
+      console.error('Erreur: utilisateur créé mais non retourné')
+      return NextResponse.json(
+        { error: 'Erreur lors de la création du compte' },
+        { status: 500 }
       )
     }
 

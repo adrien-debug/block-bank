@@ -35,3 +35,4 @@ COMMENT ON COLUMN users.email IS 'Email unique de l''utilisateur';
 COMMENT ON COLUMN users.password_hash IS 'Hash bcrypt du mot de passe';
 COMMENT ON COLUMN users.wallet_address IS 'Adresse du wallet Ethereum (optionnel, peut être connecté après inscription)';
 
+

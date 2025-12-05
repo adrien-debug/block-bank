@@ -209,3 +209,4 @@ J'ai fait tout ce qui peut être automatisé :
 **Domaine :** block-bank.com  
 **Statut :** ✅ Configuration automatique terminée, prêt pour étapes manuelles
 
+
